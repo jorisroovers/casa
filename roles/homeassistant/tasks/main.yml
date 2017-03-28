@@ -1,0 +1,30 @@
+---
+- name: Creating homeassistant directory
+  file: path={{homeassistant_dir}} state=directory owner={{ansible_ssh_user}}
+  become: yes
+
+- name: Installing nmap
+  apt: name=nmap state=present
+  become: yes
+
+- name: Manually create the initial virtualenv
+  command: virtualenv {{homeassistant_dir}}/.venv -p python3 creates="{{homeassistant_dir}}/.venv"
+
+- name: "Installing homeassistant"
+  pip: name=homeassistant virtualenv="{{homeassistant_dir}}/.venv" version=0.41.0
+
+- template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+  with_items:
+   - configuration.yaml
+   - known_devices.yaml
+
+- name: Installing homeassistant systemd service
+  template: src=homeassistant.service dest=/etc/systemd/system/homeassistant@{{ansible_ssh_user}}.service
+  notify:
+    - daemon_reload
+    - restart_homeassistant
+  become: yes
+
+- name: Start homeassistant service
+  service: name=homeassistant@{{ansible_ssh_user}} state=started enabled=yes
+  become: yes

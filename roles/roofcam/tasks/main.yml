@@ -1,0 +1,17 @@
+- name: Cloning roofcam from github
+  git: repo=https://github.com/jorisroovers/roofcam dest={{roofcam_dir}}
+  become: yes
+
+- file: path={{roofcam_dir}} owner={{ansible_ssh_user}} group={{ansible_ssh_user}}
+  become: yes
+
+- name: Creating snapshot directory
+  file: dest={{snapshot_dir}} state=directory
+
+- name: Adding snapshot.sh
+  template: src=snapshot.sh dest={{roofcam_dir}}/snapshot.sh mode="u+x"
+
+- name: Adding cronjob for snapshot.sh
+  template: src=roofcam-snapshot.cron dest=/var/spool/cron/crontabs/{{ansible_ssh_user}}
+  become: yes
+

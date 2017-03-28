@@ -1,0 +1,73 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 52.367
+  longitude: 4.9
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Amsterdam
+
+# Discover some devices automatically
+discovery:
+
+# View all events in a logbook
+logbook:
+
+# Enables the frontend
+frontend:
+
+# Enables support for tracking state changes over time.
+history:
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.1.1/24
+    track_new_devices: no
+
+# Track the sun
+sun:
+
+media_player:
+  platform: sonos
+
+camera:
+  - platform: ffmpeg
+    input: "rtsp://@192.168.1.136:554/11"
+
+light:
+  platform: hue
+  host: 192.168.1.117
+
+#nest:
+#    client_id: {{nest_client_id}}
+#    client_secret: {{nest_client_secret}}
+
+###################
+## AUTOMATION
+########
+
+
+#automation:
+#- alias: Turn on kitchen light when there is movement
+#  trigger:
+#    platform: state
+#    entity_id: binary_sensor.hallway_camera_motion_detected
+#    to: 'on'
+#  action:
+#    service: homeassistant.turn_on
+#    entity_id: light.hall
+
+#- alias: Turn off kitchen light 10 minutes after last movement
+#  trigger:
+#    platform: state
+#    entity_id: binary_sensor.hallway_camera_motion_detected
+#    to: 'off'
+#    for:
+#      seconds: 10
+#  action:
+#    service: homeassistant.turn_off
+#    entity_id: light.hall

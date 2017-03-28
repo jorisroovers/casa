@@ -1,0 +1,2 @@
+roofcam_dir: /opt/roofcam
+snapshot_dir: "{{roofcam_dir}}/snapshots"

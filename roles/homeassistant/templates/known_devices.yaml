@@ -1,0 +1,103 @@
+jorissiphone:
+  hide_if_away: false
+  mac: 18:65:90:85:86:C1
+  name: Joris
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+18b43061c0cc:
+  hide_if_away: false
+  mac: 18:B4:30:61:C0:CC
+  name: 18b43061c0cc
+  picture:
+  track: false
+  vendor: Nest Labs Inc.
+
+jrooversmp07cdynamicziggonl:
+  hide_if_away: false
+  mac: 3C:15:C2:D3:8A:84
+  name: JROOVERS-M-P07C.dynamic.ziggo.nl
+  picture:
+  track: false
+  vendor: Apple, Inc.
+
+e0b94df401:
+  hide_if_away: false
+  mac: E0:B9:4D:F4:0:1
+  name: e0b94df401
+  picture:
+  track: false
+  vendor: "SHENZHEN BILIAN ELECTRONIC CO.\xEF\xBC\u0152LTD"
+
+sonoszpdynamicziggonl:
+  hide_if_away: false
+  mac: B8:E9:37:2F:D7:3A
+  name: SonosZP.dynamic.ziggo.nl
+  picture:
+  track: false
+  vendor: Sonos, Inc.
+
+philipshue:
+  hide_if_away: false
+  mac: 0:17:88:23:63:B1
+  name: Philips-hue
+  picture:
+  track: false
+  vendor: Philips Lighting BV
+
+starshine:
+  hide_if_away: false
+  mac: C0:56:27:63:F9:EC
+  name: starshine
+  picture:
+  track: false
+  vendor: Belkin International Inc.
+
+18b4305ec5e7:
+  hide_if_away: false
+  mac: 18:B4:30:5E:C5:E7
+  name: 18b4305ec5e7
+  picture:
+  track: false
+  vendor: Nest Labs Inc.
+
+jorissipaddynamicziggonl:
+  hide_if_away: false
+  mac: 6C:70:9F:5:9C:3
+  name: Joriss-iPad.dynamic.ziggo.nl
+  picture:
+  track: false
+  vendor: Apple, Inc.
+
+raspberrypidynamicziggonl:
+  hide_if_away: false
+  mac: B8:27:EB:A0:1A:1A
+  name: raspberrypi.dynamic.ziggo.nl
+  picture:
+  track: false
+  vendor: Raspberry Pi Foundation
+
+appletvdynamicziggonl:
+  hide_if_away: false
+  mac: C8:69:CD:2E:ED:39
+  name: Apple-TV.dynamic.ziggo.nl
+  picture:
+  track: false
+  vendor: Apple, Inc.
+
+ipadvanilsedynamicziggonl:
+  hide_if_away: false
+  mac: 6C:94:F8:AB:21:96
+  name: iPad-van-Ilse.dynamic.ziggo.nl
+  picture:
+  track: false
+  vendor: Apple, Inc.
+
+iphonevanilsedynamicziggonl:
+  hide_if_away: false
+  mac: 70:3E:AC:B8:C3:AD
+  name: iPhone-van-Ilse.dynamic.ziggo.nl
+  picture:
+  track: false
+  vendor: Apple, Inc.

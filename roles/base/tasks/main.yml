@@ -1,0 +1,24 @@
+---
+- name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+- name: "Installing some convenience utilities (system)"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - git
+    - python-setuptools # Installs easy_install
+    - python-virtualenv
+    - vim
+    - silversearcher-ag
+    - logrotate
+
+- name: "Installing pip"
+  easy_install: name=pip
+  become: yes
+
+- name: "Installing more utilities (python)"
+  pip: name={{item}} state=present
+  with_items:
+    - httpie

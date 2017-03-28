@@ -1,0 +1,6 @@
+---
+- hosts: home
+  roles:
+    - base
+    - roofcam
+    - homeassistant

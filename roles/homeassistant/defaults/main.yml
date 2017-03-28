@@ -1,0 +1,4 @@
+homeassistant_dir: "/opt/homeassistant"
+
+nest_client_id: "replace me!"
+nest_client_secret: "replace me!"

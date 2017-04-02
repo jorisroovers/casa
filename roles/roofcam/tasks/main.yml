@@ -12,6 +12,28 @@
   template: src=snapshot.sh dest={{roofcam_dir}}/snapshot.sh mode="u+x"
 
 - name: Adding cronjob for snapshot.sh
-  template: src=roofcam-snapshot.cron dest=/var/spool/cron/crontabs/{{ansible_ssh_user}}
+  cron: name="Periodic roofcam snapshot" minute="*/10" job="{{roofcam_dir}}/snapshot.sh" user={{ansible_ssh_user}}
+
+- name: "Installing python-dev and python-imaging (this installs Pillow)"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+   - python-dev
+   - python-imaging
+
+- name: Manually create the initial virtualenv
+  command: virtualenv {{roofcam_dir}}/.venv -p python --system-site-packages creates="{{roofcam_dir}}/.venv"
+
+- name: "Installing requirements"
+  pip: requirements="{{roofcam_dir}}/requirements.txt" virtualenv="{{roofcam_dir}}/.venv"
+
+- name: Installing roofcam systemd service
+  template: src=roofcam.service dest=/etc/systemd/system/roofcam@{{ansible_ssh_user}}.service
+  notify:
+    - daemon_reload
+    - restart_roofcam
   become: yes
 
+- name: Start roofcam service
+  service: name=roofcam@{{ansible_ssh_user}} state=started enabled=yes
+  become: yes

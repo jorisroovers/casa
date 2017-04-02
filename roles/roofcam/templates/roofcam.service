@@ -1,0 +1,12 @@
+[Unit]
+Description=Roofcam
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory={{roofcam_dir}}
+ExecStart={{roofcam_dir}}/.venv/bin/python -m roofcam.cli --dir {{snapshot_dir}} --web --port 1234 --host 0.0.0.0
+
+[Install]
+WantedBy=multi-user.target

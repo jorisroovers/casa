@@ -6,8 +6,6 @@ After=network.target
 Type=simple
 User=%i
 ExecStart={{homeassistant_dir}}/.venv/bin/hass -c "{{homeassistant_dir}}"
-StandardOutput=/var/log/homeassistant.log
-StandardError=/var/log/homeassistant_error.log
 
 [Install]
 WantedBy=multi-user.target

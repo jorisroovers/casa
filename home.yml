@@ -2,5 +2,5 @@
 - hosts: home
   roles:
     - base
-    - roofcam
+    - { role: roofcam, tags: ['roofcam']}
     - homeassistant

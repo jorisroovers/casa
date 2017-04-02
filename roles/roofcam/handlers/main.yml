@@ -1,0 +1,7 @@
+- name: daemon_reload
+  command: systemctl daemon-reload
+  become: yes
+
+- name: restart_roofcam
+  service: name=roofcam@{{ansible_ssh_user}} state=restarted
+  become: yes

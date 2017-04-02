@@ -34,13 +34,18 @@ sun:
 media_player:
   platform: sonos
 
-camera:
-  - platform: ffmpeg
-    input: "rtsp://@192.168.1.136:554/11"
+#camera:
+#  - platform: ffmpeg
+#    input: "rtsp://@192.168.1.136:554/11"
 
 light:
   platform: hue
   host: 192.168.1.117
+
+panel_iframe:
+  roofcam:
+    title: 'roofcam'
+    url: 'http://192.168.1.186:1234'
 
 #nest:
 #    client_id: {{nest_client_id}}

@@ -3,4 +3,4 @@
   roles:
     - base
     - { role: roofcam, tags: ['roofcam']}
-    - homeassistant
+    - { role: homeassistant, tags: ['homeassistant', 'hass']}

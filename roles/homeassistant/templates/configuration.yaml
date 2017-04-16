@@ -47,6 +47,33 @@ panel_iframe:
     title: 'roofcam'
     url: 'http://192.168.1.186:1234'
 
+sensor:
+    - platform: systemmonitor
+      resources:
+        - type: memory_free
+        - type: disk_use_percent
+          arg: /
+        - type: memory_use_percent
+    - platform: fastdotcom
+      minute:
+         - 1
+         - 21
+         - 41
+scene:
+    - name: Slopwel
+      entities:
+      light.woonkamer_tv:
+          state: off
+      light.garden:
+          state: off
+      light.living_room:
+          state: off
+      light.eettafel:
+          state: off
+      media_player.living_room:
+          state: paused
+
+
 #nest:
 #    client_id: {{nest_client_id}}
 #    client_secret: {{nest_client_secret}}

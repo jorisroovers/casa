@@ -11,12 +11,15 @@
   command: virtualenv {{homeassistant_dir}}/.venv -p python3 creates="{{homeassistant_dir}}/.venv"
 
 - name: "Installing homeassistant"
-  pip: name=homeassistant virtualenv="{{homeassistant_dir}}/.venv" version=0.41.0
+  pip: name=homeassistant virtualenv="{{homeassistant_dir}}/.venv" version=0.42.0
 
-- template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+- name: "Configuring homeassistant"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
    - configuration.yaml
    - known_devices.yaml
+  notify:
+    - restart_homeassistant
 
 - name: Installing homeassistant systemd service
   template: src=homeassistant.service dest=/etc/systemd/system/homeassistant@{{ansible_ssh_user}}.service

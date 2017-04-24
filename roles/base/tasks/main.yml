@@ -22,3 +22,4 @@
   pip: name={{item}} state=present
   with_items:
     - httpie
+  become: yes

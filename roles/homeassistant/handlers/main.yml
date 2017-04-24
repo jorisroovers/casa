@@ -5,3 +5,9 @@
 - name: restart_homeassistant
   service: name=homeassistant@{{ansible_ssh_user}} state=restarted
   become: yes
+  notify: wait_for_homeassistant_port
+
+- name: wait_for_homeassistant_port
+  wait_for:
+    host: 0.0.0.0
+    port: 8123

@@ -1,6 +1,8 @@
 ---
+# Note: install homeassistant before roofcam, because homeassistant takes a long time to start up the first time
+# This way, homeassistant can already start up while we install roofcam
 - hosts: home
   roles:
     - base
-    - { role: roofcam, tags: ['roofcam']}
     - { role: homeassistant, tags: ['homeassistant', 'hass']}
+    - { role: roofcam, tags: ['roofcam']}

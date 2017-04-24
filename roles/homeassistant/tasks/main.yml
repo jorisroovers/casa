@@ -1,4 +1,10 @@
 ---
+- name: "Installing python3-dev"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - python3-dev
+
 - name: Creating homeassistant directory
   file: path={{homeassistant_dir}} state=directory owner={{ansible_ssh_user}}
   become: yes
@@ -11,7 +17,7 @@
   command: virtualenv {{homeassistant_dir}}/.venv -p python3 creates="{{homeassistant_dir}}/.venv"
 
 - name: "Installing homeassistant"
-  pip: name=homeassistant virtualenv="{{homeassistant_dir}}/.venv" version=0.42.0
+  pip: name=homeassistant virtualenv="{{homeassistant_dir}}/.venv" version=0.43.0
 
 - name: "Configuring homeassistant"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -28,6 +34,6 @@
     - restart_homeassistant
   become: yes
 
-- name: Start homeassistant service
+- name: Make sure homeassistant service is started
   service: name=homeassistant@{{ansible_ssh_user}} state=started enabled=yes
   become: yes

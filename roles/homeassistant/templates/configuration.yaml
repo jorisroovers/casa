@@ -9,7 +9,7 @@ homeassistant:
   time_zone: Europe/Amsterdam
 
 # Discover some devices automatically
-discovery:
+# discovery:
 
 # View all events in a logbook
 logbook:
@@ -31,6 +31,24 @@ device_tracker:
 # Track the sun
 sun:
 
+ios:
+
+scene:
+    - name: Slopwel
+      entities:
+        light.woonkamer_tv:
+            state: off
+        light.garden:
+            state: off
+        light.living_room:
+            state: off
+        light.eettafel:
+            state: off
+        light.kitchen:
+            state: off
+        media_player.living_room:
+            state: paused
+
 media_player:
   platform: sonos
 
@@ -45,34 +63,21 @@ light:
 panel_iframe:
   roofcam:
     title: 'roofcam'
-    url: 'http://192.168.1.186:1234'
+    url: 'http://{{roofcam_ip}}:1234'
+    icon: 'mdi:camcorder'
 
 sensor:
     - platform: systemmonitor
       resources:
-        - type: memory_free
-        - type: disk_use_percent
-          arg: /
-        - type: memory_use_percent
+         - type: memory_free
+         - type: disk_use_percent
+           arg: /
+         - type: memory_use_percent
     - platform: fastdotcom
       minute:
          - 1
          - 21
          - 41
-scene:
-    - name: Slopwel
-      entities:
-      light.woonkamer_tv:
-          state: off
-      light.garden:
-          state: off
-      light.living_room:
-          state: off
-      light.eettafel:
-          state: off
-      media_player.living_room:
-          state: paused
-
 
 #nest:
 #    client_id: {{nest_client_id}}

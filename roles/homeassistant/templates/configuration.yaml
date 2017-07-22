@@ -1,9 +1,8 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
   name: Home
-  # Location required to calculate the time the sun rises and sets
-  latitude: 52.367
-  longitude: 4.9
+  latitude: 51.5642606
+  longitude: 4.8315641
+  elevation: 7
   unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Amsterdam
@@ -50,7 +49,14 @@ scene:
             state: paused
 
 media_player:
-  platform: sonos
+  - platform: sonos
+
+apple_tv:
+  - name: Apple TV
+    host: {{atv_host}}
+    login_id: {{atv_login_id}}
+    start_off: false
+#    credentials: CREDENTIALS
 
 #camera:
 #  - platform: ffmpeg
@@ -58,7 +64,7 @@ media_player:
 
 light:
   platform: hue
-  host: 192.168.1.117
+  host: {{phue_ip}}
 
 panel_iframe:
   roofcam:
@@ -79,13 +85,30 @@ sensor:
          - 21
          - 41
 
-#nest:
-#    client_id: {{nest_client_id}}
-#    client_secret: {{nest_client_secret}}
+nest:
+    client_id: {{nest_client_id}}
+    client_secret: {{nest_client_secret}}
+
+
+######################
+##  CONFIG EDITOR   ##
+#####################
+
+# Enable config editor
+config:
+
+group: !include groups.yaml
+
+#zwave:
+#  device_config: !include zwave_device_config.yaml
+
 
 ###################
-## AUTOMATION
-########
+##  AUTOMATION   ##
+##################
+
+# Include the automation editor:
+automation: !include automations.yaml
 
 
 #automation:

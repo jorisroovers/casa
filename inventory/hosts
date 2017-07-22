@@ -1,2 +1,2 @@
 [home]
-192.168.1.187 ansible_ssh_user=pi
+192.168.1.186 ansible_ssh_user=pi

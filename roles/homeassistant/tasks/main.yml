@@ -1,29 +1,35 @@
 ---
-- name: "Installing python3-dev"
+- name: "Installing homeassistant system dependencies"
   apt: name={{item}} state=present
   become: yes
   with_items:
     - python3-dev
+    - nmap
+    - libffi-dev # Required by pyatv
+    - libssl-dev # Required by pyatv
 
 - name: Creating homeassistant directory
   file: path={{homeassistant_dir}} state=directory owner={{ansible_ssh_user}}
   become: yes
 
-- name: Installing nmap
-  apt: name=nmap state=present
-  become: yes
-
 - name: Manually create the initial virtualenv
-  command: virtualenv {{homeassistant_dir}}/.venv -p python3 creates="{{homeassistant_dir}}/.venv"
+  command: virtualenv {{homeassistant_venv}} -p python3 creates="{{homeassistant_venv}}"
 
 - name: "Installing homeassistant"
-  pip: name=homeassistant virtualenv="{{homeassistant_dir}}/.venv" version=0.43.0
+  pip: name=homeassistant virtualenv="{{homeassistant_venv}}" version=0.49.0
+
+- name: "Installing pyatv"
+  pip: name=pyatv virtualenv="{{homeassistant_venv}}"
 
 - name: "Configuring homeassistant"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
    - configuration.yaml
+   - automations.yaml
+   - groups.yaml
    - known_devices.yaml
+   - nest.conf
+   - phue.conf
   notify:
     - restart_homeassistant
 

@@ -50,6 +50,9 @@ scene:
 
 media_player:
   - platform: sonos
+  - platform: cast # Chromecast
+  - platform: samsungtv
+    host: 192.168.1.149
 
 apple_tv:
   - name: Apple TV

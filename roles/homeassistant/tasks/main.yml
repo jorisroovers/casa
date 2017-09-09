@@ -16,7 +16,7 @@
   command: virtualenv {{homeassistant_venv}} -p python3 creates="{{homeassistant_venv}}"
 
 - name: "Installing homeassistant"
-  pip: name=homeassistant virtualenv="{{homeassistant_venv}}" version=0.49.0
+  pip: name=homeassistant virtualenv="{{homeassistant_venv}}" version=0.53.0
 
 - name: "Installing pyatv"
   pip: name=pyatv virtualenv="{{homeassistant_venv}}"
@@ -28,7 +28,7 @@
    - automations.yaml
    - groups.yaml
    - known_devices.yaml
-   - nest.conf
+#   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
    - phue.conf
   notify:
     - restart_homeassistant
@@ -38,6 +38,10 @@
   notify:
     - daemon_reload
     - restart_homeassistant
+  become: yes
+
+- name: Installing some convenience aliases
+  template: src=hass-aliases.sh dest=/etc/profile.d/hass-aliases.sh
   become: yes
 
 - name: Make sure homeassistant service is started

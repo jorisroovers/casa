@@ -1,6 +1,8 @@
 - name: Cloning roofcam from github
   git: repo=https://github.com/jorisroovers/roofcam dest={{roofcam_dir}}
   become: yes
+  notify:
+    - restart_roofcam
 
 - file: path={{roofcam_dir}} owner={{ansible_ssh_user}} group={{ansible_ssh_user}}
   become: yes
@@ -17,15 +19,21 @@
 - name: "Installing python-dev and python-imaging (this installs Pillow)"
   apt: name={{item}} state=present
   become: yes
+  notify:
+    - restart_roofcam
   with_items:
    - python-dev
    - python-imaging
 
 - name: Manually create the initial virtualenv
   command: virtualenv {{roofcam_dir}}/.venv -p python --system-site-packages creates="{{roofcam_dir}}/.venv"
+  notify:
+    - restart_roofcam
 
 - name: "Installing requirements"
   pip: requirements="{{roofcam_dir}}/requirements.txt" virtualenv="{{roofcam_dir}}/.venv"
+  notify:
+    - restart_roofcam
 
 - name: Installing roofcam systemd service
   template: src=roofcam.service dest=/etc/systemd/system/roofcam@{{ansible_ssh_user}}.service

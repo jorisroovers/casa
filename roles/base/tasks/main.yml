@@ -14,6 +14,7 @@
     - vim
     - silversearcher-ag
     - logrotate
+    - net-tools
 
 - name: "Installing pip"
   easy_install: name=pip

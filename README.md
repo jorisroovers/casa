@@ -81,3 +81,4 @@ Some issues:
 - Location tracking via iOS app
 - https://home-assistant.io/components/media_player.cast/
 - Google Travel time: https://home-assistant.io/components/sensor.google_travel_time/
+- Let's encrypt support

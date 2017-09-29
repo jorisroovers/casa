@@ -1,0 +1,13 @@
+- name: daemon_reload
+  command: systemctl daemon-reload
+  become: yes
+
+- name: restart_appdaemon
+  service: name=appdaemon@{{appdaemon_user}} state=restarted
+  become: yes
+  notify: wait_for_appdaemon_port
+
+- name: wait_for_appdaemon_port
+  wait_for:
+    host: 0.0.0.0
+    port: "{{appdaemon_port}}"

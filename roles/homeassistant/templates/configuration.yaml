@@ -80,6 +80,13 @@ sensor:
          - 1
          - 21
          - 41
+    - platform: buienradar
+      monitored_conditions:
+        - symbol
+        - humidity
+        - temperature
+        - windspeed
+        - pressure
 
 nest:
     client_id: {{nest_client_id}}

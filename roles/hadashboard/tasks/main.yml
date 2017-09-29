@@ -1,0 +1,36 @@
+---
+# Install appdaemon in the same venv as hass to avoid problems with dependency mismatches
+- name: "Installing appdaemon"
+  pip: name=appdaemon virtualenv="{{appdaemon_venv}}" version={{appdaemon_version}}
+
+- name: Creating appdaemon directory
+  file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}}
+  become: yes
+
+# Strongly believe all the permissions are set correctly, I think there's some bug here. More details:
+# https://community.home-assistant.io/t/appdaemon-2-1-9-no-compiled-dir-error/27050/6
+- name: Precreating some subdirectories to deal with permission issues
+  file: path={{appdaemon_dir}}/{{item}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}}
+  with_items:
+    - compiled/css
+    - compiled/javascript
+    - dashboards
+
+- name: "Configuring appdaemon"
+  template: src={{item}} dest={{appdaemon_dir}}/{{item}}
+  with_items:
+  - appdaemon.yaml
+  - apps.yaml
+  - dashboards/Home.dash
+
+- name: Installing appdaemon systemd service
+  template: src=appdaemon.service dest=/etc/systemd/system/appdaemon@{{appdaemon_user}}.service
+  notify:
+    - daemon_reload
+    - restart_appdaemon
+  become: yes
+
+- name: Installing some convenience aliases
+  template: src=ad-aliases.sh dest=/etc/profile.d/ad-aliases.sh
+  become: yes
+

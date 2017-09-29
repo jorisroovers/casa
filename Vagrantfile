@@ -19,6 +19,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: 8123, host: 8123
     # monit
     config.vm.network "forwarded_port", guest: 2812, host: 2812
+    # HA Dashboard
+    config.vm.network "forwarded_port", guest: 5050, host: 5050
+
 
     if Vagrant.has_plugin?("vagrant-cachier")
         config.cache.scope = :box

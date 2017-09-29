@@ -1,0 +1,9 @@
+title: Home
+widget_dimensions: [120, 120]
+widget_margins: [5, 5]
+columns: 8
+
+layout:
+    - clock.clock(2x2), sensor.br_temperature(2x2), scene.slopwel(2x2)
+
+# weather.weather(2x2)

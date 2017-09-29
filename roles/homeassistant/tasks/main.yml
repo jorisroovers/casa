@@ -9,7 +9,7 @@
     - libssl-dev # Required by pyatv
 
 - name: Creating homeassistant directory
-  file: path={{homeassistant_dir}} state=directory owner={{ansible_ssh_user}} group={{ansible_ssh_user}}
+  file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
   become: yes
 
 - name: Manually create the initial virtualenv
@@ -17,6 +17,13 @@
 
 - name: "Installing homeassistant"
   pip: name=homeassistant virtualenv="{{homeassistant_venv}}" version={{homeassistant_version}}
+  notify:
+    - restart_homeassistant
+
+# During upgrade, homeassistant runs its own pip install processes
+# ubuntu   15885 15869 42 15:01 ?        00:00:02 /opt/homeassistant/.venv/bin/python3 -m pip install
+# --quiet sqlalchemy==1.1.14 --upgrade
+# --constraint /opt/homeassistant/.venv/lib/python3.5/site-packages/homeassistant/package_constraints.txt
 
 - name: "Installing pyatv"
   pip: name=pyatv virtualenv="{{homeassistant_venv}}"
@@ -34,7 +41,7 @@
     - restart_homeassistant
 
 - name: Installing homeassistant systemd service
-  template: src=homeassistant.service dest=/etc/systemd/system/homeassistant@{{ansible_ssh_user}}.service
+  template: src=homeassistant.service dest=/etc/systemd/system/homeassistant@{{homeassistant_user}}.service
   notify:
     - daemon_reload
     - restart_homeassistant
@@ -45,5 +52,6 @@
   become: yes
 
 - name: Make sure homeassistant service is started
-  service: name=homeassistant@{{ansible_ssh_user}} state=started enabled=yes
+  service: name=homeassistant@{{homeassistant_user}} state=started enabled=yes
   become: yes
+

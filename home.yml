@@ -5,6 +5,7 @@
   roles:
     - base
     - { role: homeassistant, tags: ['homeassistant', 'hass']}
+    - { role: hadashboard, tags: ['appdaemon', 'hadash', 'hadashboard'], appdaemon_venv: "{{homeassistant_venv}}"}
     - { role: roofcam, tags: ['roofcam']}
     - { role: monit, tags: ['monit']}
 

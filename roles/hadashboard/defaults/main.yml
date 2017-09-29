@@ -1,0 +1,11 @@
+appdaemon_version: 2.1.9
+appdaemon_dir: "{{homeassistant_dir}}/appdaemon"
+appdaemon_venv: ""
+appdaemon_user: "{{ansible_ssh_user}}"
+appdaemon_group: "{{ansible_ssh_user}}"
+appdaemon_port: 5050
+
+appdaemon_ha_url: "http://0.0.0.0:{{homeassistant_port}}"
+appdaemon_dash_url: "http://0.0.0.0:{{appdaemon_port}}"
+
+appdaemon_service_after: "homeassistant@{{homeassistant_user}}.service"

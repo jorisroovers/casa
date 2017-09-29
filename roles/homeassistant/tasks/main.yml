@@ -9,7 +9,7 @@
     - libssl-dev # Required by pyatv
 
 - name: Creating homeassistant directory
-  file: path={{homeassistant_dir}} state=directory owner={{ansible_ssh_user}}
+  file: path={{homeassistant_dir}} state=directory owner={{ansible_ssh_user}} group={{ansible_ssh_user}}
   become: yes
 
 - name: Manually create the initial virtualenv

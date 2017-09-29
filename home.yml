@@ -6,3 +6,5 @@
     - base
     - { role: homeassistant, tags: ['homeassistant', 'hass']}
     - { role: roofcam, tags: ['roofcam']}
+    - { role: monit, tags: ['monit']}
+

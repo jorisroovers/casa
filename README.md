@@ -8,10 +8,19 @@ Use [etcher.io](https://etcher.io) to flash raspbian lite to SD card.
 Then add an empty 'ssh' file to the SD card to enable SSH on boot on Raspbian.
 
 ## Running ansible
+
+### Prerequisites
+
 **Ansible version >= 2.3 required because of use of [ansible-vault single encrypted variables](http://docs.ansible.com/ansible/latest/playbooks_vault.html#single-encrypted-variable)**
 
-Development should be done locally in Vagrant.
+Install dependencies (best globally):
+```bash
+pip install -r requirements.txt
+```
+
+
 ### DEV
+Development should be done locally in Vagrant.
 ```bash
 vagrant up
 ansible-playbook --ask-vault-pass home.yml -i inventory/vagrant 
@@ -21,9 +30,9 @@ ansible-playbook --ask-vault-pass home.yml -i inventory/vagrant --tags roofcam
 ### PROD
 
 ```bash
-ansible-playbook --ask-pass --ask-sudo-pass --ask-vault-pass home.yml -i inventory/mbp-server
+ansible-playbook --ask-pass --ask-sudo-pass --ask-vault-pass home.yml -i ~/repos/casa-data/inventory/mbp-server
 # roofcam only
-ansible-playbook --ask-pass --ask-sudo-pass --ask-vault-pass home.yml -i inventory/mbp-server --tags roofcam
+ansible-playbook --ask-pass --ask-sudo-pass --ask-vault-pass home.yml -i ~/repos/casa-data/inventory/mbp-server --tags roofcam
 ```
 
 ## Convenient commands
@@ -33,12 +42,24 @@ ansible-playbook --ask-pass --ask-sudo-pass --ask-vault-pass home.yml -i invento
 sudo journalctl -fu homeassistant@pi.service
 # Restart server
 sudo systemctl restart homeassistant@pi.service
+# Get monit status
+sudo monit status
+sudo monit summary
 ```
 
 Encrypting values using vault:
 
 ```bash
 ansible-vault encrypt_string "mySecretValue"
+```
+
+Getting status from monit using API
+```bash
+# Status
+curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status
+curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status?format=xml
+# Summary
+curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_summary
 ```
 
 ## Upgrading homeassistant

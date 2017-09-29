@@ -11,12 +11,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.box = "ubuntu/zesty64"
 
-    config.vm.define "dev" do |dev|
-        dev.vm.provision "shell", inline: "#{INSTALL_DEPS}"
+    config.vm.define "home" do |home|
+        home.vm.provision "shell", inline: "#{INSTALL_DEPS}"
     end
 
+    # home-assistant
     config.vm.network "forwarded_port", guest: 8123, host: 8123
-
+    # monit
+    config.vm.network "forwarded_port", guest: 2812, host: 2812
 
     if Vagrant.has_plugin?("vagrant-cachier")
         config.cache.scope = :box

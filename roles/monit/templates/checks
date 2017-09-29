@@ -1,0 +1,8 @@
+CHECK HOST google.com WITH ADDRESS google.com
+    if failed ping then alert
+
+CHECK PROGRAM mycheck WITH PATH {{monit_custom_checks_dir}}/mycheck.sh EVERY 2 CYCLES
+   if status != 0 then alert
+
+CHECK HOST home-assistant WITH ADDRESS 0.0.0.0
+    if failed port 8123 then alert

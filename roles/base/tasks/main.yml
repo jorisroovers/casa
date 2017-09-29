@@ -14,7 +14,8 @@
     - vim
     - silversearcher-ag
     - logrotate
-    - net-tools
+    - net-tools # ifconfig
+    - tree
 
 - name: "Installing pip"
   easy_install: name=pip

@@ -10,4 +10,4 @@
 - name: wait_for_homeassistant_port
   wait_for:
     host: 0.0.0.0
-    port: 8123
+    port: "{{homeassistant_port}}"

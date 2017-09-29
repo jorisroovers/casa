@@ -11,28 +11,29 @@ Then add an empty 'ssh' file to the SD card to enable SSH on boot on Raspbian.
 
 ### Prerequisites
 
-**Ansible version >= 2.3 required because of use of [ansible-vault single encrypted variables](http://docs.ansible.com/ansible/latest/playbooks_vault.html#single-encrypted-variable)**
-
 Install dependencies (best globally):
 ```bash
 pip install -r requirements.txt
 ```
 
-
 ### DEV
 Development should be done locally in Vagrant.
 ```bash
 vagrant up
-ansible-playbook --ask-vault-pass home.yml -i inventory/vagrant 
+ansible-playbook home.yml -i inventory/vagrant 
 # roofcam only
-ansible-playbook --ask-vault-pass home.yml -i inventory/vagrant --tags roofcam
+ansible-playbook home.yml -i inventory/vagrant --tags roofcam
+# using production data
+ansible-playbook home.yml -i  ~/repos/casa-data/inventory/vagrant
 ```
 ### PROD
 
+This won't be useful to anyone else but me :-)
+
 ```bash
-ansible-playbook --ask-pass --ask-sudo-pass --ask-vault-pass home.yml -i ~/repos/casa-data/inventory/mbp-server
+ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/inventory/mbp-server
 # roofcam only
-ansible-playbook --ask-pass --ask-sudo-pass --ask-vault-pass home.yml -i ~/repos/casa-data/inventory/mbp-server --tags roofcam
+ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/inventory/mbp-server --tags roofcam
 ```
 
 ## Convenient commands
@@ -45,12 +46,6 @@ sudo systemctl restart homeassistant@pi.service
 # Get monit status
 sudo monit status
 sudo monit summary
-```
-
-Encrypting values using vault:
-
-```bash
-ansible-vault encrypt_string "mySecretValue"
 ```
 
 Getting status from monit using API

@@ -2,6 +2,16 @@
   command: systemctl daemon-reload
   become: yes
 
+# For now we need to notify restart_homeassistant after this because apparently the reload doesn't really work for
+# picking up new scenes and other config
+- name: reload_homeassistant_config
+  shell: "curl -X POST -H 'Content-Type: application/json' http://0.0.0.0:8123/api/services/{{item}}"
+  with_items:
+    - homeassistant/reload_core_config
+    - automation/reload
+    - group/reload
+  notify: restart_homeassistant
+
 - name: restart_homeassistant
   service: name=homeassistant@{{homeassistant_user}} state=restarted
   become: yes

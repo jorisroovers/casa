@@ -28,4 +28,22 @@ atv_login_id: "atv_login_id"
 
 samsungtv_host: 10.0.0.3
 
+spotify_client_id: "spotify_client_id"
+spotify_client_secret: "spotify_client_secret"
+
 nmap_tracker_hosts: 10.0.0.0/24
+
+google_travel_time_api_key: "Google Travel Time API Key"
+google_travel_time_origin: "Google Travel Time Origin"
+google_travel_time_destination: "Google Travel Time Destination"
+google_travel_time_name: "Google Travel Time Name"
+
+known_devices:
+  mydevice:
+    hide_if_away: false
+    icon:
+    mac: 12:34:56:78:9A:BC
+    name: MyDevice
+    picture:
+    track: true
+    vendor: MyVendor

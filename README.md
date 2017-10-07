@@ -67,6 +67,23 @@ Try running
 ps -ef | grep pip
 ```
 
+## Other convenient info
+
+### Spotify/Sonos
+
+Playing music on Sonos:
+http://hasshostname:8123/dev-service
+Domain: media_player
+Service: select_source
+Service Data: {"entity_id": "media_player.tv_room", "source": "'t Koffiehuis"}
+
+Apparently, it's not that easy to play a playlist during a scene:
+Some pointers on how to play spotify playlist here: https://community.home-assistant.io/t/sonos-automation-scenes-and-specific-playlists/3002/16
+
+Also, sonos has a sonos_join service that should allow speakers to be paired up, need to look into that:
+https://home-assistant.io/components/media_player.sonos/
+
+
 ## WIP
 ### AppleTV:
 Some issues:
@@ -80,5 +97,8 @@ Some issues:
 - Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
 - Location tracking via iOS app
 - https://home-assistant.io/components/media_player.cast/
-- Google Travel time: https://home-assistant.io/components/sensor.google_travel_time/
 - Let's encrypt support
+- Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
+
+- HADashboard: Volume control
+

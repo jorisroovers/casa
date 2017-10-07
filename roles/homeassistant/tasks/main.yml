@@ -38,7 +38,7 @@
 #   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
    - phue.conf
   notify:
-    - restart_homeassistant
+    - reload_homeassistant_config
 
 - name: Installing homeassistant systemd service
   template: src=homeassistant.service dest=/etc/systemd/system/homeassistant@{{homeassistant_user}}.service

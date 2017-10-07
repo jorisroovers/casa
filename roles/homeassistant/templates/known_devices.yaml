@@ -1,1 +1,9 @@
 # This file will get auto-populated by home-assistant
+{% for device_name, device_values in known_devices.iteritems() %}
+{{device_name}}:
+  {% for key, value in device_values.iteritems() %}
+  {{key}}: {{value}}
+  {% endfor %}
+{# The following blank line is required for the whitespacing to line up well so we spit up valid yaml  #}
+
+{% endfor %}

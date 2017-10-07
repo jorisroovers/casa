@@ -3,6 +3,8 @@
 alias ?="cat /etc/profile.d/*aliases*"
 
 alias ha-status="systemctl status homeassistant@{{homeassistant_user}}.service"
+alias ha-logs="tail -n 100 -f {{homeassistant_dir}}/home-assistant.log"
+alias ha-log="tail -n 100 -f {{homeassistant_dir}}/home-assistant.log"
 
 function ha-re(){
     echo "Restarting homeassistant..."

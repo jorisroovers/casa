@@ -3,7 +3,78 @@ widget_dimensions: [120, 120]
 widget_margins: [5, 5]
 columns: 8
 
-layout:
-    - clock.clock(2x2), sensor.br_temperature(2x2), scene.slopwel(2x2)
+reload:
+    widget_type: reload
+    title: Reload
 
-# weather.weather(2x2)
+outside_temperature:
+    widget_type: sensor
+    title: Buiten Temperatuur
+    precision: 1
+    entity: sensor.br_temperature
+
+joris_presence:
+    widget_type: device_tracker
+    title: Joris
+    device: jorissiphone
+    icon_on: fa-male
+    icon_off: fa-male
+
+ilse_presence:
+    widget_type: device_tracker
+    title: Ilse
+    device: iphonevanilse
+    icon_on: fa-female
+    icon_off: fa-female
+
+watch_tv:
+    widget_type: scene
+    title: TV kijken
+    entity: scene.tv_kijken
+    icon_on: mdi-television-classic
+    icon_off: mdi-television-classic
+
+reading:
+    widget_type: scene
+    title: Lezen in de zetel
+    entity: scene.tv_lezen
+    icon_on: mdi-book-open-page-variant
+    icon_off: mdi-book-open-page-variant
+
+sleep:
+    widget_type: scene
+    title: Slaapwel
+    entity: scene.tv_lezen
+    icon_on: mdi-sleep
+    icon_off: mdi-sleep
+
+leave:
+    widget_type: scene
+    title: Vertrekken
+    entity: scene.leave
+    icon_on: mdi-logout
+    icon_off: mdi-logout
+
+cooking:
+    widget_type: scene
+    title: Koken
+    entity: scene.koken
+    icon_on: mdi-pot-mix
+    icon_off: mdi-pot-mix
+
+weekend_breakfast:
+    widget_type: scene
+    title: Weekend Ontbijt
+    entity: scene.weekend_breakfast
+    icon_on: mdi-food-croissant
+    icon_off: mdi-food-croissant
+
+
+# Note: every row needs to be present in the layout, even if empty
+layout:
+    - clock.clock(2x2), outside_temperature(2x1), joris_presence(2x2), ilse_presence(2x2)
+    - sensor.rijtijd_werk_ilse(2x1)
+    - watch_tv(2x1), reading(2x1), light.woonkamer_tv(2x1), weekend_breakfast(1x1), cooking(1x1)
+    - sleep(2x1), leave (2x1), reload(1x1)
+
+# - myweather(2x2)

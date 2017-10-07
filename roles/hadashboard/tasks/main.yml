@@ -15,13 +15,19 @@
     - compiled/css
     - compiled/javascript
     - dashboards
+    - custom_widgets
 
 - name: "Configuring appdaemon"
   template: src={{item}} dest={{appdaemon_dir}}/{{item}}
   with_items:
-  - appdaemon.yaml
-  - apps.yaml
-  - dashboards/Home.dash
+    - appdaemon.yaml
+    - apps.yaml
+    - dashboards/Home.dash
+  notify:
+    - daemon_reload
+    - restart_appdaemon
+
+- include: genericweather_widget.yml
 
 - name: Installing appdaemon systemd service
   template: src=appdaemon.service dest=/etc/systemd/system/appdaemon@{{appdaemon_user}}.service

@@ -5,6 +5,9 @@ appdaemon_user: "{{ansible_ssh_user}}"
 appdaemon_group: "{{ansible_ssh_user}}"
 appdaemon_port: 5050
 
+appdaemon_dashboards_dir: "{{homeassistant_dir}}/appdaemon/dashboards"
+appdaemon_custom_widgets_dir: "{{appdaemon_dashboards_dir}}/custom_widgets"
+
 appdaemon_ha_url: "http://0.0.0.0:{{homeassistant_port}}"
 appdaemon_dash_url: "http://0.0.0.0:{{appdaemon_port}}"
 

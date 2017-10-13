@@ -178,6 +178,15 @@ nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
 
+{#
+  1. Use %raw to insert braces into the lines below without ansible replacing them.
+  2. FYI that in shell_command can't combine variables with actual shells (so using >> and | won't work)
+     This is to ensure we're not just executing arbitrary shell commands based on user input.
+     See https://github.com/home-assistant/home-assistant/blob/3ee4d1060fdbe067c19f7d4ce4777a7eb9dbb412/
+     homeassistant/components/shell_command.py#L59-L65
+#}
+shell_command:
+    play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
 
 ######################
 ##  CONFIG EDITOR   ##
@@ -198,6 +207,7 @@ group: !include groups.yaml
 
 # Include the automation editor:
 automation: !include automations.yaml
+
 
 
 #automation:

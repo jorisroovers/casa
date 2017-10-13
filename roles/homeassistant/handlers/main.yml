@@ -11,6 +11,7 @@
     - automation/reload
     - group/reload
   notify: restart_homeassistant
+  ignore_errors: yes
 
 - name: restart_homeassistant
   service: name=homeassistant@{{homeassistant_user}} state=restarted

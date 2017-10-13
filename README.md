@@ -95,7 +95,7 @@ Some issues:
 - Groups: https://home-assistant.io/components/group/
 - Spotify support:  https://home-assistant.io/components/media_player.spotify/
 - Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
-- Location tracking via iOS app
+- Location tracking via OwnTracks
 - https://home-assistant.io/components/media_player.cast/
 - Let's encrypt support
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart

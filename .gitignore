@@ -1,3 +1,4 @@
 *.retry
 NOOBS*
 .venv*
+ubuntu-zesty-17.04-cloudimg-console.log

@@ -28,6 +28,8 @@ atv_login_id: "atv_login_id"
 
 samsungtv_host: 10.0.0.3
 
+sonos_http_api_url_base: "http://10.0.0.4:5005"
+
 spotify_client_id: "spotify_client_id"
 spotify_client_secret: "spotify_client_secret"
 

@@ -1,0 +1,8 @@
+sonos_http_api_repo: https://github.com/jishi/node-sonos-http-api.git
+sonos_http_api_dir: /opt/node-sonos-http-api
+
+sonos_http_api_user: "{{ansible_ssh_user}}"
+sonos_http_api_group: "{{ansible_ssh_user}}"
+
+sonos_http_api_service: "sonos-http-api"
+sonos_http_api_port: 5005

@@ -1,0 +1,38 @@
+---
+- name: Adding NodeJS 6 package source
+  shell: "node --version || curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -"
+  become: yes
+
+- name: Installing NodeJS
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - nodejs  # npm is included
+
+- name: Creating node-sonos-http-api directory
+  file: path="{{sonos_http_api_dir}}" state=directory owner="{{sonos_http_api_user}}" group="{{sonos_http_api_group}}"
+  become: yes
+
+- name: Cloning node-sonos-http-api from github
+  git: repo="{{sonos_http_api_repo}}" dest="{{sonos_http_api_dir}}"
+
+- name: Installing node-sonos-http-api
+  shell: "npm install --production"
+  args:
+    chdir: "{{sonos_http_api_dir}}"
+
+
+- name: Installing sonos-http-api systemd service
+  template: src=node-sonos-http-api.service dest=/etc/systemd/system/{{sonos_http_api_service}}@{{sonos_http_api_user}}.service
+  notify:
+    - daemon_reload
+    - restart_sonos_http_api
+  become: yes
+
+- name: Installing some convenience aliases
+  template: src=node-sonos-http-api-aliases.sh dest=/etc/profile.d/node-sonos-http-api-aliases.sh
+  become: yes
+
+- name: Make sure sonos-http-api service is started
+  service: name={{sonos_http_api_service}}@{{sonos_http_api_user}} state=started enabled=yes
+  become: yes

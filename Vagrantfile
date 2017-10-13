@@ -21,6 +21,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: 2812, host: 2812
     # HA Dashboard
     config.vm.network "forwarded_port", guest: 5050, host: 5050
+    # Sonos HTTP API
+    config.vm.network "forwarded_port", guest: 5005, host: 5005
 
 
     if Vagrant.has_plugin?("vagrant-cachier")

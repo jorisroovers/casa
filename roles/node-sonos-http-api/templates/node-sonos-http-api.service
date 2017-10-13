@@ -1,0 +1,11 @@
+[Unit]
+Description=Sonos HTTP API
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+ExecStart=/usr/bin/npm --prefix "{{sonos_http_api_dir}}" start
+
+[Install]
+WantedBy=multi-user.target

@@ -1,1 +1,15 @@
-# empty for now!
+- id: weekend_breakfast_music
+  alias: 'Play Weekend Breakfast Music'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      service_data:
+        entity_id: scene.weekend_breakfast
+      domain: scene
+      service: turn_on
+  action:
+    service: shell_command.play_sonos_favorite
+    data:
+      favorite: "'t%20Koffiehuis"
+      room: "Living%20Room"

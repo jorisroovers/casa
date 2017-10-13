@@ -1,15 +1,61 @@
+# For automations to work from both manual triggers a
+# We need both scene (=manual scene setting) and homeassistant (=HADashboard API call) triggers for this
 - id: weekend_breakfast_music
   alias: 'Play Weekend Breakfast Music'
   trigger:
-    platform: event
-    event_type: call_service
-    event_data:
-      service_data:
-        entity_id: scene.weekend_breakfast
-      domain: scene
-      service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.weekend_breakfast
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.weekend_breakfast
+        domain: scene
+        service: turn_on
   action:
     service: shell_command.play_sonos_favorite
     data:
       favorite: "'t%20Koffiehuis"
       room: "Living%20Room"
+
+- id: enable_diepvries_cam
+  alias: 'Enable diepvries cam'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.leave
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.leave
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.slaapwel
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.slaapwel
+        domain: scene
+        service: turn_on
+  action:
+    service: shell_command.enable_nest_camera
+    data:
+      camera_serial_id: "{{nest_diepvries_cam_serial_id}}"
+

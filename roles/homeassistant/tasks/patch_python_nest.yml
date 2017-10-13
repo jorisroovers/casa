@@ -1,0 +1,24 @@
+---
+# Using a custom version of python-nest, let's install it from github
+- name: "Installing patched python-nest"
+  pip:
+    name: "git+https://github.com/jorisroovers/python-nest.git@master#egg=python-nest"
+    virtualenv: "{{homeassistant_venv}}"
+  notify:
+    - restart_homeassistant
+  tags:
+    - patch_nest
+
+# On startup, home-assistant will install all packages in the REQUIREMENTS list of each component
+# Details here: https://home-assistant.io/developers/component_deps_and_reqs/
+# We need to avoid this from happening, so let's comment out the REQUIREMENTS line in HA's nest.py file
+- name: "Patching home-assistant's nest.py component"
+  lineinfile:
+    dest: "{{homeassistant_venv}}/lib/python3.5/site-packages/homeassistant/components/nest.py"
+    regexp: '(^REQUIREMENTS.*)'
+    line: '# \1'
+    backrefs: yes
+  notify:
+    - restart_homeassistant
+  tags:
+    - patch_nest

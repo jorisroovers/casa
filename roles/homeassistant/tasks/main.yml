@@ -27,6 +27,10 @@
 
 - name: "Installing pyatv"
   pip: name=pyatv virtualenv="{{homeassistant_venv}}"
+  notify:
+  - restart_homeassistant
+
+- include: patch_python_nest.yml
 
 - name: "Configuring homeassistant"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}

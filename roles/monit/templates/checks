@@ -6,3 +6,9 @@ CHECK PROGRAM mycheck WITH PATH {{monit_custom_checks_dir}}/mycheck.sh EVERY 2 C
 
 CHECK HOST home-assistant WITH ADDRESS 0.0.0.0
     if failed port 8123 then alert
+
+CHECK HOST HADashboard WITH ADDRESS 0.0.0.0
+    if failed port 5050 then alert
+
+CHECK HOST sonos-http-api WITH ADDRESS 0.0.0.0
+    if failed port 5005 then alert

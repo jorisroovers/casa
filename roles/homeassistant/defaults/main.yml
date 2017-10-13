@@ -16,6 +16,8 @@ homeassistant_general_config:
 nest_client_id: "nest_client_id"
 nest_client_secret: "nest_client_secret"
 nest_access_token: "nest_access_token"
+nest_diepvries_cam_serial_id: "abcdef"
+
 
 roofcam_ip: "{{ansible_default_ipv4.address}}"
 roofcam_port: 1234

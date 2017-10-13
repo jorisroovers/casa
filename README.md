@@ -102,3 +102,4 @@ Some issues:
 
 - HADashboard: Volume control
 
+- Nest-cam: enable all cameras at once on leave or sleep

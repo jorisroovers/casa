@@ -3,6 +3,8 @@
 alias ?="cat /etc/profile.d/*aliases*"
 
 alias ad-status="systemctl status appdaemon@{{appdaemon_user}}.service"
+alias ad-logs="sudo journalctl -fu appdaemon@joris.service"
+alias ad-log="ha-logs"
 
 function ad-re(){
     echo "Restarting appdaemon..."

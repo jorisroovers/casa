@@ -48,6 +48,21 @@ scene:
         media_player.living_room:
             state: paused
 
+    - name: Leave
+      entities:
+        light.woonkamer_tv:
+            state: off
+        light.garden:
+            state: off
+        light.living_room:
+            state: off
+        light.eettafel:
+            state: off
+        light.kitchen:
+            state: off
+        media_player.living_room:
+            state: paused
+
     - name: TV Kijken
       entities:
         light.woonkamer_tv:
@@ -80,21 +95,6 @@ scene:
         light.kitchen:
             state: on
 
-    - name: Leave
-      entities:
-        light.woonkamer_tv:
-            state: off
-        light.garden:
-            state: off
-        light.living_room:
-            state: off
-        light.eettafel:
-            state: off
-        light.kitchen:
-            state: off
-        media_player.living_room:
-            state: paused
-
     - name: Weekend Breakfast
       entities:
         light.woonkamer_tv:
@@ -107,17 +107,6 @@ scene:
             state: on
         light.kitchen:
             state: off
-        media_player.living_room:
-            state: playing
-            source: "'t Koffiehuis"
-
-
-          #      media_player.living_room:
-#          state: paused
-
-#{"entity_id": "media_player.tv_room", "source": "'t Koffiehuis"}
-
-
 
 media_player:
   - platform: sonos
@@ -187,6 +176,7 @@ nest:
 #}
 shell_command:
     play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
+    enable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --enable-camera-streaming'
 
 ######################
 ##  CONFIG EDITOR   ##

@@ -23,6 +23,9 @@
     - appdaemon.yaml
     - apps.yaml
     - dashboards/Home.dash
+    - dashboards/Media.dash
+    - dashboards/Security.dash
+    - dashboards/navigation_panel.yaml
   notify:
     - daemon_reload
     - restart_appdaemon
@@ -30,7 +33,7 @@
 - include: genericweather_widget.yml
 
 - name: Installing appdaemon systemd service
-  template: src=appdaemon.service dest=/etc/systemd/system/appdaemon@{{appdaemon_user}}.service
+  template: src=appdaemon.service dest=/etc/systemd/system/{{appdaemon_service}}.service
   notify:
     - daemon_reload
     - restart_appdaemon

@@ -3,10 +3,6 @@ widget_dimensions: [120, 120]
 widget_margins: [5, 5]
 columns: 8
 
-reload:
-    widget_type: reload
-    title: Reload
-
 outside_temperature:
     widget_type: sensor
     title: Buiten Temperatuur
@@ -86,7 +82,6 @@ clock:
 layout:
     - clock(4x1), joris_presence(2x2), ilse_presence(2x2)
     - outside_temperature(2x1), rijtijd_ilse(2x1)
-    - watch_tv(2x1), reading(2x1), light.woonkamer_tv(2x1), weekend_breakfast(1x1), cooking(1x1)
-    - sleep(2x1), leave (2x1), reload(1x1)
-
-# - myweather(2x2)
+    - watch_tv(2x1), reading(1x1), weekend_breakfast(1x1), light.eettafel(2x1), light.kitchen(2x1)
+    - sleep(2x1), leave (1x1),  cooking(1x1), light.woonkamer_tv(2x1), light.living_room(2x1)
+    - include: navigation_panel

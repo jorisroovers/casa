@@ -16,6 +16,7 @@
     - logrotate
     - net-tools # ifconfig
     - tree
+    - grc # generic colourizer https://github.com/garabik/grc
 
 - name: "Installing pip"
   easy_install: name=pip
@@ -25,4 +26,10 @@
   pip: name={{item}} state=present
   with_items:
     - httpie
+  become: yes
+
+- name: "Enabling line numbers in vim"
+  lineinfile:
+    dest: /etc/vim/vimrc
+    line: "set number"
   become: yes

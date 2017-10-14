@@ -11,4 +11,6 @@ appdaemon_custom_widgets_dir: "{{appdaemon_dashboards_dir}}/custom_widgets"
 appdaemon_ha_url: "http://0.0.0.0:{{homeassistant_port}}"
 appdaemon_dash_url: "http://0.0.0.0:{{appdaemon_port}}"
 
+appdaemon_service: "appdaemon@{{appdaemon_user}}"
+
 appdaemon_service_after: "homeassistant@{{homeassistant_user}}.service"

@@ -3,7 +3,7 @@
   become: yes
 
 - name: restart_appdaemon
-  service: name=appdaemon@{{appdaemon_user}} state=restarted
+  service: name={{appdaemon_service}} state=restarted
   become: yes
   notify: wait_for_appdaemon_port
 

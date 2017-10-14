@@ -1,14 +1,4 @@
 ---
-#- debug: msg="{{item.name}} =  {{item.value | replace('\n', '')}}"
-#  with_items:
-#   - {name: nest_client_id, value: "{{nest_client_id}}"}
-#   - {name: nest_client_secret, value: "{{nest_client_secret}}"}
-#   - {name: nest_access_token, value: "{{nest_access_token}}"}
-#   - {name: atv_login_id, value: "{{atv_login_id}}"}
-#   - {name: phue_username, value: "{{phue_username}}"}
-#   - {name: monit_http_password, value: "{{monit_http_password}}"}
-
-
 - name: Creating custom check script directory
   become: yes
   file: path="{{monit_custom_checks_dir}}" state=directory owner={{ansible_ssh_user}} group={{ansible_ssh_user}}

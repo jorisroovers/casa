@@ -10,5 +10,9 @@ CHECK HOST home-assistant WITH ADDRESS 0.0.0.0
 CHECK HOST HADashboard WITH ADDRESS 0.0.0.0
     if failed port 5050 then alert
 
+# sonos-http-api tends to crash if connectivity to the sonos devices goes down for a while
+# Let's fix this by automatically restarting the service
 CHECK HOST sonos-http-api WITH ADDRESS 0.0.0.0
-    if failed port 5005 then alert
+    start program = "/bin/systemctl start {{sonos_http_api_service}}"
+    stop program  = "/bin/systemctl stop {{sonos_http_api_service}}"
+    if failed port {{sonos_http_api_port}} for 3 cycles then restart

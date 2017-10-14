@@ -3,7 +3,7 @@
   become: yes
 
 - name: restart_sonos_http_api
-  service: name={{sonos_http_api_service}}@{{sonos_http_api_user}} state=restarted
+  service: name={{sonos_http_api_service}} state=restarted
   become: yes
   notify: wait_for_sonos_api_port
 

@@ -23,7 +23,7 @@
 
 
 - name: Installing sonos-http-api systemd service
-  template: src=node-sonos-http-api.service dest=/etc/systemd/system/{{sonos_http_api_service}}@{{sonos_http_api_user}}.service
+  template: src=node-sonos-http-api.service dest=/etc/systemd/system/{{sonos_http_api_service}}.service
   notify:
     - daemon_reload
     - restart_sonos_http_api
@@ -34,5 +34,5 @@
   become: yes
 
 - name: Make sure sonos-http-api service is started
-  service: name={{sonos_http_api_service}}@{{sonos_http_api_user}} state=started enabled=yes
+  service: name={{sonos_http_api_service}} state=started enabled=yes
   become: yes

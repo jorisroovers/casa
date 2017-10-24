@@ -12,4 +12,5 @@ layout:
     - spacer(8x1)
     - spacer(8x1)
     - spacer(8x1)
+    - spacer(8x1)
     - include: navigation_panel

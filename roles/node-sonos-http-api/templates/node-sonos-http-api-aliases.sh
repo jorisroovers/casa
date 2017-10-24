@@ -5,7 +5,7 @@ alias ?="cat /etc/profile.d/*aliases*"
 alias sonos-status="systemctl status {{sonos_http_api_service}}"
 
 alias sonos-logs="sudo grc journalctl -n 300 -fu {{sonos_http_api_service}}"
-alias sonos-log="ha-logs"
+alias sonos-log="sonos-logs"
 
 function sonos-re(){
     echo "Restarting {{sonos_http_api_service}}..."

@@ -6,6 +6,14 @@ homeassistant:
 # Discover some devices automatically
 # discovery:
 
+# Set API Password
+http:
+  api_password: {{homeassistant_http.api_password}}
+  trusted_networks:
+{% for network in homeassistant_http.trusted_networks %}
+     - {{network}}
+{% endfor %}
+    
 logger:
   default: info
 
@@ -31,6 +39,16 @@ sun:
 
 # Enable iOS support
 ios:
+
+
+weblink:
+  entities:
+    - name: Sonos HTTP API
+      url: http://localhost:{{sonos_http_api_port}}/
+    - name: HADashboard
+      url: {{appdaemon_dash_url}}
+    - name: Monit Dashboard
+      url: http://localhost:{{monit_http_port}}
 
 scene:
     - name: Slaapwel
@@ -108,6 +126,23 @@ scene:
         light.kitchen:
             state: off
 
+    - name: Good Morning
+      entities:
+        light.garden:
+            state: off
+
+    # 'Coming Home' really just needs to turn off the diepvries cam which happens through an automation
+    # However, HomeAssistant doesn't like empty entity dicts in scenes
+    - name: Coming Home
+      entities:
+        light.eettafel:
+            state: off
+
+    - name: Start Work Day
+      entities:
+        light.garden:
+            state: off
+
 media_player:
   - platform: sonos
   - platform: cast # Chromecast
@@ -119,11 +154,14 @@ media_player:
     client_id: {{spotify_client_id}}
     client_secret: {{spotify_client_secret}}
 
-apple_tv:
-  - name: Apple TV
-    host: {{atv_host}}
-    login_id: {{atv_login_id}}
-    start_off: false
+# There's issues with AppleTV that cause the TV to turn on randomly. Disabling it for now.
+# - https://community.home-assistant.io/t/apple-tv-apple-tv-failed-to-login/11694/53
+# - https://github.com/home-assistant/home-assistant/issues/6777
+# apple_tv:
+#   - name: Apple TV
+#     host: {{atv_host}}
+#     login_id: {{atv_login_id}}
+#     start_off: false
 #    credentials: CREDENTIALS
 
 
@@ -177,6 +215,8 @@ nest:
 shell_command:
     play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
     enable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --enable-camera-streaming'
+    disable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --disable-camera-streaming'
+
 
 ######################
 ##  CONFIG EDITOR   ##
@@ -198,25 +238,3 @@ group: !include groups.yaml
 # Include the automation editor:
 automation: !include automations.yaml
 
-
-
-#automation:
-#- alias: Turn on kitchen light when there is movement
-#  trigger:
-#    platform: state
-#    entity_id: binary_sensor.hallway_camera_motion_detected
-#    to: 'on'
-#  action:
-#    service: homeassistant.turn_on
-#    entity_id: light.hall
-
-#- alias: Turn off kitchen light 10 minutes after last movement
-#  trigger:
-#    platform: state
-#    entity_id: binary_sensor.hallway_camera_motion_detected
-#    to: 'off'
-#    for:
-#      seconds: 10
-#  action:
-#    service: homeassistant.turn_off
-#    entity_id: light.hall

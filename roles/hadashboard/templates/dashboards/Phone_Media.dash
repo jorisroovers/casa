@@ -1,0 +1,15 @@
+title: Media
+widget_dimensions: [117, 117]
+widget_margins: [5, 5]
+columns: 3
+
+sonos:
+    widget_type: media_player
+    entity: media_player.living_room
+
+layout:
+    - sonos(3x3)
+    - spacer(3x1)
+    - spacer(3x1)
+    - spacer(3x1)
+    - include: Phone_navigation_panel

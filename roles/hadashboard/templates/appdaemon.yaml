@@ -9,12 +9,12 @@ AppDaemon:
 #  cert_verify: True
 #  time_zone: <time zone>
 #  api_port: 5000
-#  api_key: !secret api_key
+#  api_key: 
 #  api_ssl_certificate: <path/to/root/CA/cert>
 #  api_ssl_key: <path/to/root/CA/key>
 HASS:
   ha_url: {{appdaemon_ha_url}}
-#  ha_key: <some key>
+  ha_key: {{homeassistant_http.api_password}}
 
 HADashboard:
   dash_url: {{appdaemon_dash_url}}

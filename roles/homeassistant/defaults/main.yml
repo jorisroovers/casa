@@ -13,11 +13,21 @@ homeassistant_general_config:
   unit_system: metric
   time_zone: Europe/Amsterdam
 
+
+homeassistant_http:
+  api_password: "HttpApiPassword123"
+  trusted_networks:
+    - 10.0.0.0
+
 nest_client_id: "nest_client_id"
 nest_client_secret: "nest_client_secret"
 nest_access_token: "nest_access_token"
-nest_diepvries_cam_serial_id: "abcdef"
 
+nest_cam_serial_ids:
+  diepvries: "abc123"
+  front_garden: "def123"
+  back_garden: "ghi123"
+  hall: "jkl123"
 
 roofcam_ip: "{{ansible_default_ipv4.address}}"
 roofcam_port: 1234

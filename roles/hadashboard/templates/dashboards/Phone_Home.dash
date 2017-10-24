@@ -1,21 +1,7 @@
 title: Home
-widget_dimensions: [120, 120]
+widget_dimensions: [117, 117]
 widget_margins: [5, 5]
-columns: 8
-
-outside_temperature:
-    widget_type: sensor
-    title: Buiten Temperatuur
-    precision: 1
-    entity: sensor.br_temperature
-    value_style: "font-size: 350%"
-
-rijtijd_ilse:
-    widget_type: sensor
-    title: Rijtijd Ilse
-    precision: 1
-    entity: sensor.rijtijd_werk_ilse
-    value_style: "font-size: 350%"
+columns: 3
 
 joris_presence:
     widget_type: device_tracker
@@ -75,21 +61,21 @@ weekend_breakfast:
 
 coming_home:
     widget_type: scene
-    title: Thuis Komen
+    title: Coming Home
     entity: scene.coming_home
     icon_on: fa-sign-in
     icon_off: fa-sign-in
 
 start_work_day:
     widget_type: scene
-    title: Start Werk Dag
+    title: Start Work Day
     entity: scene.start_work_day
     icon_on: fa-briefcase
     icon_off: fa-briefcase
 
 good_morning:
     widget_type: scene
-    title: Goede Morgen
+    title: Good Morning
     entity: scene.good_morning
     icon_on: mdi-weather-sunset-up
     icon_off: mdi-weather-sunset-up
@@ -99,13 +85,11 @@ clock:
     date_style: "font-size: 150%"
     time_style: "font-size: 500%"
 
-
-
 # Note: every row needs to be present in the layout, even if empty
 layout:
-    - clock(4x1), joris_presence(2x2), ilse_presence(2x2)
-    - outside_temperature(2x1), rijtijd_ilse(2x1)
-    - watch_tv(2x1), reading(1x1), weekend_breakfast(1x1), light.eettafel(2x1), light.kitchen(2x1)
-    - sleep(2x1), leave (1x1),  cooking(1x1), light.woonkamer_tv(2x1), light.living_room(2x1)
-    - coming_home(2x1), good_morning(1x1), start_work_day(1x1)
-    - include: navigation_panel
+    - good_morning(1x1), start_work_day(1x1), coming_home(1x1)
+    - sleep(1x1), leave (1x1), cooking(1x1)
+    - joris_presence(1x1), ilse_presence(1x1)
+    - watch_tv(1x1), reading(1x1), weekend_breakfast(1x1)
+    - include: Phone_navigation_panel
+    

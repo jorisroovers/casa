@@ -17,9 +17,34 @@ smoke_alarm_upstairs:
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
 
+front_garden_camera:
+    widget_type: camera
+    title: Front Garden
+    entity_picture: {{nest_cam_entity_pictures.front_garden}}
+    refresh: {{camera_widget_refresh_rate}}
+
+back_garden_camera:
+    widget_type: camera
+    title: Back Garden
+    entity_picture: {{nest_cam_entity_pictures.back_garden}}
+    refresh: {{camera_widget_refresh_rate}}
+
+diepvries_camera:
+    widget_type: camera
+    title: Diepvries
+    entity_picture: {{nest_cam_entity_pictures.diepvries}}
+    refresh: {{camera_widget_refresh_rate}}
+
+hallway_camera:
+    widget_type: camera
+    title: Hallway
+    entity_picture: {{nest_cam_entity_pictures.hallway}}
+    refresh: {{camera_widget_refresh_rate}}
+
 layout:
     - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1)
+    - front_garden_camera(3x2), hallway_camera(3x2)
     - spacer(8x1)
-    - spacer(8x1)
+    - diepvries_camera(3x2), back_garden_camera(3x2)
     - spacer(8x1)
     - include: navigation_panel

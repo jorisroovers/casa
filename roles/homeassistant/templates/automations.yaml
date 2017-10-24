@@ -23,8 +23,8 @@
       favorite: "'t%20Koffiehuis"
       room: "Living%20Room"
 
-- id: enable_diepvries_cam
-  alias: 'Enable diepvries cam'
+- id: enable_all_cameras
+  alias: 'Enable all cameras'
   trigger:
     - platform: event
       event_type: call_service
@@ -55,7 +55,74 @@
         domain: scene
         service: turn_on
   action:
-    service: shell_command.enable_nest_camera
-    data:
-      camera_serial_id: "{{nest_diepvries_cam_serial_id}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.diepvries}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.hallway}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.front_garden}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"
 
+- id: disable_diepvries_cam
+  alias: 'Disable diepvries cam, enabling all others'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.coming_home
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.coming_home
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.good_morning
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.good_morning
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.start_work_day
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.start_work_day
+        domain: scene
+        service: turn_on
+  action:
+    - service: shell_command.disable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.diepvries}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.hallway}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.front_garden}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"

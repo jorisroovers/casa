@@ -5,6 +5,8 @@ alias ?="cat /etc/profile.d/*aliases*"
 alias ha-status="systemctl status homeassistant@{{homeassistant_user}}.service"
 alias ha-logs="grc tail -n 300 -f {{homeassistant_dir}}/home-assistant.log"
 alias ha-log="ha-logs"
+alias ha-conf="vim {{homeassistant_dir}}/configuration.yaml"
+
 
 function ha-re(){
     echo "Restarting homeassistant..."

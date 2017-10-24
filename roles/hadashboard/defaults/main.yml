@@ -14,3 +14,5 @@ appdaemon_dash_url: "http://0.0.0.0:{{appdaemon_port}}"
 appdaemon_service: "appdaemon@{{appdaemon_user}}"
 
 appdaemon_service_after: "homeassistant@{{homeassistant_user}}.service"
+
+camera_widget_refresh_rate: 3

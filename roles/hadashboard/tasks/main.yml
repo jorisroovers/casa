@@ -26,6 +26,10 @@
     - dashboards/Media.dash
     - dashboards/Security.dash
     - dashboards/navigation_panel.yaml
+    - dashboards/Phone_Home.dash
+    - dashboards/Phone_Media.dash
+    - dashboards/Phone_navigation_panel.yaml
+
   notify:
     - daemon_reload
     - restart_appdaemon
@@ -42,4 +46,3 @@
 - name: Installing some convenience aliases
   template: src=ad-aliases.sh dest=/etc/profile.d/ad-aliases.sh
   become: yes
-

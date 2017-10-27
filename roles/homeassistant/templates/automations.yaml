@@ -26,34 +26,22 @@
 - id: enable_all_cameras
   alias: 'Enable all cameras'
   trigger:
+{% for scene_name in ['slaapwel', 'leave'] %}
     - platform: event
       event_type: call_service
       event_data:
         service_data:
-          entity_id: scene.leave
+          entity_id: scene.{{scene_name}}
         domain: homeassistant
         service: turn_on
     - platform: event
       event_type: call_service
       event_data:
         service_data:
-          entity_id: scene.leave
+          entity_id: scene.{{scene_name}}
         domain: scene
         service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.slaapwel
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.slaapwel
-        domain: scene
-        service: turn_on
+{% endfor %}
   action:
     - service: shell_command.enable_nest_camera
       data:
@@ -67,52 +55,44 @@
     - service: shell_command.enable_nest_camera
       data:
         camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"
+    - service: notify.slack
+      data:
+        message: |
+              {%- raw %}
+              {% if is_state('camera.diepvries', 'recording') and is_state('camera.front_garden', 'recording') and
+                 is_state('camera.back_garden', 'recording') and is_state('camera.hallway', 'recording')
+               %}
+              :white_check_mark: All cameras recording 
+              {% else %}
+              :red_circle: Not all cameras are recording
+              {% endif %}
+               *Cameras*
+               Diepvries = {{ states('camera.diepvries') }}
+               Hallway = {{ states('camera.hallway') }}
+               Front Garden = {{ states('camera.front_garden') }}
+               Back Garden = {{ states('camera.back_garden') }}
+               {% endraw %}
 
 - id: disable_diepvries_cam
   alias: 'Disable diepvries cam, enabling all others'
   trigger:
+{% for scene_name in ['coming_home', 'start_work_day', 'good_morning', 'tv_kijken', 'tv_lezen', 'koken', 'weekend_breakfast'] %}
     - platform: event
       event_type: call_service
       event_data:
         service_data:
-          entity_id: scene.coming_home
+          entity_id: scene.{{scene_name}}
         domain: homeassistant
         service: turn_on
     - platform: event
       event_type: call_service
       event_data:
         service_data:
-          entity_id: scene.coming_home
+          entity_id: scene.{{scene_name}}
         domain: scene
         service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.good_morning
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.good_morning
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.start_work_day
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.start_work_day
-        domain: scene
-        service: turn_on
+{% endfor %}
+
   action:
     - service: shell_command.disable_nest_camera
       data:
@@ -126,3 +106,4 @@
     - service: shell_command.enable_nest_camera
       data:
         camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"
+

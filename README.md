@@ -106,6 +106,7 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
 - Spotify support:  https://home-assistant.io/components/media_player.spotify/
 - Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
 - Location tracking via OwnTracks
+   -> This requires a DDNS, which means exposing everything to the web, which has security implications.
 - https://home-assistant.io/components/media_player.cast/
 - Let's encrypt support
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart

@@ -26,6 +26,25 @@ frontend:
 # Enables support for tracking state changes over time.
 history:
 
+notify:
+    # Had some issues with getting pushbullet notifications to work, signing out and in helped:
+    # https://www.reddit.com/r/PushBullet/comments/53jvht/no_notifications_on_ios_10/
+  - name: pushbullet
+    platform: pushbullet
+    api_key: {{pushbullet_api_key}}
+
+  # Hass only works with legacy slack tokens
+  # https://api.slack.com/custom-integrations/legacy-tokens
+  # Slack's advantage over pushbullet is the ability to format messages and more customizable notification preferences
+  # Note that username needs to be set to a different user than the one logged in to a device (e.g. phone)
+  # for notifications to show up (messages from one-self do not generate notifications)
+  # If username is not specified below, then messages will come from one-self (and hence no notifications)
+  - name: slack
+    platform: slack
+    api_key: "{{slack_api_key}}"
+    default_channel: "{{slack_default_channel}}"
+    username: "{{slack_username}}"
+
 # Allows you to issue voice commands from the frontend
 conversation:
 
@@ -33,6 +52,10 @@ device_tracker:
   - platform: nmap_tracker
     hosts: {{nmap_tracker_hosts}}
     track_new_devices: no
+    consider_home: 1200
+  - platform: owntracks_http
+    interval_seconds: 3
+    consider_home: 10
 
 # Track the sun
 sun:

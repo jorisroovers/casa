@@ -46,3 +46,7 @@
 - name: Installing some convenience aliases
   template: src=ad-aliases.sh dest=/etc/profile.d/ad-aliases.sh
   become: yes
+
+- name: Make sure appdaemon service is started
+  service: name={{appdaemon_service}} state=started enabled=yes
+  become: yes

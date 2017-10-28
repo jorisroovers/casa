@@ -112,6 +112,7 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
 - Monit sensor support
 - Scenes: Bathroom
+- Force state update on Nest after changing state through python-nest command
 
 ### HADashboard
 - HADashboard: Volume control

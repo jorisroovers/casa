@@ -4,6 +4,8 @@ homeassistant_port: 8123
 homeassistant_version: 0.56.2
 homeassistant_user: "{{ansible_ssh_user}}"
 homeassistant_group: "{{ansible_ssh_user}}"
+homeassistant_service: "homeassistant@{{homeassistant_user}}"
+
 
 homeassistant_general_config:
   name: MyHome

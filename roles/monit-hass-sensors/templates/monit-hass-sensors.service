@@ -1,0 +1,9 @@
+[Unit]
+Description=Monit to Hass Sensors
+After=monit.service
+[Service]
+Type=simple
+User={{monit_hass_sensors_user}}
+ExecStart={{monit_hass_sensors_dir}}/monit-hass-sensors.sh
+[Install]
+WantedBy=multi-user.target

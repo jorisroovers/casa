@@ -21,7 +21,6 @@
   args:
     chdir: "{{sonos_http_api_dir}}"
 
-
 - name: Installing sonos-http-api systemd service
   template: src=node-sonos-http-api.service dest=/etc/systemd/system/{{sonos_http_api_service}}.service
   notify:

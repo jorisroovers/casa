@@ -1,6 +1,9 @@
 ---
 # Note: install homeassistant before roofcam, because homeassistant takes a long time to start up the first time
 # This way, homeassistant can already start up while we install roofcam
+# Note: There's dependencies between these roles, but they are not made explicit through role dependencies because
+# this keeps it easy during development to just run a single role without its dependencies (and not having to 
+# create all sorts of constructions with variables and tags).
 - hosts: home
   roles:
     - { role: base, tags: ['base']}
@@ -9,4 +12,6 @@
     - { role: roofcam, tags: ['roofcam']}
     - { role: node-sonos-http-api, tags: ['sonos']}
     - { role: monit, tags: ['monit']}
+    - { role: monit-hass-sensors, tags: ['monit-hass-sensors']}
+
 

@@ -1,3 +1,6 @@
+# Monit Manual (hard to find on google):
+# https://mmonit.com/monit/documentation/monit.html
+
 CHECK HOST google.com WITH ADDRESS google.com
     if failed ping then alert
 
@@ -16,3 +19,7 @@ CHECK HOST sonos-http-api WITH ADDRESS 0.0.0.0
     start program = "/bin/systemctl start {{sonos_http_api_service}}"
     stop program  = "/bin/systemctl stop {{sonos_http_api_service}}"
     if failed port {{sonos_http_api_port}} for 3 cycles then restart
+
+CHECK PROCESS monit-hass-sensors MATCHING monit-hass-sensors
+    start program = "/bin/systemctl start {{monit_hass_sensors_service}}"
+    stop program  = "/bin/systemctl stop {{monit_hass_sensors_service}}"

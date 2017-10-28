@@ -45,7 +45,7 @@
     - reload_homeassistant_config
 
 - name: Installing homeassistant systemd service
-  template: src=homeassistant.service dest=/etc/systemd/system/homeassistant@{{homeassistant_user}}.service
+  template: src=homeassistant.service dest=/etc/systemd/system/{{homeassistant_service}}.service
   notify:
     - daemon_reload
     - restart_homeassistant
@@ -56,6 +56,6 @@
   become: yes
 
 - name: Make sure homeassistant service is started
-  service: name=homeassistant@{{homeassistant_user}} state=started enabled=yes
+  service: name={{homeassistant_service}} state=started enabled=yes
   become: yes
 

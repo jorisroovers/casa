@@ -1,4 +1,12 @@
 ---
+- name: Add authorized key for casa
+  authorized_key: user={{ansible_ssh_user}} key="{{casa_public_key}}"
+
+- name: Install custom sshd_config file
+  template: src=sshd_config dest=/etc/ssh/sshd_config
+  notify: restart_sshd
+  become:  yes
+
 - name: Only run "apt update_cache=yes" if we last did so more than 3600 seconds ago
   apt: update_cache=yes cache_valid_time=3600
   become: yes

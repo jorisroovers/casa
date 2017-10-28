@@ -24,10 +24,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Sonos HTTP API
     config.vm.network "forwarded_port", guest: 5005, host: 5005
 
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+        v.cpus = 2
+    end
 
     if Vagrant.has_plugin?("vagrant-cachier")
         config.cache.scope = :box
     end
 
 end
- 

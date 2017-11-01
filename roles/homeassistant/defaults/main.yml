@@ -31,9 +31,6 @@ nest_cam_serial_ids:
   back_garden: "ghi123"
   hall: "jkl123"
 
-roofcam_ip: "{{ansible_default_ipv4.address}}"
-roofcam_port: 1234
-
 phue_ip: 10.0.0.1
 phue_username: "phue_username"
 

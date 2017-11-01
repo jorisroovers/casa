@@ -113,6 +113,9 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
 - Monit sensor support
 - Scenes: Bathroom
 - Force state update on Nest after changing state through python-nest command
+- Metrics dashboard
+- Roofcam binary sensor
+- Improve roofcam accuracy
 
 ### HADashboard
 - HADashboard: Volume control

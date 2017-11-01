@@ -13,5 +13,3 @@
     - { role: node-sonos-http-api, tags: ['sonos']}
     - { role: monit, tags: ['monit']}
     - { role: monit-hass-sensors, tags: ['monit-hass-sensors']}
-
-

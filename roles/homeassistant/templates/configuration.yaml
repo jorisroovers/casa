@@ -195,7 +195,7 @@ light:
 panel_iframe:
   roofcam:
     title: 'roofcam'
-    url: 'http://{{roofcam_ip}}:{{roofcam_port}}'
+    url: 'http://{{roofcam_host}}:{{roofcam_port}}'
     icon: 'mdi:camcorder'
 
 sensor:

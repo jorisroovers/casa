@@ -1,4 +1,3 @@
-
 monit_hass_sensors_user: "{{ansible_ssh_user}}"
 monit_hass_sensors_group: "{{ansible_ssh_user}}"
 monit_hass_sensors_dir: /opt/monit-hass-sensors

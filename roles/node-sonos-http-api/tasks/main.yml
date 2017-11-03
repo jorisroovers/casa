@@ -1,7 +1,14 @@
 ---
+- name: Determining Node version
+  shell: "node --version"
+  register: node_version
+  changed_when: False
+  ignore_errors: yes
+
 - name: Adding NodeJS 6 package source
-  shell: "node --version || curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -"
+  shell: "curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -"
   become: yes
+  when: node_version|failed
 
 - name: Installing NodeJS
   apt: name={{item}} state=present
@@ -15,11 +22,24 @@
 
 - name: Cloning node-sonos-http-api from github
   git: repo="{{sonos_http_api_repo}}" dest="{{sonos_http_api_dir}}"
+  register: node_sonos_http_api_git
 
 - name: Installing node-sonos-http-api
   shell: "npm install --production"
   args:
     chdir: "{{sonos_http_api_dir}}"
+  when: node_sonos_http_api_git.changed
+
+- name: Adding presets
+  template: src=presets/{{item.src}} dest="{{sonos_http_api_dir}}/presets/{{item.dest}}"
+  with_items:
+    - { src: "downstairs.json", dest: "weekend_breakfast.json", favorite: "'t Koffiehuis" }
+    - { src: "downstairs.json", dest: "romance.json", favorite: "Jazzy Romance" }
+    - { src: "upstairs.json", dest: "morning_bathroom_ritual.json", favorite: "Morning Motivation" }
+    - { src: "downstairs.json", dest: "relax_downstairs.json", favorite: "Relax & Unwind" }
+    - { src: "upstairs.json", dest: "relax_bathroom.json", favorite: "Relax & Unwind" }
+  notify:
+    - restart_sonos_http_api
 
 - name: Installing sonos-http-api systemd service
   template: src=node-sonos-http-api.service dest=/etc/systemd/system/{{sonos_http_api_service}}.service

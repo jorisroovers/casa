@@ -18,10 +18,97 @@
         domain: scene
         service: turn_on
   action:
-    service: shell_command.play_sonos_favorite
+    service: shell_command.play_sonos_preset
     data:
-      favorite: "'t%20Koffiehuis"
-      room: "Living%20Room"
+      preset: "weekend_breakfast"
+
+- id: bathroom_morning_music
+  alias: 'Play Morning Bathroom Music'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.bathroom_morning_ritual
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.bathroom_morning_ritual
+        domain: scene
+        service: turn_on
+  action:
+    service: shell_command.play_sonos_preset
+    data:
+      preset: "morning_bathroom_ritual"
+
+- id: romance_music
+  alias: 'Play Romantic Music'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.romance
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.romance
+        domain: scene
+        service: turn_on
+  action:
+    service: shell_command.play_sonos_preset
+    data:
+      preset: "romance"
+
+- id: relax_music_downstairs
+  alias: 'Play Relaxing Music Downstairs'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.relax
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.relax
+        domain: scene
+        service: turn_on
+  action:
+    service: shell_command.play_sonos_preset
+    data:
+      preset: "relax_downstairs"
+
+- id: relax_music_bathroom
+  alias: 'Play Relaxing Music in the Bathroom'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.relaxing_shower
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.relaxing_shower
+        domain: scene
+        service: turn_on
+  action:
+    service: shell_command.play_sonos_preset
+    data:
+      preset: "relax_bathroom"
 
 - id: enable_all_cameras
   alias: 'Enable all cameras'
@@ -76,7 +163,7 @@
 - id: disable_diepvries_cam
   alias: 'Disable diepvries cam, enabling all others'
   trigger:
-{% for scene_name in ['coming_home', 'start_work_day', 'good_morning', 'tv_kijken', 'tv_lezen', 'koken', 'weekend_breakfast'] %}
+{% for scene_name in ['coming_home', 'start_work_day', 'good_morning', 'tv_kijken', 'tv_lezen', 'koken', 'weekend_breakfast', 'relaxing', 'romance', 'relaxing_shower', 'bathroom_morning_ritual'] %}
     - platform: event
       event_type: call_service
       event_data:

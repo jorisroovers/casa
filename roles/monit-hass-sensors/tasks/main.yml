@@ -20,7 +20,10 @@
   become: yes
 
 - name: Installing monit-hass-sensors.sh script
-  template: src=monit-hass-sensors.sh dest={{monit_hass_sensors_dir}}/monit-hass-sensors.sh  mode=u+x
+  template: src=monit-hass-sensors.sh dest={{monit_hass_sensors_dir}}/monit-hass-sensors.sh  mode=u+x owner={{monit_hass_sensors_user}} group={{monit_hass_sensors_group}}
+  notify:
+    - restart_monit_hass_sensors
+  become: yes
 
 - name: Installing monit-hass-sensors systemd service
   template: src=monit-hass-sensors.service dest=/etc/systemd/system/{{monit_hass_sensors_service}}.service

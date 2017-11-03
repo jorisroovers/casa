@@ -38,6 +38,7 @@
    - configuration.yaml
    - automations.yaml
    - groups.yaml
+   - scenes.yaml
    - known_devices.yaml
 #   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
    - phue.conf

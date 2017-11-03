@@ -1,0 +1,117 @@
+- name: Slaapwel
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.garden:
+        state: off
+    light.living_room:
+        state: off
+    light.eettafel:
+        state: off
+    light.kitchen:
+        state: off
+    media_player.living_room:
+        state: paused
+
+- name: Leave
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.garden:
+        state: off
+    light.living_room:
+        state: off
+    light.eettafel:
+        state: off
+    light.kitchen:
+        state: off
+    media_player.living_room:
+        state: paused
+
+- name: TV Kijken
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    light.living_room:
+        state: off
+    media_player.living_room:
+        state: paused
+
+- name: TV Lezen
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 255
+    light.living_room:
+        state: off
+    light.kitchen:
+        state: off
+
+- name: Koken
+  entities:
+    light.living_room:
+        state: off
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    light.kitchen:
+        state: on
+
+- name: Weekend Breakfast
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.garden:
+        state: off
+    light.living_room:
+        state: off
+    light.eettafel:
+        state: on
+    light.kitchen:
+        state: off
+
+- name: Good Morning
+  entities:
+    light.garden:
+        state: off
+
+# 'Coming Home' really just needs to turn off the diepvries cam which happens through an automation
+# However, HomeAssistant doesn't like empty entity dicts in scenes
+- name: Coming Home
+  entities:
+    light.eettafel:
+        state: off
+
+- name: Start Work Day
+  entities:
+    light.garden:
+        state: off
+    media_player.bathroom:
+        state: paused
+
+- name: Bathroom Morning Ritual
+  entities:
+    light.garden:
+        state: off
+
+- name: Relaxing Shower
+  entities:
+    light.garden:
+        state: off
+
+- name: Romance
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    light.living_room:
+        state: off
+
+- name: Relaxing
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    light.living_room:
+        state: off

@@ -1,21 +1,7 @@
 title: Security
-widget_dimensions: [120, 120]
+widget_dimensions: [117, 117]
 widget_margins: [5, 5]
-columns: 8
-
-smoke_alarm_downstairs:
-    widget_type: binary_sensor
-    title: Rookmelder Living
-    entity: binary_sensor.living_room_nest_protect_online
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
-
-smoke_alarm_upstairs:
-    widget_type: binary_sensor
-    title: Rookmelder Boven
-    entity: binary_sensor.upstairs_nest_protect_online
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
+columns: 3
 
 front_garden_camera:
     widget_type: camera
@@ -41,10 +27,27 @@ hallway_camera:
     entity_picture: {{nest_cam_entity_pictures.hallway}}
     refresh: {{camera_widget_refresh_rate}}
 
+roofcam_camera:
+    widget_type: camera
+    title: Roofcam
+    entity_picture: {{roofcam_entity_picture}}
+    refresh: {{camera_widget_refresh_rate}}
+
+security_up_nav:
+    widget_type: navigate
+    icon_inactive: mdi-arrow-up-bold-circle-outline
+    icon_inactive_style: "color: #777"
+    icon_active_style: "color: #777"
+    url: /Phone_Security_1
+
+security_down_nav:
+    widget_type: navigate
+    icon_inactive: mdi-arrow-down-bold-circle-outline
+    url: /Phone_Security_2
+
 layout:
-    - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1)
-    - front_garden_camera(3x2), hallway_camera(3x2)
-    - spacer(8x1)
-    - diepvries_camera(3x2), back_garden_camera(3x2)
-    - spacer(8x1)
-    - include: navigation_panel
+    - front_garden_camera(2x1), security_up_nav(1x1)
+    - back_garden_camera(2x1)
+    - hallway_camera(2x1)
+    - diepvries_camera(2x1), security_down_nav(1x1)
+    - include: Phone_navigation_panel

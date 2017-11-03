@@ -26,6 +26,8 @@ while true ; do
     echo "Parsing data..."
     echo "-----------------------------------"
 
+    AGGREGATE_SENSOR_STATE="on"
+
     for i in $(seq 0 $(( $NUM_SERVICES-1 ))); do
         # Extract fields from monit check data
         SERVICE=$(echo $SERVICES | jq ".[$i]")
@@ -43,6 +45,7 @@ while true ; do
             SENSOR_STATE="on"
         else
             SENSOR_STATE="off"
+            AGGREGATE_SENSOR_STATE="off"
         fi
 
         # Debugging info
@@ -61,6 +64,12 @@ while true ; do
         echo "-----------------------------------"
     done
 
-    echo "All Done"
+    echo -n "Installing aggregate monit sensor..."
+    PAYLOAD='{"state": "'$AGGREGATE_SENSOR_STATE'", "attributes": {"friendly_name": "Monit Aggregate Sensor", "source":"monit", "type": "aggregate", "collected": "'$(date +%s)'"}}'
+    OUTPUT=$(curl -s -m 2 -X POST -H "x-ha-access: $HASS_API_PASSWORD"  -H "Content-Type: application/json" -d "$PAYLOAD"  "$HASS_HOST/api/states/binary_sensor.monit_aggregate")
+    echo -e "${GREEN}DONE${NO_COLOR}"
+    
+    echo "-----------------------------------"
+    echo -e "${GREEN}ALL DONE${NO_COLOR}"
     sleep $SLEEP_INTERVAL
 done

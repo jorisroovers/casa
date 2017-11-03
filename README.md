@@ -90,7 +90,7 @@ Service Data: {"entity_id": "media_player.tv_room", "source": "'t Koffiehuis"}
 Apparently, it's not that easy to play a playlist during a scene:
 Some pointers on how to play spotify playlist here: https://community.home-assistant.io/t/sonos-automation-scenes-and-specific-playlists/3002/16
 
-Also, sonos has a sonos_join service that should allow speakers to be paired up, need to look into that:
+Also, sonos  has a sonos_join service that should allow speakers to be paired up, need to look into that:
 https://home-assistant.io/components/media_player.sonos/
 
 
@@ -110,12 +110,12 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
 - https://home-assistant.io/components/media_player.cast/
 - Let's encrypt support
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
-- Monit sensor support
-- Scenes: Bathroom
 - Force state update on Nest after changing state through python-nest command
 - Metrics dashboard
 - Roofcam binary sensor
 - Improve roofcam accuracy
+- sonos-node-http-api presets
+- sonos-node-http-api: SSL & auth
 
 ### HADashboard
 - HADashboard: Volume control

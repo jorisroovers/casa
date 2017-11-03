@@ -14,7 +14,7 @@ security_nav:
     widget_type: navigate
     title: Beveiliging
     icon_inactive: mdi-security-home
-    url: /Security
+    url: /Security_1
 
 reload:
     widget_type: reload

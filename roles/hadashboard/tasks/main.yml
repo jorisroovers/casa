@@ -16,23 +16,39 @@
     - compiled/javascript
     - dashboards
     - custom_widgets
+    - custom_css/casa
 
-- name: "Configuring appdaemon"
+- name: Configuring appdaemon
   template: src={{item}} dest={{appdaemon_dir}}/{{item}}
   with_items:
     - appdaemon.yaml
     - apps.yaml
     - dashboards/Home.dash
     - dashboards/Media.dash
-    - dashboards/Security.dash
+    - dashboards/Security_1.dash
+    - dashboards/Security_2.dash
     - dashboards/navigation_panel.yaml
     - dashboards/Phone_Home.dash
-    - dashboards/Phone_Media.dash
+    - dashboards/Phone_Controls.dash
+    - dashboards/Phone_Security_1.dash
+    - dashboards/Phone_Security_2.dash
+    - dashboards/Phone_More.dash
     - dashboards/Phone_navigation_panel.yaml
-
   notify:
-    - daemon_reload
     - restart_appdaemon
+
+- name: Installing custom skin
+  template: src={{item}} dest={{appdaemon_dir}}/{{item}}
+  with_items:
+    - custom_css/casa/variables.yaml
+    - custom_css/casa/dashboard.css
+  notify:
+    - restart_appdaemon
+
+- name: Copying skin images
+  copy:
+    src: custom_css/casa/img
+    dest: "{{appdaemon_dir}}/custom_css/casa"
 
 - include: genericweather_widget.yml
 

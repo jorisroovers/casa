@@ -4,15 +4,17 @@ home_nav:
     icon_inactive: fa-home
     url: /Phone_Home
 
-media_nav:
+controls_nav:
     widget_type: navigate
-    title: Media
-    icon_inactive: mdi-play-circle
-    url: /Phone_Media
+    title: Controls
+    icon_inactive: fa-dashboard
+    url: /Phone_Controls
 
-reload:
-    widget_type: reload
-    title: Reload
+more_nav:
+    widget_type: navigate
+    title: More
+    icon_inactive: mdi-dots-horizontal
+    url: /Phone_More
 
 layout:
-  - home_nav(1x1), media_nav(1x1), reload(1x1)
+  - home_nav(1x1), controls_nav(1x1), more_nav(1x1)

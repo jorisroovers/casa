@@ -73,98 +73,7 @@ weblink:
     - name: Monit Dashboard
       url: http://localhost:{{monit_http_port}}
 
-scene:
-    - name: Slaapwel
-      entities:
-        light.woonkamer_tv:
-            state: off
-        light.garden:
-            state: off
-        light.living_room:
-            state: off
-        light.eettafel:
-            state: off
-        light.kitchen:
-            state: off
-        media_player.living_room:
-            state: paused
-
-    - name: Leave
-      entities:
-        light.woonkamer_tv:
-            state: off
-        light.garden:
-            state: off
-        light.living_room:
-            state: off
-        light.eettafel:
-            state: off
-        light.kitchen:
-            state: off
-        media_player.living_room:
-            state: paused
-
-    - name: TV Kijken
-      entities:
-        light.woonkamer_tv:
-            state: on
-            brightness: 143
-        light.living_room:
-            state: off
-        light.kitchen:
-            state: off
-        media_player.living_room:
-            state: paused
-
-    - name: TV Lezen
-      entities:
-        light.woonkamer_tv:
-            state: on
-            brightness: 255
-        light.living_room:
-            state: off
-        light.kitchen:
-            state: off
-
-    - name: Koken
-      entities:
-        light.woonkamer_tv:
-            state: off
-        light.living_room:
-            state: on
-            brightness: 143
-        light.kitchen:
-            state: on
-
-    - name: Weekend Breakfast
-      entities:
-        light.woonkamer_tv:
-            state: off
-        light.garden:
-            state: off
-        light.living_room:
-            state: off
-        light.eettafel:
-            state: on
-        light.kitchen:
-            state: off
-
-    - name: Good Morning
-      entities:
-        light.garden:
-            state: off
-
-    # 'Coming Home' really just needs to turn off the diepvries cam which happens through an automation
-    # However, HomeAssistant doesn't like empty entity dicts in scenes
-    - name: Coming Home
-      entities:
-        light.eettafel:
-            state: off
-
-    - name: Start Work Day
-      entities:
-        light.garden:
-            state: off
+scene: !include scenes.yaml
 
 media_player:
   - platform: sonos
@@ -237,6 +146,7 @@ nest:
 #}
 shell_command:
     play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
+    play_sonos_preset: 'curl "{{sonos_http_api_url_base}}/preset/{% raw %}/{{preset}}{% endraw %}"'
     enable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --enable-camera-streaming'
     disable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --disable-camera-streaming'
 

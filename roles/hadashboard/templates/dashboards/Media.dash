@@ -7,10 +7,18 @@ sonos:
     widget_type: media_player
     entity: media_player.living_room
 
+bathroom_morning_ritual:
+    widget_type: scene
+    title: Bathroom Morning
+    entity: scene.bathroom_morning_ritual
+    icon_on: fa-bath
+    icon_off: fa-bath
+
+
 layout:
-    - sonos(3x3)
+    - sonos(3x2)
     - spacer(8x1)
-    - spacer(8x1)
+    - bathroom_morning_ritual(1x1)
     - spacer(8x1)
     - spacer(8x1)
     - include: navigation_panel

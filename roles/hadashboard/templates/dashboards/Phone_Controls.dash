@@ -1,4 +1,4 @@
-title: Media
+title: Controls
 widget_dimensions: [117, 117]
 widget_margins: [5, 5]
 columns: 3
@@ -8,8 +8,8 @@ sonos:
     entity: media_player.living_room
 
 layout:
-    - sonos(3x3)
-    - spacer(3x1)
-    - spacer(3x1)
-    - spacer(3x1)
+    - sonos(3x2)
+    - spacer(2x1)
+    - light.woonkamer_tv(1x1), light.living_room(1x1), light.eettafel(1x1)
+    - light.kitchen(1x1)
     - include: Phone_navigation_panel

@@ -3,20 +3,6 @@ widget_dimensions: [117, 117]
 widget_margins: [5, 5]
 columns: 3
 
-joris_presence:
-    widget_type: device_tracker
-    title: Joris
-    device: jorissiphone
-    icon_on: fa-male
-    icon_off: fa-male
-
-ilse_presence:
-    widget_type: device_tracker
-    title: Ilse
-    device: iphonevanilse
-    icon_on: fa-female
-    icon_off: fa-female
-
 watch_tv:
     widget_type: scene
     title: TV kijken
@@ -52,13 +38,6 @@ cooking:
     icon_on: mdi-pot-mix
     icon_off: mdi-pot-mix
 
-weekend_breakfast:
-    widget_type: scene
-    title: Weekend Ontbijt
-    entity: scene.weekend_breakfast
-    icon_on: mdi-food-croissant
-    icon_off: mdi-food-croissant
-
 coming_home:
     widget_type: scene
     title: Coming Home
@@ -80,16 +59,41 @@ good_morning:
     icon_on: mdi-weather-sunset-up
     icon_off: mdi-weather-sunset-up
 
-clock:
-    widget_type: clock
-    date_style: "font-size: 150%"
-    time_style: "font-size: 500%"
+bathroom_morning_ritual:
+    widget_type: scene
+    title: Bathroom Morning
+    entity: scene.bathroom_morning_ritual
+    icon_on: fa-bath
+    icon_off: fa-bath
+
+weekend_breakfast:
+    widget_type: scene
+    title: Weekend Ontbijt
+    entity: scene.weekend_breakfast
+    icon_on: mdi-food-croissant
+    icon_off: mdi-food-croissant
+
+monit_checks_status:
+    widget_type: binary_sensor
+    title: Monit Checks
+    entity: binary_sensor.monit_aggregate
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+relaxing:
+    widget_type: scene
+    title: Relaxing
+    entity: scene.relaxing
+    icon_on: mdi-sofa
+    icon_off: mdi-sofa
 
 # Note: every row needs to be present in the layout, even if empty
 layout:
-    - good_morning(1x1), start_work_day(1x1), coming_home(1x1)
-    - sleep(1x1), leave (1x1), cooking(1x1)
-    - joris_presence(1x1), ilse_presence(1x1)
-    - watch_tv(1x1), reading(1x1), weekend_breakfast(1x1)
+    - good_morning(1x1), start_work_day(1x1), bathroom_morning_ritual(1x1)
+    - sleep(1x1), coming_home(1x1), leave (1x1)
+    - watch_tv(1x1), reading(1x1), cooking(1x1)
+    - weekend_breakfast(1x1), relaxing(1x1), monit_checks_status(1x1)
     - include: Phone_navigation_panel
     

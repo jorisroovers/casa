@@ -7,7 +7,7 @@
     - restart_roofcam
 
 - name: Creating snapshot directory
-  file: dest={{snapshot_dir}} state=directory
+  file: dest={{snapshot_dir}} state=directory user={{roofcam_user}} group={{roofcam_group}}
 
 - name: Adding snapshot.sh
   template: src=snapshot.sh dest={{roofcam_dir}}/snapshot.sh mode="u+x"

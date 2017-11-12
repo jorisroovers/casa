@@ -10,7 +10,7 @@
     - reload_monit
   become: yes
   with_items:
-    - mycheck.sh
+    - backups-check.sh
 
 - name: Installing monit
   apt: name={{item}} state=present

@@ -1,0 +1,10 @@
+---
+- name: Creating backups directory
+  file: dest={{backups_dir}} state=directory owner={{backups_user}} group={{backups_group}}
+  become: yes
+
+- name: Copying files to {{backups_dir}}
+  template: src="github-backup.sh" dest="{{backups_dir}}/github-backup.sh" mode=u+x
+
+- name: Adding cronjob for backup scripts
+  cron: name="Periodic github backup" hour="*/6" job="{{backups_dir}}/github-backup.sh" user={{backups_user}}

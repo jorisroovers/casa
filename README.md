@@ -77,6 +77,15 @@ ps -ef | grep pip
 
 ## Other convenient info
 
+# Virtualbox performance issues
+
+https://joeshaw.org/terrible-vagrant-virtualbox-performance-on-mac-os-x/
+
+```
+export CASA_VM=$(VBoxManage list vms | grep casa_home | cut -f1 -d" " | tr -d "\"")
+VBoxManage storagectl $CASA_VM --name "IDE" --hostiocache on
+```
+
 ### Spotify/Sonos
 
 
@@ -112,10 +121,17 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
 - Force state update on Nest after changing state through python-nest command
 - Metrics dashboard
-- Roofcam binary sensor
 - Improve roofcam accuracy
-- sonos-node-http-api presets
 - sonos-node-http-api: SSL & auth
+
+### Sensor ideas
+- Roofcam sensor (refactor monit-hass-sensors to be more generic)
+- Laptop sensors: e.g. track that Joris started working when laptop is on and connected to monitor
+- Car at home detect sensor based on image recognition
+- Door/window sensors
+- Upload/backups success sensor (based on Monit/other check)
+- Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
+
 
 ### HADashboard
 - HADashboard: Volume control

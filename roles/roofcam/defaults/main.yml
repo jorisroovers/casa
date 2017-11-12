@@ -1,5 +1,5 @@
 roofcam_user: "{{ansible_ssh_user}}"
-roofcam_group: "{{ansible_ssh_user}}"
+roofcam_group: "{{roofcam_user}}"
 roofcam_service: "roofcam@{{roofcam_user}}"
 roofcam_host: 0.0.0.0
 roofcam_port: 1234

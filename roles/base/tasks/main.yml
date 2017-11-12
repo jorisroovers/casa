@@ -42,3 +42,12 @@
     dest: /etc/vim/vimrc
     line: "set number"
   become: yes
+
+- name: Creating tools directory
+  file: dest={{tools_dir}} state=directory owner={{tools_user}} group={{tools_group}}
+  become: yes
+
+- name: Copying files to {{tools_dir}}
+  copy:
+    src: simple-server.py
+    dest: "{{tools_dir}}/simple-server.py"

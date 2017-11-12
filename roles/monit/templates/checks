@@ -4,7 +4,7 @@
 CHECK HOST google.com WITH ADDRESS google.com
     if failed ping then alert
 
-CHECK PROGRAM mycheck WITH PATH {{monit_custom_checks_dir}}/mycheck.sh EVERY 2 CYCLES
+CHECK PROGRAM backups WITH PATH {{monit_custom_checks_dir}}/backups-check.sh EVERY 2 CYCLES
    if status != 0 then alert
 
 CHECK HOST home-assistant WITH ADDRESS 0.0.0.0

@@ -1,1 +1,4 @@
+tools_dir: "/opt/tools"
+tools_user: "{{ansible_ssh_user}}"
+tools_group: "{{tools_user}}"
 casa_public_key: "ssh-rsa abc123..."

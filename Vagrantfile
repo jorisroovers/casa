@@ -25,6 +25,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: 5005, host: 5005
     # Roofcam web
     config.vm.network "forwarded_port", guest: 1234, host: 1234
+    # Uchiwa sensu dashboard
+    config.vm.network "forwarded_port", guest: 3000, host: 3000
 
     config.vm.provider "virtualbox" do |v|
         v.memory = 1024

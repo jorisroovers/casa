@@ -1,0 +1,68 @@
+---
+- include: install_redis.yml
+
+# Sensu installation instructions: https://sensuapp.org/docs/1.1/platforms/sensu-on-ubuntu-debian.html
+
+- name: Installing sensu apt source public key
+  shell: "wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | sudo apt-key add -"
+  become: yes
+
+# Note we're installing the Ubuntu xenial source, not the Ubuntu zesty source as there is no package source for that
+# As per sensu docs:
+# "If you wish to install Sensu packages on newer Debian or Ubuntu releases, please
+# try installing a package built for the most recent Debian `stable` or Ubuntu LTS release."
+
+- name: Adding Sensu package source
+  lineinfile:
+    state: present
+    create: yes
+    path: /etc/apt/sources.list.d/sensu.list
+    line: "deb https://sensu.global.ssl.fastly.net/apt xenial main"
+  become: yes
+  register: sensu_package_source
+
+- name: "Updating apt-get cache"
+  apt: update_cache=yes
+  become: yes
+  when: sensu_package_source.changed
+
+- name: "Installing sensu"
+  apt: name={{item}} state=present
+  become: yes
+  notify: restart_sensu
+  with_items:
+    - sensu
+
+- name: Creating sensu conf directory
+  file: path={{sensu_conf_dir}} state=directory owner={{sensu_user}} group={{sensu_group}}
+  notify: restart_sensu
+  become: yes
+
+- name: Configuring sensu
+  template: src={{item}} dest={{sensu_conf_dir}}/{{item}}
+  notify: restart_sensu
+  become: yes
+  with_items:
+    - client.json
+    - api.json
+    - redis.json
+    - transport.json
+    - check_sonos.json
+
+- name: Installing sensu plugins
+  shell: "sensu-install -p {{item}}"
+  notify: restart_sensu
+  become: yes
+  with_items:
+    - network-checks
+    - process-checks
+
+- name: Make sure sensu services are started and enabled
+  service: name={{item}} state=started enabled=yes
+  become: yes
+  with_items:
+    - sensu-server
+    - sensu-client
+    - sensu-api
+
+- include: install_uchiwa.yml

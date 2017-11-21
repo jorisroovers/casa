@@ -1,0 +1,13 @@
+{
+    "sensu": [
+      {
+        "name": "casa",
+        "host": "{{sensu_api_bind}}",
+        "port": {{sensu_api_port}}
+      }
+    ],
+    "uchiwa": {
+      "host": "{{uchiwa_host}}",
+      "port": {{uchiwa_port}}
+    }
+}

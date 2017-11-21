@@ -1,0 +1,11 @@
+{
+    "checks": {
+        "sonos-http-api": {
+            "command": "check-process.rb -p sonos-http-api",
+            "subscribers": [
+                "casa"
+            ],
+            "interval": 10
+        }
+    }
+}

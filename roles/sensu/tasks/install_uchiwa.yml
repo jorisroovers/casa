@@ -1,0 +1,20 @@
+---
+- name: "Installing uchiwa"
+  apt: name={{item}} state=present
+  become: yes
+  notify: restart_uchiwa
+  with_items:
+    - uchiwa
+
+- name: Configuring uchiwa
+  template: src={{item}} dest={{uchiwa_conf_dir}}/{{item}}
+  notify: restart_uchiwa
+  become: yes
+  with_items:
+    - uchiwa.json
+
+- name: Make sure uchiwa services are started and enabled
+  service: name={{item}} state=started enabled=yes
+  become: yes
+  with_items:
+    - uchiwa

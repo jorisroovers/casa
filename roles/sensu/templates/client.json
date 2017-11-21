@@ -1,0 +1,14 @@
+{
+    "client": {
+        "name": "casa-client",
+        "address": "{{sensu_api_bind}}",
+        "environment": "development",
+        "subscriptions": [
+            "casa"
+        ],
+        "socket": {
+            "bind": "{{sensu_api_bind}}",
+            "port": 3030
+        }
+    }
+}

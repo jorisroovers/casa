@@ -1,0 +1,25 @@
+---
+# Following this tutorial for install redis:
+# https://www.avoiderrors.net/install-configure-redis-ubuntu-17-04-zesty-zapus/
+
+# TODO: redis backups: https://stackoverflow.com/questions/11182012/redis-backing-up-dump-rdb
+
+- name: "Installing redis"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - redis-server
+  notify:
+    - restart_redis
+
+- name: Ensure redis is running
+  service: name=redis-server state=started
+  become: yes
+
+- name: Configuring redis
+  template: src={{item}} dest={{redis_conf_dir}}/{{item}} owner="{{redis_user}}" group="{{redis_group}}"
+  become: yes
+  notify:
+    - restart_redis
+  with_items:
+    - redis.conf

@@ -1,0 +1,23 @@
+- name: restart_redis
+  service: name=redis-server state=restarted
+  become: yes
+  notify: wait_for_redis_port
+
+- name: wait_for_redis_port
+  wait_for:
+    host: "{{redis_host}}"
+    port: "{{redis_port}}"
+
+- name: restart_sensu
+  service: name={{item}} state=restarted
+  become: yes
+  with_items:
+    - sensu-server
+    - sensu-client
+    - sensu-api
+
+- name: restart_uchiwa
+  service: name={{item}} state=restarted
+  become: yes
+  with_items:
+    - uchiwa

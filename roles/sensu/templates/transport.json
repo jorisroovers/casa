@@ -1,0 +1,6 @@
+{
+    "transport": {
+        "name": "redis",
+        "reconnect_on_error": true
+    }
+}

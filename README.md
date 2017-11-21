@@ -120,18 +120,27 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
 - Let's encrypt support
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
 - Force state update on Nest after changing state through python-nest command
-- Metrics dashboard
+- Metrics dashboard (logstash)
 - Improve roofcam accuracy
 - sonos-node-http-api: SSL & auth
+- Replace monit with sensu
+    -> Then move monit checks to sensu
+    -> Write custom nest sensor checks
+    -> Sensu basics:
+        -> Protect uchiwa with username/password
+        -> Write more checks
+        -> Play around with API
+        -> Convert checks to hass-sensors
+- Better messaging in slack (also include lights + custom nest sensors)
 
 ### Sensor ideas
+- Refactor monit-hass-sensors to custom-hass-sensors so we can do more than just monit sensors
 - Roofcam sensor (refactor monit-hass-sensors to be more generic)
 - Laptop sensors: e.g. track that Joris started working when laptop is on and connected to monitor
 - Car at home detect sensor based on image recognition
 - Door/window sensors
 - Upload/backups success sensor (based on Monit/other check)
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
-
 
 ### HADashboard
 - HADashboard: Volume control

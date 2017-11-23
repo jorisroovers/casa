@@ -1,0 +1,20 @@
+{
+    "handlers": {
+        "default": {
+            // https://sensuapp.org/docs/1.0/reference/handlers.html#the-default-handler
+            "type": "set",
+            "handlers": []
+        },
+        "remediator": {
+            "command": "{{sensu_custom_handlers_dir}}/remediation-handler.sh",
+            "filters": ["occurrences"],
+            "type": "pipe",
+            "severities": ["ok", "warning", "critical", "unknown"]
+        },
+        "homeassistant-sensor": {
+            "command": "{{sensu_custom_handlers_dir}}/homeassistant-sensor-handler.sh",
+            "type": "pipe",
+            "severities": ["ok", "warning", "critical", "unknown"]
+        }
+    }
+}

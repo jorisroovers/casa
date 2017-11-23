@@ -3,11 +3,15 @@
       {
         "name": "casa",
         "host": "{{sensu_api_bind}}",
-        "port": {{sensu_api_port}}
+        "port": {{sensu_api_port}},
+        "user": "{{sensu_api_user}}",
+        "pass": "{{sensu_api_password}}"
       }
     ],
     "uchiwa": {
       "host": "{{uchiwa_host}}",
-      "port": {{uchiwa_port}}
+      "port": {{uchiwa_port}},
+      "user": "{{uchiwa_user}}",
+      "pass": "{{uchiwa_password}}"
     }
 }

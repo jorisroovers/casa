@@ -1,19 +1,17 @@
 {
     "checks": {
-        "sonos-http-api": {
+        "roofcam": {
             "type": "metric",
-            "command": "check-systemd.rb -s {{sonos_http_api_service}}.service",
+            "command": "check-ports.rb -h {{roofcam_host}} -p {{roofcam_port}} -t 2",
             "subscribers": [ "casa" ],
             "interval": {{sensu_default_check_interval}},
-            "handlers": ["debug", "remediator", "homeassistant-sensor"],
+            "handlers": ["remediator"],
             "occurrences": 3, // when remediator will be triggered
             "refresh": {{sensu_default_refresh_interval}}, // after how many secs the remediator should retry
             "remediation": {
-                "command": "sudo /bin/systemctl restart {{sonos_http_api_service}}.service"
-            },
-            "homeassistant": {
-                "sensor_type": "binary"
+                "command": "sudo /bin/systemctl restart {{roofcam_service}}.service"
             }
         }
     }
 }
+

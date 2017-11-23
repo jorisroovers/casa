@@ -1,0 +1,13 @@
+{
+    "checks": {
+        "google.com": {
+            "type": "metric",
+            "command": "check-ping.rb  -h google.com",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}},
+            "homeassistant": {
+                "sensor_type": "binary"
+            }
+        }
+    }
+}

@@ -2,6 +2,8 @@
     "api": {
         "host": "{{sensu_api_host}}",
         "bind": "{{sensu_api_bind}}",
-        "port": {{sensu_api_port}}
+        "port": {{sensu_api_port}},
+        "user": "{{sensu_api_user}}",
+        "password": "{{sensu_api_password}}"
     }
 }

@@ -2,7 +2,7 @@
     "client": {
         "name": "casa-client",
         "address": "{{sensu_api_bind}}",
-        "environment": "development",
+        "environment": "production",
         "subscriptions": [
             "casa"
         ],

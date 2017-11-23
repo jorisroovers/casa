@@ -86,6 +86,11 @@ export CASA_VM=$(VBoxManage list vms | grep casa_home | cut -f1 -d" " | tr -d "\
 VBoxManage storagectl $CASA_VM --name "IDE" --hostiocache on
 ```
 
+TODO
+```
+NAT: Error(22) while setting RCV capacity to (65536)
+```
+
 ### Spotify/Sonos
 
 
@@ -110,6 +115,28 @@ export HASS_URL="http://0.0.0.0:8123"; export HASS_PASSWORD="$(awk '/api_passwor
 curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/states/camera.hallway | jq -r ".attributes.entity_picture"
 ```
 
+### Sensu
+Location of binary check scripts:
+```
+/opt/sensu/embedded/bin/check-ping.rb --help
+```
+
+Logs:
+/var/log/sensu/*
+
+Important note wrt sensu checks:
+From https://sensuapp.org/docs/1.1/guides/getting-started/intro-to-checks.html#create-the-check-definition-for-cpu-metrics
+
+By default, Sensu checks with an exit status code of 0 (for OK) do not create events unless they indicate a change in
+state from a non-zero status to a zero status (i.e. resulting in a resolve action). Metric collection checks will output
+metric data regardless of the check exit status code, however, they usually exit 0. To ensure events are always created
+for a metric collection check, the check type of metric is used.
+
+
+Things I don't like about sensu:
+ - For standard checks, not all checks cause events, only if something goes wrong (see above)
+ - No remediation included by default - hard to do event with plugins
+
 ## TODO
 - Groups: https://home-assistant.io/components/group/
 - Spotify support:  https://home-assistant.io/components/media_player.spotify/
@@ -117,7 +144,6 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
 - https://home-assistant.io/components/media_player.cast/
-- Let's encrypt support
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
 - Force state update on Nest after changing state through python-nest command
 - Metrics dashboard (logstash)
@@ -132,6 +158,13 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HA
         -> Play around with API
         -> Convert checks to hass-sensors
 - Better messaging in slack (also include lights + custom nest sensors)
+- Backups: sensu/redis DB
+
+- Security:
+    - Let's encrypt support
+    - TLS everywhere: home-assistant, HADash, Spotify, Sensu, Uchiwa
+    - iptable rules for all (just block all and then selectively allow),
+        make sure base role wipes all other ip tables rules -> in case I manually set something, this should be undone
 
 ### Sensor ideas
 - Refactor monit-hass-sensors to custom-hass-sensors so we can do more than just monit sensors

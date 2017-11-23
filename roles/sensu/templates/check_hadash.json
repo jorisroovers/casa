@@ -1,0 +1,13 @@
+{
+    "checks": {
+        "HADashboard": {
+            "type": "metric",
+            "command": "check-ports.rb -h {{appdaemon_bind_ip}} -p {{appdaemon_port}} -t 3",
+            "subscribers": ["casa"],
+            "interval": {{sensu_default_check_interval}},
+            "homeassistant": {
+                "sensor_type": "binary"
+            }
+        }
+    }
+}

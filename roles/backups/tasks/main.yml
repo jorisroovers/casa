@@ -7,4 +7,14 @@
   template: src="github-backup.sh" dest="{{backups_dir}}/github-backup.sh" mode=u+x
 
 - name: Adding cronjob for backup scripts
-  cron: name="Periodic github backup" hour="*/6" job="{{backups_dir}}/github-backup.sh" user={{backups_user}}
+  cron: name="Periodic github backup" hour="*/6" minute="0" job="{{backups_dir}}/github-backup.sh" user={{backups_user}}
+
+- name: Creating backups monitoring directory
+  become: yes
+  file: path="{{backups_monitoring_dir}}" state=directory owner={{backups_user}} group={{backups_group}}
+
+- name: Copying custom check scripts
+  template: src={{item}} dest={{backups_monitoring_dir}}/{{item}}
+            owner={{backups_user}} group={{backups_group}} mode=u=rwx,o=rx
+  with_items:
+    - backups-check.sh

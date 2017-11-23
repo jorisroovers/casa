@@ -1,17 +1,4 @@
 ---
-- name: Creating custom check script directory
-  become: yes
-  file: path="{{monit_custom_checks_dir}}" state=directory owner={{ansible_ssh_user}} group={{ansible_ssh_user}}
-
-- name: Copying custom check scripts
-  template: src={{item}} dest={{monit_custom_checks_dir}}/{{item}}
-            owner={{ansible_ssh_user}} group={{ansible_ssh_user}} mode=u+rwx
-  notify:
-    - reload_monit
-  become: yes
-  with_items:
-    - backups-check.sh
-
 - name: Installing monit
   apt: name={{item}} state=present
   become: yes

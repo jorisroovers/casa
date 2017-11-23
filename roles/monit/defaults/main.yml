@@ -2,4 +2,3 @@ monit_http_port: 2812
 monit_http_username: "defaultusername"
 monit_http_password: "defaultpassword"
 monit_allowed: []
-monit_custom_checks_dir: "/opt/monit/checks"

@@ -3,6 +3,7 @@ appdaemon_dir: "{{homeassistant_dir}}/appdaemon"
 appdaemon_venv: ""
 appdaemon_user: "{{ansible_ssh_user}}"
 appdaemon_group: "{{ansible_ssh_user}}"
+appdaemon_bind_ip: 0.0.0.0
 appdaemon_port: 5050
 
 appdaemon_dashboards_dir: "{{homeassistant_dir}}/appdaemon/dashboards"

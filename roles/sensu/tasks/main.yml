@@ -38,6 +38,15 @@
   notify: restart_sensu
   become: yes
 
+- name: Installing sensu plugins
+  shell: "sensu-install -p {{item}}"
+  notify: restart_sensu
+  become: yes
+  with_items:
+    - network-checks
+    - process-checks
+    - systemd
+
 - name: Configuring sensu
   template: src={{item}} dest={{sensu_conf_dir}}/{{item}}
   notify: restart_sensu
@@ -47,15 +56,36 @@
     - api.json
     - redis.json
     - transport.json
+    - handlers.json
     - check_sonos.json
+    - check_backups.json
+    - check_homeassistant.json
+    - check_network_connectivity.json
+    - check_hadash.json
+    - check_roofcam.json
 
-- name: Installing sensu plugins
-  shell: "sensu-install -p {{item}}"
-  notify: restart_sensu
+- name: Creating custom handlers directory
+  become: yes
+  file: path="{{sensu_custom_handlers_dir}}" state=directory owner={{sensu_user}} group={{sensu_group}}
+
+- name: Installing custom handlers
+  template: src="{{item}}" dest="{{sensu_custom_handlers_dir}}/{{item}}"
+            owner={{sensu_user}} group={{sensu_group}} mode=u+rx
   become: yes
   with_items:
-    - network-checks
-    - process-checks
+    - remediation-handler.sh
+    - homeassistant-sensor-handler.sh
+
+- name: Modifying sudoers file so sensu user can restart certain services
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{sensu_user}} ALL=(root) NOPASSWD: {{item}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - "/bin/systemctl restart {{roofcam_service}}.service"
+    - "/bin/systemctl restart {{sonos_http_api_service}}.service"
 
 - name: Make sure sensu services are started and enabled
   service: name={{item}} state=started enabled=yes

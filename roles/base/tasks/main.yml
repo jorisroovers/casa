@@ -43,6 +43,10 @@
     line: "set number"
   become: yes
 
+- name: Installing bash profile
+  template: src=casa_profile.sh dest=/etc/profile.d/casa_profile.sh
+  become: yes
+
 - name: Creating tools directory
   file: dest={{tools_dir}} state=directory owner={{tools_user}} group={{tools_group}}
   become: yes

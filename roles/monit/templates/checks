@@ -4,17 +4,14 @@
 CHECK HOST google.com WITH ADDRESS google.com
     if failed ping then alert
 
-CHECK PROGRAM backups WITH PATH {{monit_custom_checks_dir}}/backups-check.sh EVERY 2 CYCLES
-   if status != 0 then alert
+#CHECK PROGRAM backups WITH PATH {{monit_custom_checks_dir}}/backups-check.sh EVERY 2 CYCLES
+#   if status != 0 then alert
 
 CHECK HOST home-assistant WITH ADDRESS 0.0.0.0
     if failed port 8123 then alert
 
 CHECK HOST HADashboard WITH ADDRESS 0.0.0.0
     if failed port 5050 then alert
-
-CHECK HOST redis WITH ADDRESS 127.0.0.1
-    if failed port 6379 then alert
 
 CHECK HOST roofcam WITH ADDRESS 0.0.0.0
     start program = "/bin/systemctl start {{roofcam_service}}"

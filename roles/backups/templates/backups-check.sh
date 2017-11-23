@@ -16,7 +16,7 @@ echo "The backup is $timediff secs old"
 if [ $timediff -gt $MAX_TIME_DIFF ]; then
     echo "Uh-oh, that's longer than the max age of $MAX_TIME_DIFF secs..."
     echo "FAIL"
-    exit 1
+    exit 2
 fi
 echo "That's within the max threshold of $MAX_TIME_DIFF seconds"
 echo ""
@@ -28,7 +28,7 @@ echo "The backup is $size bytes"
 if [ $size -lt $MIN_SIZE ]; then
     echo "Uh-oh, that's smaller than the min expected size of $MIN_SIZE bytes..."
     echo "FAIL"
-    exit 1
+    exit 2
 fi
 
 echo "That's larger than the min threshold of $MIN_SIZE bytes"

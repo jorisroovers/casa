@@ -46,6 +46,7 @@
     - network-checks
     - process-checks
     - systemd
+    - sensu # we use check-aggregate.rb
 
 - name: Configuring sensu
   template: src={{item}} dest={{sensu_conf_dir}}/{{item}}
@@ -63,6 +64,8 @@
     - check_network_connectivity.json
     - check_hadash.json
     - check_roofcam.json
+    - check_aggregates.json
+
 
 - name: Creating custom handlers directory
   become: yes

@@ -67,11 +67,11 @@ ios:
 weblink:
   entities:
     - name: Sonos HTTP API
-      url: http://localhost:{{sonos_http_api_port}}/
+      url: http://{{ansible_default_ipv4.address}}:{{sonos_http_api_port}}/
     - name: HADashboard
       url: {{appdaemon_dash_url}}
-    - name: Monit Dashboard
-      url: http://localhost:{{monit_http_port}}
+    - name: Uchiwa Dashboard
+      url: http://{{ansible_default_ipv4.address}}:{{uchiwa_port}}
 
 scene: !include scenes.yaml
 

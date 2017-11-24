@@ -18,7 +18,7 @@ OUTPUT=$(echo "$INPUT" | jq -r .check.output)
 SENSU_EVENT_ID=$(echo "$INPUT" | jq -r .id)
 TIMESTAMP=$(echo "$INPUT" | jq -r .timestamp)
 
- # Determine sensor attributes based on monit check data
+ # Determine sensor attributes based on sensu check data
 # For name, replace dashboard and periods with underscores
 
 SENSOR_NAME="sensu_${NAME//-/_}"

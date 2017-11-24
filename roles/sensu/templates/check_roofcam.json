@@ -5,7 +5,8 @@
             "command": "check-ports.rb -h {{roofcam_host}} -p {{roofcam_port}} -t 2",
             "subscribers": [ "casa" ],
             "interval": {{sensu_default_check_interval}},
-            "handlers": ["remediator"],
+            "handlers": ["remediator", "homeassistant-sensor"],
+            "aggregate": "homeassistant",
             "occurrences": 3, // when remediator will be triggered
             "refresh": {{sensu_default_refresh_interval}}, // after how many secs the remediator should retry
             "remediation": {

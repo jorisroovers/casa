@@ -4,7 +4,9 @@
             "type": "metric",
             "command": "{{backups_monitoring_dir}}/backups-check.sh",
             "subscribers": ["casa"],
+            "handlers": ["homeassistant-sensor"],
             "interval": {{sensu_default_check_interval}},
+            "aggregate": "homeassistant",
             "homeassistant": {
                 "sensor_type": "binary"
             }

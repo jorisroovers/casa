@@ -4,7 +4,9 @@
             "type": "metric",
             "command": "check-ping.rb  -h google.com",
             "subscribers": [ "casa" ],
+            "handlers": ["homeassistant-sensor"],
             "interval": {{sensu_default_check_interval}},
+            "aggregate": "homeassistant",
             "homeassistant": {
                 "sensor_type": "binary"
             }

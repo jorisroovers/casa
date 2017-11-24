@@ -73,10 +73,10 @@ weekend_breakfast:
     icon_on: mdi-food-croissant
     icon_off: mdi-food-croissant
 
-monit_checks_status:
+monitoring_checks_status:
     widget_type: binary_sensor
-    title: Monit Checks
-    entity: binary_sensor.monit_aggregate
+    title: Sensu Checks
+    entity: binary_sensor.sensu_homeassistant_aggregate
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: mdi-bullseye
@@ -94,6 +94,6 @@ layout:
     - good_morning(1x1), start_work_day(1x1), bathroom_morning_ritual(1x1)
     - sleep(1x1), coming_home(1x1), leave (1x1)
     - watch_tv(1x1), reading(1x1), cooking(1x1)
-    - weekend_breakfast(1x1), relaxing(1x1), monit_checks_status(1x1)
+    - weekend_breakfast(1x1), relaxing(1x1), monitoring_checks_status(1x1)
     - include: Phone_navigation_panel
-    
+

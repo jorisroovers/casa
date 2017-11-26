@@ -9,6 +9,7 @@
     - { role: base, tags: ['base']}
     - { role: sensu, tags: ['sensu']}
     - { role: backups, tags: ['backup', 'backups']}
+    - { role: elk, tags: ['elk', 'logstash']}
     - { role: homeassistant, tags: ['homeassistant', 'hass']}
     - { role: hadashboard, tags: ['appdaemon', 'hadash', 'hadashboard'], appdaemon_venv: "{{homeassistant_venv}}"}
     - { role: roofcam, tags: ['roofcam']}

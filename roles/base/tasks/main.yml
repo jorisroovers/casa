@@ -26,6 +26,8 @@
     - tree
     - grc # generic colourizer https://github.com/garabik/grc
     - jq
+    - libxml2-dev
+    - libxslt1-dev
 
 - name: "Installing pip"
   easy_install: name=pip

@@ -32,6 +32,8 @@
   notify: restart_sensu
   with_items:
     - sensu
+    - g++
+    - make # Needed for sensu plugins
 
 - name: Creating sensu conf directory
   file: path={{sensu_conf_dir}} state=directory owner={{sensu_user}} group={{sensu_group}}
@@ -64,6 +66,7 @@
     - check_network_connectivity.json
     - check_hadash.json
     - check_roofcam.json
+    - check_logstash.json
     - check_aggregates.json
 
 

@@ -93,8 +93,6 @@ NAT: Error(22) while setting RCV capacity to (65536)
 
 ### Spotify/Sonos
 
-
-
 Playing music on Sonos:
 http://hasshostname:8123/dev-service
 Domain: media_player
@@ -107,6 +105,9 @@ Some pointers on how to play spotify playlist here: https://community.home-assis
 Also, sonos  has a sonos_join service that should allow speakers to be paired up, need to look into that:
 https://home-assistant.io/components/media_player.sonos/
 
+### SCP
+
+scp -P 2222 -i ~/repos/casa/.vagrant/machines/home/virtualbox/private_key ubuntu@127.0.0.1:/home/ubuntu/redis.conf .
 
 ### Hass APIs
 ```bash

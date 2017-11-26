@@ -29,9 +29,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: 3000, host: 3000
     # sensu-api
     config.vm.network "forwarded_port", guest: 4567, host: 4567
+    # logstash-http-input
+    config.vm.network "forwarded_port", guest: 9123, host: 9123
 
     config.vm.provider "virtualbox" do |v|
-        v.memory = 1024
+        v.memory = 2048
         v.cpus = 2
         # https://joeshaw.org/terrible-vagrant-virtualbox-performance-on-mac-os-x/
         v.customize [

@@ -13,7 +13,7 @@ http:
 {% for network in homeassistant_http.trusted_networks %}
      - {{network}}
 {% endfor %}
-    
+
 logger:
   default: info
 
@@ -101,6 +101,10 @@ light:
   platform: hue
   host: {{phue_ip}}
 
+tradfri:
+  host: {{tradfri_ip}}
+  allow_tradfri_groups: false
+
 panel_iframe:
   roofcam:
     title: 'roofcam'
@@ -131,7 +135,18 @@ sensor:
       origin: {{google_travel_time_origin}}
       destination: {{google_travel_time_destination}}
       name: {{google_travel_time_name}}
-
+    - platform: template
+      sensors:
+        desk_state:
+          friendly_name: "Desk"
+          {% raw %}
+          value_template: >-
+            {% if states('sensor.deskheight')|float  < 75 %}
+              down
+            {% else %}
+              up
+            {% endif %}
+          {% endraw %}
 
 nest:
     client_id: {{nest_client_id}}

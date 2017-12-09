@@ -35,6 +35,7 @@
   with_items:
     - { src: "downstairs.json", dest: "weekend_breakfast.json", favorite: "'t Koffiehuis" }
     - { src: "downstairs.json", dest: "romance.json", favorite: "Jazzy Romance" }
+    - { src: "downstairs.json", dest: "christmas.json", favorite: "Here Comes Christmas" }
     - { src: "upstairs.json", dest: "morning_bathroom_ritual.json", favorite: "Morning Motivation" }
     - { src: "downstairs.json", dest: "relax_downstairs.json", favorite: "Relax & Unwind" }
     - { src: "upstairs.json", dest: "relax_bathroom.json", favorite: "Relax & Unwind" }

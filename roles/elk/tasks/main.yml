@@ -48,3 +48,7 @@
   notify: restart_logstash
   with_items:
     - http-to-file.conf
+
+- name: Installing some convenience aliases
+  template: src=logstash-aliases.sh dest=/etc/profile.d/logstash-aliases.sh
+  become: yes

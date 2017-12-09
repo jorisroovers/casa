@@ -1,8 +1,12 @@
 sensu_conf_dir: /etc/sensu/conf.d
 sensu_installation_dir: "/opt/sensu"
 sensu_custom_handlers_dir: "{{sensu_installation_dir}}/handlers"
+sensu_custom_checks_dir: "{{sensu_installation_dir}}/checks"
+sensu_venv_dir: "{{sensu_installation_dir}}/.venv" # Virtualenv that can be used by custom checks and handlers
+
 sensu_user: "sensu"
 sensu_group: "sensu"
+sensu_server_service: "sensu-server"
 
 sensu_api_port: 4567
 sensu_api_host: "{{ansible_hostname}}" # This needs to be a resolvable hostname

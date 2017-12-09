@@ -35,11 +35,6 @@
     - g++
     - make # Needed for sensu plugins
 
-- name: Creating sensu conf directory
-  file: path={{sensu_conf_dir}} state=directory owner={{sensu_user}} group={{sensu_group}}
-  notify: restart_sensu
-  become: yes
-
 - name: Installing sensu plugins
   shell: "sensu-install -p {{item}}"
   notify: restart_sensu
@@ -47,28 +42,35 @@
   with_items:
     - network-checks
     - process-checks
+    - cpu-checks
+    - memory-checks
     - systemd
     - sensu # we use check-aggregate.rb
 
-- name: Configuring sensu
-  template: src={{item}} dest={{sensu_conf_dir}}/{{item}}
-  notify: restart_sensu
+- name: Creating virtualenv for custom checks and handlers
+  command: virtualenv {{sensu_venv_dir}} creates="{{sensu_venv_dir}}"
+  become: yes
+
+- name: "Installing custom checks and handlers for python dependencies"
+  pip: name="{{item.name}}" virtualenv="{{sensu_venv_dir}}" version="{{item.version}}"
   become: yes
   with_items:
-    - client.json
-    - api.json
-    - redis.json
-    - transport.json
-    - handlers.json
-    - check_sonos.json
-    - check_backups.json
-    - check_homeassistant.json
-    - check_network_connectivity.json
-    - check_hadash.json
-    - check_roofcam.json
-    - check_logstash.json
-    - check_aggregates.json
+    - { name: speedtest-cli, version: "1.0.7" }
 
+- name: Changing virtualenv owner to sensu owner
+  file: path={{sensu_venv_dir}} owner={{sensu_user}} group={{sensu_group}} recurse=yes
+  become: yes
+
+- name: Creating custom checks directory
+  file: path="{{sensu_custom_checks_dir}}" state=directory owner={{sensu_user}} group={{sensu_group}}
+  become: yes
+
+- name: Installing custom checks
+  template: src="{{item}}" dest="{{sensu_custom_checks_dir}}/{{item}}"
+            owner={{sensu_user}} group={{sensu_group}} mode=u+rx
+  become: yes
+  with_items:
+    - speedtest-check.sh
 
 - name: Creating custom handlers directory
   become: yes
@@ -81,6 +83,32 @@
   with_items:
     - remediation-handler.sh
     - homeassistant-sensor-handler.sh
+
+
+- name: Creating sensu conf directory
+  file: path={{sensu_conf_dir}} state=directory owner={{sensu_user}} group={{sensu_group}}
+  notify: restart_sensu
+  become: yes
+
+- name: Configuring sensu
+  template: src={{item}} dest={{sensu_conf_dir}}/{{item}}
+  notify: restart_sensu
+  become: yes
+  with_items:
+    - client.json
+    - api.json
+    - redis.json
+    - transport.json
+    - handlers.json
+    - check_system_resources.json
+    - check_sonos.json
+    - check_backups.json
+    - check_homeassistant.json
+    - check_network_connectivity.json
+    - check_hadash.json
+    - check_roofcam.json
+    - check_logstash.json
+    - check_aggregates.json
 
 - name: Modifying sudoers file so sensu user can restart certain services
   lineinfile:
@@ -102,3 +130,7 @@
     - sensu-api
 
 - include: install_uchiwa.yml
+
+- name: Installing some convenience aliases
+  template: src=sensu-aliases.sh dest=/etc/profile.d/sensu-aliases.sh
+  become: yes

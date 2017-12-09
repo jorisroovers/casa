@@ -10,6 +10,8 @@
         state: off
     light.kitchen:
         state: off
+    group.light_office:
+        state: off
     media_player.living_room:
         state: paused
 
@@ -24,6 +26,8 @@
     light.eettafel:
         state: off
     light.kitchen:
+        state: off
+    group.light_office:
         state: off
     media_player.living_room:
         state: paused
@@ -70,6 +74,8 @@
         state: on
     light.kitchen:
         state: off
+    group.light_office:
+        state: off
 
 - name: Good Morning
   entities:
@@ -87,6 +93,8 @@
   entities:
     light.garden:
         state: off
+    group.light_office:
+        state: on
     media_player.bathroom:
         state: paused
 
@@ -105,6 +113,13 @@
     light.woonkamer_tv:
         state: on
         brightness: 143
+    group.light_office:
+        state: off
+    light.living_room:
+        state: off
+
+- name: Christmas
+  entities:
     light.living_room:
         state: off
 
@@ -113,5 +128,7 @@
     light.woonkamer_tv:
         state: on
         brightness: 143
+    group.light_office:
+        state: off
     light.living_room:
         state: off

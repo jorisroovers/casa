@@ -1,3 +1,7 @@
 - name: restart_sshd
   service: name=sshd state=restarted
   become: yes
+
+- name: restart_logind
+  service: name=systemd-logind state=restarted
+  become: yes

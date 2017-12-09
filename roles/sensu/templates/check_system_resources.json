@@ -1,0 +1,22 @@
+{
+    "checks": {
+        "CPU": {
+            "type": "metric",
+            "command": "check-cpu.rb -c 90",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}}
+        },
+        "metrics.cpu": {
+            "type": "metric",
+            "command": "metrics-cpu.rb",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}}
+        },
+        "memory": {
+            "type": "metric",
+            "command": "check-memory.rb -w {{ansible_memtotal_mb * 0.70 | int }} -c {{ansible_memtotal_mb * 0.90 | int}}",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}}
+        }
+    }
+}

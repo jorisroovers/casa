@@ -150,16 +150,9 @@ Things I don't like about sensu:
 - Metrics dashboard (logstash)
 - Improve roofcam accuracy
 - sonos-node-http-api: SSL & auth
-- Replace monit with sensu
-    -> Then move monit checks to sensu
-    -> Write custom nest sensor checks
-    -> Sensu basics:
-        -> Protect uchiwa with username/password
-        -> Write more checks
-        -> Play around with API
-        -> Convert checks to hass-sensors
 - Better messaging in slack (also include lights + custom nest sensors)
 - Backups: sensu/redis DB
+- Backups: auto-copy to Samba share
 
 - Security:
     - Let's encrypt support
@@ -175,6 +168,7 @@ Things I don't like about sensu:
 - Door/window sensors
 - Upload/backups success sensor (based on Monit/other check)
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
+- Nest smoke detector checks integrated with sensu
 
 ### HADashboard
 - HADashboard: Volume control

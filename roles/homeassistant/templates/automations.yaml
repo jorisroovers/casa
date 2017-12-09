@@ -66,6 +66,28 @@
     data:
       preset: "romance"
 
+- id: christmas_music
+  alias: 'Play Christmas Music'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.christmas
+        domain: homeassistant
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: scene.christmas
+        domain: scene
+        service: turn_on
+  action:
+    service: shell_command.play_sonos_preset
+    data:
+      preset: "christmas"
+
 - id: relax_music_downstairs
   alias: 'Play Relaxing Music Downstairs'
   trigger:

@@ -45,6 +45,14 @@
     line: "set number"
   become: yes
 
+# Needed in order to use a MBP as server
+- name: "Making sure the server doesn't suspend on lid close"
+  lineinfile:
+    dest: /etc/systemd/logind.conf
+    line: "HandleLidSwitch=ignore"
+  notify: restart_logind
+  become: yes
+
 - name: Installing bash profile
   template: src=casa_profile.sh dest=/etc/profile.d/casa_profile.sh
   become: yes

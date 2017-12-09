@@ -7,6 +7,7 @@
     - nmap
     - libffi-dev # Required by pyatv
     - libssl-dev # Required by pyatv
+    - autoconf   # Required by Trädfri
 
 - name: Creating homeassistant directory
   file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}}

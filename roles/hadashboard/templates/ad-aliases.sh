@@ -5,6 +5,7 @@ alias ?="cat /etc/profile.d/*aliases*"
 alias ad-status="systemctl status {{appdaemon_service}}"
 alias ad-logs="sudo grc journalctl -n 300 -fu {{appdaemon_service}}"
 alias ad-log="ad-logs"
+alias ad-conf="vim {{appdaemon_dashboards_dir}}"
 
 function ad-re(){
     echo "Restarting appdaemon..."

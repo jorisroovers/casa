@@ -49,6 +49,9 @@ spotify_client_secret: "spotify_client_secret"
 
 nmap_tracker_hosts: 10.0.0.0/24
 
+device_tracker_ping:
+  myhost: 10.0.0.5
+
 google_travel_time_api_key: "Google Travel Time API Key"
 google_travel_time_origin: "Google Travel Time Origin"
 google_travel_time_destination: "Google Travel Time Destination"

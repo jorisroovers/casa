@@ -1,5 +1,43 @@
+##############################################
+# Living Preset input->scene trigger         #
+##############################################
+
+{% for preset, scene in {"NoPreset": "nopreset", "Watching TV": "tv_kijken", "Christmas": "christmas", "Weekend Breakfast": "weekend_breakfast", "Relaxing":"relaxing", "Romance":"romance"}.iteritems() %}
+- alias: Automatically trigger {{scene}} scene for {{preset}} input
+  trigger:
+    platform: state
+    entity_id: input_select.living_preset
+    to: "{{preset}}"
+  action:
+    service: scene.turn_on
+    entity_id: scene.{{scene}}
+{% endfor %}
+
+##############################################
+# House Mode input->scene trigger            #
+##############################################
+{% for preset, scene in {"Home":"coming_home", "Away": "away", "Sleeping": "slaapwel"}.iteritems() %}
+- alias: Automatically trigger {{scene}} scene for {{preset}} input
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    to: "{{preset}}"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.{{scene}}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_preset
+        option: NoPreset
+{% endfor %}
+
+#############################################
+# Scene specific automations                #
+#############################################
+
 # For automations to work from both manual triggers a
-# We need both scene (=manual scene setting) and homeassistant (=HADashboard API call) triggers for this
+# We need the scene (=manual scene setting), homeassistant (=HADashboard API call) and the scene as an entity_id array
+# (=triggered by other automations)
 - id: weekend_breakfast_music
   alias: 'Play Weekend Breakfast Music'
   trigger:
@@ -15,6 +53,13 @@
       event_data:
         service_data:
           entity_id: scene.weekend_breakfast
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.weekend_breakfast']
         domain: scene
         service: turn_on
   action:
@@ -39,6 +84,13 @@
           entity_id: scene.bathroom_morning_ritual
         domain: scene
         service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.bathroom_morning_ritual']
+        domain: scene
+        service: turn_on
   action:
     service: shell_command.play_sonos_preset
     data:
@@ -59,6 +111,13 @@
       event_data:
         service_data:
           entity_id: scene.romance
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.romance']
         domain: scene
         service: turn_on
   action:
@@ -83,6 +142,13 @@
           entity_id: scene.christmas
         domain: scene
         service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.christmas']
+        domain: scene
+        service: turn_on
   action:
     service: shell_command.play_sonos_preset
     data:
@@ -95,14 +161,21 @@
       event_type: call_service
       event_data:
         service_data:
-          entity_id: scene.relax
+          entity_id: scene.relaxing
         domain: homeassistant
         service: turn_on
     - platform: event
       event_type: call_service
       event_data:
         service_data:
-          entity_id: scene.relax
+          entity_id: scene.relaxing
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.relaxing']
         domain: scene
         service: turn_on
   action:
@@ -127,6 +200,13 @@
           entity_id: scene.relaxing_shower
         domain: scene
         service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.relaxing_shower']
+        domain: scene
+        service: turn_on
   action:
     service: shell_command.play_sonos_preset
     data:
@@ -135,7 +215,7 @@
 - id: enable_all_cameras
   alias: 'Enable all cameras'
   trigger:
-{% for scene_name in ['slaapwel', 'leave'] %}
+{% for scene_name in ['slaapwel', 'away'] %}
     - platform: event
       event_type: call_service
       event_data:
@@ -148,6 +228,13 @@
       event_data:
         service_data:
           entity_id: scene.{{scene_name}}
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.{{scene_name}}']
         domain: scene
         service: turn_on
 {% endfor %}
@@ -171,7 +258,7 @@
               {% if is_state('camera.diepvries', 'recording') and is_state('camera.front_garden', 'recording') and
                  is_state('camera.back_garden', 'recording') and is_state('camera.hallway', 'recording')
                %}
-              :white_check_mark: All cameras recording 
+              :white_check_mark: All cameras recording
               {% else %}
               :red_circle: Not all cameras are recording
               {% endif %}
@@ -198,6 +285,13 @@
       event_data:
         service_data:
           entity_id: scene.{{scene_name}}
+        domain: scene
+        service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id: ['scene.{{scene_name}}']
         domain: scene
         service: turn_on
 {% endfor %}

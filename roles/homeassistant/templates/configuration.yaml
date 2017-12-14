@@ -16,6 +16,8 @@ http:
 
 logger:
   default: info
+  logs:
+    homeassistant.components.device_tracker.nmap_tracker: warn
 
 # View all events in a logbook
 logbook:
@@ -56,6 +58,12 @@ device_tracker:
   - platform: owntracks_http
     interval_seconds: 3
     consider_home: 10
+  # - platform: ping
+  #   track_new_devices: no
+  #   hosts:
+  #     {% for key, value in device_tracker_ping.iteritems() %}
+  #     {{key}}: {{value}}
+  #     {% endfor %}
 
 # Track the sun
 sun:
@@ -148,9 +156,19 @@ sensor:
             {% endif %}
           {% endraw %}
 
+binary_sensor:
+  - platform: template
+    sensors:
+      joris_working:
+        friendly_name: "Joris working"
+        {% raw %}
+        value_template: "{{ (states('device_tracker.mbpcisco') == 'home') and (now().isoweekday() < 6)}}"
+        {% endraw %}
+
 nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
+
 
 {#
   1. Use %raw to insert braces into the lines below without ansible replacing them.
@@ -159,12 +177,33 @@ nest:
      See https://github.com/home-assistant/home-assistant/blob/3ee4d1060fdbe067c19f7d4ce4777a7eb9dbb412/
      homeassistant/components/shell_command.py#L59-L65
 #}
+
 shell_command:
     play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
     play_sonos_preset: 'curl "{{sonos_http_api_url_base}}/preset/{% raw %}{{preset}}{% endraw %}"'
     enable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --enable-camera-streaming'
     disable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --disable-camera-streaming'
 
+input_select:
+  house_mode:
+    name: House mode
+    options:
+     - Home
+     - Away
+     - Sleeping
+    initial: Home
+    icon: mdi:home
+  living_preset:
+    name: Living Scene
+    options:
+      - NoPreset
+      - Romance
+      - Christmas
+      - Relaxing
+      - Watching TV
+      - Weekend Breakfast
+
+# script: !include scripts.yaml
 
 ######################
 ##  CONFIG EDITOR   ##

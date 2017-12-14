@@ -1,0 +1,94 @@
+# weekend_breakfast:
+#   alias: Weekend Breakfast
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.living_preset
+#         option: 'Weekend Breakfast'
+#     - service: scene.turn_on
+#       entity_id: scene.weekend_breakfast
+#     - service: shell_command.play_sonos_preset
+#       data:
+#         preset: "weekend_breakfast"
+# romance:
+#   alias: Romance
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.living_preset
+#         option: 'Romance'
+#     - service: scene.turn_on
+#       entity_id: scene.romance
+#     - service: shell_command.play_sonos_preset
+#       data:
+#         preset: "romance"
+# christmas:
+#   alias: Christmas
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.living_preset
+#         option: 'Christmas'
+#     - service: scene.turn_on
+#       entity_id: scene.christmas
+#     - service: shell_command.play_sonos_preset
+#       data:
+#         preset: "christmas"
+# relaxing:
+#   alias: Relaxing
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.living_preset
+#         option: 'Relaxing'
+#     - service: scene.turn_on
+#       entity_id: scene.relax
+#     - service: shell_command.play_sonos_preset
+#       data:
+#         preset: "relax_downstairs"
+# watching_tv:
+#   alias: Watching TV
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.living_preset
+#         option: >
+#         {% raw %}
+#           {% if is_state("input_select.living_preset", "Watching TV") %}
+#               NoPreset
+#           {% else %}
+#               Watching TV
+#           {% endif %}
+#         {% endraw %}
+#     - service: scene.turn_on
+#       entity_id: scene.tv_kijken
+
+# #######################################################
+# # HOUSE MODE
+# #######################################################
+
+# house_mode_away:
+#   alias: House Mode Away
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.house_mode
+#         option: 'Away'
+#     - service: scene.turn_on
+#       entity_id: scene.away
+# house_mode_sleeping:
+#   alias: House Mode Sleep
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.house_mode
+#         option: 'Sleeping'
+#     - service: scene.turn_on
+#       entity_id: scene.slaapwel
+# house_mode_home:
+#   alias: House Mode Home
+#   sequence:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.house_mode
+#         option: 'Home'

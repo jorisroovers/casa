@@ -14,8 +14,12 @@
         state: off
     media_player.living_room:
         state: paused
+    media_player.bathroom:
+        state: paused
+    media_player.tv_room:
+        state: paused
 
-- name: Leave
+- name: Away
   entities:
     light.woonkamer_tv:
         state: off
@@ -30,6 +34,10 @@
     group.light_office:
         state: off
     media_player.living_room:
+        state: paused
+    media_player.bathroom:
+        state: paused
+    media_player.tv_room:
         state: paused
 
 - name: TV Kijken
@@ -122,6 +130,13 @@
   entities:
     light.living_room:
         state: off
+
+- name: NoPreset
+  entities:
+    media_player.living_room:
+        state: paused
+    media_player.tv_room:
+        state: paused
 
 - name: Relaxing
   entities:

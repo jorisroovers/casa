@@ -11,6 +11,9 @@
             "refresh": {{sensu_default_refresh_interval}}, // after how many secs the remediator should retry
             "remediation": {
                 "command": "sudo /bin/systemctl restart {{roofcam_service}}.service"
+            },
+            "homeassistant": {
+                "sensor_type": "binary_sensor"
             }
         }
     }

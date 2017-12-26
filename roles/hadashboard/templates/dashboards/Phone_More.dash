@@ -3,6 +3,8 @@ widget_dimensions: [117, 117]
 widget_margins: [5, 5]
 columns: 3
 
+{% include "./templates/dashboards/components.yaml" %}
+
 security_nav:
     widget_type: navigate
     title: Security
@@ -29,13 +31,6 @@ relaxing_shower:
     entity: scene.relaxing_shower
     icon_on: fa-bath
     icon_off: fa-bath
-
-romance:
-    widget_type: scene
-    title: Romance
-    entity: scene.romance
-    icon_on: mdi-heart
-    icon_off: mdi-heart
 
 # Note: every row needs to be present in the layout, even if empty
 layout:

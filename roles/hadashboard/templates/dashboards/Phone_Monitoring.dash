@@ -1,0 +1,24 @@
+title: Monitoring
+widget_dimensions: [120, 120]
+widget_margins: [5, 5]
+columns: 3
+
+
+# Ideally, we could just insert Sensu as an iframe here, but that doesn't work because Sensu sets X-Frame-Options to
+# DENY.
+# See here: https://github.com/sensu/uchiwa/blob/8c0e40002034e0e2a9c0210e94e778a4baadceb3/uchiwa/server.go#L1336
+# Since this is Go (i.e. binary) code, there's also no way for us to patch this easily.
+# sensu:
+#     widget_type: iframe
+#     title: Sensu
+#     url_list:
+#       - "http://{{uchiwa_external_dns}}:{{uchiwa_port}}"
+
+{% include "./templates/dashboards/components.yaml" %}
+
+layout:
+    - monitoring_checks_status(1x1), binary_sensor_google(1x1), binary_sensor_logstash(1x1)
+    - binary_sensor_roofcam(1x1), binary_sensor_sonos_http_api(1x1), binary_sensor_sensu_backups(1x1)
+    - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1)
+    - spacer(1x1)
+    - include: Phone_navigation_panel

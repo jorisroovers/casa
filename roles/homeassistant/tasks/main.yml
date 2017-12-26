@@ -46,6 +46,7 @@
    - phue.conf
   notify:
     - reload_homeassistant_config
+    - restart_homeassistant
 
 - name: Installing homeassistant systemd service
   template: src=homeassistant.service dest=/etc/systemd/system/{{homeassistant_service}}.service
@@ -62,3 +63,5 @@
   service: name={{homeassistant_service}} state=started enabled=yes
   become: yes
 
+- name: force all notified handlers to run at this point, not waiting until the end (because homeassistant restart is slow)
+  meta: flush_handlers

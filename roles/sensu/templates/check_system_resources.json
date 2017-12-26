@@ -1,11 +1,11 @@
 {
     "checks": {
-        "CPU": {
-            "type": "metric",
-            "command": "check-cpu.rb -c 90",
-            "subscribers": [ "casa" ],
-            "interval": {{sensu_default_check_interval}}
-        },
+        // "CPU": {
+        //     "type": "metric",
+        //     "command": "check-cpu.rb -c 90",
+        //     "subscribers": [ "casa" ],
+        //     "interval": {{sensu_default_check_interval}}
+        // },
         "metrics.cpu": {
             "type": "metric",
             "command": "metrics-cpu.rb",

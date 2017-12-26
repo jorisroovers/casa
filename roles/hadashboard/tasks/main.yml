@@ -27,11 +27,13 @@
     - dashboards/Media.dash
     - dashboards/Security_1.dash
     - dashboards/Security_2.dash
+    - dashboards/Monitoring.dash
     - dashboards/navigation_panel.yaml
     - dashboards/Phone_Home.dash
     - dashboards/Phone_Controls.dash
     - dashboards/Phone_Security_1.dash
     - dashboards/Phone_Security_2.dash
+    - dashboards/Phone_Monitoring.dash
     - dashboards/Phone_More.dash
     - dashboards/Phone_navigation_panel.yaml
   notify:
@@ -42,6 +44,7 @@
   with_items:
     - custom_css/casa/variables.yaml
     - custom_css/casa/dashboard.css
+    - custom_css/casa/scripts.js
   notify:
     - restart_appdaemon
 

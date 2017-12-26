@@ -43,7 +43,7 @@ head_includes:
 #
 
 body_includes:
- - <! body tags go here ->
+ - <script src="/custom_css/casa/scripts.js"></script>
 
 #
 # Styles

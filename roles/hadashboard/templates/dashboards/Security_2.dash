@@ -3,19 +3,7 @@ widget_dimensions: [120, 120]
 widget_margins: [5, 5]
 columns: 8
 
-smoke_alarm_downstairs:
-    widget_type: binary_sensor
-    title: Rookmelder Living
-    entity: binary_sensor.living_room_nest_protect_online
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
-
-smoke_alarm_upstairs:
-    widget_type: binary_sensor
-    title: Rookmelder Boven
-    entity: binary_sensor.upstairs_nest_protect_online
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
+{% include "./templates/dashboards/components.yaml" %}
 
 roofcam_camera:
     widget_type: camera

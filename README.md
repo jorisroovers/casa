@@ -153,6 +153,11 @@ Things I don't like about sensu:
 - Better messaging in slack (also include lights + custom nest sensors)
 - Backups: sensu/redis DB
 - Backups: auto-copy to Samba share
+- sudo askpass program lastpass
+- limit speedtest.net CPU cycles using cgroups
+- Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
+
+- Upstairs scenes: packing, working
 
 - Security:
     - Let's encrypt support

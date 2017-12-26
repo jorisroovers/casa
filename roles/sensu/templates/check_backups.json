@@ -8,7 +8,7 @@
             "interval": {{sensu_default_check_interval}},
             "aggregate": "homeassistant",
             "homeassistant": {
-                "sensor_type": "binary"
+                "sensor_type": "binary_sensor"
             }
         }
     }

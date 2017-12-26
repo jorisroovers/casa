@@ -13,7 +13,7 @@
                 "command": "sudo /bin/systemctl restart {{sonos_http_api_service}}.service"
             },
             "homeassistant": {
-                "sensor_type": "binary"
+                "sensor_type": "binary_sensor"
             }
         }
     }

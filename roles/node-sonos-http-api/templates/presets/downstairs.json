@@ -1,11 +1,11 @@
 {
     "players": [{
             "roomName": "Living Room",
-            "volume": 15
+            "volume": 10
         },
         {
             "roomName": "TV Room",
-            "volume": 15
+            "volume": 10
         }
     ],
     "playMode": {

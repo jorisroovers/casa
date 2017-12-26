@@ -2,7 +2,7 @@
     "checks": {
         "homeassistant-aggregate": {
             "type": "metric",
-            "command": "check-aggregate.rb -c homeassistant --critical_count 1 -a http://{{sensu_api_bind}}:{{sensu_api_port}} -u {{sensu_api_user}} -p '{{sensu_api_password}}'",
+            "command": "check-aggregate.rb -c homeassistant --critical_count 1 -a ':::sensu.host:::' -u ':::sensu.user:::' -p ':::sensu.password:::'",
             "subscribers": [ "casa" ],
             // add 1 to default interval so we execute this right after the normal checks
             // This way, we ensure we don't have to wait a entire cycle for the aggregate check
@@ -10,7 +10,7 @@
             "interval": {{sensu_default_check_interval + 1}},
             "handlers": ["homeassistant-sensor"],
             "homeassistant": {
-                "sensor_type": "binary"
+                "sensor_type": "binary_sensor"
             }
         }
     }

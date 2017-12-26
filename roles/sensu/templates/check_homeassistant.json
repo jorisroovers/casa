@@ -6,7 +6,7 @@
             "subscribers": [ "casa"],
             "interval": {{sensu_default_check_interval}},
             "homeassistant": {
-                "sensor_type": "binary"
+                "sensor_type": "binary_sensor"
             }
         }
     }

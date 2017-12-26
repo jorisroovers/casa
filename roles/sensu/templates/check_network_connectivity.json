@@ -8,7 +8,7 @@
             "interval": {{sensu_default_check_interval}},
             "aggregate": "homeassistant",
             "homeassistant": {
-                "sensor_type": "binary"
+                "sensor_type": "binary_sensor"
             }
         },
         "metrics.speedtest": {
@@ -16,7 +16,11 @@
             "command": "{{sensu_custom_checks_dir}}/speedtest-check.sh -u",
             "subscribers": [ "casa" ],
             "interval": 60,
-            "timeout": 30
+            "timeout": 30,
+            "handlers": ["homeassistant-sensor"],
+            "homeassistant": {
+                "sensor_type": "sensor"
+            }
         }
     }
 }

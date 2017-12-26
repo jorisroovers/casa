@@ -1,0 +1,10 @@
+{
+    // node-sonos-http-api preset feature doesn't seem to accept a player state which we'd use to pause the players,
+    // so we pause the downstairs players by making a group of upstairs players (i.e. bathroom), not doing anything to
+    // them (so that already playing music isn't affected), and just setting pauseOthers: true.
+    "players": [{
+            "roomName": "Bathroom"
+        }
+    ],
+    "pauseOthers": true
+}

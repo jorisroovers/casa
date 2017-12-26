@@ -9,6 +9,23 @@
         "socket": {
             "bind": "{{sensu_api_bind}}",
             "port": 3030
+        },
+        // Sensu will only redact token substition values added to this array, so add all keys :-)
+        // https://github.com/sensu/sensu/issues/1513#issuecomment-287667182
+        "redact": [
+            "password", "user", "host", "token_cache"
+        ],
+        // Client secrets
+        "sensu": {
+            "host": "http://{{sensu_api_bind}}:{{sensu_api_port}}",
+            "user": "{{sensu_api_user}}",
+            "password": "{{sensu_api_password}}"
+        },
+        "nest": {
+            "token_cache": "{{homeassistant_dir}}/nest.conf"
+        },
+        "homeassistant": {
+            "user": "{{homeassistant_user}}"
         }
     }
 }

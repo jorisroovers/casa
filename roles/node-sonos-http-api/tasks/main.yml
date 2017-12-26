@@ -33,11 +33,18 @@
 - name: Adding presets
   template: src=presets/{{item.src}} dest="{{sonos_http_api_dir}}/presets/{{item.dest}}"
   with_items:
-    - { src: "downstairs.json", dest: "weekend_breakfast.json", favorite: "'t Koffiehuis" }
+    - { src: "downstairs.json", dest: "breakfast.json", favorite: "'t Koffiehuis" }
+    - { src: "downstairs.json", dest: "party.json", favorite: "Throwback Party" }
+    - { src: "downstairs.json", dest: "pop.json", favorite: "Today's Top Hits" }
+    - { src: "downstairs.json", dest: "lounge.json", favorite: "Lounge - Soft House" }
     - { src: "downstairs.json", dest: "romance.json", favorite: "Jazzy Romance" }
-    - { src: "downstairs.json", dest: "christmas.json", favorite: "Here Comes Christmas" }
+    - { src: "downstairs.json", dest: "christmas.json", favorite: "Christmas Is Coming" }
+    - { src: "downstairs.json", dest: "coffee_bar.json", favorite: "Your Favorite Coffeehouse" }
+    - { src: "downstairs.json", dest: "relaxing.json", favorite: "Relax & Unwind" }
+    - { src: "downstairs.json", dest: "disney.json", favorite: "Disney Greatest Hits" }
+    - { src: "downstairs.json", dest: "dinner_with_friends.json", favorite: "Dinner with Friends" }
+    - { src: "nomusic.json", dest: "nomusic.json" }
     - { src: "upstairs.json", dest: "morning_bathroom_ritual.json", favorite: "Morning Motivation" }
-    - { src: "downstairs.json", dest: "relax_downstairs.json", favorite: "Relax & Unwind" }
     - { src: "upstairs.json", dest: "relax_bathroom.json", favorite: "Relax & Unwind" }
   notify:
     - restart_sonos_http_api

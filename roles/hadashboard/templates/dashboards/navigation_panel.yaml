@@ -2,6 +2,7 @@ home_nav:
     widget_type: navigate
     title: Hoofdpaneel
     icon_inactive: fa-home
+    icon_active: fa-home
     url: /Home
 
 media_nav:

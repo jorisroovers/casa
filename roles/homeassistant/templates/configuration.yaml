@@ -201,7 +201,24 @@ input_select:
       - Christmas
       - Relaxing
       - Watching TV
-      - Weekend Breakfast
+      - Breakfast
+      - Reading
+  downstairs_music:
+    name: Downstairs Music
+    initial: NoMusic
+    options:
+      - Breakfast
+      - Party
+      - Pop
+      - Lounge
+      - Romance
+      - Christmas
+      - Coffee Bar
+      - Relaxing
+      - Disney
+      - Dinner With Friends
+      - Reading # Reading doesn't have associated music in sonos (nor does it stop the music)
+      - NoMusic
 
 # script: !include scripts.yaml
 

@@ -2,70 +2,61 @@
 # Living Preset input->scene trigger         #
 ##############################################
 
-{% for preset, scene in {"NoPreset": "nopreset", "Watching TV": "tv_kijken", "Christmas": "christmas", "Weekend Breakfast": "weekend_breakfast", "Relaxing":"relaxing", "Romance":"romance"}.iteritems() %}
-- alias: Automatically trigger {{scene}} scene for {{preset}} input
+- alias: Automatically set scene for Living Preset
   trigger:
     platform: state
     entity_id: input_select.living_preset
-    to: "{{preset}}"
   action:
-    service: scene.turn_on
-    entity_id: scene.{{scene}}
-{% endfor %}
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.{{ states('input_select.living_preset') | lower | replace(' ', '_')}}{% endraw %}"
+
+    # When disabling music, keep the current house mode (as this automation might be triggered by a change in
+    # house mode). When enabling music, set house mode to Home.
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: |
+          {% raw %}
+          {% if is_state('input_select.living_preset', 'NoPreset') %}
+            {{ states('input_select.house_mode') }}
+          {% else %}
+            Home
+          {% endif %}
+          {% endraw %}
 
 ##############################################
 # House Mode input->scene trigger            #
 ##############################################
-{% for preset, scene in {"Home":"coming_home", "Away": "away", "Sleeping": "slaapwel"}.iteritems() %}
-- alias: Automatically trigger {{scene}} scene for {{preset}} input
+- alias: Automatically set scene for House Mode
   trigger:
     platform: state
     entity_id: input_select.house_mode
-    to: "{{preset}}"
   action:
     - service: scene.turn_on
-      entity_id: scene.{{scene}}
+      data_template:
+        entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
     - service: input_select.select_option
       data:
         entity_id: input_select.living_preset
         option: NoPreset
-{% endfor %}
+
+#############################################
+# Music input to sonos preset               #
+#############################################
+
+- alias: Play sonos preset for music input select
+  trigger:
+    platform: state
+    entity_id: input_select.downstairs_music
+  action:
+    - service: shell_command.play_sonos_preset
+      data_template:
+        preset: "{% raw %}{{ states('input_select.downstairs_music') | lower | replace(' ', '_')}}{% endraw %}"
 
 #############################################
 # Scene specific automations                #
 #############################################
-
-# For automations to work from both manual triggers a
-# We need the scene (=manual scene setting), homeassistant (=HADashboard API call) and the scene as an entity_id array
-# (=triggered by other automations)
-- id: weekend_breakfast_music
-  alias: 'Play Weekend Breakfast Music'
-  trigger:
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.weekend_breakfast
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.weekend_breakfast
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.weekend_breakfast']
-        domain: scene
-        service: turn_on
-  action:
-    service: shell_command.play_sonos_preset
-    data:
-      preset: "weekend_breakfast"
 
 - id: bathroom_morning_music
   alias: 'Play Morning Bathroom Music'
@@ -95,93 +86,6 @@
     service: shell_command.play_sonos_preset
     data:
       preset: "morning_bathroom_ritual"
-
-- id: romance_music
-  alias: 'Play Romantic Music'
-  trigger:
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.romance
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.romance
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.romance']
-        domain: scene
-        service: turn_on
-  action:
-    service: shell_command.play_sonos_preset
-    data:
-      preset: "romance"
-
-- id: christmas_music
-  alias: 'Play Christmas Music'
-  trigger:
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.christmas
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.christmas
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.christmas']
-        domain: scene
-        service: turn_on
-  action:
-    service: shell_command.play_sonos_preset
-    data:
-      preset: "christmas"
-
-- id: relax_music_downstairs
-  alias: 'Play Relaxing Music Downstairs'
-  trigger:
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.relaxing
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.relaxing
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.relaxing']
-        domain: scene
-        service: turn_on
-  action:
-    service: shell_command.play_sonos_preset
-    data:
-      preset: "relax_downstairs"
 
 - id: relax_music_bathroom
   alias: 'Play Relaxing Music in the Bathroom'
@@ -215,7 +119,7 @@
 - id: enable_all_cameras
   alias: 'Enable all cameras'
   trigger:
-{% for scene_name in ['slaapwel', 'away'] %}
+{% for scene_name in ['sleeping', 'away'] %}
     - platform: event
       event_type: call_service
       event_data:
@@ -272,7 +176,7 @@
 - id: disable_diepvries_cam
   alias: 'Disable diepvries cam, enabling all others'
   trigger:
-{% for scene_name in ['coming_home', 'start_work_day', 'good_morning', 'tv_kijken', 'tv_lezen', 'koken', 'weekend_breakfast', 'relaxing', 'romance', 'relaxing_shower', 'bathroom_morning_ritual'] %}
+{% for scene_name in ['home', 'start_work_day', 'good_morning', 'watching_tv', 'reading', 'cooking', 'weekend_breakfast', 'relaxing', 'romance', 'relaxing_shower', 'bathroom_morning_ritual'] %}
     - platform: event
       event_type: call_service
       event_data:

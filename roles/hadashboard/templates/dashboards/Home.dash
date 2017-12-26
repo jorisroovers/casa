@@ -3,6 +3,8 @@ widget_dimensions: [120, 120]
 widget_margins: [5, 5]
 columns: 8
 
+{% include "./templates/dashboards/components.yaml" %}
+
 outside_temperature:
     widget_type: sensor
     title: Buiten Temperatuur
@@ -36,34 +38,6 @@ rijtijd_ilse:
     entity: sensor.rijtijd_werk_ilse
     value_style: "font-size: 350%"
 
-reading:
-    widget_type: scene
-    title: Lezen in de zetel
-    entity: scene.tv_lezen
-    icon_on: mdi-book-open-page-variant
-    icon_off: mdi-book-open-page-variant
-
-leave:
-    widget_type: scene
-    title: Vertrekken
-    entity: scene.leave
-    icon_on: mdi-logout
-    icon_off: mdi-logout
-
-cooking:
-    widget_type: scene
-    title: Koken
-    entity: scene.koken
-    icon_on: mdi-pot-mix
-    icon_off: mdi-pot-mix
-
-coming_home:
-    widget_type: scene
-    title: Thuis Komen
-    entity: scene.coming_home
-    icon_on: fa-sign-in
-    icon_off: fa-sign-in
-
 good_morning:
     widget_type: scene
     title: Goede Morgen
@@ -71,175 +45,10 @@ good_morning:
     icon_on: mdi-weather-sunset-up
     icon_off: mdi-weather-sunset-up
 
-monitoring_checks_status:
-    widget_type: binary_sensor
-    title: Sensu Checks
-    entity: binary_sensor.sensu_homeassistant_aggregate
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
-
 clock:
     widget_type: clock
     date_style: "font-size: 150%"
     time_style: "font-size: 500%"
-
-############################################
-# Sensors                                  #
-############################################
-
-joris_working:
-    widget_type: binary_sensor
-    title: Joris Werken
-    entity: binary_sensor.joris_working
-    icon_on: fa-briefcase
-    icon_off: fa-briefcase
-    icon_style_active: "color: #efac6e;"
-
-################################################
-# Living Presets                               #
-################################################
-
-romance:
-    widget_type: mode
-    title: Romance
-    entity: input_select.living_preset
-    icon_on: mdi-heart
-    icon_off: mdi-heart
-    icon_style_active: "color: #cc0000"
-    mode: "Romance"
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: "Romance"
-    post_service_inactive:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: NoPreset
-
-christmas:
-    widget_type: mode
-    title: Christmas
-    entity: input_select.living_preset
-    icon_on: fa-tree
-    icon_off: fa-tree
-    icon_style_active: "color: #1b5e20"
-    mode: "Christmas"
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: "Christmas"
-    post_service_inactive:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: NoPreset
-
-relaxing:
-    widget_type: mode
-    title: Relaxing
-    entity: input_select.living_preset
-    icon_on: mdi-sofa
-    icon_off: mdi-sofa
-    icon_style_active: "color: #add8ec"
-    mode: "Relaxing"
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: "Relaxing"
-    post_service_inactive:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: NoPreset
-
-watch_tv:
-    widget_type: mode
-    title: TV kijken
-    icon_on: mdi-television-classic
-    icon_off: mdi-television-classic
-    icon_style_active: "color: #2196f3"
-    entity: input_select.living_preset
-    mode: "Watching TV"
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: "Watching TV"
-    post_service_inactive:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: NoPreset
-
-weekend_breakfast:
-    widget_type: mode
-    title: Weekend Ontbijt
-    icon_on: mdi-food-croissant
-    icon_off: mdi-food-croissant
-    icon_style_active: "color: #DEB887"
-    entity: input_select.living_preset
-    mode: "Weekend Breakfast"
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: "Weekend Breakfast"
-    post_service_inactive:
-        service: input_select/select_option
-        entity_id: input_select.living_preset
-        option: NoPreset
-
-
-#######################################################################
-# HOUSE MODE                                                          #
-#######################################################################
-
-house_mode:
-    widget_type: sensor
-    title: Huis Mode
-    text_style: "text-transform: uppercase;font-size: 300%"
-    entity: input_select.house_mode
-    state_map:
-        Home: Thuis
-        Away: Weg
-        Sleeping: Slapen
-
-away:
-    widget_type: mode
-    title: Weg
-    entity: input_select.house_mode
-    icon_on: fa-lock
-    icon_off: fa-lock
-    icon_style_active: "color: #FFD700;"
-    mode: "Away"
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.house_mode
-        option: "Away"
-
-home:
-    widget_type: mode
-    title: Thuis
-    entity: input_select.house_mode
-    icon_on: fa-unlock
-    icon_off: fa-unlock
-    icon_style_active: "color: #FFD700;"
-    mode: "Home"
-    script: script.house_mode_home
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.house_mode
-        option: "Home"
-
-sleep:
-    widget_type: mode
-    title: Slapen
-    entity: input_select.house_mode
-    icon_on: mdi-sleep
-    icon_off: mdi-sleep
-    icon_style_active: "color: #add8ec"
-    mode: "Sleeping"
-    post_service_active:
-        service: input_select/select_option
-        entity_id: input_select.house_mode
-        option: "Sleeping"
 
 
 # Note: every row needs to be present in the layout, even if empty
@@ -248,5 +57,5 @@ layout:
     - living_room_temperature(2x1), outside_temperature(2x1), home(1x1), away(1x1), sleep(1x1), joris_working(1x1)
     - humidity(1x1), spacer(1x1), rijtijd_ilse(1x1), spacer(1x1), light.eettafel(2x1), light.kitchen(2x1)
     - spacer(2x1), spacer(1x1), cooking(1x1), light.woonkamer_tv(2x1), light.living_room(2x1)
-    - watch_tv(1x1), weekend_breakfast(1x1), christmas(1x1), romance(1x1), relaxing(1x1), reading(1x1), group.light_office(2x1)
+    - watch_tv(1x1), breakfast(1x1), christmas(1x1), romance(1x1), relaxing(1x1), reading(1x1), group.light_office(2x1)
     - include: navigation_panel

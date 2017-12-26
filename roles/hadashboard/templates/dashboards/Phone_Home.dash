@@ -3,47 +3,7 @@ widget_dimensions: [117, 117]
 widget_margins: [5, 5]
 columns: 3
 
-watch_tv:
-    widget_type: scene
-    title: TV kijken
-    entity: scene.tv_kijken
-    icon_on: mdi-television-classic
-    icon_off: mdi-television-classic
-
-reading:
-    widget_type: scene
-    title: Lezen in de zetel
-    entity: scene.tv_lezen
-    icon_on: mdi-book-open-page-variant
-    icon_off: mdi-book-open-page-variant
-
-sleep:
-    widget_type: scene
-    title: Slaapwel
-    entity: scene.slaapwel
-    icon_on: mdi-sleep
-    icon_off: mdi-sleep
-
-leave:
-    widget_type: scene
-    title: Vertrekken
-    entity: scene.leave
-    icon_on: mdi-logout
-    icon_off: mdi-logout
-
-cooking:
-    widget_type: scene
-    title: Koken
-    entity: scene.koken
-    icon_on: mdi-pot-mix
-    icon_off: mdi-pot-mix
-
-coming_home:
-    widget_type: scene
-    title: Coming Home
-    entity: scene.coming_home
-    icon_on: fa-sign-in
-    icon_off: fa-sign-in
+{% include "./templates/dashboards/components.yaml" %}
 
 start_work_day:
     widget_type: scene
@@ -66,34 +26,11 @@ bathroom_morning_ritual:
     icon_on: fa-bath
     icon_off: fa-bath
 
-weekend_breakfast:
-    widget_type: scene
-    title: Weekend Ontbijt
-    entity: scene.weekend_breakfast
-    icon_on: mdi-food-croissant
-    icon_off: mdi-food-croissant
-
-monitoring_checks_status:
-    widget_type: binary_sensor
-    title: Sensu Checks
-    entity: binary_sensor.sensu_homeassistant_aggregate
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
-
-relaxing:
-    widget_type: scene
-    title: Relaxing
-    entity: scene.relaxing
-    icon_on: mdi-sofa
-    icon_off: mdi-sofa
-
 # Note: every row needs to be present in the layout, even if empty
 layout:
     - good_morning(1x1), start_work_day(1x1), bathroom_morning_ritual(1x1)
-    - sleep(1x1), coming_home(1x1), leave (1x1)
+    - sleep(1x1), home(1x1), away(1x1)
     - watch_tv(1x1), reading(1x1), cooking(1x1)
-    - weekend_breakfast(1x1), relaxing(1x1), monitoring_checks_status(1x1)
+    - breakfast(1x1), relaxing(1x1), monitoring_checks_status(1x1)
     - include: Phone_navigation_panel
 

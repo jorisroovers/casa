@@ -1,0 +1,21 @@
+{
+    "checks": {
+        "nest-presence": {
+            "type": "metric",
+            // There's 2 noteworthy things happening here:
+            // 1. By default, on Ubuntu, when using sudo, $HOME is not changed to the selected user's homedir, but passed
+            // on from the user invoking sudo (see https://unix.stackexchange.com/a/91572/38465)
+            // 2. The nest command assumes it can read ~/.config file. Since $HOME is not changed to the homeassistant's
+            // homedir as per item 1, it tries to read the homedir from the sensu user but using the homeassistant's
+            // user's login. This fails (no permissions).
+            // Since we don't really need the ~/.config file, we just set $HOME=/tmp to work around this
+            "command": "HOME=/tmp sudo -u :::homeassistant.user::: {{homeassistant_venv}}/bin/nest --token-cache :::nest.token_cache::: away",
+            "subscribers": [ "casa" ],
+            "interval": 90,
+            "handlers": ["homeassistant-sensor"],
+            "homeassistant": {
+                "sensor_type": "sensor"
+            }
+        }
+    }
+}

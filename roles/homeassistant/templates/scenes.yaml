@@ -1,4 +1,7 @@
-- name: Slaapwel
+#####################################################
+# House Scenes                                      #
+#####################################################
+- name: Sleeping
   entities:
     light.woonkamer_tv:
         state: off
@@ -12,12 +15,17 @@
         state: off
     group.light_office:
         state: off
-    media_player.living_room:
-        state: paused
     media_player.bathroom:
         state: paused
-    media_player.tv_room:
-        state: paused
+    input_select.downstairs_music:
+        option: NoMusic
+
+# 'Home' really just needs to turn off the diepvries cam which happens through an automation
+# However, HomeAssistant doesn't like empty entity dicts in scenes
+- name: Home
+  entities:
+    light.eettafel:
+        state: off
 
 - name: Away
   entities:
@@ -33,24 +41,74 @@
         state: off
     group.light_office:
         state: off
-    media_player.living_room:
-        state: paused
     media_player.bathroom:
         state: paused
-    media_player.tv_room:
-        state: paused
+    input_select.downstairs_music:
+        option: NoMusic
 
-- name: TV Kijken
+###################################
+# Living scenes                  #
+###################################
+
+- name: Watching TV
   entities:
     light.woonkamer_tv:
         state: on
         brightness: 143
     light.living_room:
         state: off
-    media_player.living_room:
-        state: paused
+    input_select.downstairs_music:
+        option: NoMusic
 
-- name: TV Lezen
+- name: Breakfast
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.garden:
+        state: off
+    light.living_room:
+        state: off
+    light.eettafel:
+        state: on
+    light.kitchen:
+        state: off
+    group.light_office:
+        state: off
+    input_select.downstairs_music:
+        option: Breakfast
+
+- name: Romance
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    group.light_office:
+        state: off
+    light.living_room:
+        state: off
+    input_select.downstairs_music:
+        option: Romance
+
+- name: Christmas
+  entities:
+    light.living_room:
+        state: off
+    input_select.downstairs_music:
+        option: Christmas
+
+- name: Relaxing
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    group.light_office:
+        state: off
+    light.living_room:
+        state: off
+    input_select.downstairs_music:
+        option: Relaxing
+
+- name: Reading
   entities:
     light.woonkamer_tv:
         state: on
@@ -60,7 +118,18 @@
     light.kitchen:
         state: off
 
-- name: Koken
+- name: NoPreset
+  entities:
+    media_player.living_room:
+        state: paused
+    media_player.tv_room:
+        state: paused
+
+#####################################
+# Downstairs Modifier scenes        #
+#####################################
+
+- name: Cooking
   entities:
     light.living_room:
         state: off
@@ -70,41 +139,9 @@
     light.kitchen:
         state: on
 
-- name: Weekend Breakfast
-  entities:
-    light.woonkamer_tv:
-        state: off
-    light.garden:
-        state: off
-    light.living_room:
-        state: off
-    light.eettafel:
-        state: on
-    light.kitchen:
-        state: off
-    group.light_office:
-        state: off
-
-- name: Good Morning
-  entities:
-    light.garden:
-        state: off
-
-# 'Coming Home' really just needs to turn off the diepvries cam which happens through an automation
-# However, HomeAssistant doesn't like empty entity dicts in scenes
-- name: Coming Home
-  entities:
-    light.eettafel:
-        state: off
-
-- name: Start Work Day
-  entities:
-    light.garden:
-        state: off
-    group.light_office:
-        state: on
-    media_player.bathroom:
-        state: paused
+###########################################
+# Bathroom scenes                         #
+###########################################
 
 - name: Bathroom Morning Ritual
   entities:
@@ -116,34 +153,21 @@
     light.garden:
         state: off
 
-- name: Romance
+
+###########################################
+# Misc                                    #
+###########################################
+
+- name: Good Morning
   entities:
-    light.woonkamer_tv:
-        state: on
-        brightness: 143
+    light.garden:
+        state: off
+
+- name: Start Work Day
+  entities:
+    light.garden:
+        state: off
     group.light_office:
-        state: off
-    light.living_room:
-        state: off
-
-- name: Christmas
-  entities:
-    light.living_room:
-        state: off
-
-- name: NoPreset
-  entities:
-    media_player.living_room:
-        state: paused
-    media_player.tv_room:
-        state: paused
-
-- name: Relaxing
-  entities:
-    light.woonkamer_tv:
         state: on
-        brightness: 143
-    group.light_office:
-        state: off
-    light.living_room:
-        state: off
+    media_player.bathroom:
+        state: paused

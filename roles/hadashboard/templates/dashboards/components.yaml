@@ -1,0 +1,430 @@
+
+############################################
+# Monitoring                               #
+############################################
+monitoring_checks_status:
+    widget_type: binary_sensor
+    title: Monitoring
+    entity: binary_sensor.sensu_homeassistant_aggregate
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_google:
+    widget_type: binary_sensor
+    title: google.com
+    entity: binary_sensor.sensu_google_com
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_logstash:
+    widget_type: binary_sensor
+    title: Logstash
+    entity: binary_sensor.sensu_logstash
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_roofcam:
+    widget_type: binary_sensor
+    title: Roofcam
+    entity: binary_sensor.sensu_roofcam
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_sonos_http_api:
+    widget_type: binary_sensor
+    title: Sonos HTTP API
+    entity: binary_sensor.sensu_sonos_http_api
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_sensu_backups:
+  widget_type: binary_sensor
+  title: Backups
+  entity: binary_sensor.sensu_backups
+  icon_style_active: "color: #aaff00;"
+  icon_style_inactive: "color: red"
+  icon_on: mdi-bullseye
+  icon_off: mdi-bullseye
+
+smoke_alarm_downstairs:
+    widget_type: binary_sensor
+    title: Rookmelder Living
+    entity: binary_sensor.living_room_nest_protect_online
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+
+smoke_alarm_upstairs:
+    widget_type: binary_sensor
+    title: Rookmelder Boven
+    entity: binary_sensor.upstairs_nest_protect_online
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+
+############################################
+# Sensors                                  #
+############################################
+
+joris_working:
+    widget_type: binary_sensor
+    title: Joris Werken
+    entity: binary_sensor.joris_working
+    icon_on: fa-briefcase
+    icon_off: fa-briefcase
+    icon_style_active: "color: #efac6e;"
+
+################################################
+# Living Presets                               #
+################################################
+
+romance:
+    widget_type: mode
+    title: Romance
+    entity: input_select.living_preset
+    icon_on: mdi-heart
+    icon_off: mdi-heart
+    icon_style_active: "color: #cc0000"
+    mode: "Romance"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: "Romance"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: NoPreset
+
+christmas:
+    widget_type: mode
+    title: Christmas
+    entity: input_select.living_preset
+    icon_on: fa-tree
+    icon_off: fa-tree
+    icon_style_active: "color: #1b5e20"
+    mode: "Christmas"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: "Christmas"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: NoPreset
+
+relaxing:
+    widget_type: mode
+    title: Relaxing
+    entity: input_select.living_preset
+    icon_on: mdi-sofa
+    icon_off: mdi-sofa
+    icon_style_active: "color: #add8ec"
+    mode: "Relaxing"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: "Relaxing"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: NoPreset
+
+watch_tv:
+    widget_type: mode
+    title: TV kijken
+    icon_on: mdi-television-classic
+    icon_off: mdi-television-classic
+    icon_style_active: "color: #2196f3"
+    entity: input_select.living_preset
+    mode: "Watching TV"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: "Watching TV"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: NoPreset
+
+breakfast:
+    widget_type: mode
+    title: Ontbijt
+    icon_on: mdi-food-croissant
+    icon_off: mdi-food-croissant
+    icon_style_active: "color: #DEB887"
+    entity: input_select.living_preset
+    mode: "Breakfast"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: "Breakfast"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: NoPreset
+
+reading:
+    widget_type: mode
+    title: Lezen in de zetel
+    icon_on: mdi-book-open-page-variant
+    icon_off: mdi-book-open-page-variant
+    icon_style_active: "color: #fff0a0"
+    entity: input_select.living_preset
+    mode: "Reading"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: "Reading"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.living_preset
+        option: NoPreset
+
+
+#######################################################################
+# HOUSE MODE                                                          #
+#######################################################################
+
+house_mode:
+    widget_type: sensor
+    title: Huis Mode
+    text_style: "text-transform: uppercase;font-size: 300%"
+    entity: input_select.house_mode
+    state_map:
+        Home: Thuis
+        Away: Weg
+        Sleeping: Slapen
+
+away:
+    widget_type: mode
+    title: Weg
+    entity: input_select.house_mode
+    icon_on: fa-lock
+    icon_off: fa-lock
+    icon_style_active: "color: #FFD700;"
+    mode: "Away"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.house_mode
+        option: "Away"
+
+home:
+    widget_type: mode
+    title: Thuis
+    entity: input_select.house_mode
+    icon_on: fa-unlock
+    icon_off: fa-unlock
+    icon_style_active: "color: #FFD700;"
+    mode: "Home"
+    script: script.house_mode_home
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.house_mode
+        option: "Home"
+
+sleep:
+    widget_type: mode
+    title: Slapen
+    entity: input_select.house_mode
+    icon_on: mdi-sleep
+    icon_off: mdi-sleep
+    icon_style_active: "color: #add8ec"
+    mode: "Sleeping"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.house_mode
+        option: "Sleeping"
+
+
+#######################################################################
+# DOWNSTAIRS MUSIC                                                    #
+#######################################################################
+
+music_party:
+    widget_type: mode
+    title: Party
+    icon_on: mdi-guitar-electric
+    icon_off: mdi-guitar-electric
+    icon_style_active: "color: #993399"
+    entity: input_select.downstairs_music
+    mode: "Party"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Party"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_pop:
+    widget_type: mode
+    title: Pop
+    icon_on: mdi-microphone-variant
+    icon_off: mdi-microphone-variant
+    icon_style_active: "color: #ff9900"
+    entity: input_select.downstairs_music
+    mode: "Pop"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Pop"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_romance:
+    widget_type: mode
+    title: Romance
+    icon_on: mdi-heart
+    icon_off: mdi-heart
+    icon_style_active: "color: #cc0000"
+    entity: input_select.downstairs_music
+    mode: "Romance"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Romance"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_lounge:
+    widget_type: mode
+    title: Lounge
+    icon_on: mdi-piano
+    icon_off: mdi-piano
+    icon_style_active: "color: ##c1fffd"
+    entity: input_select.downstairs_music
+    mode: "Lounge"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Lounge"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_christmas:
+    widget_type: mode
+    title: Christmas
+    icon_on: fa-tree
+    icon_off: fa-tree
+    icon_style_active: "color: #1b5e20"
+    entity: input_select.downstairs_music
+    mode: "Christmas"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Christmas"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_coffee_bar:
+    widget_type: mode
+    title: Coffee Bar
+    icon_on: fa-coffee
+    icon_off: fa-coffee
+    icon_style_active: "color: #993333"
+    entity: input_select.downstairs_music
+    mode: "Coffee Bar"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Coffee Bar"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_relaxing:
+    widget_type: mode
+    title: Relaxing
+    icon_on: mdi-sofa
+    icon_off: mdi-sofa
+    icon_style_active: "color: #add8ec"
+    entity: input_select.downstairs_music
+    mode: "Relaxing"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Relaxing"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_breakfast:
+    widget_type: mode
+    title: Ontbijt
+    icon_on: mdi-food-croissant
+    icon_off: mdi-food-croissant
+    icon_style_active: "color: #DEB887"
+    entity: input_select.downstairs_music
+    mode: "Breakfast"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Breakfast"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_disney:
+    widget_type: mode
+    title: Disney
+    icon_on: fa-music
+    icon_off: fa-music
+    icon_style_active: "color: #e8e178"
+    entity: input_select.downstairs_music
+    mode: "Disney"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Disney"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_dinner_with_friends:
+    widget_type: mode
+    title: Dinner With Friends
+    icon_on: fa-cutlery
+    icon_off: fa-cutlery
+    icon_style_active: "color: #d2eff5"
+    entity: input_select.downstairs_music
+    mode: "Dinner With Friends"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Dinner With Friends"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+####################################
+# TODO                             #
+####################################
+
+cooking:
+    widget_type: scene
+    title: Koken
+    entity: scene.cooking
+    icon_on: mdi-pot-mix
+    icon_off: mdi-pot-mix

@@ -16,7 +16,7 @@
 - name: restart_homeassistant
   service: name=homeassistant@{{homeassistant_user}} state=restarted
   become: yes
-  notify: wait_for_homeassistant_port
+  # notify: wait_for_homeassistant_port
 
 - name: wait_for_homeassistant_port
   wait_for:

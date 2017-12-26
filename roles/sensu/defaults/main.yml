@@ -11,6 +11,7 @@ sensu_server_service: "sensu-server"
 sensu_api_port: 4567
 sensu_api_host: "{{ansible_hostname}}" # This needs to be a resolvable hostname
 sensu_api_bind: "0.0.0.0"
+sensu_external_dns: mysensu.foo.com
 sensu_api_user: "api-user"
 sensu_api_password: "password"
 
@@ -29,3 +30,4 @@ uchiwa_port: 3000
 uchiwa_conf_dir: /etc/sensu
 uchiwa_user: "uchiwa-user"
 uchiwa_password: "password"
+uchiwa_external_dns: "myuchiwa.foo.com"

@@ -84,7 +84,6 @@
     - remediation-handler.sh
     - homeassistant-sensor-handler.sh
 
-
 - name: Creating sensu conf directory
   file: path={{sensu_conf_dir}} state=directory owner={{sensu_user}} group={{sensu_group}}
   notify: restart_sensu
@@ -108,18 +107,20 @@
     - check_hadash.json
     - check_roofcam.json
     - check_logstash.json
+    - check_nest.json
     - check_aggregates.json
 
 - name: Modifying sudoers file so sensu user can restart certain services
   lineinfile:
     dest: /etc/sudoers
     state: present
-    line: '{{sensu_user}} ALL=(root) NOPASSWD: {{item}}'
+    line: '{{sensu_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
     validate: visudo -cf %s
   become: yes
   with_items:
-    - "/bin/systemctl restart {{roofcam_service}}.service"
-    - "/bin/systemctl restart {{sonos_http_api_service}}.service"
+    - {"user": "root", "command": "/bin/systemctl restart {{roofcam_service}}.service"}
+    - {"user": "root", "command": "/bin/systemctl restart {{sonos_http_api_service}}.service"}
+    - {"user": "{{homeassistant_user}}", "command": "{{homeassistant_venv}}/bin/nest --token-cache {{homeassistant_dir}}/nest.conf away"}
 
 - name: Make sure sensu services are started and enabled
   service: name={{item}} state=started enabled=yes

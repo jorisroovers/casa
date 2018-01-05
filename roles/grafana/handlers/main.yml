@@ -1,0 +1,3 @@
+- name: restart_grafana
+  service: name={{grafana_service}} state=restarted
+  become: yes

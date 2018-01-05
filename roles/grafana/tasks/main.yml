@@ -1,0 +1,94 @@
+---
+- name: Installing Grafana apt source public key
+  shell: "wget -q https://packagecloud.io/gpg.key -O- | sudo apt-key add -"
+  become: yes
+
+# Using Debian package source on ubuntu as per installation instructions:
+# "Use the above line even if you are on Ubuntu or another Debian version."
+# http://docs.grafana.org/installation/debian/
+- name: Adding Grafana package source
+  lineinfile:
+    state: present
+    create: yes
+    path: /etc/apt/sources.list.d/grafana.list
+    line: "deb https://packagecloud.io/grafana/stable/debian jessie main"
+  become: yes
+  register: grafana_package_source
+
+- name: "Updating apt-get cache"
+  apt: update_cache=yes
+  become: yes
+  when: grafana_package_source.changed
+
+- name: Installing grafana
+  apt: name={{item}} state=present
+  become: yes
+  notify: restart_grafana
+  with_items:
+    - grafana
+
+- name: Configuring grafana
+  template: src=grafana.ini dest={{grafana_conf_dir}}/grafana.ini owner={{grafana_user}} group={{grafana_group}}
+  notify:
+    - restart_grafana
+  become: yes
+
+- name: Make sure grafana services are started and enabled
+  service: name={{item}} state=started enabled=yes
+  become: yes
+  with_items:
+    - "{{grafana_service}}"
+
+- name: Installing some convenience aliases
+  template: src=grafana-aliases.sh dest=/etc/profile.d/grafana-aliases.sh
+  become: yes
+
+- name: force all notified handlers to run at this point, so that new auth credentials take effect before installing data sources
+  meta: flush_handlers
+
+- name: Wait for grafana to come online
+  wait_for:
+    host: "{{grafana_bind_ip}}"
+    port: "{{grafana_port}}"
+
+# Thank you kind sir:
+# https://github.com/grafana/grafana/issues/1789#issuecomment-272615451
+# Check if influxdb datasource exists
+- uri:
+    url: http://{{grafana_bind_ip}}:{{grafana_port}}/api/datasources/name/influxdb
+    user: "{{grafana_admin_user}}"
+    password: "{{grafana_admin_password}}"
+    force_basic_auth: yes
+  register: grafana_datasource
+  failed_when: false
+  changed_when: false
+
+# Note below that we install our cert using jsonData.tlsAuthWithCACert and secureJsonData.tlsCACert
+# However, we also set tlsSkipVerify because the cert verification always fail due to the hostname in the cert
+# not matching the actual hostname (this makes it easy for dev etc). The reason to still install the cert
+# is mostly for future reference in case we do ever end up wanted to validate it (it was a bit of a pain to figure out
+# the correct API fields).
+- name: Enable InfluxDB Datasource
+  uri:
+    url: http://{{grafana_bind_ip}}:{{grafana_port}}/api/datasources
+    method: POST
+    user: "{{grafana_admin_user}}"
+    password: "{{grafana_admin_password}}"
+    body:
+      name: "influxdb"
+      type: "influxdb"
+      url: "https://{{influxdb_bind_ip}}:{{influxdb_port}}"
+      access: "proxy"
+      isDefault: true
+      user: "{{influxdb_grafana_user}}"
+      password: "{{influxdb_grafana_password}}"
+      database: "{{influxdb_homeassistant_db}}"
+      jsonData:
+        tlsSkipVerify: true
+        tlsAuthWithCACert: true
+      secureJsonData:
+        tlsCACert: "{{influxdb_ssl_cert}}"
+    force_basic_auth: yes
+    status_code: 200
+    body_format: json
+  when: grafana_datasource.status == 404

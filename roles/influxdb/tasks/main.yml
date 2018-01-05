@@ -1,0 +1,75 @@
+---
+- name: Installing InfluxDB apt source public key
+  shell: "wget -q https://repos.influxdata.com/influxdb.key -O- | sudo apt-key add -"
+  become: yes
+
+- name: Adding InfluxDB package source
+  lineinfile:
+    state: present
+    create: yes
+    path: /etc/apt/sources.list.d/influxdb.list
+    line: "deb https://repos.influxdata.com/ubuntu zesty stable"
+  become: yes
+  register: influxdb_package_source
+
+- name: "Updating apt-get cache"
+  apt: update_cache=yes
+  become: yes
+  when: influxdb_package_source.changed
+
+- name: Installing influxDB
+  apt: name={{item}} state=present
+  become: yes
+  notify: restart_influxdb
+  with_items:
+    - influxdb
+
+- name: Copying over InfluxDB SSL cert and key
+  copy:
+    content: "{{item.content}}"
+    dest: "{{item.dest}}"
+  become: yes
+  no_log: True # Don't log the private keys to the console
+  notify: restart_influxdb
+  with_items:
+    - { "dest": "{{influxdb_ssl_cert_path}}", "content": "{{influxdb_ssl_cert}}" }
+    - { "dest": "{{influxdb_ssl_key_path}}", "content": "{{influxdb_ssl_key}}" }
+
+- name: Configuring influxdb
+  template: src=influxdb.conf dest="{{influxdb_conf_dir}}/influxdb.conf" owner={{influxdb_user}} group={{influxdb_group}}
+  notify:
+    - restart_influxdb
+  become: yes
+
+- name: Make sure influxdb services are started and enabled
+  service: name={{item}} state=started enabled=yes
+  become: yes
+  with_items:
+    - "{{influxdb_service}}"
+
+- name: Installing some convenience aliases
+  template: src=influxdb-aliases.sh dest=/etc/profile.d/influxdb-aliases.sh
+  become: yes
+
+- name: Generating tmp schema DDL file
+  template: src=influxdb-schema.ddl dest=/tmp/influxdb-schema.ddl owner={{influxdb_user}} group={{influxdb_group}} mode=0600
+  become: yes
+
+#  Might be useful in the future to detect if we've already ran the schema below:
+# - name: "Trying to connect to influxDB without authentication to determine if we still need to isn"
+#   shell: "curl -s -o /dev/null -w '%{http_code}' -G 'http://localhost:8086/query?pretty=true'  --data-urlencode 'q=SHOW DATABASES'"
+#   register:
+
+# 1. Database and USER creation IF NOT EXISTS is default, so no harm in applying the schema multiple times
+#    https://github.com/influxdata/influxdb/issues/5707
+# 2. This will fail if authentication is already in place, which is fine because the shell command returns a 0 exit code
+#    which means the ansible task doesn't fail
+- name: Applying schema to influxDB instance
+  shell: "influx -ssl --unsafeSsl -import -path /tmp/influxdb-schema.ddl -username {{influxdb_admin_user}} -password {{influxdb_admin_password}}"
+  notify:
+    - restart_influxdb
+  become: yes
+
+- name: Removing tmp schema DDL file
+  file: dest=/tmp/influxdb-schema.ddl state=absent
+  become: yes

@@ -57,6 +57,13 @@ curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_statu
 curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_summary
 ```
 
+
+InfluxDB:
+```
+export INFLUX_USERNAME='';export INFLUX_PASSWORD='';
+influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD"
+```
+
 ### python-nest
 ```bash
 source /opt/homeassistant/.venv/bin/activate
@@ -65,12 +72,16 @@ export NEST_CLIENT_SECRET=$(grep "nest:" -A 2 /opt/homeassistant/configuration.y
 nest --client-id $NEST_CLIENT_ID --client-secret $NEST_CLIENT_SECRET --token-cache /opt/homeassistant/nest.conf --index 0 camera-show
 ```
 
+### grafana
+
+Database location: /var/lib/grafana/grafana.db
+
 ## Upgrading homeassistant
 
 When upgrading homeassistant, you need to manually start it because on first run hass will install a bunch of additional packages.
 Especially installing pyatv tends to take 10+ mins.
 
-Try running 
+Try running
 ```bash
 ps -ef | grep pip
 ```
@@ -164,6 +175,14 @@ Things I don't like about sensu:
     - TLS everywhere: home-assistant, HADash, Spotify, Sensu, Uchiwa
     - iptable rules for all (just block all and then selectively allow),
         make sure base role wipes all other ip tables rules -> in case I manually set something, this should be undone
+
+### Automation Ideas
+- Cooking: If not watching TV & Music=NoPreset -> play music
+- Cooking: If watching TV and cooking active for 1 hour -> disable cooking
+- Away/Home Mode Nest => notification to slack (later auto-set)
+- Morning: Turn on office lights after 6AM -> mark as home/awake
+- Working after 6 AM => Working
+
 
 ### Sensor ideas
 - Refactor monit-hass-sensors to custom-hass-sensors so we can do more than just monit sensors

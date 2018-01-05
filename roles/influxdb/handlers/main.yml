@@ -1,0 +1,3 @@
+- name: restart_influxdb
+  service: name={{influxdb_service}} state=restarted
+  become: yes

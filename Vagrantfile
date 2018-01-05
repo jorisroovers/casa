@@ -31,6 +31,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: 4567, host: 4567
     # logstash-http-input
     config.vm.network "forwarded_port", guest: 9123, host: 9123
+    # grafana
+    config.vm.network "forwarded_port", guest: 3001, host: 3001
+
 
     config.vm.provider "virtualbox" do |v|
         v.memory = 2048

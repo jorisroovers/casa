@@ -10,17 +10,17 @@
             "homeassistant": {
                 "sensor_type": "binary_sensor"
             }
-        },
-        "metrics.speedtest": {
-            "type": "metric",
-            "command": "{{sensu_custom_checks_dir}}/speedtest-check.sh -u",
-            "subscribers": [ "casa" ],
-            "interval": 60,
-            "timeout": 30,
-            "handlers": ["homeassistant-sensor"],
-            "homeassistant": {
-                "sensor_type": "sensor"
-            }
         }
+        // "metrics.speedtest": {
+        //     "type": "metric",
+        //     "command": "{{sensu_custom_checks_dir}}/speedtest-check.sh -u",
+        //     "subscribers": [ "casa" ],
+        //     "interval": 60,
+        //     "timeout": 30,
+        //     "handlers": ["homeassistant-sensor"],
+        //     "homeassistant": {
+        //         "sensor_type": "sensor"
+        //     }
+        // }
     }
 }

@@ -1,0 +1,20 @@
+influxdb_user: "influxdb"
+influxdb_group: "{{influxdb_user}}"
+influxdb_conf_dir: "/etc/influxdb"
+
+influxdb_service: "influxdb"
+influxdb_bind_ip: 0.0.0.0
+influxdb_port: 8086
+
+influxdb_admin_user: "admin"
+influxdb_admin_password: "pass123"
+
+influxdb_homeassistant_db: "homeassistant"
+influxdb_homeassistant_user: "myuser"
+influxdb_homeassistant_password: "pass123"
+
+influxdb_grafana_user: "myuser2"
+influxdb_grafana_password: "pass456"
+
+influxdb_ssl_cert_path: /etc/ssl/influxdb-selfsigned.crt
+influxdb_ssl_key_path: /etc/ssl/influxdb-selfsigned.key

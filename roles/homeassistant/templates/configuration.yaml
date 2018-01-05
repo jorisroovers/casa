@@ -28,6 +28,15 @@ frontend:
 # Enables support for tracking state changes over time.
 history:
 
+influxdb:
+  host: localhost
+  port: "{{influxdb_port}}"
+  username: "{{influxdb_homeassistant_user}}"
+  password: "{{influxdb_homeassistant_password}}"
+  database: "{{influxdb_homeassistant_db}}"
+  ssl: true
+  verify_ssl: false # self-signed cert
+
 notify:
     # Had some issues with getting pushbullet notifications to work, signing out and in helped:
     # https://www.reddit.com/r/PushBullet/comments/53jvht/no_notifications_on_ios_10/
@@ -104,10 +113,10 @@ media_player:
 #     start_off: false
 #    credentials: CREDENTIALS
 
-
-light:
-  platform: hue
-  host: {{phue_ip}}
+hue:
+  bridges:
+    - host: {{phue_ip}}
+      filename: phue.conf
 
 tradfri:
   host: {{tradfri_ip}}

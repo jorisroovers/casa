@@ -33,6 +33,15 @@
     - restart_grafana
   become: yes
 
+- name: Installing grafana plugins
+  shell: "grafana-cli plugins install {{item}}"
+  become: yes
+  notify:
+    - restart_grafana
+  with_items:
+    - grafana-piechart-panel
+    - natel-discrete-panel
+
 - name: Make sure grafana services are started and enabled
   service: name={{item}} state=started enabled=yes
   become: yes

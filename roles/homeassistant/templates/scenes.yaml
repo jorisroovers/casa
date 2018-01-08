@@ -15,6 +15,8 @@
         state: off
     group.light_office:
         state: off
+    group.light_front_door:
+        state: off
     media_player.bathroom:
         state: paused
     input_select.downstairs_music:
@@ -125,6 +127,20 @@
     media_player.tv_room:
         state: paused
 
+- name: OutdoorLightsOn
+  entities:
+    group.light_front_door:
+        state: on
+    light.garden:
+        state: on
+
+- name: OutdoorLightsOff
+  entities:
+    group.light_front_door:
+        state: off
+    light.garden:
+        state: off
+
 #####################################
 # Downstairs Modifier scenes        #
 #####################################
@@ -133,26 +149,15 @@
   entities:
     light.living_room:
         state: off
-    light.woonkamer_tv:
-        state: on
-        brightness: 143
     light.kitchen:
         state: on
 
-###########################################
-# Bathroom scenes                         #
-###########################################
-
-- name: Bathroom Morning Ritual
+- name: StopCooking
   entities:
-    light.garden:
+    light.living_room:
         state: off
-
-- name: Relaxing Shower
-  entities:
-    light.garden:
+    light.kitchen:
         state: off
-
 
 ###########################################
 # Misc                                    #

@@ -43,9 +43,10 @@
     - { src: "downstairs.json", dest: "relaxing.json", favorite: "Relax & Unwind" }
     - { src: "downstairs.json", dest: "disney.json", favorite: "Disney Greatest Hits" }
     - { src: "downstairs.json", dest: "dinner_with_friends.json", favorite: "Dinner with Friends" }
-    - { src: "nomusic.json", dest: "nomusic.json" }
-    - { src: "upstairs.json", dest: "morning_bathroom_ritual.json", favorite: "Morning Motivation" }
-    - { src: "upstairs.json", dest: "relax_bathroom.json", favorite: "Relax & Unwind" }
+    - { src: "nomusic.json", dest: "nomusic.json", players: ["TV Room", "Living Room"] }
+    - { src: "upstairs.json", dest: "bathroom_morning.json", favorite: "Morning Motivation" }
+    - { src: "upstairs.json", dest: "bathroom_relaxing.json", favorite: "Relax & Unwind" }
+    - { src: "nomusic.json", dest: "bathroom_nomusic.json", players: ["Bathroom"] }
   notify:
     - restart_sonos_http_api
 

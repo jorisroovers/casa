@@ -228,6 +228,18 @@ input_select:
       - Dinner With Friends
       - Reading # Reading doesn't have associated music in sonos (nor does it stop the music)
       - NoMusic
+  bathroom_music:
+    name: Bathroom Music
+    initial: Bathroom NoMusic
+    options:
+      - Bathroom Relaxing
+      - Bathroom Morning
+      - Bathroom NoMusic
+
+input_boolean:
+  cooking:
+    name: Cooking
+    initial: off
 
 # script: !include scripts.yaml
 

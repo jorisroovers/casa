@@ -163,10 +163,13 @@ Things I don't like about sensu:
 - sonos-node-http-api: SSL & auth
 - Better messaging in slack (also include lights + custom nest sensors)
 - Backups: sensu/redis DB
+- Backups: influxdb data, grafana dashboards
 - Backups: auto-copy to Samba share
+- Sensu: inlfuxdb checks
 - sudo askpass program lastpass
 - limit speedtest.net CPU cycles using cgroups
 - Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
+- HADashboard automatically go back to homescreen when no activity
 
 - Upstairs scenes: packing, working
 
@@ -182,7 +185,11 @@ Things I don't like about sensu:
 - Away/Home Mode Nest => notification to slack (later auto-set)
 - Morning: Turn on office lights after 6AM -> mark as home/awake
 - Working after 6 AM => Working
-
+- Turn on/off outdoor lighting based on sun/sleeping
+- When light comes on in bedroom in the morning (automatically by sleep cycle), and home was sleeping during the week,
+  automatically set scene wakeup week
+- WakeUp week: set house to home, set bathroom music on, turn on bathroom lights
+- When pausing music -> set music preset to NoMusic
 
 ### Sensor ideas
 - Refactor monit-hass-sensors to custom-hass-sensors so we can do more than just monit sensors
@@ -194,7 +201,11 @@ Things I don't like about sensu:
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
 - Nest smoke detector checks integrated with sensu
 
+
 ### HADashboard
 - HADashboard: Volume control
 - HADashboard: Custom Nest Cam controls (incl enable-disable support + link to livestream)
+- HADashboard: enlarge camera view on click (not so hard using custom JS)
 - HADashboard: Custom weather widget
+- Automatically go back to Home page after idle for x sec on a given page
+- 

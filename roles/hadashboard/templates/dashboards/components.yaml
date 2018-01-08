@@ -418,13 +418,53 @@ music_dinner_with_friends:
         entity_id: input_select.downstairs_music
         option: NoMusic
 
+#######################################################################
+# UPSTAIRS MUSIC                                                      #
+#######################################################################
+
+bathroom_music_morning:
+    widget_type: mode
+    title: Bathroom Morning
+    icon_on: mdi-weather-sunset-up
+    icon_off: mdi-weather-sunset-up
+    icon_style_active: "color: #e8e178"
+    entity: input_select.bathroom_music
+    mode: "Bathroom Morning"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.bathroom_music
+        option: "Bathroom Morning"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.bathroom_music
+        option: "Bathroom NoMusic"
+
+bathroom_music_relax:
+    widget_type: mode
+    title: Bathroom Relaxing
+    icon_on: fa-bath
+    icon_off: fa-bath
+    icon_style_active: "color: #add8ec"
+    entity: input_select.bathroom_music
+    mode: "Bathroom Relaxing"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.bathroom_music
+        option: "Bathroom Relaxing"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.bathroom_music
+        option: "Bathroom NoMusic"
+
 ####################################
-# TODO                             #
+# Misc                             #
 ####################################
 
 cooking:
-    widget_type: scene
+    widget_type: input_boolean
     title: Koken
-    entity: scene.cooking
+    entity: input_boolean.cooking
     icon_on: mdi-pot-mix
     icon_off: mdi-pot-mix
+    icon_style_active: "color: #efc980"
+

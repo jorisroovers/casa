@@ -6,3 +6,16 @@ light_office:
     - light.tradfri_bulb_e27_ws_opal_980lm_2
     - light.tradfri_bulb_e27_ws_opal_980lm_3
 
+light_hallway:
+  name: Hall
+  view: no
+  entities:
+    - light.tradfri_bulb_e27_ws_opal_980lm_4
+    - light.tradfri_bulb_e27_ws_opal_980lm_5
+    - light.tradfri_bulb_e27_ws_opal_980lm_6
+
+light_front_door:
+  name: Front Door
+  view: no
+  entities:
+    - light.tradfri_bulb_e27_ws_opal_980lm_7

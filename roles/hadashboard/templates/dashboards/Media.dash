@@ -9,17 +9,10 @@ sonos:
     widget_type: media_player
     entity: media_player.living_room
 
-bathroom_morning_ritual:
-    widget_type: scene
-    title: Bathroom Morning
-    entity: scene.bathroom_morning_ritual
-    icon_on: fa-bath
-    icon_off: fa-bath
-
 layout:
     - sonos(3x2)
     - spacer(8x1)
-    - bathroom_morning_ritual(1x1)
+    - spacer(8x1)
     - spacer(4x1), music_breakfast(1x1), music_coffee_bar(1x1), music_dinner_with_friends(1x1)
     - music_party(1x1), music_pop(1x1), music_romance(1x1), music_lounge(1x1), music_christmas(1x1), music_disney(1x1), music_relaxing(1x1)
     - include: navigation_panel

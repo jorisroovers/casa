@@ -5,8 +5,7 @@ alias ?="cat /etc/profile.d/*aliases*"
 alias sensu-status="systemctl status {{sensu_server_service}}"
 alias sensu-logs="grc tail -n 300 -f /var/log/sensu/{{sensu_server_service}}.log"
 alias sensu-log="sensu-logs"
-# alias sensu-conf="sudo vim vim {{logstash_pipeline_conf_dir}}/http-to-file.conf"
-
+alias sensu-conf="sudo vim {{sensu_conf_dir}}"
 
 function sensu-re(){
     echo "Restarting {{sensu_server_service}}..."

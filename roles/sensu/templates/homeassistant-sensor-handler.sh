@@ -14,7 +14,9 @@ HASS_HOST='http://{{homeassistant_bind_ip}}:{{homeassistant_port}}'
 INPUT=$(< /dev/stdin)
 NAME=$(echo "$INPUT" | jq -r .check.name)
 STATUS=$(echo "$INPUT" | jq -r .check.status)
-OUTPUT=$(echo "$INPUT" | jq -r .check.output)
+ # replace newlines with | in the output. Just sending \n doesn't seem tow work: there's probably a way to escape \n
+# properly, but don't feel like spending another 2hrs on figuring that out :)
+OUTPUT=$(echo "$INPUT" | jq -r .check.output | tr "\n" "|")
 SENSU_EVENT_ID=$(echo "$INPUT" | jq -r .id)
 TIMESTAMP=$(echo "$INPUT" | jq -r .timestamp)
 SENSOR_TYPE=$(echo "$INPUT" | jq -r .check.homeassistant.sensor_type)
@@ -36,7 +38,7 @@ else
     SENSOR_STATE="$OUTPUT"
 fi
 
-echo "HOMEASSISTANT: $NAME"
+echo "SENSOR NAME: $SENSOR_NAME"
 
 # Do REST call to Home-assistant to install sensor
 # Hass requires the use of double quotes, single quotes will result in the payload being rejected

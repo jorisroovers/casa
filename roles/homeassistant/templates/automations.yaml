@@ -45,7 +45,7 @@
 # Music input to sonos preset               #
 #############################################
 
-- alias: Play sonos preset for music input select
+- alias: Play downstairs sonos preset for music input select
   trigger:
     platform: state
     entity_id: input_select.downstairs_music
@@ -54,67 +54,146 @@
       data_template:
         preset: "{% raw %}{{ states('input_select.downstairs_music') | lower | replace(' ', '_')}}{% endraw %}"
 
+- alias: Play bathroom sonos preset for music input select
+  trigger:
+    platform: state
+    entity_id: input_select.bathroom_music
+  action:
+    - service: shell_command.play_sonos_preset
+      data_template:
+        preset: "{% raw %}{{ states('input_select.bathroom_music') | lower | replace(' ', '_')}}{% endraw %}"
+
+############################################################
+# Automatically trigger cooking scene when cooking enabled #
+############################################################
+
+- alias: Automatically trigger Cooking scene when cooking enabled
+  trigger:
+    platform: state
+    entity_id: input_boolean.cooking
+    to: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.Cooking"
+
+- alias: Automatically trigger StopCooking scene when cooking disabled
+  trigger:
+    platform: state
+    entity_id: input_boolean.cooking
+    to: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.StopCooking"
+
+
+#####################################################
+# Send message on nest-presence set to home or away #
+#####################################################
+
+- id: auto_away_nest_presence
+  alias: 'Send message when away from home'
+  trigger:
+    - platform: state
+      entity_id: sensor.sensu_nest_presence
+      from: 'home'
+      to: 'away'
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: Away
+    - service: notify.slack
+      data:
+        message: |
+              You're gone from home! Set home automatically to away.
+
+- id: auto_home_nest_presence
+  alias: 'Send message when coming home'
+  trigger:
+    - platform: state
+      entity_id: sensor.sensu_nest_presence
+      from: 'away'
+      to: 'home'
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: Home
+    - service: notify.slack
+      data:
+        message: |
+              Welcome home! Set home automatically to home.
+
+
+################################################
+# Turn on/off outdoor lights at sunset/sunrise #
+################################################
+
+- id: sunset_outdoor_lighting
+  alias: 'Turn on outdoor lighting at sunset'
+  trigger:
+    - platform: sun
+      event: sunset
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.OutdoorLightsOn
+    - service: notify.slack
+      data:
+        message: |
+              Sun has set. Turned on outdoor lights for your convenience :)
+
+- id: sunset_outdoor_lighting
+  alias: 'Turning off outdoor lighting at midnight'
+  trigger:
+    - platform: time
+      at: '00:00:00'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.OutdoorLightsOff
+    - service: notify.slack
+      data:
+        message: |
+              Midnight. Turning off outdoor lights.
+
+###########################################################
+# When sleeping and starting work, set house_mode to home #
+###########################################################
+
+- id: auto_home_on_start_work
+  alias: 'Automatically set house_mode to home when turning on the office light in the morning'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.joris_working
+      to: 'on'
+    - platform: state
+      entity_id: group.light_office
+      to: 'on'
+  condition:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.house_mode
+        state: 'Sleeping'
+      - condition: time
+        after: '05:00:00'
+        before: '18:00:00'
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Good Morning, enjoy your working day!
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: "Home"
+
 #############################################
 # Scene specific automations                #
 #############################################
-
-- id: bathroom_morning_music
-  alias: 'Play Morning Bathroom Music'
-  trigger:
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.bathroom_morning_ritual
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.bathroom_morning_ritual
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.bathroom_morning_ritual']
-        domain: scene
-        service: turn_on
-  action:
-    service: shell_command.play_sonos_preset
-    data:
-      preset: "morning_bathroom_ritual"
-
-- id: relax_music_bathroom
-  alias: 'Play Relaxing Music in the Bathroom'
-  trigger:
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.relaxing_shower
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.relaxing_shower
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.relaxing_shower']
-        domain: scene
-        service: turn_on
-  action:
-    service: shell_command.play_sonos_preset
-    data:
-      preset: "relax_bathroom"
 
 - id: enable_all_cameras
   alias: 'Enable all cameras'

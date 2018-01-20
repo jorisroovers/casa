@@ -14,7 +14,7 @@
 # We need to avoid this from happening, so let's comment out the REQUIREMENTS line in HA's nest.py file
 - name: "Patching home-assistant's nest.py component"
   lineinfile:
-    dest: "{{homeassistant_venv}}/lib/python3.5/site-packages/homeassistant/components/nest.py"
+    dest: "{{homeassistant_venv}}/lib/python3.6/site-packages/homeassistant/components/nest.py"
     regexp: '(^REQUIREMENTS.*)'
     line: '# \1'
     backrefs: yes

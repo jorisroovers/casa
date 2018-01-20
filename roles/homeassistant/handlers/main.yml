@@ -13,6 +13,10 @@
   notify: restart_homeassistant
   ignore_errors: yes
 
+- name: reload_homeassistant_automations
+  shell: "curl -X POST -H 'Content-Type: application/json' http://0.0.0.0:8123/api/services/automation/reload"
+  ignore_errors: yes
+
 - name: restart_homeassistant
   service: name=homeassistant@{{homeassistant_user}} state=restarted
   become: yes

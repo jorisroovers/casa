@@ -5,9 +5,11 @@
   with_items:
     - openjdk-8-jre-headless
 
-- name: Installing ELK apt-key
-  shell: "wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -"
+- name: Installing ELK apt source public key
   become: yes
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
 
 # Using ELK 5.x because of this: https://github.com/logstash-plugins/logstash-output-http/issues/77
 - name: Adding ELK package source
@@ -48,6 +50,12 @@
   notify: restart_logstash
   with_items:
     - http-to-file.conf
+
+- name: Make sure logstash services are started and enabled
+  service: name={{item}} state=started enabled=yes
+  become: yes
+  with_items:
+    - "{{logstash_service}}"
 
 - name: Installing some convenience aliases
   template: src=logstash-aliases.sh dest=/etc/profile.d/logstash-aliases.sh

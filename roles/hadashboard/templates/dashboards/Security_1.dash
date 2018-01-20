@@ -32,12 +32,18 @@ security_up_nav:
     icon_inactive: mdi-arrow-up-bold-circle-outline
     icon_inactive_style: "color: #777"
     icon_active_style: "color: #777"
-    url: /Security_1
+    dashboard: Security_1
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
 
 security_down_nav:
     widget_type: navigate
     icon_inactive: mdi-arrow-down-bold-circle-outline
-    url: /Security_2
+    dashboard: Security_2
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
 
 layout:
     - front_garden_camera(3x2), hallway_camera(3x2), spacer(1x1), security_up_nav(1x1)

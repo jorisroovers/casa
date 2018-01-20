@@ -17,3 +17,4 @@ appdaemon_service: "appdaemon@{{appdaemon_user}}"
 appdaemon_service_after: "homeassistant@{{homeassistant_user}}.service"
 
 camera_widget_refresh_rate: 3
+navigation_timeout: 120

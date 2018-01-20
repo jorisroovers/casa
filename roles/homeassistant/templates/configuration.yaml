@@ -120,7 +120,7 @@ hue:
 
 tradfri:
   host: {{tradfri_ip}}
-  allow_tradfri_groups: false
+  allow_tradfri_groups: true
 
 panel_iframe:
   roofcam:

@@ -5,11 +5,13 @@
   entities:
     light.woonkamer_tv:
         state: off
+    light.tv_staanlamp:
+        state: off
     light.garden:
         state: off
     light.living_room:
         state: off
-    light.eettafel:
+    group.light_dinner_table:
         state: off
     light.kitchen:
         state: off
@@ -17,36 +19,42 @@
         state: off
     group.light_front_door:
         state: off
-    media_player.bathroom:
-        state: paused
     input_select.downstairs_music:
         option: NoMusic
+    input_select.bathroom_music:
+        option: NoMusic
+    input_boolean.cooking:
+        option: off
 
 # 'Home' really just needs to turn off the diepvries cam which happens through an automation
 # However, HomeAssistant doesn't like empty entity dicts in scenes
 - name: Home
   entities:
-    light.eettafel:
+    group.light_dinner_table:
         state: off
 
 - name: Away
   entities:
     light.woonkamer_tv:
         state: off
+    light.tv_staanlamp:
+        state: off
     light.garden:
         state: off
     light.living_room:
         state: off
-    light.eettafel:
+    group.light_dinner_table:
         state: off
     light.kitchen:
         state: off
     group.light_office:
         state: off
-    media_player.bathroom:
-        state: paused
     input_select.downstairs_music:
         option: NoMusic
+    input_select.bathroom_music:
+        option: NoMusic
+    input_boolean.cooking:
+        option: off
 
 ###################################
 # Living scenes                  #
@@ -56,7 +64,12 @@
   entities:
     light.woonkamer_tv:
         state: on
-        brightness: 143
+        kelvin": 2200
+        brightness_pct: 40
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
     light.living_room:
         state: off
     input_select.downstairs_music:
@@ -66,11 +79,13 @@
   entities:
     light.woonkamer_tv:
         state: off
+    light.tv_staanlamp:
+        state: off
     light.garden:
         state: off
     light.living_room:
         state: off
-    light.eettafel:
+    group.light_dinner_table:
         state: on
     light.kitchen:
         state: off
@@ -84,6 +99,10 @@
     light.woonkamer_tv:
         state: on
         brightness: 143
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
     group.light_office:
         state: off
     light.living_room:
@@ -93,6 +112,10 @@
 
 - name: Christmas
   entities:
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
     light.living_room:
         state: off
     input_select.downstairs_music:
@@ -103,6 +126,10 @@
     light.woonkamer_tv:
         state: on
         brightness: 143
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
     group.light_office:
         state: off
     light.living_room:
@@ -141,9 +168,9 @@
     light.garden:
         state: off
 
-#####################################
-# Downstairs Modifier scenes        #
-#####################################
+##################
+# Cooking        #
+##################
 
 - name: Cooking
   entities:
@@ -159,20 +186,23 @@
     light.kitchen:
         state: off
 
-###########################################
-# Misc                                    #
-###########################################
-
-- name: Good Morning
+############
+# Mornings #
+############
+- name: StartWorkDay
   entities:
     light.garden:
         state: off
-
-- name: Start Work Day
-  entities:
-    light.garden:
+    group.light_front_door:
         state: off
     group.light_office:
         state: on
-    media_player.bathroom:
-        state: paused
+    light.nachttafel_joris:
+        state: off
+    input_select.bathroom_music:
+        option: NoMusic
+
+- name: BathroomMorningWeekDay
+  entities:
+    input_select.bathroom_music:
+        option: Bathroom Morning

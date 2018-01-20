@@ -4,10 +4,9 @@ grafana_conf_dir: "/etc/grafana"
 grafana_log_dir: "/var/log/grafana"
 
 grafana_service: "grafana-server"
-grafana_port: 8086
+grafana_bind_ip: "0.0.0.0"
+grafana_port: 3001
 
 grafana_admin_user: "admin"
 grafana_admin_password: "pass123"
 
-grafana_bind_ip: "0.0.0.0"
-grafana_port: 3001

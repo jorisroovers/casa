@@ -2,10 +2,11 @@
 - include: install_redis.yml
 
 # Sensu installation instructions: https://sensuapp.org/docs/1.1/platforms/sensu-on-ubuntu-debian.html
-
 - name: Installing sensu apt source public key
-  shell: "wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | sudo apt-key add -"
   become: yes
+  apt_key:
+    url: https://sensu.global.ssl.fastly.net/apt/pubkey.gpg
+    state: present
 
 # Note we're installing the Ubuntu xenial source, not the Ubuntu zesty source as there is no package source for that
 # As per sensu docs:
@@ -39,6 +40,8 @@
   shell: "sensu-install -p {{item}}"
   notify: restart_sensu
   become: yes
+  register: sensu_plugin_install_result
+  changed_when: not sensu_plugin_install_result.stdout | search('has already been installed')
   with_items:
     - network-checks
     - process-checks

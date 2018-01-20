@@ -9,13 +9,19 @@ media_nav:
     widget_type: navigate
     title: Media
     icon_inactive: mdi-play-circle
-    url: /Media
+    dashboard: Media
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
 
 security_nav:
     widget_type: navigate
     title: Beveiliging
     icon_inactive: mdi-security-home
-    url: /Security_1
+    dashboard: Security_1
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
 
 reload:
     widget_type: reload

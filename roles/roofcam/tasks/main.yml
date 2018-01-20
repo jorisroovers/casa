@@ -5,6 +5,7 @@
   git: repo=https://github.com/jorisroovers/roofcam dest={{roofcam_dir}} version=9d857e08fb31c71c1730c7317a8e7a601bf5bbf6
   notify:
     - restart_roofcam
+  register: roofcam_git_clone
 
 - name: Creating snapshot directory
   file: dest={{snapshot_dir}} state=directory owner={{roofcam_user}} group={{roofcam_group}}
@@ -39,6 +40,7 @@
   shell: "{{roofcam_venv}}/bin/python setup.py install"
   args:
     chdir: "{{roofcam_dir}}"
+  when: roofcam_git_clone.changed
   notify:
     - restart_roofcam
 

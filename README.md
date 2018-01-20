@@ -149,9 +149,19 @@ Things I don't like about sensu:
  - For standard checks, not all checks cause events, only if something goes wrong (see above)
  - No remediation included by default - hard to do event with plugins
 
+### Lights
+Color:
+
+Tradfri white spectrum lamps support between 2200 (warm)  and 4000 (cold) Kelvin.
+That *should* translate to 0-250 mireds (color_temp in hass), but that doesn't seem to be working
+http://www.leefilters.com/lighting/mired-shift-calculator.html
+
+Home-assistant does not allow you to change attributes (like kelvin/brightness) on a group of lights at a time yet
+Even if they are exposed by Tradfri/Hue as a single light.
+https://community.home-assistant.io/t/grouped-light-control/1034/49
+
 ## TODO
 - Groups: https://home-assistant.io/components/group/
-- Spotify support:  https://home-assistant.io/components/media_player.spotify/
 - Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
@@ -170,7 +180,7 @@ Things I don't like about sensu:
 - limit speedtest.net CPU cycles using cgroups
 - Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
 - HADashboard automatically go back to homescreen when no activity
-
+- Use Flux to change light color in hallway depending on time of day: https://home-assistant.io/components/switch.flux/
 - Upstairs scenes: packing, working
 
 - Security:
@@ -182,25 +192,30 @@ Things I don't like about sensu:
 ### Automation Ideas
 - Cooking: If not watching TV & Music=NoPreset -> play music
 - Cooking: If watching TV and cooking active for 1 hour -> disable cooking
-- Away/Home Mode Nest => notification to slack (later auto-set)
-- Morning: Turn on office lights after 6AM -> mark as home/awake
-- Working after 6 AM => Working
-- Turn on/off outdoor lighting based on sun/sleeping
-- When light comes on in bedroom in the morning (automatically by sleep cycle), and home was sleeping during the week,
-  automatically set scene wakeup week
-- WakeUp week: set house to home, set bathroom music on, turn on bathroom lights
+
 - When pausing music -> set music preset to NoMusic
+
+IN PROGRESS:
+
+- When turn off kitchen lights -> stop cooking
+- When bedroom light turns on during week -> activate wake-up scene
+- When stopping music in the bathroom in the morning -> start work day scene
+- When setting goodnight -> automatically set cooking back to false
+
+VALIDATED:
+
 
 ### Sensor ideas
 - Refactor monit-hass-sensors to custom-hass-sensors so we can do more than just monit sensors
 - Roofcam sensor (refactor monit-hass-sensors to be more generic)
-- Laptop sensors: e.g. track that Joris started working when laptop is on and connected to monitor
 - Car at home detect sensor based on image recognition
 - Door/window sensors
 - Upload/backups success sensor (based on Monit/other check)
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
 - Nest smoke detector checks integrated with sensu
-
+- Sensu influx integration
+- Sensu CPU metrics
+- 
 
 ### HADashboard
 - HADashboard: Volume control

@@ -1,6 +1,6 @@
-##############################################
-# Living Preset input->scene trigger         #
-##############################################
+##################
+# Living Preset  #
+##################
 
 - alias: Automatically set scene for Living Preset
   trigger:
@@ -25,9 +25,9 @@
           {% endif %}
           {% endraw %}
 
-##############################################
-# House Mode input->scene trigger            #
-##############################################
+###############
+# House Mode  #
+###############
 - alias: Automatically set scene for House Mode
   trigger:
     platform: state
@@ -63,9 +63,20 @@
       data_template:
         preset: "{% raw %}{{ states('input_select.bathroom_music') | lower | replace(' ', '_')}}{% endraw %}"
 
-############################################################
-# Automatically trigger cooking scene when cooking enabled #
-############################################################
+- alias: Bathroom - Set InputSelect to NoMusic when music is paused
+  trigger:
+    - platform: state
+      entity_id: media_player.bathroom
+      to: "paused"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.bathroom_music
+        option: "Bathroom NoMusic"
+
+###########
+# Cooking #
+###########
 
 - alias: Automatically trigger Cooking scene when cooking enabled
   trigger:
@@ -87,6 +98,63 @@
       data:
         entity_id: "scene.StopCooking"
 
+- alias: Automatically disable cooking when turning off kitchen lights
+  trigger:
+    platform: state
+    entity_id: light.kitchen
+    to: "off"
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.cooking
+
+#############
+# Mornings  #
+#############
+
+- alias: Trigger BathroomMorning scene on light turn on during week days
+  trigger:
+    platform: state
+    entity_id: light.nachttafel_joris
+    to: "on"
+  condition:
+    - condition: time
+      after: '07:30:00'
+      before: '11:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomMorning"
+
+- alias: Start work day when pausing bathroom player in the morning during weekdays
+  trigger:
+    - platform: state
+      entity_id: media_player.bathroom
+      to: "paused"
+    - platform: state
+      entity_id: binary_sensor.joris_working
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: time
+      after: '07:30:00'
+      before: '11:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.StartWorkDay"
 
 #####################################################
 # Send message on nest-presence set to home or away #
@@ -185,7 +253,7 @@
     - service: notify.slack
       data:
         message: |
-              Good Morning, enjoy your working day!
+              Good Morning, enjoy your day!
     - service: input_select.select_option
       data_template:
         entity_id: input_select.house_mode
@@ -237,20 +305,7 @@
     - service: notify.slack
       data:
         message: |
-              {%- raw %}
-              {% if is_state('camera.diepvries', 'recording') and is_state('camera.front_garden', 'recording') and
-                 is_state('camera.back_garden', 'recording') and is_state('camera.hallway', 'recording')
-               %}
-              :white_check_mark: All cameras recording
-              {% else %}
-              :red_circle: Not all cameras are recording
-              {% endif %}
-               *Cameras*
-               Diepvries = {{ states('camera.diepvries') }}
-               Hallway = {{ states('camera.hallway') }}
-               Front Garden = {{ states('camera.front_garden') }}
-               Back Garden = {{ states('camera.back_garden') }}
-               {% endraw %}
+            The place is locked down.
 
 - id: disable_diepvries_cam
   alias: 'Disable diepvries cam, enabling all others'

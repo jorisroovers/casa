@@ -1,14 +1,16 @@
 ---
 - name: Installing InfluxDB apt source public key
-  shell: "wget -q https://repos.influxdata.com/influxdb.key -O- | sudo apt-key add -"
   become: yes
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
 
 - name: Adding InfluxDB package source
   lineinfile:
     state: present
     create: yes
     path: /etc/apt/sources.list.d/influxdb.list
-    line: "deb https://repos.influxdata.com/ubuntu zesty stable"
+    line: "deb https://repos.influxdata.com/ubuntu artful stable"
   become: yes
   register: influxdb_package_source
 

@@ -16,7 +16,6 @@ homeassistant_general_config:
   unit_system: metric
   time_zone: Europe/Amsterdam
 
-
 homeassistant_http:
   api_password: "HttpApiPassword123"
   trusted_networks:

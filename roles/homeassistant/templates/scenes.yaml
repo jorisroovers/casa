@@ -64,7 +64,7 @@
   entities:
     light.woonkamer_tv:
         state: on
-        kelvin": 2200
+        kelvin: 2200
         brightness_pct: 40
     light.tv_staanlamp:
         state: on

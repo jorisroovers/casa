@@ -1,20 +1,20 @@
 ---
 - name: Creating backups directory
-  file: dest={{github_backups_dir}} state=directory owner={{backups_user}} group={{backups_group}}
+  file: dest={{backups_dir}} state=directory owner={{backups_user}} group={{backups_group}}
   become: yes
 
 - name: Copying files to {{backups_dir}}
-  template: src="github-backup.sh" dest="{{backups_dir}}/github-backup.sh" mode=u+x
-
-- name: Adding cronjob for backup scripts
-  cron: name="Periodic github backup" hour="*/6" minute="0" job="{{backups_dir}}/github-backup.sh" user={{backups_user}}
-
-- name: Creating backups monitoring directory
-  become: yes
-  file: path="{{backups_monitoring_dir}}" state=directory owner={{backups_user}} group={{backups_group}}
-
-- name: Copying custom check scripts
-  template: src={{item}} dest={{backups_monitoring_dir}}/{{item}}
-            owner={{backups_user}} group={{backups_group}} mode=u=rwx,o=rx
+  template: src="{{item}}" dest="{{backups_dir}}/{{item}}"
+            owner={{backups_user}} group={{backups_group}} mode=u+x
   with_items:
-    - backups-check.sh
+    - backup-lib.sh
+
+- name: Create backup scripts
+  include_role:
+    name: backup_script
+  with_items:
+    - { backup_type: 'github', backup_min_size: "{{ 22 * 1024 * 1024 }}" }
+  vars:
+    backup_type: "{{item.backup_type}}"
+    script_content: "{{lookup('template', './templates/{{item.backup_type}}-backup.sh')}}"
+    backup_min_size: "{{item.backup_min_size}}"

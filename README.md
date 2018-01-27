@@ -166,6 +166,7 @@ https://community.home-assistant.io/t/grouped-light-control/1034/49
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
 - https://home-assistant.io/components/media_player.cast/
+- Alexa support
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
 - Force state update on Nest after changing state through python-nest command
 - Metrics dashboard (logstash)

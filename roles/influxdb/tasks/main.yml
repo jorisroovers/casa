@@ -75,3 +75,11 @@
 - name: Removing tmp schema DDL file
   file: dest=/tmp/influxdb-schema.ddl state=absent
   become: yes
+
+- name: Install backup script
+  include_role:
+    name: backup_script
+  vars:
+    backup_type: "influxdb"
+    script_content: "{{lookup('template', './templates/influxdb-backup.sh')}}"
+    backup_min_size: "{{ 2 * 1024 * 1024 }}"

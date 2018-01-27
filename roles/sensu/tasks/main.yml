@@ -104,7 +104,6 @@
     - handlers.json
     - check_system_resources.json
     - check_sonos.json
-    - check_backups.json
     - check_homeassistant.json
     - check_network_connectivity.json
     - check_hadash.json

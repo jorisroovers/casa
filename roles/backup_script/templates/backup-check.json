@@ -1,8 +1,8 @@
 {
     "checks": {
-        "backups": {
+        "backup-{{backup_type}}": {
             "type": "metric",
-            "command": "{{backups_monitoring_dir}}/backups-check.sh",
+            "command": "{{backup_monitoring_script}}",
             "subscribers": ["casa"],
             "handlers": ["homeassistant-sensor"],
             "interval": {{sensu_default_check_interval}},

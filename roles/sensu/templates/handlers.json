@@ -15,6 +15,17 @@
             "command": "{{sensu_custom_handlers_dir}}/homeassistant-sensor-handler.sh",
             "type": "pipe",
             "severities": ["ok", "warning", "critical", "unknown"]
+        },
+        "influx-tcp": {
+            "type": "pipe",
+            "command": "/opt/sensu/embedded/bin/metrics-influxdb.rb"
         }
+        // ,
+        // "test": {
+        //     "command": "{{sensu_custom_handlers_dir}}/homeassistant-sensor-handler.sh",
+        //     "type": "pipe",
+        //     "severities": ["ok", "warning", "critical", "unknown"],
+        //     "filters": ["google-filter"]
+        // }
     }
 }

@@ -6,10 +6,18 @@
         //     "subscribers": [ "casa" ],
         //     "interval": {{sensu_default_check_interval}}
         // },
-        "metrics.cpu": {
+        "metrics.cpu-pcnt": {
             "type": "metric",
-            "command": "metrics-cpu.rb",
+            "command": "metrics-cpu-pcnt-usage.rb -s pcnt ",
             "subscribers": [ "casa" ],
+            "handlers": ["influx-tcp"],
+            "interval": {{sensu_default_check_interval}}
+        },
+        "metrics.cpu-mpstat": {
+            "type": "metric",
+            "command": "metrics-cpu-mpstat.rb -s mpstat",
+            "subscribers": [ "casa" ],
+            "handlers": ["influx-tcp"],
             "interval": {{sensu_default_check_interval}}
         },
         "memory": {

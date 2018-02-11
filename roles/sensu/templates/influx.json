@@ -1,0 +1,12 @@
+{
+    "influxdb": {
+        "hosts"         : ["{{influxdb_bind_ip}}"],
+        "host"          : "{{influxdb_bind_ip}}",
+        "port"          : "{{influxdb_port}}",
+        "username"      : "{{influxdb_sensu_user}}",
+        "password"      : "{{influxdb_sensu_password}}",
+        "database"      : "{{influxdb_sensu_db}}",
+        "use_ssl"       : true,
+        "verify_ssl"    : false
+    }
+}

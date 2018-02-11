@@ -1,6 +1,8 @@
 # casa
+Set of ansible playbooks that I use to maintain my [homeassistant](home-assistant.io)-based home automation stack.
 
-Home automation for the house :)
+I maintain this purely for fun (often favoring speed over quality) and really only with my own use-cases in mind,
+so use at your own risk!
 
 ## Installing Raspbian
 
@@ -20,7 +22,7 @@ pip install -r requirements.txt
 Development should be done locally in Vagrant.
 ```bash
 vagrant up
-ansible-playbook home.yml -i inventory/vagrant 
+ansible-playbook home.yml -i inventory/vagrant
 # roofcam only
 ansible-playbook home.yml -i inventory/vagrant --tags roofcam
 # using production data
@@ -48,20 +50,13 @@ sudo monit status
 sudo monit summary
 ```
 
-Getting status from monit using API
-```bash
-# Status
-curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status
-curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status?format=xml
-# Summary
-curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_summary
+## InfluxDB:
 ```
-
-
-InfluxDB:
-```
-export INFLUX_USERNAME='';export INFLUX_PASSWORD='';
+export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)"; 
+echo "export INFLUX_USERNAME=\"$INFLUX_USERNAME\"; export INFLUX_PASSWORD=\"$INFLUX_PASSWORD\";"
 influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD"
+# Examples
+show grants for "<example user>";
 ```
 
 ### python-nest
@@ -225,3 +220,16 @@ VALIDATED:
 - HADashboard: Custom weather widget
 - Automatically go back to Home page after idle for x sec on a given page
 - 
+
+# Old stuff (keeping here for reference)
+## Monit
+
+Getting status from monit using API
+```bash
+# Status
+curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status
+curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status?format=xml
+# Summary
+curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_summary
+```
+

@@ -36,6 +36,9 @@
     - g++
     - make # Needed for sensu plugins
 
+# FUTURE: consider doing:
+# - gem: name=sensu-plugins-disk-checks version=0.0.1 state=present executable=/opt/sensu/embedded/bin/gem
+# see: http://sensu-plugins.io/docs/installation_instructions.html
 - name: Installing sensu plugins
   shell: "sensu-install -p {{item}}"
   notify: restart_sensu
@@ -49,6 +52,19 @@
     - memory-checks
     - systemd
     - sensu # we use check-aggregate.rb
+    - influxdb
+
+  # Patch metric-influxdb code to not do a create database call
+  # We've already pre-created the DB (see influxdb role) and don't want to grant full DB admin rights to the
+  # sensu user, so we patch the code to assume the DB is there.
+- name: "[Patch metric-influxdb] Finding exact path of metric-influxdb.rb"
+  shell: "find /opt/sensu/embedded/lib/ruby/gems/*/gems/sensu-plugins-influxdb-*/bin/metrics-influxdb.rb"
+  register: metric_influxdb_path
+  changed_when: false
+
+- name: "[Patch metric-influxdb] Removing create_database call from metric-influxdb.rb"
+  lineinfile: regexp="(.*)influxdb_data.create_database(.*)" state=absent  path="{{metric_influxdb_path.stdout}}"
+  become: yes
 
 - name: Creating virtualenv for custom checks and handlers
   command: virtualenv {{sensu_venv_dir}} creates="{{sensu_venv_dir}}"
@@ -99,6 +115,7 @@
   with_items:
     - client.json
     - api.json
+    - influx.json
     - redis.json
     - transport.json
     - handlers.json

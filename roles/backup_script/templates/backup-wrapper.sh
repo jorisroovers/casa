@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BACKUP_TYPE="{{backup_type}}"
-source backup-lib.sh
+source "{{backups_dir}}/backup-lib.sh"
 
 ############################################################################################
 create_backup_dir

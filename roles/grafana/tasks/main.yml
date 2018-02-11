@@ -65,44 +65,18 @@
     host: "{{grafana_bind_ip}}"
     port: "{{grafana_port}}"
 
-# Thank you kind sir:
-# https://github.com/grafana/grafana/issues/1789#issuecomment-272615451
-# Check if influxdb datasource exists
-- uri:
-    url: http://{{grafana_bind_ip}}:{{grafana_port}}/api/datasources/name/influxdb
-    user: "{{grafana_admin_user}}"
-    password: "{{grafana_admin_password}}"
-    force_basic_auth: yes
-  register: grafana_datasource
-  failed_when: false
-  changed_when: false
+- name: "Installing homeassistant datasource"
+  include_tasks: install_influxdb_datasource.yml
+  vars:
+    datasource_name: "homeassistant"
+    datasource_user: "{{influxdb_grafana_user}}"
+    datasource_password: "{{influxdb_grafana_password}}"
+    datasource_database: "{{influxdb_homeassistant_db}}"
 
-# Note below that we install our cert using jsonData.tlsAuthWithCACert and secureJsonData.tlsCACert
-# However, we also set tlsSkipVerify because the cert verification always fail due to the hostname in the cert
-# not matching the actual hostname (this makes it easy for dev etc). The reason to still install the cert
-# is mostly for future reference in case we do ever end up wanted to validate it (it was a bit of a pain to figure out
-# the correct API fields).
-- name: Enable InfluxDB Datasource
-  uri:
-    url: http://{{grafana_bind_ip}}:{{grafana_port}}/api/datasources
-    method: POST
-    user: "{{grafana_admin_user}}"
-    password: "{{grafana_admin_password}}"
-    body:
-      name: "influxdb"
-      type: "influxdb"
-      url: "https://{{influxdb_bind_ip}}:{{influxdb_port}}"
-      access: "proxy"
-      isDefault: true
-      user: "{{influxdb_grafana_user}}"
-      password: "{{influxdb_grafana_password}}"
-      database: "{{influxdb_homeassistant_db}}"
-      jsonData:
-        tlsSkipVerify: true
-        tlsAuthWithCACert: true
-      secureJsonData:
-        tlsCACert: "{{influxdb_ssl_cert}}"
-    force_basic_auth: yes
-    status_code: 200
-    body_format: json
-  when: grafana_datasource.status == 404
+- name: "Installing sensu datasource"
+  include_tasks: install_influxdb_datasource.yml
+  vars:
+    datasource_name: "sensu"
+    datasource_user: "{{influxdb_sensu_user}}"
+    datasource_password: "{{influxdb_sensu_password}}"
+    datasource_database: "{{influxdb_sensu_db}}"

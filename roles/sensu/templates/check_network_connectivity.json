@@ -23,4 +23,15 @@
         //     }
         // }
     }
+    // ,
+    // "filters": {
+    //     "google-filter": {
+    //         "negate": true, // drop events matched by this filter
+    //         "attributes": {
+    //             "check": {
+    //                 "status": "2"
+    //             }
+    //         }
+    //     }
+    // }
 }

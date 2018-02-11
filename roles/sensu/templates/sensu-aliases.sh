@@ -3,7 +3,7 @@
 alias ?="cat /etc/profile.d/*aliases*"
 
 alias sensu-status="systemctl status {{sensu_server_service}}"
-alias sensu-logs="grc tail -n 300 -f /var/log/sensu/{{sensu_server_service}}.log"
+alias sensu-logs="grc tail -n 100 -f /var/log/sensu/{{sensu_server_service}}.log"
 alias sensu-log="sensu-logs"
 alias sensu-conf="sudo vim {{sensu_conf_dir}}"
 

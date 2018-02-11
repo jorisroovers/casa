@@ -13,6 +13,10 @@ influxdb_homeassistant_db: "homeassistant"
 influxdb_homeassistant_user: "myuser"
 influxdb_homeassistant_password: "pass123"
 
+influxdb_sensu_db: "sensu"
+influxdb_sensu_user: "myuser2"
+influxdb_sensu_password: "pass123"
+
 influxdb_grafana_user: "myuser2"
 influxdb_grafana_password: "pass456"
 

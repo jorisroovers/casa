@@ -7,6 +7,7 @@
 - hosts: home
   roles:
     - { role: base, tags: ['base']}
+    - { role: samba-client, tags: ['samba', 'cifs', 'smb']}
     - { role: influxdb, tags: ['influxdb', 'influx']}
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
     - { role: sensu, tags: ['sensu']}

@@ -53,7 +53,7 @@
     src: custom_css/casa/img
     dest: "{{appdaemon_dir}}/custom_css/casa"
 
-- include: genericweather_widget.yml
+- include_tasks: genericweather_widget.yml
 
 - name: Installing appdaemon systemd service
   template: src=appdaemon.service dest=/etc/systemd/system/{{appdaemon_service}}.service

@@ -1,5 +1,5 @@
 ---
-- include: install_redis.yml
+- include_tasks: install_redis.yml
 
 # Sensu installation instructions: https://sensuapp.org/docs/1.1/platforms/sensu-on-ubuntu-debian.html
 - name: Installing sensu apt source public key
@@ -149,7 +149,7 @@
     - sensu-client
     - sensu-api
 
-- include: install_uchiwa.yml
+- include_tasks: install_uchiwa.yml
 
 - name: Installing some convenience aliases
   template: src=sensu-aliases.sh dest=/etc/profile.d/sensu-aliases.sh

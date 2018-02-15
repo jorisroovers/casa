@@ -18,6 +18,7 @@ logger:
   default: info
   logs:
     homeassistant.components.device_tracker.nmap_tracker: warn
+    homeassistant.components.http: warn
 
 # View all events in a logbook
 logbook:
@@ -64,6 +65,7 @@ device_tracker:
     hosts: {{nmap_tracker_hosts}}
     track_new_devices: no
     consider_home: 1200
+    interval_seconds: 5
   - platform: owntracks_http
     interval_seconds: 3
     consider_home: 10
@@ -79,7 +81,6 @@ sun:
 
 # Enable iOS support
 ios:
-
 
 weblink:
   entities:
@@ -121,6 +122,13 @@ hue:
 tradfri:
   host: {{tradfri_ip}}
   allow_tradfri_groups: true
+
+switch:
+{% for switch_name, ip_address in tplink_switches.iteritems() %}
+  - platform: tplink
+    name: {{switch_name}}
+    host: {{ip_address}}
+{% endfor %}
 
 panel_iframe:
   roofcam:

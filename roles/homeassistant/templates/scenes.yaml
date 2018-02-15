@@ -11,6 +11,8 @@
         state: off
     light.living_room:
         state: off
+    light.kantoor_sfeer_verlichting:
+        state: off
     group.light_dinner_table:
         state: off
     light.kitchen:
@@ -18,6 +20,8 @@
     group.light_office:
         state: off
     group.light_front_door:
+        state: off
+    switch.desk_lamp:
         state: off
     input_select.downstairs_music:
         option: NoMusic
@@ -47,7 +51,11 @@
         state: off
     light.kitchen:
         state: off
+    light.kantoor_sfeer_verlichting:
+        state: off
     group.light_office:
+        state: off
+    switch.desk_lamp:
         state: off
     input_select.downstairs_music:
         option: NoMusic
@@ -154,14 +162,20 @@
     media_player.tv_room:
         state: paused
 
-- name: OutdoorLightsOn
+- name: Sunset
   entities:
     group.light_front_door:
         state: on
     light.garden:
         state: on
+    light.kantoor_sfeer_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+        # Apparently brightness_pct doesn't work on a light group, hence why this is kantoor_sfeer_lamp_1
+        # and not kantoor_sfeer_verlichting
 
-- name: OutdoorLightsOff
+- name: Midnight
   entities:
     group.light_front_door:
         state: off
@@ -199,8 +213,14 @@
         state: on
     light.nachttafel_joris:
         state: off
+    light.kitchen:
+        state: on
     input_select.bathroom_music:
         option: NoMusic
+    input_select.downstairs_music:
+        option: Pop
+    switch.desk_lamp:
+        state: on
 
 - name: BathroomMorningWeekDay
   entities:

@@ -1,0 +1,28 @@
+- name: Only run "apt update_cache=yes" if we last did so more than 3600 seconds ago
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+- name: "Installing cifs-utils"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - cifs-utils
+
+- name: "Create {{ cifs_mount_path }} directory"
+  file:
+    state: directory
+    path: "{{ cifs_mount_path }}"
+    owner: nobody
+    group: nogroup
+    mode: 0755
+    recurse: yes
+  become: yes
+
+- name: Mounting samba share
+  mount:
+    path: "{{cifs_mount_path}}"
+    src: "{{cifs_path}}"
+    fstype: cifs
+    opts: "username={{cifs_username}},password={{cifs_password}},uid={{cifs_mount_user}},gid={{cifs_mount_group}},vers=1.0"
+    state: mounted
+  become: yes

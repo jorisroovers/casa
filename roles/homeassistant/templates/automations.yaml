@@ -130,7 +130,7 @@
   action:
     - service: scene.turn_on
       data:
-        entity_id: "scene.BathroomMorning"
+        entity_id: "scene.BathroomMorningWeekDay"
 
 - alias: Start work day when pausing bathroom player in the morning during weekdays
   trigger:
@@ -207,11 +207,11 @@
   action:
     - service: scene.turn_on
       data:
-        entity_id: scene.OutdoorLightsOn
+        entity_id: scene.Sunset
     - service: notify.slack
       data:
         message: |
-              Sun has set. Turned on outdoor lights for your convenience :)
+              Sun has set - triggered Sunset scene.
 
 - id: sunset_outdoor_lighting
   alias: 'Turning off outdoor lighting at midnight'
@@ -221,7 +221,7 @@
   action:
     - service: scene.turn_on
       data:
-        entity_id: scene.OutdoorLightsOff
+        entity_id: scene.Midnight
     - service: notify.slack
       data:
         message: |
@@ -259,8 +259,31 @@
         entity_id: input_select.house_mode
         option: "Home"
 
+#################################################
+# Switch desk light when starting/stopping work #
+#################################################
+- alias: Turn on desk light when working
+  trigger:
+    platform: state
+    entity_id: binary_sensor.joris_working
+    to: 'on'
+  action:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.desk_lamp
+
+- alias: Turn off desk light when stop working
+  trigger:
+    platform: state
+    entity_id: binary_sensor.joris_working
+    to: 'off'
+  action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.desk_lamp
+
 #############################################
-# Scene specific automations                #
+# Camera related automations                #
 #############################################
 
 - id: enable_all_cameras

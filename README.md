@@ -1,13 +1,42 @@
 # casa
 Set of ansible playbooks that I use to maintain my [homeassistant](home-assistant.io)-based home automation stack.
 
+![HADashboard Preview](docs/images/Home.png)
+
 I maintain this purely for fun (often favoring speed over quality) and really only with my own use-cases in mind,
-so use at your own risk!
+so use at your own risk! I don't expect the actual code to work for anyone but me, so please consider this as more as a
+reference rather than a plug-and-play solution.
 
-## Installing Raspbian
+You might see a reference here and there to ```casa-data```: this is a private repo I maintain that contains the actual
+data relevant to my home (usernames, passwords, secrets, IP addresses, etc). The roles and playbooks in this repo all
+use dummy defaults.
+## Setup
+### Hardware
 
-Use [etcher.io](https://etcher.io) to flash raspbian lite to SD card.
-Then add an empty 'ssh' file to the SD card to enable SSH on boot on Raspbian.
+Here's a list of gear I use that is integrated with casa:
+- AppleTV
+- Sonos play 5, play 1, play base
+- Philips Hue light bulbs
+- Ikea Tradfri light bulbs (and movement sensors, remote controls)
+- iPad mini control planels
+- Chromecast
+- Nest Cam
+- Nest Thermostat
+- Nest Protect smoke detectors
+- TP link HS100 Power Switch
+
+Other gear I have that is currently not integrated in casa:
+- Elgato Eve Window sensor
+- Elgato Eve Power plug
+- Amazon Echo dot
+
+### Software Stack
+
+The best way to get a quick overview of the software stack is to look at roles directory
+
+Homeassistant
+HADashboard
+
 
 ## Running ansible
 
@@ -45,11 +74,9 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
 sudo journalctl -fu homeassistant@pi.service
 # Restart server
 sudo systemctl restart homeassistant@pi.service
-# Get monit status
-sudo monit status
-sudo monit summary
 ```
 
+# Tech specific bits
 ## InfluxDB:
 ```
 export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)"; 
@@ -59,7 +86,7 @@ influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD
 show grants for "<example user>";
 ```
 
-### python-nest
+## python-nest
 ```bash
 source /opt/homeassistant/.venv/bin/activate
 export NEST_CLIENT_ID=$(grep "nest:" -A 2 /opt/homeassistant/configuration.yaml  | awk '/client_id/{print $2}')
@@ -67,9 +94,12 @@ export NEST_CLIENT_SECRET=$(grep "nest:" -A 2 /opt/homeassistant/configuration.y
 nest --client-id $NEST_CLIENT_ID --client-secret $NEST_CLIENT_SECRET --token-cache /opt/homeassistant/nest.conf --index 0 camera-show
 ```
 
-### grafana
+## grafana
 
 Database location: /var/lib/grafana/grafana.db
+
+
+# Miscellaneous notes
 
 ## Upgrading homeassistant
 
@@ -80,10 +110,8 @@ Try running
 ```bash
 ps -ef | grep pip
 ```
-
-## Other convenient info
-
 # Virtualbox performance issues
+I keep running into vagrant box lock ups. Some details of research I've done around this:
 
 https://joeshaw.org/terrible-vagrant-virtualbox-performance-on-mac-os-x/
 
@@ -96,33 +124,18 @@ TODO
 ```
 NAT: Error(22) while setting RCV capacity to (65536)
 ```
-
-### Spotify/Sonos
-
-Playing music on Sonos:
-http://hasshostname:8123/dev-service
-Domain: media_player
-Service: select_source
-Service Data: {"entity_id": "media_player.tv_room", "source": "'t Koffiehuis"}
-
-Apparently, it's not that easy to play a playlist during a scene:
-Some pointers on how to play spotify playlist here: https://community.home-assistant.io/t/sonos-automation-scenes-and-specific-playlists/3002/16
-
-Also, sonos  has a sonos_join service that should allow speakers to be paired up, need to look into that:
-https://home-assistant.io/components/media_player.sonos/
-
-### SCP
+## SCP
 
 scp -P 2222 -i ~/repos/casa/.vagrant/machines/home/virtualbox/private_key ubuntu@127.0.0.1:/home/ubuntu/redis.conf .
 
-### Hass APIs
+## Hass APIs
 ```bash
 export HASS_URL="http://0.0.0.0:8123"; export HASS_PASSWORD="$(awk '/api_password: /{print $2}'  /opt/homeassistant/configuration.yaml)"
 # Getting  entity picture
 curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/states/camera.hallway | jq -r ".attributes.entity_picture"
 ```
 
-### Sensu
+## Sensu
 Location of binary check scripts:
 ```
 /opt/sensu/embedded/bin/check-ping.rb --help
@@ -155,7 +168,7 @@ Home-assistant does not allow you to change attributes (like kelvin/brightness) 
 Even if they are exposed by Tradfri/Hue as a single light.
 https://community.home-assistant.io/t/grouped-light-control/1034/49
 
-## TODO
+# TODO
 - Groups: https://home-assistant.io/components/group/
 - Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
 - Location tracking via OwnTracks
@@ -168,8 +181,8 @@ https://community.home-assistant.io/t/grouped-light-control/1034/49
 - Improve roofcam accuracy
 - sonos-node-http-api: SSL & auth
 - Better messaging in slack (also include lights + custom nest sensors)
-- Backups: sensu/redis DB
-- Backups: influxdb data, grafana dashboards
+- Backups: redis DB
+- Backups: grafana dashboards
 - Backups: auto-copy to Samba share
 - Sensu: inlfuxdb checks
 - sudo askpass program lastpass
@@ -194,8 +207,6 @@ https://community.home-assistant.io/t/grouped-light-control/1034/49
 IN PROGRESS:
 
 - When turn off kitchen lights -> stop cooking
-- When bedroom light turns on during week -> activate wake-up scene
-- When stopping music in the bathroom in the morning -> start work day scene
 - When setting goodnight -> automatically set cooking back to false
 
 VALIDATED:
@@ -209,9 +220,6 @@ VALIDATED:
 - Upload/backups success sensor (based on Monit/other check)
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
 - Nest smoke detector checks integrated with sensu
-- Sensu influx integration
-- Sensu CPU metrics
-- 
 
 ### HADashboard
 - HADashboard: Volume control
@@ -219,7 +227,6 @@ VALIDATED:
 - HADashboard: enlarge camera view on click (not so hard using custom JS)
 - HADashboard: Custom weather widget
 - Automatically go back to Home page after idle for x sec on a given page
-- 
 
 # Old stuff (keeping here for reference)
 ## Monit
@@ -232,4 +239,9 @@ curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_statu
 # Summary
 curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_summary
 ```
+
+## Installing Raspbian
+
+Use [etcher.io](https://etcher.io) to flash raspbian lite to SD card.
+Then add an empty 'ssh' file to the SD card to enable SSH on boot on Raspbian.
 

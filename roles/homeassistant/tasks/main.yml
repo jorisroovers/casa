@@ -32,7 +32,7 @@
 #   notify:
 #   - restart_homeassistant
 
-- include: patch_python_nest.yml
+- include_tasks: patch_python_nest.yml
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -41,6 +41,11 @@
   notify:
     - reload_homeassistant_automations
 
+- name: "Configuring homeassistant known_devices (no restart needed)"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+  with_items:
+    - known_devices.yaml
+
 - name: "Configuring homeassistant"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
@@ -48,7 +53,6 @@
    - groups.yaml
    - scenes.yaml
    - scripts.yaml
-   - known_devices.yaml
 #   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
    - phue.conf
   notify:

@@ -1,0 +1,6 @@
+cifs_mount_path: "/opt/networkshare"
+cifs_username: "username"
+cifs_password: "password"
+cifs_path: "//10.0.0.1/share"
+cifs_mount_user: "{{ansible_ssh_user}}"
+cifs_mount_group: "{{cifs_mount_user}}"

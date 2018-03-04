@@ -24,6 +24,7 @@
     - appdaemon.yaml
     - apps.yaml
     - dashboards/Home.dash
+    - dashboards/Hallway.dash
     - dashboards/Media.dash
     - dashboards/Security_1.dash
     - dashboards/Security_2.dash

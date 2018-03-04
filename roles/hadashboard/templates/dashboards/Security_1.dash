@@ -3,6 +3,8 @@ widget_dimensions: [120, 120]
 widget_margins: [5, 5]
 columns: 8
 
+{% include "./templates/dashboards/components.yaml" %}
+
 front_garden_camera:
     widget_type: camera
     title: Front Garden
@@ -46,9 +48,9 @@ security_down_nav:
       return: Home
 
 layout:
-    - front_garden_camera(3x2), hallway_camera(3x2), spacer(1x1), security_up_nav(1x1)
-    - spacer(8x1)
-    - diepvries_camera(3x2), back_garden_camera(3x2)
+    - front_garden_camera(3x2), hallway_camera(3x2), smoke_alarm_downstairs(1x1), security_up_nav(1x1)
+    - smoke_alarm_upstairs(1x1)
+    - diepvries_camera(3x2), back_garden_camera(3x2), group.lights_outside(1x1)
     - spacer(8x1)
     - spacer(7x1), security_down_nav(1x1)
     - include: navigation_panel

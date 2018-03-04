@@ -19,4 +19,3 @@ cleanup_work_dir
 echo -e "${GREEN}ALL DONE${NO_COLOR}"
 
 ###########################################################################################
-# TODO: Store backup on NAS

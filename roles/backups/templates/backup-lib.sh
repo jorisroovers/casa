@@ -15,9 +15,10 @@ NO_COLOR="\e[0m"
 
 BACKUP_RETENTION_COUNT=3
 ############################################################################################
+# Backup functions
 
 function purge_old_backups(){
-    num_backups=$(ls $PARENT_DIRECTORY | wc -l)
+    num_backups=$(ls $PARENT_DIRECTORY/*.tar.gz | wc -l)
     diff=$(($num_backups - $BACKUP_RETENTION_COUNT))
 
     if [ $diff -gt 0 ]; then
@@ -51,6 +52,42 @@ function create_tarball(){
     # tar -czvf "${BACKUP_NAME}.tar.gz" -C ${DIRECTORY}/*
     tar -czvf "${BACKUP_NAME}.tar.gz" -C ${DIRECTORY} .
 
+}
+
+##########################################################################################
+# Check functions
+
+function assert_backup_age(){
+    backup_path="$1"
+    max_time_diff="$2"
+    now=$(date +%s)
+    # Check max backup age
+    backup_timestamp=$(stat -c %Y "$backup_path")
+    timediff=$(($now - $backup_timestamp))
+    echo "The backup is $timediff secs old"
+    if [ $timediff -gt $max_time_diff ]; then
+        echo "Uh-oh, that's longer than the max age of $max_time_diff secs..."
+        echo "FAIL"
+        exit 2
+    fi
+    echo "That's within the max threshold of $max_time_diff seconds"
+    echo ""
+}
+
+function assert_backup_size(){
+    backup_path="$1"
+    echo "PATH: $backup_path"
+    min_size="$2"
+    size=$(stat -c %s "$backup_path")
+    echo "The backup is $size bytes"
+
+    if [ $size -lt $min_size ]; then
+        echo "Uh-oh, that's smaller than the min expected size of $min_size bytes..."
+        echo "FAIL"
+        exit 2
+    fi
+
+    echo "That's larger than the min threshold of $min_size bytes"
 }
 
 

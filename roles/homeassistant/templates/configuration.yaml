@@ -18,6 +18,7 @@ logger:
   default: info
   logs:
     homeassistant.components.device_tracker.nmap_tracker: warn
+    homeassistant.components.device_tracker.ping: debug
     homeassistant.components.http: warn
 
 # View all events in a logbook
@@ -66,15 +67,20 @@ device_tracker:
     track_new_devices: no
     consider_home: 1200
     interval_seconds: 5
-  - platform: owntracks_http
-    interval_seconds: 3
-    consider_home: 10
-  # - platform: ping
-  #   track_new_devices: no
-  #   hosts:
+  - platform: ping
+    interval_seconds: 5
+    hosts:
+      tv: {{samsungtv_host}}
+
+
   #     {% for key, value in device_tracker_ping.iteritems() %}
   #     {{key}}: {{value}}
   #     {% endfor %}
+
+
+  - platform: owntracks_http
+    interval_seconds: 3
+    consider_home: 10
 
 # Track the sun
 sun:
@@ -98,6 +104,7 @@ media_player:
   - platform: cast # Chromecast
   - platform: samsungtv
     host: {{samsungtv_host}}
+    port: 8001
   # Apparently Hass' spotify component doesn't recognize sonos devices :(
   # https://community.home-assistant.io/t/spotify-does-not-find-sonos-players-in-source/16245
   - platform: spotify
@@ -223,6 +230,7 @@ input_select:
   downstairs_music:
     name: Downstairs Music
     initial: NoMusic
+    icon: mdi:music
     options:
       - Breakfast
       - Party
@@ -238,11 +246,19 @@ input_select:
       - NoMusic
   bathroom_music:
     name: Bathroom Music
+    icon: mdi:music
     initial: Bathroom NoMusic
     options:
       - Bathroom Relaxing
       - Bathroom Morning
       - Bathroom NoMusic
+  camera_preset:
+    name: Camera Preset
+    initial: Home
+    icon: mdi:camcorder
+    options:
+      - All On
+      - Home
 
 input_boolean:
   cooking:

@@ -6,7 +6,7 @@
             "subscribers": ["casa"],
             "handlers": ["homeassistant-sensor"],
             "interval": {{sensu_default_check_interval}},
-            "aggregate": "homeassistant",
+            "aggregates": ["homeassistant", "backups"],
             "homeassistant": {
                 "sensor_type": "binary_sensor"
             }

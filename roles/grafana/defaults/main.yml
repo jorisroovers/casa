@@ -10,3 +10,6 @@ grafana_port: 3001
 grafana_admin_user: "admin"
 grafana_admin_password: "pass123"
 
+grafana_backups_dir: "{{backups_dir}}/grafana"
+grafana_backups_venv: "{{grafana_backups_dir}}/.venv"
+grafana_backups_api_token: "mytoken"

@@ -10,11 +10,14 @@ reference rather than a plug-and-play solution.
 You might see a reference here and there to ```casa-data```: this is a private repo I maintain that contains the actual
 data relevant to my home (usernames, passwords, secrets, IP addresses, etc). The roles and playbooks in this repo all
 use dummy defaults.
-## Setup
-### Hardware
 
-Here's a list of gear I use that is integrated with casa:
-- AppleTV
+Also, since my family's mother tongue is Dutch, you'll see some Dutch language used here and there
+(mostly in the user-facing parts).
+# Setup
+## Hardware
+I run the whole automation stack on a 2011 Macbook Pro running Ubuntu 17.10.
+
+Here's a list of home-automation gear I use that is integrated with casa:
 - Sonos play 5, play 1, play base
 - Philips Hue light bulbs
 - Ikea Tradfri light bulbs (and movement sensors, remote controls)
@@ -24,28 +27,28 @@ Here's a list of gear I use that is integrated with casa:
 - Nest Thermostat
 - Nest Protect smoke detectors
 - TP link HS100 Power Switch
+- A simple custom-build Arduino sensor for measure the current height of my standing desk
 
-Other gear I have that is currently not integrated in casa:
+Other gear I have that is currently not (yet) integrated in the setup:
+- AppleTV (there are some issues with pyatv turning on the TV randomly)
 - Elgato Eve Window sensor
 - Elgato Eve Power plug
 - Amazon Echo dot
 
-### Software Stack
+## Software Stack
 
 The best way to get a quick overview of the software stack is to look at roles directory
 
-Homeassistant
-HADashboard
+Ubuntu 17.10
+[Homeassistant](https://home-assistant.io/)
+[HADashboard](http://appdaemon.readthedocs.io/en/stable/DASHBOARD_INSTALL.html)
+node-sonos-http-api
+slack
 
+# Getting Started
 
-## Running ansible
-
-### Prerequisites
-
-Install dependencies (best globally):
-```bash
-pip install -r requirements.txt
-```
+I'm currently using Ansible 2.4.2 and am using some Ansible 2.4 specific features in the playbooks, so that's the
+version of ansible you'll need :)
 
 ### DEV
 Development should be done locally in Vagrant.
@@ -67,16 +70,109 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
 ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/inventory/mbp-server --tags roofcam
 ```
 
-## Convenient commands
+
+# TODO
+- Groups: https://home-assistant.io/components/group/
+
+- Location tracking via OwnTracks
+   -> This requires a DDNS, which means exposing everything to the web, which has security implications.
+- https://home-assistant.io/components/media_player.cast/
+- Alexa support
+- Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
+- Force state update on Nest after changing state through python-nest command
+- Metrics dashboard (logstash)
+- Improve roofcam accuracy
+- sonos-node-http-api: SSL & auth
+- Better messaging in slack (also include lights + custom nest sensors)
+- Backups: redis DB
+- Backups: grafana dashboards
+- Backups: auto-copy to Samba share
+- Sensu: inlfuxdb checks
+- sudo askpass program lastpass
+- limit speedtest.net CPU cycles using cgroups
+- Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
+- HADashboard automatically go back to homescreen when no activity
+- Use Flux to change light color in hallway depending on time of day: https://home-assistant.io/components/switch.flux/
+- Upstairs scenes: packing, working
+
+- Security:
+    - Let's encrypt support
+    - TLS everywhere: home-assistant, HADash, Spotify, Sensu, Uchiwa
+    - iptable rules for all (just block all and then selectively allow),
+        make sure base role wipes all other ip tables rules -> in case I manually set something, this should be undone
+
+### Automation Ideas
+- Cooking: If not watching TV & Music=NoPreset -> play music
+- Cooking: If watching TV and cooking active for 1 hour -> disable cooking
+
+- When pausing music -> set music preset to NoMusic
+
+IN PROGRESS:
+
+- When turn off kitchen lights -> stop cooking
+- When setting goodnight -> automatically set cooking back to false
+
+VALIDATED:
+
+
+### Sensor ideas
+- Roofcam sensor (refactor monit-hass-sensors to be more generic)
+- Car at home detect sensor based on image recognition
+- Door/window sensors
+- Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
+- Nest smoke detector checks integrated with sensu
+
+## Actuator ideas
+### Homematic Radiotor thermostat
+https://www.conrad.nl/nl/homematic-ip-draadloze-radiatorthermostaat-hmip-etrv-2-1406552.html?WT.mc_id=gshop&WT.srch=1&gclid=CjwKCAiArOnUBRBJEiwAX0rG_fbAavfdl8fReKPGIuYmW6GDnaOdXExPkVhENMpaS9t9W8L_VXlm6BoCL-oQAvD_BwE&insert=8J&tid=933477491_46789847735_pla-415594332407_pla-1406552
+
+Seems to work with homeassistant:
+https://community.home-assistant.io/t/ccu2-w-homematic-and-homematic-ip-devices/4045/32
+
+Installation instructions
+http://www.eq-3.com/Downloads/eq3/downloads_produktkatalog/homematic_ip/bda/HmIP-eTRV-2-UK_UM_web.pdf
+
+Not clear if this will work on our radiators.
+
+### HADashboard
+- HADashboard: Volume control
+- HADashboard: Custom Nest Cam controls (incl enable-disable support + link to livestream)
+- HADashboard: enlarge camera view on click (not so hard using custom JS)
+- HADashboard: Custom weather widget
+- Automatically go back to Home page after idle for x sec on a given page
+
+
+# Technical notes
+Keeping these here mostly for personal reference.
+
+## Samsung TV
+
+- Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
+    - Model Code: UE48H6200AW
+    - Open ports:
+    Open TCP Port: 	7676   		imqbrokerd
+	 Open TCP Port: 	8000   		irdmi
+	 Open TCP Port: 	8001   		vcom-tunnel
+	 Open TCP Port: 	8080   		http-alt
+	 Open TCP Port: 	8443   		pcsync
+    - https://github.com/Ape/samsungctl
+
+
+Learned about v2 from here: https://github.com/Ape/samsungctl/issues/22
+
+  http://192.168.1.149:8001/api/v2/
 
 ```bash
-# Check logs
-sudo journalctl -fu homeassistant@pi.service
-# Restart server
-sudo systemctl restart homeassistant@pi.service
+# TV off
+$ curl -I -m 2 http://192.168.1.149:8001/api/v2/
+curl: (28) Connection timed out after 2001 milliseconds
+
+# TV on
+$ curl -I -m 2 http://192.168.1.149:8001/api/v2/
+curl: (7) Failed to connect to 192.168.1.149 port 8001: Connection refused
 ```
 
-# Tech specific bits
+
 ## InfluxDB:
 ```
 export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)"; 
@@ -168,65 +264,48 @@ Home-assistant does not allow you to change attributes (like kelvin/brightness) 
 Even if they are exposed by Tradfri/Hue as a single light.
 https://community.home-assistant.io/t/grouped-light-control/1034/49
 
-# TODO
-- Groups: https://home-assistant.io/components/group/
-- Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
-- Location tracking via OwnTracks
-   -> This requires a DDNS, which means exposing everything to the web, which has security implications.
-- https://home-assistant.io/components/media_player.cast/
-- Alexa support
-- Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
-- Force state update on Nest after changing state through python-nest command
-- Metrics dashboard (logstash)
-- Improve roofcam accuracy
-- sonos-node-http-api: SSL & auth
-- Better messaging in slack (also include lights + custom nest sensors)
-- Backups: redis DB
-- Backups: grafana dashboards
-- Backups: auto-copy to Samba share
-- Sensu: inlfuxdb checks
-- sudo askpass program lastpass
-- limit speedtest.net CPU cycles using cgroups
-- Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
-- HADashboard automatically go back to homescreen when no activity
-- Use Flux to change light color in hallway depending on time of day: https://home-assistant.io/components/switch.flux/
-- Upstairs scenes: packing, working
 
-- Security:
-    - Let's encrypt support
-    - TLS everywhere: home-assistant, HADash, Spotify, Sensu, Uchiwa
-    - iptable rules for all (just block all and then selectively allow),
-        make sure base role wipes all other ip tables rules -> in case I manually set something, this should be undone
-
-### Automation Ideas
-- Cooking: If not watching TV & Music=NoPreset -> play music
-- Cooking: If watching TV and cooking active for 1 hour -> disable cooking
-
-- When pausing music -> set music preset to NoMusic
-
-IN PROGRESS:
-
-- When turn off kitchen lights -> stop cooking
-- When setting goodnight -> automatically set cooking back to false
-
-VALIDATED:
-
-
-### Sensor ideas
-- Refactor monit-hass-sensors to custom-hass-sensors so we can do more than just monit sensors
-- Roofcam sensor (refactor monit-hass-sensors to be more generic)
-- Car at home detect sensor based on image recognition
-- Door/window sensors
-- Upload/backups success sensor (based on Monit/other check)
-- Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
-- Nest smoke detector checks integrated with sensu
-
-### HADashboard
-- HADashboard: Volume control
-- HADashboard: Custom Nest Cam controls (incl enable-disable support + link to livestream)
-- HADashboard: enlarge camera view on click (not so hard using custom JS)
-- HADashboard: Custom weather widget
-- Automatically go back to Home page after idle for x sec on a given page
+## Sonos-http-api
+When Sonos playbar is streaming from tv the /TV Room/state call returns the following.
+When turning off the TV, this state stays the same, except for the elapsedTime being reset to 0. This does
+also happen at different occasions (e.g. when switching HDMI inputs, etc), so this doesn't seem to be a reliable
+way of determining whether the TV is on or off.
+```json
+{
+  "volume": 24,
+  "mute": false,
+  "equalizer": {
+    "bass": 0,
+    "treble": 0,
+    "loudness": true,
+    "speechEnhancement": false,
+    "nightMode": false
+  },
+  "currentTrack": {
+    "duration": 0,
+    "uri": "x-sonos-htastream:RINCON_B8E93742407C01400:spdif",
+    "type": "line_in",
+    "stationName": ""
+  },
+  "nextTrack": {
+    "artist": "",
+    "title": "",
+    "album": "",
+    "albumArtUri": "",
+    "duration": 0,
+    "uri": ""
+  },
+  "trackNo": 1,
+  "elapsedTime": 74,
+  "elapsedTimeFormatted": "00:01:14",
+  "playbackState": "PLAYING",
+  "playMode": {
+    "repeat": "none",
+    "shuffle": false,
+    "crossfade": false
+  }
+}
+```
 
 # Old stuff (keeping here for reference)
 ## Monit

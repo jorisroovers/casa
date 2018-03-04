@@ -7,6 +7,7 @@
     - nmap
     - libffi-dev # Required by pyatv
     - libssl-dev # Required by pyatv
+    - build-essential # Required by pyatv
     - autoconf   # Required by Trädfri
 
 - name: Creating homeassistant directory
@@ -26,11 +27,10 @@
 # --quiet sqlalchemy==1.1.14 --upgrade
 # --constraint /opt/homeassistant/.venv/lib/python3.5/site-packages/homeassistant/package_constraints.txt
 
-# Installing pyatv (no longer using it and it fails on python 3.6)
-# - name: "Installing pyatv"
-#   pip: name=pyatv virtualenv="{{homeassistant_venv}}"
-#   notify:
-#   - restart_homeassistant
+- name: "Installing pyatv"
+  pip: name=pyatv virtualenv="{{homeassistant_venv}}"
+  notify:
+  - restart_homeassistant
 
 - include_tasks: patch_python_nest.yml
 

@@ -1,29 +1,23 @@
-light_office:
-  name: Kantoor
-  view: no
-  entities:
-    - light.tradfri_bulb_e27_ws_opal_980lm
-    - light.tradfri_bulb_e27_ws_opal_980lm_2
-    - light.tradfri_bulb_e27_ws_opal_980lm_3
+#########################################################################
+# Grouping of light sources                                             #
+#########################################################################
 
-light_hallway:
-  name: Hall
+lights_downstairs:
+  name: "Downstairs lights"
   view: no
   entities:
-    - light.hal_lamp_1
-    - light.hal_lamp_2
-    - light.hal_lamp_3
+   - light.woonkamer_tv
+   - light.tv_staanlamp
+   - light.living_room
+   - light.office_ambience
+   - light.eetkamer
+   - light.kitchen
+   - light.kantoor
+   - switch.desk_lamp
 
-light_front_door:
-  name: Front Door
+lights_outside:
+  name: "Lights outside"
   view: no
   entities:
-    - light.tradfri_bulb_e27_ws_opal_980lm_7
-
-light_dinner_table:
-  name: Dinner Table
-  view: no
-  entities:
-    - light.eetkamer_lamp_1
-    - light.eetkamer_lamp_2
-    - light.eetkamer_lamp_3
+    - light.voordeur
+    - light.garden

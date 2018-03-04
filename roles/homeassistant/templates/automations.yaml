@@ -238,7 +238,7 @@
       entity_id: binary_sensor.joris_working
       to: 'on'
     - platform: state
-      entity_id: group.light_office
+      entity_id: light.kantoor
       to: 'on'
   condition:
     - condition: and
@@ -286,32 +286,30 @@
 # Camera related automations                #
 #############################################
 
-- id: enable_all_cameras
-  alias: 'Enable all cameras'
+- alias: Camera Preset Home Automation
   trigger:
-{% for scene_name in ['sleeping', 'away'] %}
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.{{scene_name}}
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.{{scene_name}}
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.{{scene_name}}']
-        domain: scene
-        service: turn_on
-{% endfor %}
+    platform: state
+    entity_id: input_select.camera_preset
+    to: "Home"
+  action:
+    - service: shell_command.disable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.diepvries}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.hallway}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.front_garden}}"
+    - service: shell_command.enable_nest_camera
+      data:
+        camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"
+
+- alias: Camera Preset All On Automation
+  trigger:
+    platform: state
+    entity_id: input_select.camera_preset
+    to: "All On"
   action:
     - service: shell_command.enable_nest_camera
       data:
@@ -329,45 +327,3 @@
       data:
         message: |
             The place is locked down.
-
-- id: disable_diepvries_cam
-  alias: 'Disable diepvries cam, enabling all others'
-  trigger:
-{% for scene_name in ['home', 'start_work_day', 'good_morning', 'watching_tv', 'reading', 'cooking', 'weekend_breakfast', 'relaxing', 'romance', 'relaxing_shower', 'bathroom_morning_ritual'] %}
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.{{scene_name}}
-        domain: homeassistant
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: scene.{{scene_name}}
-        domain: scene
-        service: turn_on
-    - platform: event
-      event_type: call_service
-      event_data:
-        service_data:
-          entity_id: ['scene.{{scene_name}}']
-        domain: scene
-        service: turn_on
-{% endfor %}
-
-  action:
-    - service: shell_command.disable_nest_camera
-      data:
-        camera_serial_id: "{{nest_cam_serial_ids.diepvries}}"
-    - service: shell_command.enable_nest_camera
-      data:
-        camera_serial_id: "{{nest_cam_serial_ids.hallway}}"
-    - service: shell_command.enable_nest_camera
-      data:
-        camera_serial_id: "{{nest_cam_serial_ids.front_garden}}"
-    - service: shell_command.enable_nest_camera
-      data:
-        camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"
-

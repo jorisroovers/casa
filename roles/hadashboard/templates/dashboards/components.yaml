@@ -47,14 +47,23 @@ binary_sensor_sonos_http_api:
     icon_on: mdi-bullseye
     icon_off: mdi-bullseye
 
-binary_sensor_sensu_backups:
+binary_sensor_backup_github:
   widget_type: binary_sensor
-  title: Backups
-  entity: binary_sensor.sensu_backups
+  title: Github backup
+  entity: binary_sensor.sensu_backup_github
   icon_style_active: "color: #aaff00;"
   icon_style_inactive: "color: red"
   icon_on: mdi-bullseye
   icon_off: mdi-bullseye
+
+binary_sensor_backup_influxdb:
+    widget_type: binary_sensor
+    title: InfluxDB backup
+    entity: binary_sensor.sensu_backup_influxdb
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
 
 smoke_alarm_downstairs:
     widget_type: binary_sensor

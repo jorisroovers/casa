@@ -32,7 +32,7 @@ security_down_nav:
 layout:
     - roofcam_camera(3x2), spacer(4x1), security_up_nav(1x1)
     - spacer(8x1)
-    - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1)
+    - spacer(8x1)
     - spacer(8x1)
     - spacer(7x1), security_down_nav(1x1)
     - include: navigation_panel

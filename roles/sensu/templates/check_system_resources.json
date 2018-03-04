@@ -25,6 +25,13 @@
             "command": "check-memory.rb -w {{ansible_memtotal_mb * 0.70 | int }} -c {{ansible_memtotal_mb * 0.90 | int}}",
             "subscribers": [ "casa" ],
             "interval": {{sensu_default_check_interval}}
+        },
+        "temperature": {
+            "type": "metric",
+            "command": " /opt/sensu/embedded/bin/metrics-temperature.rb",
+            "subscribers": [ "casa" ],
+            "handlers": ["influx-tcp"],
+            "interval": {{sensu_default_check_interval}}
         }
     }
 }

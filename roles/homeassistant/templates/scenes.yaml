@@ -3,66 +3,38 @@
 #####################################################
 - name: Sleeping
   entities:
-    light.woonkamer_tv:
+    group.lights_outside:
         state: off
-    light.tv_staanlamp:
-        state: off
-    light.garden:
-        state: off
-    light.living_room:
-        state: off
-    light.kantoor_sfeer_verlichting:
-        state: off
-    group.light_dinner_table:
-        state: off
-    light.kitchen:
-        state: off
-    group.light_office:
-        state: off
-    group.light_front_door:
-        state: off
-    switch.desk_lamp:
+    group.lights_downstairs:
         state: off
     input_select.downstairs_music:
         option: NoMusic
     input_select.bathroom_music:
-        option: NoMusic
+        option: Bathroom NoMusic
     input_boolean.cooking:
         option: off
+    input_select.camera_preset:
+        option: All On
 
-# 'Home' really just needs to turn off the diepvries cam which happens through an automation
-# However, HomeAssistant doesn't like empty entity dicts in scenes
 - name: Home
   entities:
-    group.light_dinner_table:
-        state: off
+    input_select.camera_preset:
+        option: Home
 
 - name: Away
   entities:
-    light.woonkamer_tv:
+    group.lights_outside:
         state: off
-    light.tv_staanlamp:
-        state: off
-    light.garden:
-        state: off
-    light.living_room:
-        state: off
-    group.light_dinner_table:
-        state: off
-    light.kitchen:
-        state: off
-    light.kantoor_sfeer_verlichting:
-        state: off
-    group.light_office:
-        state: off
-    switch.desk_lamp:
+    group.lights_downstairs:
         state: off
     input_select.downstairs_music:
         option: NoMusic
     input_select.bathroom_music:
-        option: NoMusic
+        option: Bathroom NoMusic
     input_boolean.cooking:
         option: off
+    input_select.camera_preset:
+        option: All On
 
 ###################################
 # Living scenes                  #
@@ -82,6 +54,8 @@
         state: off
     input_select.downstairs_music:
         option: NoMusic
+    input_select.camera_preset:
+        option: Home
 
 - name: Breakfast
   entities:
@@ -93,14 +67,16 @@
         state: off
     light.living_room:
         state: off
-    group.light_dinner_table:
+    light.eetkamer:
         state: on
     light.kitchen:
         state: off
-    group.light_office:
+    light.kantoor:
         state: off
     input_select.downstairs_music:
         option: Breakfast
+    input_select.camera_preset:
+        option: Home
 
 - name: Romance
   entities:
@@ -111,12 +87,14 @@
         state: on
         kelvin: 2200
         brightness_pct: 20
-    group.light_office:
+    light.kantoor:
         state: off
     light.living_room:
         state: off
     input_select.downstairs_music:
         option: Romance
+    input_select.camera_preset:
+        option: Home
 
 - name: Christmas
   entities:
@@ -128,6 +106,8 @@
         state: off
     input_select.downstairs_music:
         option: Christmas
+    input_select.camera_preset:
+        option: Home
 
 - name: Relaxing
   entities:
@@ -138,12 +118,14 @@
         state: on
         kelvin: 2200
         brightness_pct: 20
-    group.light_office:
+    light.kantoor:
         state: off
     light.living_room:
         state: off
     input_select.downstairs_music:
         option: Relaxing
+    input_select.camera_preset:
+        option: Home
 
 - name: Reading
   entities:
@@ -154,6 +136,8 @@
         state: off
     light.kitchen:
         state: off
+    input_select.camera_preset:
+        option: Home
 
 - name: NoPreset
   entities:
@@ -164,9 +148,7 @@
 
 - name: Sunset
   entities:
-    group.light_front_door:
-        state: on
-    light.garden:
+    group.lights_outside:
         state: on
     light.kantoor_sfeer_lamp_1:
         state: on
@@ -177,9 +159,7 @@
 
 - name: Midnight
   entities:
-    group.light_front_door:
-        state: off
-    light.garden:
+    group.lights_outside:
         state: off
 
 ##################
@@ -192,6 +172,8 @@
         state: off
     light.kitchen:
         state: on
+    input_select.camera_preset:
+        option: Home
 
 - name: StopCooking
   entities:
@@ -205,11 +187,9 @@
 ############
 - name: StartWorkDay
   entities:
-    light.garden:
+    group.lights_outside:
         state: off
-    group.light_front_door:
-        state: off
-    group.light_office:
+    light.kantoor:
         state: on
     light.nachttafel_joris:
         state: off
@@ -221,6 +201,8 @@
         option: Pop
     switch.desk_lamp:
         state: on
+    input_select.camera_preset:
+        option: Home
 
 - name: BathroomMorningWeekDay
   entities:

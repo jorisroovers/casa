@@ -83,3 +83,6 @@
     backup_type: "influxdb"
     script_content: "{{lookup('template', './templates/influxdb-backup.sh')}}"
     backup_min_size: "{{ 2 * 1024 * 1024 }}"
+  tags:
+    - influxdb-backup
+    - backups

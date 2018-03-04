@@ -1,4 +1,4 @@
-title: Home
+title: Hallway
 widget_dimensions: [120, 120]
 widget_margins: [5, 5]
 columns: 8
@@ -20,17 +20,6 @@ living_room_temperature:
     value_style: "font-size: 350%; color: #f1c40f"
     unit_style: "color: #f1c40f"
 
-humidity:
-    widget_type: gauge
-    title: Binnen Vochtigheid
-    units: "%"
-    min: 0
-    max: 100
-    entity: sensor.living_room_thermostat_humidity
-    color: "#fff"
-    # unit_style: "color: #fff"
-    # precision: 0
-
 rijtijd_ilse:
     widget_type: sensor
     title: Rijtijd Ilse
@@ -38,23 +27,30 @@ rijtijd_ilse:
     entity: sensor.rijtijd_werk_ilse
     value_style: "font-size: 350%"
 
-good_morning:
-    widget_type: scene
-    title: Goede Morgen
-    entity: scene.good_morning
-    icon_on: mdi-weather-sunset-up
-    icon_off: mdi-weather-sunset-up
-
 clock:
     widget_type: clock
     date_style: "font-size: 150%"
     time_style: "font-size: 500%"
 
+home:
+    widget_type: mode
+    title: Thuis
+    entity: input_select.house_mode
+    icon_on: fa-unlock
+    icon_off: fa-unlock
+    title_style: "font-size: 200%;"
+    icon_style_inactive: "font-size: 700%; top: 70px;"
+    icon_style_active: "color: #FFD700; font-size: 700%; top: 70px;"
+    mode: "Home"
+    script: script.house_mode_home
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.house_mode
+        option: "Home"
+
 # Note: every row needs to be present in the layout, even if empty
 layout:
     - clock(4x1), house_mode(3x1), monitoring_checks_status(1x1)
-    - living_room_temperature(2x1), outside_temperature(2x1), home(1x1), away(1x1), sleep(1x1), joris_working(1x1)
-    - humidity(1x1), spacer(1x1), rijtijd_ilse(1x1), spacer(1x1), light.eetkamer(2x1), light.kitchen(2x1)
-    - watch_tv(1x1), breakfast(1x1), spacer(1x1), cooking(1x1), light.woonkamer_tv(2x1), light.living_room(2x1)
-    - romance(1x1), relaxing(1x1), reading(1x1), spacer(1x1), light.tv_staanlamp(2x1), light.kantoor(2x1)
-    - include: navigation_panel
+    - living_room_temperature(2x1), outside_temperature(2x1), rijtijd_ilse(2x1)
+    - home(2x2), away(2x2), sleep(2x2)
+    # - include: navigation_panel

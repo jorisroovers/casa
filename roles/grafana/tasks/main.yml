@@ -80,3 +80,9 @@
     datasource_user: "{{influxdb_sensu_user}}"
     datasource_password: "{{influxdb_sensu_password}}"
     datasource_database: "{{influxdb_sensu_db}}"
+
+- name: "Installing Grafana backup tool"
+  include_tasks: install_grafana_backup_tool.yml
+  tags:
+    - grafana-backup
+    - backups

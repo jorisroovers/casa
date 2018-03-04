@@ -1,16 +1,13 @@
 ---
-- name: Adding cronjob for backup scripts
+- name: "[{{backup_type}} backup] Adding cronjob for backup script"
   cron: name="Periodic {{backup_type}} backup" hour="*/6" minute="0" job="{{backup_script}}" user={{backups_user}}
 
-- name: Creating backup script
+- name: "[{{backup_type}} backup] Creating backup script"
   template: src="backup-wrapper.sh" dest="{{backup_script}}"
             owner={{backups_user}} group={{backups_group}} mode=u+x
 
-- name: Creating backup monitoring (check) script
-  template: src="backup-check.sh" dest="{{backup_monitoring_script}}"
-            owner={{backups_user}} group={{backups_group}} mode=u=rwx,o=rx
+- name: Install backup check
+  include_role:
+    name: backup_check
 
-- name: Adding sensu check for backup monitoring script
-  template: src="backup-check.json" dest="{{sensu_conf_dir}}/check_backup_{{backup_type}}.json"
-  notify: restart_sensu
-  become: yes
+  # {{backups_dir}}/{{backup_type}}

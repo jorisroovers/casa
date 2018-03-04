@@ -36,6 +36,13 @@
     - g++
     - make # Needed for sensu plugins
 
+- name: "Installing sensu plugin system dependencies"
+  apt: name={{item}} state=present
+  become: yes
+  notify: restart_sensu
+  with_items:
+    - lm-sensors # Needed for sensu-plugins-environmental-checks
+
 # FUTURE: consider doing:
 # - gem: name=sensu-plugins-disk-checks version=0.0.1 state=present executable=/opt/sensu/embedded/bin/gem
 # see: http://sensu-plugins.io/docs/installation_instructions.html
@@ -53,6 +60,7 @@
     - systemd
     - sensu # we use check-aggregate.rb
     - influxdb
+    - environmental-checks
 
   # Patch metric-influxdb code to not do a create database call
   # We've already pre-created the DB (see influxdb role) and don't want to grant full DB admin rights to the

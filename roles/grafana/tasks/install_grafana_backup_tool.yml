@@ -1,0 +1,21 @@
+---
+- name: Creating grafana backups dir
+  file: path={{grafana_backups_dir}} state=directory
+
+- name: Cloning grafana-backup-tool from github
+  git: repo=https://github.com/ysde/grafana-backup-tool dest={{grafana_backups_dir}}/grafana-backup-tool
+       version=b15a3d8fb3ca29bbaa72b9737cb469baf0ccd825
+
+- name: Creating grafana-backup-tool virtualenv
+  command: virtualenv {{grafana_backups_venv}} creates="{{grafana_backups_venv}}"
+
+- name: "Installing requests"
+  pip: name=requests virtualenv="{{grafana_backups_venv}}" version=2.11.1
+
+- name: Install backup script
+  include_role:
+    name: backup_script
+  vars:
+    backup_type: "grafana"
+    script_content: "{{lookup('template', './templates/grafana-backup.sh')}}"
+    backup_min_size: "{{ 2 * 1024 }}"

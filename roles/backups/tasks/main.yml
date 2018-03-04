@@ -8,6 +8,7 @@
             owner={{backups_user}} group={{backups_group}} mode=u+x
   with_items:
     - backup-lib.sh
+    - copy-backups.sh
 
 - name: Create backup scripts
   include_role:
@@ -18,3 +19,17 @@
     backup_type: "{{item.backup_type}}"
     script_content: "{{lookup('template', './templates/{{item.backup_type}}-backup.sh')}}"
     backup_min_size: "{{item.backup_min_size}}"
+
+# Run backups at the 15 min mark every 6 hrs - this ensures that other backups have finished
+- name: "Adding cronjob for copy-backups script"
+  cron: name="Periodic copy-backups.sh run" hour="*/6" minute="15" job="{{backups_dir}}/copy-backups.sh"
+        user={{backups_user}}
+
+- name: Install copy-backups check
+  include_role:
+    name: backup_check
+  vars:
+    backup_type: "copy-backups"
+    backup_file_filter: "-d {{backups_external_copy_path}}/*/"
+    backup_min_size: 0
+    # TODO: on Samba, directory sizes return as 0, should make sure there's actually files in there

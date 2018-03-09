@@ -3,35 +3,7 @@ widget_dimensions: [117, 117]
 widget_margins: [5, 5]
 columns: 3
 
-front_garden_camera:
-    widget_type: camera
-    title: Front Garden
-    entity_picture: {{nest_cam_entity_pictures.front_garden}}
-    refresh: {{camera_widget_refresh_rate}}
-
-back_garden_camera:
-    widget_type: camera
-    title: Back Garden
-    entity_picture: {{nest_cam_entity_pictures.back_garden}}
-    refresh: {{camera_widget_refresh_rate}}
-
-diepvries_camera:
-    widget_type: camera
-    title: Diepvries
-    entity_picture: {{nest_cam_entity_pictures.diepvries}}
-    refresh: {{camera_widget_refresh_rate}}
-
-hallway_camera:
-    widget_type: camera
-    title: Hallway
-    entity_picture: {{nest_cam_entity_pictures.hallway}}
-    refresh: {{camera_widget_refresh_rate}}
-
-roofcam_camera:
-    widget_type: camera
-    title: Roofcam
-    entity_picture: {{roofcam_entity_picture}}
-    refresh: {{camera_widget_refresh_rate}}
+{% include "./templates/dashboards/components.yaml" %}
 
 security_up_nav:
     widget_type: navigate

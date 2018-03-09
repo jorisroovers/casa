@@ -51,6 +51,13 @@
     - restart_roofcam
   become: yes
 
+- name: "Add iptable rule for roofcam"
+  iptables: chain=INPUT protocol=tcp destination_port={{roofcam_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="roofcam"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
 - name: Installing some convenience aliases
   template: src=roofcam-aliases.sh dest=/etc/profile.d/roofcam-aliases.sh
   become: yes

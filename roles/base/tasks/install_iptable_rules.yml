@@ -1,0 +1,39 @@
+---
+# This whole task list is heavily based of:
+# https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands
+
+# Installing iptables-persistent ensures IP tables rules survive a restart
+- name: "Installing iptables-persistent"
+  apt: name={{item}} state=present
+  with_items:
+    - iptables-persistent
+  notify: save_iptables
+
+# Allow Loopback connections
+- name: "Allow INPUT Loopback"
+  iptables: chain=INPUT in_interface=lo jump=ACCEPT
+  notify: save_iptables
+
+- name: "Allow incoming ping from local subnet"
+  iptables: chain=INPUT protocol=icmp source={{casa_subnet}} ctstate=NEW,ESTABLISHED,RELATED icmp_type=8 jump=ACCEPT
+            comment="Incoming ping from local subnet"
+  notify: save_iptables
+
+- name: "Allow reply to pings"
+  iptables: chain=INPUT protocol=icmp ctstate=ESTABLISHED,RELATED icmp_type=0 jump=ACCEPT
+            comment="Allow reply to pings"
+  notify: save_iptables
+
+- name: "Allow SSH from local subnet"
+  iptables: chain=INPUT protocol=tcp destination_port=22 source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment=SSH
+  notify: save_iptables
+
+- name: "Allow ESTABLISHED,RELATED connections"
+  iptables: chain=INPUT ctstate=ESTABLISHED,RELATED jump=ACCEPT
+  become: yes
+  notify: save_iptables
+
+- name: "Deny INPUT everything else"
+  iptables: chain=INPUT policy=DROP
+  notify: save_iptables

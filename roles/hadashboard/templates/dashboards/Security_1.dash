@@ -5,30 +5,6 @@ columns: 8
 
 {% include "./templates/dashboards/components.yaml" %}
 
-front_garden_camera:
-    widget_type: camera
-    title: Front Garden
-    entity_picture: {{nest_cam_entity_pictures.front_garden}}
-    refresh: {{camera_widget_refresh_rate}}
-
-back_garden_camera:
-    widget_type: camera
-    title: Back Garden
-    entity_picture: {{nest_cam_entity_pictures.back_garden}}
-    refresh: {{camera_widget_refresh_rate}}
-
-diepvries_camera:
-    widget_type: camera
-    title: Diepvries
-    entity_picture: {{nest_cam_entity_pictures.diepvries}}
-    refresh: {{camera_widget_refresh_rate}}
-
-hallway_camera:
-    widget_type: camera
-    title: Hallway
-    entity_picture: {{nest_cam_entity_pictures.hallway}}
-    refresh: {{camera_widget_refresh_rate}}
-
 security_up_nav:
     widget_type: navigate
     icon_inactive: mdi-arrow-up-bold-circle-outline

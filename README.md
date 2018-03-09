@@ -3,9 +3,9 @@ Set of ansible playbooks that I use to maintain my [homeassistant](home-assistan
 
 ![HADashboard Preview](docs/images/Home.png)
 
-I maintain this purely for fun (often favoring speed over quality) and really only with my own use-cases in mind,
-so use at your own risk! I don't expect the actual code to work for anyone but me, so please consider this as more as a
-reference rather than a plug-and-play solution.
+I maintain this purely for fun (often favoring speed and exploration over quality) and really only with my own use-cases
+in mind, so use at your own risk! I don't expect the actual code to work for anyone but me, so please consider this as
+more as a reference rather than a plug-and-play solution.
 
 You might see a reference here and there to ```casa-data```: this is a private repo I maintain that contains the actual
 data relevant to my home (usernames, passwords, secrets, IP addresses, etc). The roles and playbooks in this repo all
@@ -85,9 +85,7 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
 - sonos-node-http-api: SSL & auth
 - Better messaging in slack (also include lights + custom nest sensors)
 - Backups: redis DB
-- Backups: grafana dashboards
-- Backups: auto-copy to Samba share
-- Sensu: inlfuxdb checks
+- Sensu: influxdb checks
 - sudo askpass program lastpass
 - limit speedtest.net CPU cycles using cgroups
 - Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
@@ -101,26 +99,22 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
     - iptable rules for all (just block all and then selectively allow),
         make sure base role wipes all other ip tables rules -> in case I manually set something, this should be undone
 
-### Automation Ideas
-- Cooking: If not watching TV & Music=NoPreset -> play music
-- Cooking: If watching TV and cooking active for 1 hour -> disable cooking
+- Laptop checks:
+  - Spotify playing
 
+## Automation Ideas
+- Cooking: If not watching TV & Music=NoPreset -> play music
 - When pausing music -> set music preset to NoMusic
 
-IN PROGRESS:
-
-- When turn off kitchen lights -> stop cooking
-- When setting goodnight -> automatically set cooking back to false
-
-VALIDATED:
-
-
-### Sensor ideas
+## Sensor ideas
+- Gaming sensor based on PS4 & TV Awake
+- Watching TV sensor based on TV Awake
 - Roofcam sensor (refactor monit-hass-sensors to be more generic)
 - Car at home detect sensor based on image recognition
 - Door/window sensors
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
 - Nest smoke detector checks integrated with sensu
+- Power switch with usage sensor for washing machine to determine whether it's on or not
 
 ## Actuator ideas
 ### Homematic Radiotor thermostat
@@ -134,13 +128,12 @@ http://www.eq-3.com/Downloads/eq3/downloads_produktkatalog/homematic_ip/bda/HmIP
 
 Not clear if this will work on our radiators.
 
-### HADashboard
+## HADashboard
 - HADashboard: Volume control
 - HADashboard: Custom Nest Cam controls (incl enable-disable support + link to livestream)
 - HADashboard: enlarge camera view on click (not so hard using custom JS)
 - HADashboard: Custom weather widget
 - Automatically go back to Home page after idle for x sec on a given page
-
 
 # Technical notes
 Keeping these here mostly for personal reference.
@@ -160,22 +153,22 @@ Keeping these here mostly for personal reference.
 
 Learned about v2 from here: https://github.com/Ape/samsungctl/issues/22
 
-  http://192.168.1.149:8001/api/v2/
+http://$SAMSUNGTV_IP:8001/api/v2/
 
 ```bash
 # TV off
-$ curl -I -m 2 http://192.168.1.149:8001/api/v2/
+$ curl -I -m 2 http://$SAMSUNGTV_IP:8001/api/v2/
 curl: (28) Connection timed out after 2001 milliseconds
 
 # TV on
-$ curl -I -m 2 http://192.168.1.149:8001/api/v2/
-curl: (7) Failed to connect to 192.168.1.149 port 8001: Connection refused
+$ curl -I -m 2 http://$SAMSUNGTV_IP:8001/api/v2/
+curl: (7) Failed to connect to $SAMSUNGTV_IP port 8001: Connection refused
 ```
 
 
 ## InfluxDB:
 ```
-export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)"; 
+export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)";
 echo "export INFLUX_USERNAME=\"$INFLUX_USERNAME\"; export INFLUX_PASSWORD=\"$INFLUX_PASSWORD\";"
 influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD"
 # Examples
@@ -192,8 +185,16 @@ nest --client-id $NEST_CLIENT_ID --client-secret $NEST_CLIENT_SECRET --token-cac
 
 ## grafana
 
-Database location: /var/lib/grafana/grafana.db
+Using this tool for backups: https://github.com/ysde/grafana-backup-tool
 
+Note that the exported json files (with extension .dashboard) can not just be imported through the grafana UI, you need
+to use the same grafana-backup-tool to do the restore, like so:
+
+```bash
+git clone https://github.com/ysde/grafana-backup-tool.git
+export GRAFANA_URL="http://localhost:3001"; export GRAFANA_TOKEN="<token>";
+python grafana-backup-tool/createDashboard.py dashboards/Overview.dashboard
+```
 
 # Miscellaneous notes
 
@@ -270,6 +271,11 @@ When Sonos playbar is streaming from tv the /TV Room/state call returns the foll
 When turning off the TV, this state stays the same, except for the elapsedTime being reset to 0. This does
 also happen at different occasions (e.g. when switching HDMI inputs, etc), so this doesn't seem to be a reliable
 way of determining whether the TV is on or off.
+
+```
+curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
+```
+
 ```json
 {
   "volume": 24,

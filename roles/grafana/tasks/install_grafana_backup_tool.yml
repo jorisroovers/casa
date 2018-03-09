@@ -1,6 +1,7 @@
 ---
 - name: Creating grafana backups dir
-  file: path={{grafana_backups_dir}} state=directory
+  file: path={{grafana_backups_dir}} state=directory owner={{backups_user}} group={{backups_group}}
+  become: yes
 
 - name: Cloning grafana-backup-tool from github
   git: repo=https://github.com/ysde/grafana-backup-tool dest={{grafana_backups_dir}}/grafana-backup-tool

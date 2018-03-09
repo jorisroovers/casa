@@ -1,6 +1,6 @@
-##################
-# Living Preset  #
-##################
+################################################################################
+# Living Preset                                                                #
+################################################################################
 
 - alias: Automatically set scene for Living Preset
   trigger:
@@ -25,9 +25,9 @@
           {% endif %}
           {% endraw %}
 
-###############
-# House Mode  #
-###############
+################################################################################
+# House Mode                                                                   #
+################################################################################
 - alias: Automatically set scene for House Mode
   trigger:
     platform: state
@@ -41,9 +41,38 @@
         entity_id: input_select.living_preset
         option: NoPreset
 
-#############################################
-# Music input to sonos preset               #
-#############################################
+- id: auto_home_on_start_work
+  alias: 'Automatically set house_mode to home when turning on the office light in the morning'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.joris_working
+      to: 'on'
+    - platform: state
+      entity_id: light.kantoor
+      to: 'on'
+  condition:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.house_mode
+        state: 'Sleeping'
+      - condition: time
+        after: '05:00:00'
+        before: '18:00:00'
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Good Morning, enjoy your day!
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: "Home"
+
+
+################################################################################
+# Music input to sonos preset                                                  #
+################################################################################
 
 - alias: Play downstairs sonos preset for music input select
   trigger:
@@ -74,29 +103,32 @@
         entity_id: input_select.bathroom_music
         option: "Bathroom NoMusic"
 
-###########
-# Cooking #
-###########
+################################################################################
+# TV                                                                           #
+################################################################################
+- alias: Automatically set LivingPreset to Watching TV when turning on the TV after sunset
+  trigger:
+    platform: state
+    entity_id: device_tracker.samsungtv
+    to: "home"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_preset
+        option: "Watching TV"
+
+################################################################################
+# Cooking                                                                      #
+################################################################################
 
 - alias: Automatically trigger Cooking scene when cooking enabled
   trigger:
     platform: state
     entity_id: input_boolean.cooking
-    to: "on"
   action:
     - service: scene.turn_on
-      data:
-        entity_id: "scene.Cooking"
-
-- alias: Automatically trigger StopCooking scene when cooking disabled
-  trigger:
-    platform: state
-    entity_id: input_boolean.cooking
-    to: "off"
-  action:
-    - service: scene.turn_on
-      data:
-        entity_id: "scene.StopCooking"
+      data_template:
+        entity_id: "{% raw %}{{ 'scene.Cooking' if is_state('input_boolean.cooking', 'on') else 'scene.StopCooking'}}{% endraw %}"
 
 - alias: Automatically disable cooking when turning off kitchen lights
   trigger:
@@ -108,9 +140,31 @@
       data:
         entity_id: input_boolean.cooking
 
-#############
-# Mornings  #
-#############
+- alias: Automatically stop cooking in the evening after 45min if the TV is on
+  trigger:
+    - platform: state
+      entity_id: input_boolean.cooking
+      to: "on"
+  condition:
+    - condition: time
+      after: '17:30:00'
+      before: '22:00:00'
+  action:
+    - delay: 0:45
+    - service: notify.slack
+      data:
+        message: |
+              Turning Off Cooking, since you're watching TV and starting cooking 45 mins ago
+    - condition: state
+      entity_id: "device_tracker.samsungtv"
+      state: "home"
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.cooking
+
+################################################################################
+# Mornings                                                                     #
+################################################################################
 
 - alias: Trigger BathroomMorning scene on light turn on during week days
   trigger:
@@ -132,11 +186,28 @@
       data:
         entity_id: "scene.BathroomMorningWeekDay"
 
-- alias: Start work day when pausing bathroom player in the morning during weekdays
+- alias: Start week day when pausing bathroom player in the morning during weekdays
   trigger:
     - platform: state
       entity_id: media_player.bathroom
       to: "paused"
+  condition:
+    - condition: time
+      after: '07:30:00'
+      before: '11:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.StartWeekDay"
+
+- alias: Start work day turning on computer in the morning
+  trigger:
     - platform: state
       entity_id: binary_sensor.joris_working
       from: 'off'
@@ -154,11 +225,11 @@
   action:
     - service: scene.turn_on
       data:
-        entity_id: "scene.StartWorkDay"
+        entity_id: "scene.StartWorkingMorning"
 
-#####################################################
+################################################################################
 # Send message on nest-presence set to home or away #
-#####################################################
+################################################################################
 
 - id: auto_away_nest_presence
   alias: 'Send message when away from home'
@@ -195,9 +266,9 @@
               Welcome home! Set home automatically to home.
 
 
-################################################
+################################################################################
 # Turn on/off outdoor lights at sunset/sunrise #
-################################################
+################################################################################
 
 - id: sunset_outdoor_lighting
   alias: 'Turn on outdoor lighting at sunset'
@@ -227,64 +298,21 @@
         message: |
               Midnight. Turning off outdoor lights.
 
-###########################################################
-# When sleeping and starting work, set house_mode to home #
-###########################################################
-
-- id: auto_home_on_start_work
-  alias: 'Automatically set house_mode to home when turning on the office light in the morning'
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.joris_working
-      to: 'on'
-    - platform: state
-      entity_id: light.kantoor
-      to: 'on'
-  condition:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: input_select.house_mode
-        state: 'Sleeping'
-      - condition: time
-        after: '05:00:00'
-        before: '18:00:00'
-  action:
-    - service: notify.slack
-      data:
-        message: |
-              Good Morning, enjoy your day!
-    - service: input_select.select_option
-      data_template:
-        entity_id: input_select.house_mode
-        option: "Home"
-
-#################################################
-# Switch desk light when starting/stopping work #
-#################################################
-- alias: Turn on desk light when working
+################################################################################
+# Work                                                                         #
+################################################################################
+- alias: Set Working Scene according to binary sensor
   trigger:
     platform: state
     entity_id: binary_sensor.joris_working
-    to: 'on'
   action:
-      - service: switch.turn_on
-        data:
-          entity_id: switch.desk_lamp
+      - service: scene.turn_on
+        data_template:
+          entity_id: "{% raw %}{{ 'scene.Working' if is_state('binary_sensor.joris_working', 'on') else 'scene.NotWorking'}}{% endraw %}"
 
-- alias: Turn off desk light when stop working
-  trigger:
-    platform: state
-    entity_id: binary_sensor.joris_working
-    to: 'off'
-  action:
-      - service: switch.turn_off
-        data:
-          entity_id: switch.desk_lamp
-
-#############################################
-# Camera related automations                #
-#############################################
+################################################################################
+# Camera                                                                       #
+################################################################################
 
 - alias: Camera Preset Home Automation
   trigger:

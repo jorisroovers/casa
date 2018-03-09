@@ -65,6 +65,24 @@ binary_sensor_backup_influxdb:
     icon_on: mdi-bullseye
     icon_off: mdi-bullseye
 
+binary_sensor_backup_grafana:
+    widget_type: binary_sensor
+    title: Grafana backup
+    entity: binary_sensor.sensu_backup_grafana
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_backup_copy:
+    widget_type: binary_sensor
+    title: Backups copy
+    entity: binary_sensor.sensu_backup_copy_backups
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
 smoke_alarm_downstairs:
     widget_type: binary_sensor
     title: Rookmelder Living
@@ -252,6 +270,29 @@ sleep:
         entity_id: input_select.house_mode
         option: "Sleeping"
 
+######################################
+# Presence                           #
+######################################
+
+tv_presence:
+    widget_type: device_tracker
+    title: TV
+    device: samsungtv
+    icon_on: mdi-power
+    icon_off: mdi-power
+    state_map:
+      "home": "On"
+      "not_home": "Off"
+
+ps4_presence:
+    widget_type: device_tracker
+    title: PS4
+    device: ps4
+    icon_on: mdi-power
+    icon_off: mdi-power
+    state_map:
+      "home": "On"
+      "not_home": "Off"
 
 #######################################################################
 # DOWNSTAIRS MUSIC                                                    #
@@ -464,6 +505,41 @@ bathroom_music_relax:
         service: input_select/select_option
         entity_id: input_select.bathroom_music
         option: "Bathroom NoMusic"
+
+####################################
+# Cameras                          #
+####################################
+
+front_garden_camera:
+    widget_type: camera
+    title: Front Garden
+    entity_picture: {{nest_cam_entity_pictures.front_garden}}
+    refresh: {{camera_widget_refresh_rate}}
+
+back_garden_camera:
+    widget_type: camera
+    title: Back Garden
+    entity_picture: {{nest_cam_entity_pictures.back_garden}}
+    refresh: {{camera_widget_refresh_rate}}
+
+diepvries_camera:
+    widget_type: camera
+    title: Diepvries
+    entity_picture: {{nest_cam_entity_pictures.diepvries}}
+    refresh: {{camera_widget_refresh_rate}}
+
+hallway_camera:
+    widget_type: camera
+    title: Hallway
+    entity_picture: {{nest_cam_entity_pictures.hallway}}
+    refresh: {{camera_widget_refresh_rate}}
+
+roofcam_camera:
+    widget_type: camera
+    title: Roofcam
+    entity_picture: {{roofcam_entity_picture}}
+    refresh: {{camera_widget_refresh_rate}}
+
 
 ####################################
 # Misc                             #

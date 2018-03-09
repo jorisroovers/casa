@@ -157,7 +157,15 @@
     - sensu-client
     - sensu-api
 
+- name: "Add iptable rule for sensu-api"
+  iptables: chain=INPUT protocol=tcp destination_port={{sensu_api_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="sensu-api"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
 - include_tasks: install_uchiwa.yml
+  tags: [uchiwa]
 
 - name: Installing some convenience aliases
   template: src=sensu-aliases.sh dest=/etc/profile.d/sensu-aliases.sh

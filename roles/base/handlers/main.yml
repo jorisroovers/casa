@@ -5,3 +5,7 @@
 - name: restart_logind
   service: name=systemd-logind state=restarted
   become: yes
+
+- name: save_iptables
+  shell: "netfilter-persistent save"
+  become: yes

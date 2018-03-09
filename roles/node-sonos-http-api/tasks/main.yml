@@ -57,6 +57,13 @@
     - restart_sonos_http_api
   become: yes
 
+- name: "Add iptable rule for node-sonos-http-api"
+  iptables: chain=INPUT protocol=tcp destination_port={{sonos_http_api_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="node-sonos-http-api"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
 - name: Installing some convenience aliases
   template: src=node-sonos-http-api-aliases.sh dest=/etc/profile.d/node-sonos-http-api-aliases.sh
   become: yes

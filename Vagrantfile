@@ -9,7 +9,7 @@ EOF
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-    config.vm.box = "ubuntu/zesty64"
+    config.vm.box = "ubuntu/artful64"
 
     config.vm.define "home" do |home|
         home.vm.provision "shell", inline: "#{INSTALL_DEPS}"

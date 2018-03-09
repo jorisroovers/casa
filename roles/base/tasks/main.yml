@@ -75,3 +75,10 @@
   copy:
     src: simple-server.py
     dest: "{{tools_dir}}/simple-server.py"
+
+- name: "Installing basic IP Tables rules"
+  include_tasks: install_iptable_rules.yml
+  become: yes
+  tags:
+    - iptables
+    - iptable

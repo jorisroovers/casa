@@ -68,15 +68,13 @@ device_tracker:
     consider_home: 1200
     interval_seconds: 5
   - platform: ping
+    track_new_devices: yes
     interval_seconds: 5
+    consider_home: 7
     hosts:
-      tv: {{samsungtv_host}}
-
-
-  #     {% for key, value in device_tracker_ping.iteritems() %}
-  #     {{key}}: {{value}}
-  #     {% endfor %}
-
+{% for key, value in device_tracker_ping.iteritems() %}
+      {{key}}: {{value}}
+{% endfor %}
 
   - platform: owntracks_http
     interval_seconds: 3
@@ -91,11 +89,11 @@ ios:
 weblink:
   entities:
     - name: Sonos HTTP API
-      url: http://{{ansible_default_ipv4.address}}:{{sonos_http_api_port}}/
+      url: http://{{casa_ip}}:{{sonos_http_api_port}}/
     - name: HADashboard
       url: {{appdaemon_dash_url}}
     - name: Uchiwa Dashboard
-      url: http://{{ansible_default_ipv4.address}}:{{uchiwa_port}}
+      url: http://{{casa_ip}}:{{uchiwa_port}}
 
 scene: !include scenes.yaml
 

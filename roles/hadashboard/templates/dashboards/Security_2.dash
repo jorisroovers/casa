@@ -5,12 +5,6 @@ columns: 8
 
 {% include "./templates/dashboards/components.yaml" %}
 
-roofcam_camera:
-    widget_type: camera
-    title: Roofcam
-    entity_picture: {{roofcam_entity_picture}}
-    refresh: {{camera_widget_refresh_rate}}
-
 security_up_nav:
     widget_type: navigate
     icon_inactive: mdi-arrow-up-bold-circle-outline

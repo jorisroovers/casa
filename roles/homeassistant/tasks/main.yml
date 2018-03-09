@@ -40,11 +40,15 @@
    - automations.yaml
   notify:
     - reload_homeassistant_automations
+  tags:
+    - hass-config
 
 - name: "Configuring homeassistant known_devices (no restart needed)"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
     - known_devices.yaml
+  tags:
+    - hass-config
 
 - name: "Configuring homeassistant"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -58,6 +62,8 @@
   notify:
     - reload_homeassistant_config
     - restart_homeassistant
+  tags:
+    - hass-config
 
 - name: Installing homeassistant systemd service
   template: src=homeassistant.service dest=/etc/systemd/system/{{homeassistant_service}}.service
@@ -65,6 +71,13 @@
     - daemon_reload
     - restart_homeassistant
   become: yes
+
+- name: "Add iptable rule for Homeassistant"
+  iptables: chain=INPUT protocol=tcp destination_port={{homeassistant_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment=Homeassistant
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
 
 - name: Installing some convenience aliases
   template: src=hass-aliases.sh dest=/etc/profile.d/hass-aliases.sh

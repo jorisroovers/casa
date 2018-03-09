@@ -10,7 +10,7 @@
     - { role: samba-client, tags: ['samba', 'cifs', 'smb']}
     - { role: influxdb, tags: ['influxdb', 'influx']}
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
-    - { role: sensu, tags: ['sensu']}
+    - { role: sensu, tags: ['sensu']} # depends-on: influxdb
     - { role: backups, tags: ['backup', 'backups']} # depends-on: sensu
     - { role: elk, tags: ['elk', 'logstash']}
     - { role: homeassistant, tags: ['homeassistant', 'hass']}

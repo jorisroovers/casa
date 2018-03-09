@@ -53,6 +53,14 @@
   with_items:
     - "{{grafana_service}}"
 
+- name: "Add iptable rule for grafana"
+  iptables: chain=INPUT protocol=tcp destination_port={{grafana_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment=Grafana
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+
 - name: Installing some convenience aliases
   template: src=grafana-aliases.sh dest=/etc/profile.d/grafana-aliases.sh
   become: yes
@@ -81,6 +89,8 @@
     datasource_password: "{{influxdb_sensu_password}}"
     datasource_database: "{{influxdb_sensu_db}}"
 
+# Important: Dashboard import needs to happen through the same tool
+# Just importing an exported dashboard through grafana UI won't work!
 - name: "Installing Grafana backup tool"
   include_tasks: install_grafana_backup_tool.yml
   tags:

@@ -18,3 +18,10 @@
   become: yes
   with_items:
     - uchiwa
+
+- name: "Add iptable rule for uchiwa"
+  iptables: chain=INPUT protocol=tcp destination_port={{uchiwa_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="uchiwa"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]

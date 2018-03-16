@@ -40,6 +40,10 @@
   notify:
     - restart_appdaemon
 
+- name: Generating Camera Dashboards
+  template: src=dashboards/Camera.dash dest="{{appdaemon_dir}}/dashboards/Camera_{{item.key}}.dash"
+  with_dict: "{{nest_cams}}"
+
 - name: Installing custom skin
   template: src={{item}} dest={{appdaemon_dir}}/{{item}}
   with_items:

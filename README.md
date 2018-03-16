@@ -26,7 +26,7 @@ Here's a list of home-automation gear I use that is integrated with casa:
 - Nest Cam
 - Nest Thermostat
 - Nest Protect smoke detectors
-- TP link HS100 Power Switch
+- TP link HS100 and HS110 Power Switches
 - A simple custom-build Arduino sensor for measure the current height of my standing desk
 
 Other gear I have that is currently not (yet) integrated in the setup:
@@ -80,11 +80,9 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
 - Alexa support
 - Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
 - Force state update on Nest after changing state through python-nest command
-- Metrics dashboard (logstash)
 - Improve roofcam accuracy
 - sonos-node-http-api: SSL & auth
 - Better messaging in slack (also include lights + custom nest sensors)
-- Backups: redis DB
 - Sensu: influxdb checks
 - sudo askpass program lastpass
 - limit speedtest.net CPU cycles using cgroups
@@ -103,7 +101,6 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
   - Spotify playing
 
 ## Automation Ideas
-- Cooking: If not watching TV & Music=NoPreset -> play music
 - When pausing music -> set music preset to NoMusic
 
 ## Sensor ideas
@@ -115,8 +112,24 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
 - Nest smoke detector checks integrated with sensu
 - Power switch with usage sensor for washing machine to determine whether it's on or not
+  TP-LINK HS110 should be able to support this in hass: https://github.com/home-assistant/home-assistant/blob/master/homeassistant/components/switch/tplink.py#L105-L120
+
+- Sensu vmstat: https://github.com/sensu-plugins/sensu-plugins-vmstats
+- Alarm:
+  https://home-assistant.io/components/alarm_control_panel.manual/
+  http://appdaemon.readthedocs.io/en/stable/DASHBOARD_CREATION.html#alarm
+
+- Smart meter:
+  Use this cable: https://www.sossolutions.nl/slimme-meter-kabel
+  https://home-assistant.io/components/sensor.dsmr/
 
 ## Actuator ideas
+
+- Mirror bathroom heating:
+https://www.vloerverwarmingstore.nl/producten/87-1-overige+oplossingen/89-1-spiegelverwarming/p-239-e-heat+spiegelverwarming+folie?selected=622
+- Auto turn on mirror light when bathroom lights turn on using tp-link
+  (only when house not sleeping)
+
 ### Homematic Radiotor thermostat
 https://www.conrad.nl/nl/homematic-ip-draadloze-radiatorthermostaat-hmip-etrv-2-1406552.html?WT.mc_id=gshop&WT.srch=1&gclid=CjwKCAiArOnUBRBJEiwAX0rG_fbAavfdl8fReKPGIuYmW6GDnaOdXExPkVhENMpaS9t9W8L_VXlm6BoCL-oQAvD_BwE&insert=8J&tid=933477491_46789847735_pla-415594332407_pla-1406552
 
@@ -254,7 +267,7 @@ Things I don't like about sensu:
  - For standard checks, not all checks cause events, only if something goes wrong (see above)
  - No remediation included by default - hard to do event with plugins
 
-### Lights
+## Lights
 Color:
 
 Tradfri white spectrum lamps support between 2200 (warm)  and 4000 (cold) Kelvin.
@@ -265,6 +278,26 @@ Home-assistant does not allow you to change attributes (like kelvin/brightness) 
 Even if they are exposed by Tradfri/Hue as a single light.
 https://community.home-assistant.io/t/grouped-light-control/1034/49
 
+
+## Extra open ports
+
+6379 -> Redis
+
+1400 -> Homeassistant SoCo API (Sonos)
+https://github.com/home-assistant/home-assistant/blob/44e4f8d1bad624f8d27dfda7230f0a0a2409a404/homeassistant/components/media_player/sonos.py#L557
+
+631 -> IPP Port (Internet Printing Protocol)
+TODO: Disable/remove CUPS
+
+8088 -> InfluxDB
+
+3030, 3031 -> Sensu-client (Ruby)
+
+5355 -> systemd resolve:
+https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu
+
+
+IPv6 traffic?
 
 ## Sonos-http-api
 When Sonos playbar is streaming from tv the /TV Room/state call returns the following.

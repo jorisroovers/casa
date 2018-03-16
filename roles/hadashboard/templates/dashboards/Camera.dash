@@ -1,0 +1,18 @@
+title: Camera {{item.value.title}}
+widget_dimensions: [120, 120]
+widget_margins: [5, 5]
+columns: 8
+
+camera:
+    widget_type: camera
+    title: {{item.value.title}}
+    entity_picture: {{item.value.entity_picture}}
+    refresh: {{camera_widget_refresh_rate}}
+
+layout:
+    - camera(8x5)
+    - spacer(8x1)
+    - spacer(8x1)
+    - spacer(8x1)
+    - spacer(8x1)
+    - include: navigation_panel

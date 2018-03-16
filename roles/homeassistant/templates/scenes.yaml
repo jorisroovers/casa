@@ -1,6 +1,6 @@
-#####################################################
-# House Scenes                                      #
-#####################################################
+################################################################################
+# House Scenes                                                                 #
+################################################################################
 - name: Sleeping
   entities:
     group.lights_outside:
@@ -36,9 +36,9 @@
     input_select.camera_preset:
         option: All On
 
-###################################
-# Living scenes                  #
-###################################
+################################################################################
+# Living Scenes                                                                #
+################################################################################
 
 - name: Watching TV
   entities:
@@ -56,6 +56,13 @@
         option: NoMusic
     input_select.camera_preset:
         option: Home
+
+- name: StopWatchingTV
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.tv_staanlamp:
+        state: off
 
 - name: Breakfast
   entities:
@@ -162,9 +169,9 @@
     group.lights_outside:
         state: off
 
-##################
-# Cooking        #
-##################
+################################################################################
+# Cooking                                                                      #
+################################################################################
 
 - name: Cooking
   entities:
@@ -186,9 +193,9 @@
     input_boolean.cooking:
         option: off
 
-############
-# Mornings #
-############
+################################################################################
+# Mornings                                                                     #
+################################################################################
 - name: StartWeekDay
   entities:
     group.lights_outside:
@@ -207,15 +214,19 @@
         state: on
     input_select.camera_preset:
         option: Home
+    light.bathroom:
+        state: off
 
 - name: BathroomMorningWeekDay
   entities:
     input_select.bathroom_music:
         option: Bathroom Morning
+    light.bathroom:
+        state: on
 
-#############
-# Working   #
-#############
+################################################################################
+# Working                                                                      #
+################################################################################
 
 - name: StartWorkingMorning
   entities:
@@ -237,3 +248,18 @@
   entities:
     switch.desk_lamp:
         state: off
+
+################################################################################
+# Bathroom                                                                     #
+################################################################################
+- name: BathroomLeave
+  entities:
+    input_select.bathroom_music:
+        option: "Bathroom NoMusic"
+    light.bathroom:
+        state: off
+
+- name: RelaxingShower
+  entities:
+    input_select.bathroom_music:
+        option: "Bathroom NoMusic"

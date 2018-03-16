@@ -553,3 +553,15 @@ cooking:
     icon_off: mdi-pot-mix
     icon_style_active: "color: #efc980"
 
+washing_machine_status:
+    widget_type: binary_sensor
+    title: Wasmachine
+    entity: binary_sensor.washing_machine
+    icon_style_active: "color: #2196f3;"
+    icon_on: mdi-washing-machine
+    icon_off: mdi-washing-machine
+
+roofcam_status:
+    widget_type: sensor
+    title: Roof water
+    entity: sensor.sensu_roofcam_water_detection

@@ -2,7 +2,7 @@
   become: yes
 
 - name: Cloning roofcam from github
-  git: repo=https://github.com/jorisroovers/roofcam dest={{roofcam_dir}} version=9d857e08fb31c71c1730c7317a8e7a601bf5bbf6
+  git: repo=https://github.com/jorisroovers/roofcam dest={{roofcam_dir}} version={{roofcam_git_sha}}
   notify:
     - restart_roofcam
   register: roofcam_git_clone

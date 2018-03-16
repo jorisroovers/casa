@@ -15,7 +15,21 @@
             "homeassistant": {
                 "sensor_type": "binary_sensor"
             }
+        },
+        "roofcam.water-detection": {
+            "type": "metric",
+            "command": "curl -s http://{{roofcam_host}}:{{roofcam_port}}/snapshotdata/latest | jq -r -j '.prediction'",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}},
+            "handlers": ["homeassistant-sensor"],
+            "aggregate": "homeassistant",
+            "homeassistant": {
+                "sensor_type": "sensor"
+            }
         }
     }
 }
+
+
+
 

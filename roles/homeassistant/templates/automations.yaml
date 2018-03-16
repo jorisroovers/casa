@@ -83,30 +83,10 @@
       data_template:
         preset: "{% raw %}{{ states('input_select.downstairs_music') | lower | replace(' ', '_')}}{% endraw %}"
 
-- alias: Play bathroom sonos preset for music input select
-  trigger:
-    platform: state
-    entity_id: input_select.bathroom_music
-  action:
-    - service: shell_command.play_sonos_preset
-      data_template:
-        preset: "{% raw %}{{ states('input_select.bathroom_music') | lower | replace(' ', '_')}}{% endraw %}"
-
-- alias: Bathroom - Set InputSelect to NoMusic when music is paused
-  trigger:
-    - platform: state
-      entity_id: media_player.bathroom
-      to: "paused"
-  action:
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.bathroom_music
-        option: "Bathroom NoMusic"
-
 ################################################################################
 # TV                                                                           #
 ################################################################################
-- alias: Automatically set LivingPreset to Watching TV when turning on the TV after sunset
+- alias: Automatically set LivingPreset to Watching TV when turning on the TV
   trigger:
     platform: state
     entity_id: device_tracker.samsungtv
@@ -116,6 +96,20 @@
       data:
         entity_id: input_select.living_preset
         option: "Watching TV"
+
+- alias: Automatically set LivingPreset to StopWatchingTV when turning on the TV after sunset
+  trigger:
+    platform: state
+    entity_id: device_tracker.samsungtv
+    to: "not_home"
+  condition:
+    - condition: sun
+      after: sunset
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_preset
+        option: "StopWatchingTV"
 
 ################################################################################
 # Cooking                                                                      #
@@ -163,8 +157,90 @@
         entity_id: input_boolean.cooking
 
 ################################################################################
+# Bathroom                                                                     #
+################################################################################
+
+
+- alias: Play bathroom sonos preset for music input select
+  trigger:
+    platform: state
+    entity_id: input_select.bathroom_music
+  action:
+    - service: shell_command.play_sonos_preset
+      data_template:
+        preset: "{% raw %}{{ states('input_select.bathroom_music') | lower | replace(' ', '_')}}{% endraw %}"
+
+- alias: Bathroom - Set InputSelect to NoMusic when music is paused
+  trigger:
+    - platform: state
+      entity_id: media_player.bathroom
+      to: "paused"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.bathroom_music
+        option: "Bathroom NoMusic"
+
+- alias: Bathroom Exit
+  trigger:
+    - platform: state
+      entity_id: media_player.bathroom
+      to: "paused"
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomLeave"
+
+- alias: Music on afternoon shower during weekday
+  trigger:
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "on"
+  condition:
+    - condition: time
+      after: '13:00:00'
+      before: '17:00:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.RelaxingShower"
+
+
+################################################################################
 # Mornings                                                                     #
 ################################################################################
+
+- alias: Start week day when exiting bathroom
+  trigger:
+    - platform: state
+      entity_id: media_player.bathroom
+      to: "paused"
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "off"
+  condition:
+    - condition: time
+      after: '07:30:00'
+      before: '11:30:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.StartWeekDay"
 
 - alias: Trigger BathroomMorning scene on light turn on during week days
   trigger:
@@ -185,26 +261,6 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.BathroomMorningWeekDay"
-
-- alias: Start week day when pausing bathroom player in the morning during weekdays
-  trigger:
-    - platform: state
-      entity_id: media_player.bathroom
-      to: "paused"
-  condition:
-    - condition: time
-      after: '07:30:00'
-      before: '11:30:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-  action:
-    - service: scene.turn_on
-      data:
-        entity_id: "scene.StartWeekDay"
 
 - alias: Start work day turning on computer in the morning
   trigger:
@@ -228,7 +284,7 @@
         entity_id: "scene.StartWorkingMorning"
 
 ################################################################################
-# Send message on nest-presence set to home or away #
+# Send message on nest-presence set to home or away                            #
 ################################################################################
 
 - id: auto_away_nest_presence
@@ -267,7 +323,7 @@
 
 
 ################################################################################
-# Turn on/off outdoor lights at sunset/sunrise #
+# Sunrise/sunset                                                               #
 ################################################################################
 
 - id: sunset_outdoor_lighting

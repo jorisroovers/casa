@@ -32,7 +32,7 @@
   notify:
   - restart_homeassistant
 
-- include_tasks: patch_python_nest.yml
+- import_tasks: patch_homeassistant.yml
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}

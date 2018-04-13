@@ -27,12 +27,6 @@ nest_access_token: "nest_access_token"
 
 nest_cams: {}
 
-nest_cam_serial_ids:
-  diepvries: "abc123"
-  front_garden: "def123"
-  back_garden: "ghi123"
-  hall: "jkl123"
-
 phue_ip: 10.0.0.1
 phue_username: "phue_username"
 

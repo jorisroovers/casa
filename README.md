@@ -39,11 +39,19 @@ Other gear I have that is currently not (yet) integrated in the setup:
 
 The best way to get a quick overview of the software stack is to look at roles directory
 
-Ubuntu 17.10
-[Homeassistant](https://home-assistant.io/)
-[HADashboard](http://appdaemon.readthedocs.io/en/stable/DASHBOARD_INSTALL.html)
-node-sonos-http-api
-slack
+
+| Software | Description |
+|----------|-------------|
+| Ubuntu 17.10 | Operating Systems |
+| [Homeassistant](https://home-assistant.io/) | |
+| [HADashboard](http://appdaemon.readthedocs.io/en/stable/DASHBOARD_INSTALL.html) | |
+| [node-sonos-http-api](https://github.com/jishi/node-sonos-http-api) | |
+| [Sensu](https://sensuapp.org/) | Monitoring solution |
+| InfluxDB | |
+| Grafana | |
+| Logstash | |
+| slack | |
+| roofcam | |
 
 # Getting Started
 
@@ -60,37 +68,29 @@ ansible-playbook home.yml -i inventory/vagrant --tags roofcam
 # using production data
 ansible-playbook home.yml -i  ~/repos/casa-data/inventory/vagrant
 ```
-### PROD
-
-This won't be useful to anyone else but me :-)
-
-```bash
-ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/inventory/mbp-server
-# roofcam only
-ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/inventory/mbp-server --tags roofcam
-```
-
 
 # TODO
-- Groups: https://home-assistant.io/components/group/
+This is a list of things I'm considering to add to casa.
+
+## General
 
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
 - https://home-assistant.io/components/media_player.cast/
-- Alexa support
-- Calling "homeassistant/reload_core_config" one config reload instead of doing a HA restart
+- Alexa integration
 - Force state update on Nest after changing state through python-nest command
 - Improve roofcam accuracy
 - sonos-node-http-api: SSL & auth
 - Better messaging in slack (also include lights + custom nest sensors)
-- Sensu: influxdb checks
 - sudo askpass program lastpass
 - limit speedtest.net CPU cycles using cgroups
 - Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
 - HADashboard automatically go back to homescreen when no activity
 - Use Flux to change light color in hallway depending on time of day: https://home-assistant.io/components/switch.flux/
 - Upstairs scenes: packing, working
-
+- Grafana, discrete panel:
+  - Patch: https://github.com/NatelEnergy/grafana-discrete-panel/blob/master/src/module.ts#L194
+    To make it so that time is shown not in humanize() but in specified timeframe
 - Security:
     - Let's encrypt support
     - TLS everywhere: home-assistant, HADash, Spotify, Sensu, Uchiwa
@@ -99,21 +99,21 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
 
 - Laptop checks:
   - Spotify playing
+- Runkeeper API: https://github.com/mko/runkeeper-js
+  -> Stats wrt workouts etc
 
 ## Automation Ideas
 - When pausing music -> set music preset to NoMusic
+- Alerting on e.g. open window: https://home-assistant.io/components/alert/
+- When cooking wihtout TV on: set on music
+
 
 ## Sensor ideas
 - Gaming sensor based on PS4 & TV Awake
-- Watching TV sensor based on TV Awake
-- Roofcam sensor (refactor monit-hass-sensors to be more generic)
 - Car at home detect sensor based on image recognition
 - Door/window sensors
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
 - Nest smoke detector checks integrated with sensu
-- Power switch with usage sensor for washing machine to determine whether it's on or not
-  TP-LINK HS110 should be able to support this in hass: https://github.com/home-assistant/home-assistant/blob/master/homeassistant/components/switch/tplink.py#L105-L120
-
 - Sensu vmstat: https://github.com/sensu-plugins/sensu-plugins-vmstats
 - Alarm:
   https://home-assistant.io/components/alarm_control_panel.manual/
@@ -123,12 +123,18 @@ ansible-playbook --ask-pass --ask-sudo-pass home.yml -i ~/repos/casa-data/invent
   Use this cable: https://www.sossolutions.nl/slimme-meter-kabel
   https://home-assistant.io/components/sensor.dsmr/
 
-## Actuator ideas
+- Weekend Hobby sensor
+- Raspberry PI online sensor
+- Fix aggregate sensor for homeassistant (google not working)
+- Fix PS4 sensor (currently always on)
 
+## Actuator ideas
+- PS4Waker
 - Mirror bathroom heating:
 https://www.vloerverwarmingstore.nl/producten/87-1-overige+oplossingen/89-1-spiegelverwarming/p-239-e-heat+spiegelverwarming+folie?selected=622
 - Auto turn on mirror light when bathroom lights turn on using tp-link
   (only when house not sleeping)
+- Lights in back kitchen
 
 ### Homematic Radiotor thermostat
 https://www.conrad.nl/nl/homematic-ip-draadloze-radiatorthermostaat-hmip-etrv-2-1406552.html?WT.mc_id=gshop&WT.srch=1&gclid=CjwKCAiArOnUBRBJEiwAX0rG_fbAavfdl8fReKPGIuYmW6GDnaOdXExPkVhENMpaS9t9W8L_VXlm6BoCL-oQAvD_BwE&insert=8J&tid=933477491_46789847735_pla-415594332407_pla-1406552
@@ -153,20 +159,13 @@ Keeping these here mostly for personal reference.
 
 ## Samsung TV
 
-- Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
-    - Model Code: UE48H6200AW
-    - Open ports:
-    Open TCP Port: 	7676   		imqbrokerd
-	 Open TCP Port: 	8000   		irdmi
-	 Open TCP Port: 	8001   		vcom-tunnel
-	 Open TCP Port: 	8080   		http-alt
-	 Open TCP Port: 	8443   		pcsync
-    - https://github.com/Ape/samsungctl
+TV Model: UE48H6200AW
 
+- Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
+- https://github.com/Ape/samsungctl
+- Open ports: 7676, 8000, 8001, 8080, 8443
 
 Learned about v2 from here: https://github.com/Ape/samsungctl/issues/22
-
-http://$SAMSUNGTV_IP:8001/api/v2/
 
 ```bash
 # TV off
@@ -186,6 +185,8 @@ echo "export INFLUX_USERNAME=\"$INFLUX_USERNAME\"; export INFLUX_PASSWORD=\"$INF
 influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD"
 # Examples
 show grants for "<example user>";
+
+influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD" -execute "show databases"
 ```
 
 ## python-nest
@@ -261,7 +262,6 @@ By default, Sensu checks with an exit status code of 0 (for OK) do not create ev
 state from a non-zero status to a zero status (i.e. resulting in a resolve action). Metric collection checks will output
 metric data regardless of the check exit status code, however, they usually exit 0. To ensure events are always created
 for a metric collection check, the check type of metric is used.
-
 
 Things I don't like about sensu:
  - For standard checks, not all checks cause events, only if something goes wrong (see above)
@@ -345,21 +345,3 @@ curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
   }
 }
 ```
-
-# Old stuff (keeping here for reference)
-## Monit
-
-Getting status from monit using API
-```bash
-# Status
-curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status
-curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_status?format=xml
-# Summary
-curl -u "$CASA_MONIT_USERNAME:$CASA_MONIT_PASSWORD" http://localhost:2812/_summary
-```
-
-## Installing Raspbian
-
-Use [etcher.io](https://etcher.io) to flash raspbian lite to SD card.
-Then add an empty 'ssh' file to the SD card to enable SSH on boot on Raspbian.
-

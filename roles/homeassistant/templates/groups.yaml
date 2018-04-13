@@ -9,11 +9,16 @@ lights_downstairs:
    - light.woonkamer_tv
    - light.tv_staanlamp
    - light.living_room
-   - light.office_ambience
    - light.eetkamer
    - light.kitchen
    - light.kantoor
    - switch.desk_lamp
+
+lights_downstairs_automatic:
+  name: "Automatically controlled downstairs lights"
+  view: no
+  entities:
+    - light.office_ambience
 
 lights_outside:
   name: "Lights outside"

@@ -48,7 +48,7 @@
       entity_id: binary_sensor.joris_working
       to: 'on'
     - platform: state
-      entity_id: light.kantoor
+      entity_id: light.office
       to: 'on'
   condition:
     - condition: and
@@ -68,7 +68,6 @@
       data_template:
         entity_id: input_select.house_mode
         option: "Home"
-
 
 ################################################################################
 # Music input to sonos preset                                                  #
@@ -97,19 +96,22 @@
         entity_id: input_select.living_preset
         option: "Watching TV"
 
-- alias: Automatically set LivingPreset to StopWatchingTV when turning on the TV after sunset
+- alias: Automatically set LivingPreset to StopWatchingTV when turning off the TV before sunset
   trigger:
     platform: state
     entity_id: device_tracker.samsungtv
     to: "not_home"
   condition:
-    - condition: sun
-      after: sunset
+   - condition: and
+     conditions:
+       - condition: sun
+         before: sunset
+       - condition: sun         # This ensures the lights don't turn off post-midnight when turning off the TV
+         before: sunrise
   action:
-    - service: input_select.select_option
+    - service: scene.turn_on
       data:
-        entity_id: input_select.living_preset
-        option: "StopWatchingTV"
+        entity_id: "scene.StopWatchingTV"
 
 ################################################################################
 # Cooking                                                                      #
@@ -123,6 +125,13 @@
     - service: scene.turn_on
       data_template:
         entity_id: "{% raw %}{{ 'scene.Cooking' if is_state('input_boolean.cooking', 'on') else 'scene.StopCooking'}}{% endraw %}"
+    - condition: state
+      entity_id: "device_tracker.samsungtv"
+      state: "not_home"
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.downstairs_music
+        option: "Dinner With Friends"
 
 - alias: Automatically disable cooking when turning off kitchen lights
   trigger:
@@ -145,10 +154,6 @@
       before: '22:00:00'
   action:
     - delay: 0:45
-    - service: notify.slack
-      data:
-        message: |
-              Turning Off Cooking, since you're watching TV and starting cooking 45 mins ago
     - condition: state
       entity_id: "device_tracker.samsungtv"
       state: "home"
@@ -159,7 +164,6 @@
 ################################################################################
 # Bathroom                                                                     #
 ################################################################################
-
 
 - alias: Play bathroom sonos preset for music input select
   trigger:
@@ -181,6 +185,16 @@
         entity_id: input_select.bathroom_music
         option: "Bathroom NoMusic"
 
+- alias: Bathroom Enter
+  trigger:
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomEnter"
+
 - alias: Bathroom Exit
   trigger:
     - platform: state
@@ -201,7 +215,7 @@
       to: "on"
   condition:
     - condition: time
-      after: '13:00:00'
+      after: '12:00:00'
       before: '17:00:00'
       weekday:
         - mon
@@ -331,6 +345,7 @@
   trigger:
     - platform: sun
       event: sunset
+      offset: "-00:45:00"
   action:
     - service: scene.turn_on
       data:
@@ -338,7 +353,7 @@
     - service: notify.slack
       data:
         message: |
-              Sun has set - triggered Sunset scene.
+              Sun is about to set - triggered Sunset scene.
 
 - id: sunset_outdoor_lighting
   alias: 'Turning off outdoor lighting at midnight'
@@ -367,6 +382,31 @@
           entity_id: "{% raw %}{{ 'scene.Working' if is_state('binary_sensor.joris_working', 'on') else 'scene.NotWorking'}}{% endraw %}"
 
 ################################################################################
+# Office                                                                       #
+################################################################################
+
+- alias: Turn off Office Desk light when turning off office light
+  trigger:
+    - platform: state
+      entity_id: light.office
+      to: 'off'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.desk_lamp
+
+- alias: Turn on Office light when turning on office desk light
+  trigger:
+    - platform: state
+      entity_id: switch.desk_lamp
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.office
+
+
+################################################################################
 # Camera                                                                       #
 ################################################################################
 
@@ -378,16 +418,16 @@
   action:
     - service: shell_command.disable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.diepvries}}"
+        camera_serial_id: "{{nest_cams.diepvries.serial_id}}"
     - service: shell_command.enable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.hallway}}"
+        camera_serial_id: "{{nest_cams.hallway.serial_id}}"
     - service: shell_command.enable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.front_garden}}"
+        camera_serial_id: "{{nest_cams.front_garden.serial_id}}"
     - service: shell_command.enable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"
+        camera_serial_id: "{{nest_cams.back_garden.serial_id}}"
 
 - alias: Camera Preset All On Automation
   trigger:
@@ -397,16 +437,16 @@
   action:
     - service: shell_command.enable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.diepvries}}"
+        camera_serial_id: "{{nest_cams.diepvries.serial_id}}"
     - service: shell_command.enable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.hallway}}"
+        camera_serial_id: "{{nest_cams.hallway.serial_id}}"
     - service: shell_command.enable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.front_garden}}"
+        camera_serial_id: "{{nest_cams.front_garden.serial_id}}"
     - service: shell_command.enable_nest_camera
       data:
-        camera_serial_id: "{{nest_cam_serial_ids.back_garden}}"
+        camera_serial_id: "{{nest_cams.back_garden.serial_id}}"
     - service: notify.slack
       data:
         message: |

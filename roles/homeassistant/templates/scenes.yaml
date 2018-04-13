@@ -7,6 +7,8 @@
         state: off
     group.lights_downstairs:
         state: off
+    group.lights_downstairs_automatic:
+        state: off
     input_select.downstairs_music:
         option: NoMusic
     input_select.bathroom_music:
@@ -21,10 +23,10 @@
     input_select.camera_preset:
         option: Home
 
+# When away, don't turn off lights_downstairs_automatic or group.lights_outside
+# These are controlled automatically for security reasons
 - name: Away
   entities:
-    group.lights_outside:
-        state: off
     group.lights_downstairs:
         state: off
     input_select.downstairs_music:
@@ -63,6 +65,8 @@
         state: off
     light.tv_staanlamp:
         state: off
+    input_select.living_preset:
+        option: NoPreset
 
 - name: Breakfast
   entities:
@@ -252,14 +256,23 @@
 ################################################################################
 # Bathroom                                                                     #
 ################################################################################
+- name: BathroomEnter
+  entities:
+    light.bathroom:
+        state: on
+    switch.bathroom_mirror:
+        state: on
+
 - name: BathroomLeave
   entities:
     input_select.bathroom_music:
         option: "Bathroom NoMusic"
     light.bathroom:
         state: off
+    switch.bathroom_mirror:
+        state: off
 
 - name: RelaxingShower
   entities:
     input_select.bathroom_music:
-        option: "Bathroom NoMusic"
+        option: "Bathroom Relaxing"

@@ -17,8 +17,8 @@ http:
 logger:
   default: info
   logs:
-    homeassistant.components.device_tracker.nmap_tracker: warn
-    homeassistant.components.device_tracker.ping: debug
+    homeassistant.components.device_tracker.nmap_tracker: error
+    homeassistant.components.device_tracker.ping: warn
     homeassistant.components.http: warn
 
 # View all events in a logbook
@@ -211,6 +211,13 @@ binary_sensor:
         friendly_name: "Washing Machine"
         {% raw %}
         value_template: "{{ states.switch.washing_machine.attributes.current_power_w | float > 1000 }}"
+        {% endraw %}
+
+      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+      dryer:
+        friendly_name: "Dryer"
+        {% raw %}
+        value_template: "{{ states.switch.dryer.attributes.current_power_w | float > 1000 }}"
         {% endraw %}
 
 nest:

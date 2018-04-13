@@ -38,13 +38,6 @@ rijtijd_ilse:
     entity: sensor.rijtijd_werk_ilse
     value_style: "font-size: 350%"
 
-good_morning:
-    widget_type: scene
-    title: Goede Morgen
-    entity: scene.good_morning
-    icon_on: mdi-weather-sunset-up
-    icon_off: mdi-weather-sunset-up
-
 clock:
     widget_type: clock
     date_style: "font-size: 150%"
@@ -54,7 +47,7 @@ clock:
 layout:
     - clock(4x1), house_mode(3x1), monitoring_checks_status(1x1)
     - living_room_temperature(2x1), outside_temperature(2x1), home(1x1), away(1x1), sleep(1x1), joris_working(1x1)
-    - humidity(1x1), washing_machine_status(1x1), rijtijd_ilse(1x1), roofcam_status(1x1), light.eetkamer(2x1), light.kitchen(2x1)
-    - watch_tv(1x1), breakfast(1x1), spacer(1x1), cooking(1x1), light.woonkamer_tv(2x1), light.living_room(2x1)
-    - romance(1x1), relaxing(1x1), reading(1x1), spacer(1x1), light.tv_staanlamp(2x1), light.kantoor(2x1)
+    - humidity(1x1), rijtijd_ilse(1x1), roofcam_status(1x1), spacer(1x1), washing_machine_status(1x1), dryer_status(1x1), watch_tv(1x1)
+    - breakfast(1x1), cooking(1x1), light.kitchen(2x1), light.woonkamer_tv(2x1), light.living_room(2x1)
+    - relaxing(1x1), reading(1x1), light.eetkamer(2x1), light.tv_staanlamp(2x1), light.kantoor(2x1)
     - include: navigation_panel

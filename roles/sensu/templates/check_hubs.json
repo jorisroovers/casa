@@ -1,0 +1,16 @@
+{
+    "checks": {
+        "hub.phue": {
+            "type": "metric",
+            "command": "check-ping.rb -c 2 -h {{phue_ip}}",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}}
+        },
+        "hub.tradfri": {
+            "type": "metric",
+            "command": "check-ping.rb -c 2 -h {{tradfri_ip}}",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}}
+        }
+    }
+}

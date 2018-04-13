@@ -561,6 +561,14 @@ washing_machine_status:
     icon_on: mdi-washing-machine
     icon_off: mdi-washing-machine
 
+dryer_status:
+    widget_type: binary_sensor
+    title: Droogkast
+    entity: binary_sensor.dryer
+    icon_style_active: "color: #ef5353;"
+    icon_on: mdi-washing-machine
+    icon_off: mdi-washing-machine
+
 roofcam_status:
     widget_type: sensor
     title: Roof water

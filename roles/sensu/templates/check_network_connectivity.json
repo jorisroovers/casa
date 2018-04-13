@@ -2,7 +2,7 @@
     "checks": {
         "google.com": {
             "type": "metric",
-            "command": "check-ping.rb  -h google.com",
+            "command": "check-ping.rb -c 2 -W 0.2 -h google.com",
             "subscribers": [ "casa" ],
             "handlers": ["homeassistant-sensor"],
             "interval": {{sensu_default_check_interval}},
@@ -10,18 +10,14 @@
             "homeassistant": {
                 "sensor_type": "binary_sensor"
             }
+        },
+        "metrics.meraki.casa": {
+            "type": "metric",
+            "command": "{{sensu_custom_checks_dir}}/check-meraki.sh",
+            "handlers": ["influx-tcp"],
+            "subscribers": [ "casa" ],
+            "interval": 3600
         }
-        // "metrics.speedtest": {
-        //     "type": "metric",
-        //     "command": "{{sensu_custom_checks_dir}}/speedtest-check.sh -u",
-        //     "subscribers": [ "casa" ],
-        //     "interval": 60,
-        //     "timeout": 30,
-        //     "handlers": ["homeassistant-sensor"],
-        //     "homeassistant": {
-        //         "sensor_type": "sensor"
-        //     }
-        // }
     }
     // ,
     // "filters": {

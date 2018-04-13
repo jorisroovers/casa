@@ -93,11 +93,12 @@
   become: yes
 
 - name: Installing custom checks
-  template: src="{{item}}" dest="{{sensu_custom_checks_dir}}/{{item}}"
+  template: src="checks/{{item}}" dest="{{sensu_custom_checks_dir}}/{{item}}"
             owner={{sensu_user}} group={{sensu_group}} mode=u+rx
   become: yes
   with_items:
-    - speedtest-check.sh
+    - check-speedtest.sh
+    - check-meraki.sh
 
 - name: Creating custom handlers directory
   become: yes
@@ -131,6 +132,7 @@
     - check_sonos.json
     - check_homeassistant.json
     - check_network_connectivity.json
+    - check_hubs.json
     - check_hadash.json
     - check_roofcam.json
     - check_logstash.json

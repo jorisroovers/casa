@@ -55,6 +55,12 @@
     line: "set number"
   become: yes
 
+- name: Set Vim as default system editor
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
+  become: yes
+
 # Needed in order to use a MBP as server
 - name: "Making sure the server doesn't suspend on lid close"
   lineinfile:

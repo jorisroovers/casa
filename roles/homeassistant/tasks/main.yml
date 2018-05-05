@@ -10,17 +10,28 @@
     - build-essential # Required by pyatv
     - autoconf   # Required by Trädfri
 
+- name: Creating homeassistant group
+  group: name="{{homeassistant_group}}" state=present system=yes
+  become: yes
+
+- name: Creating homeassistant user
+  user: name="{{homeassistant_user}}" comment="Homeassistant User" group="{{homeassistant_group}}"
+        home={{homeassistant_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
 - name: Creating homeassistant directory
   file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
   become: yes
 
 - name: Manually create the initial virtualenv
   command: virtualenv {{homeassistant_venv}} -p python3 creates="{{homeassistant_venv}}"
+  become: yes
 
 - name: "Installing homeassistant"
   pip: name=homeassistant virtualenv="{{homeassistant_venv}}" version={{homeassistant_version}}
   notify:
     - restart_homeassistant
+  become: yes
 
 # During upgrade, homeassistant runs its own pip install processes
 # ubuntu   15885 15869 42 15:01 ?        00:00:02 /opt/homeassistant/.venv/bin/python3 -m pip install
@@ -31,8 +42,10 @@
   pip: name=pyatv virtualenv="{{homeassistant_venv}}"
   notify:
   - restart_homeassistant
+  become: yes
 
 - import_tasks: patch_homeassistant.yml
+  become: yes
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -42,6 +55,7 @@
     - reload_homeassistant_automations
   tags:
     - hass-config
+  become: yes
 
 - name: "Configuring homeassistant known_devices (no restart needed)"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -49,6 +63,7 @@
     - known_devices.yaml
   tags:
     - hass-config
+  become: yes
 
 - name: "Configuring homeassistant"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -64,6 +79,22 @@
     - restart_homeassistant
   tags:
     - hass-config
+  become: yes
+
+- name: "Ensure all files are owned by the homeassistant user"
+  file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}} recurse=yes
+  become: yes
+
+- name: Modifying sudoers file so homeassistant user can restart certain services
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{homeassistant_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "root", "command": "/bin/systemctl restart {{sonos_http_api_service}}.service"}
+    - {"user": "root", "command": "/bin/systemctl restart {{homeassistant_service}}.service"}
 
 - name: Installing homeassistant systemd service
   template: src=homeassistant.service dest=/etc/systemd/system/{{homeassistant_service}}.service
@@ -81,6 +112,11 @@
 
 - name: Installing some convenience aliases
   template: src=hass-aliases.sh dest=/etc/profile.d/hass-aliases.sh
+  become: yes
+
+- name: Adding cronjob to restart homeassistant every night at 5.01AM
+  cron: name="Nightly homeassistant restart" hour="5" minute="01"
+        job="/usr/bin/sudo /bin/systemctl restart {{homeassistant_service}}.service" user={{homeassistant_user}}
   become: yes
 
 - name: Make sure homeassistant service is started

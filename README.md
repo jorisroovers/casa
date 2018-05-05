@@ -105,9 +105,6 @@ This is a list of things I'm considering to add to casa.
 ## Automation Ideas
 - When pausing music -> set music preset to NoMusic
 - Alerting on e.g. open window: https://home-assistant.io/components/alert/
-- When cooking wihtout TV on: set on music
-
-
 ## Sensor ideas
 - Gaming sensor based on PS4 & TV Awake
 - Car at home detect sensor based on image recognition
@@ -152,7 +149,6 @@ Not clear if this will work on our radiators.
 - HADashboard: Custom Nest Cam controls (incl enable-disable support + link to livestream)
 - HADashboard: enlarge camera view on click (not so hard using custom JS)
 - HADashboard: Custom weather widget
-- Automatically go back to Home page after idle for x sec on a given page
 
 # Technical notes
 Keeping these here mostly for personal reference.
@@ -244,6 +240,8 @@ scp -P 2222 -i ~/repos/casa/.vagrant/machines/home/virtualbox/private_key ubuntu
 export HASS_URL="http://0.0.0.0:8123"; export HASS_PASSWORD="$(awk '/api_password: /{print $2}'  /opt/homeassistant/configuration.yaml)"
 # Getting  entity picture
 curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/states/camera.hallway | jq -r ".attributes.entity_picture"
+
+curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/error_log
 ```
 
 ## Sensu
@@ -344,4 +342,10 @@ curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
     "crossfade": false
   }
 }
+```
+
+# Tests
+
+```bash
+pytest --hadashboard-url http://<hadashboard_ip>:<hadashboard_port> tests/
 ```

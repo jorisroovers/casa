@@ -1,4 +1,3 @@
-
 ############################################
 # Monitoring                               #
 ############################################
@@ -42,6 +41,24 @@ binary_sensor_sonos_http_api:
     widget_type: binary_sensor
     title: Sonos HTTP API
     entity: binary_sensor.sensu_sonos_http_api
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_phue_hub:
+    widget_type: binary_sensor
+    title: Philips Hue Hub
+    entity: binary_sensor.sensu_hub_phue
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: mdi-bullseye
+    icon_off: mdi-bullseye
+
+binary_sensor_tradfri_hub:
+    widget_type: binary_sensor
+    title: Ikea Tradfri Hub
+    entity: binary_sensor.sensu_hub_tradfri
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: mdi-bullseye
@@ -96,6 +113,13 @@ smoke_alarm_upstairs:
     entity: binary_sensor.upstairs_nest_protect_online
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
+
+script_restart_homeassistant:
+    widget_type: script
+    title: "Restart Homeassistant"
+    entity: "script.restart_homeassistant"
+    icon_on: fa-refresh
+    icon_off: fa-refresh
 
 ############################################
 # Sensors                                  #

@@ -13,7 +13,7 @@
         // Sensu will only redact token substition values added to this array, so add all keys :-)
         // https://github.com/sensu/sensu/issues/1513#issuecomment-287667182
         "redact": [
-            "password", "user", "host", "token_cache"
+            "password", "user", "host", "token_cache", "database"
         ],
         // Client secrets
         "sensu": {
@@ -26,6 +26,13 @@
         },
         "homeassistant": {
             "user": "{{homeassistant_user}}"
+        },
+        "influxdb": {
+            "homeassistant": {
+                "user": "{{influxdb_homeassistant_user}}",
+                "password": "{{influxdb_homeassistant_password}}",
+                "database": "{{influxdb_homeassistant_db}}"
+            }
         }
     }
 }

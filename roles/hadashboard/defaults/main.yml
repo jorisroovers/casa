@@ -1,12 +1,12 @@
-appdaemon_version: 2.1.9
-appdaemon_dir: "{{homeassistant_dir}}/appdaemon"
+appdaemon_version: 3.0.1
+appdaemon_dir: "/opt/appdaemon"
 appdaemon_venv: ""
-appdaemon_user: "{{ansible_ssh_user}}"
-appdaemon_group: "{{ansible_ssh_user}}"
+appdaemon_user: "appdaemon"
+appdaemon_group: "appdaemon"
 appdaemon_bind_ip: 0.0.0.0
 appdaemon_port: 5050
 
-appdaemon_dashboards_dir: "{{homeassistant_dir}}/appdaemon/dashboards"
+appdaemon_dashboards_dir: "{{appdaemon_dir}}/dashboards"
 appdaemon_custom_widgets_dir: "{{appdaemon_dashboards_dir}}/custom_widgets"
 
 appdaemon_ha_url: "http://0.0.0.0:{{homeassistant_port}}"

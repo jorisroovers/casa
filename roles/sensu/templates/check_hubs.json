@@ -3,12 +3,22 @@
         "hub.phue": {
             "type": "metric",
             "command": "check-ping.rb -c 2 -h {{phue_ip}}",
+            "aggregate": "homeassistant",
+            "handlers": [ "homeassistant-sensor"],
+            "homeassistant": {
+                "sensor_type": "binary_sensor"
+            },
             "subscribers": [ "casa" ],
             "interval": {{sensu_default_check_interval}}
         },
         "hub.tradfri": {
             "type": "metric",
             "command": "check-ping.rb -c 2 -h {{tradfri_ip}}",
+            "aggregate": "homeassistant",
+            "handlers": [ "homeassistant-sensor"],
+            "homeassistant": {
+                "sensor_type": "binary_sensor"
+            },
             "subscribers": [ "casa" ],
             "interval": {{sensu_default_check_interval}}
         }

@@ -5,7 +5,7 @@ alias ?="cat /etc/profile.d/*aliases*"
 alias ha-status="systemctl status {{homeassistant_service}}"
 alias ha-logs="grc tail -n 300 -f {{homeassistant_dir}}/home-assistant.log"
 alias ha-log="ha-logs"
-alias ha-conf="vim {{homeassistant_dir}}"
+alias ha-conf="sudo -u {{homeassistant_user}} vim {{homeassistant_dir}}"
 
 
 function ha-re(){

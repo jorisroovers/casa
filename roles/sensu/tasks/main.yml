@@ -74,31 +74,8 @@
   lineinfile: regexp="(.*)influxdb_data.create_database(.*)" state=absent  path="{{metric_influxdb_path.stdout}}"
   become: yes
 
-- name: Creating virtualenv for custom checks and handlers
-  command: virtualenv {{sensu_venv_dir}} creates="{{sensu_venv_dir}}"
-  become: yes
-
-- name: "Installing custom checks and handlers for python dependencies"
-  pip: name="{{item.name}}" virtualenv="{{sensu_venv_dir}}" version="{{item.version}}"
-  become: yes
-  with_items:
-    - { name: speedtest-cli, version: "1.0.7" }
-
-- name: Changing virtualenv owner to sensu owner
-  file: path={{sensu_venv_dir}} owner={{sensu_user}} group={{sensu_group}} recurse=yes
-  become: yes
-
-- name: Creating custom checks directory
-  file: path="{{sensu_custom_checks_dir}}" state=directory owner={{sensu_user}} group={{sensu_group}}
-  become: yes
-
-- name: Installing custom checks
-  template: src="checks/{{item}}" dest="{{sensu_custom_checks_dir}}/{{item}}"
-            owner={{sensu_user}} group={{sensu_group}} mode=u+rx
-  become: yes
-  with_items:
-    - check-speedtest.sh
-    - check-meraki.sh
+- include_tasks: install_custom_checks.yml
+  tags: [ sensu-custom-checks ]
 
 - name: Creating custom handlers directory
   become: yes
@@ -137,6 +114,7 @@
     - check_roofcam.json
     - check_logstash.json
     - check_nest.json
+    - check_seshat.json
     - check_aggregates.json
 
 - name: Modifying sudoers file so sensu user can restart certain services

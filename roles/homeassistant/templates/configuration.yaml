@@ -84,7 +84,7 @@ device_tracker:
 sun:
 
 # Enable iOS support
-ios:
+# ios:
 
 weblink:
   entities:
@@ -220,6 +220,16 @@ binary_sensor:
         value_template: "{{ states.switch.dryer.attributes.current_power_w | float > 1000 }}"
         {% endraw %}
 
+      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+      housekeeping:
+        # Housekeeping on Monday and Fridays
+        friendly_name: "Housekeeping"
+        value_template: >-
+          {% raw %}{{ (now().isoweekday() == 1) and (now().hour > 12 and now().hour < 15))
+              or (now().isoweekday() == 5) and (now().hour > 12 and now().hour < 14)) }}{% endraw %}
+
+        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+
 nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
@@ -237,6 +247,7 @@ shell_command:
     play_sonos_preset: 'curl "{{sonos_http_api_url_base}}/preset/{% raw %}{{preset}}{% endraw %}"'
     enable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --enable-camera-streaming'
     disable_nest_camera: '{{homeassistant_venv}}/bin/nest --client-id {{nest_client_id}} --client-secret {{nest_client_secret}} --token-cache {{homeassistant_dir}}/nest.conf --serial {% raw %}{{camera_serial_id}}{% endraw %} camera-streaming --disable-camera-streaming'
+    restart_sonos: '/usr/bin/sudo /bin/systemctl restart {{sonos_http_api_service}}'
 
 input_select:
   house_mode:
@@ -295,7 +306,7 @@ input_boolean:
     name: Cooking
     initial: off
 
-# script: !include scripts.yaml
+script: !include scripts.yaml
 
 ######################
 ##  CONFIG EDITOR   ##

@@ -2,3 +2,4 @@
 NOOBS*
 .venv*
 *-console.log
+.cache

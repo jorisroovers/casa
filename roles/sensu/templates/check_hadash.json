@@ -4,7 +4,7 @@
             "type": "metric",
             "command": "check-ports.rb -h {{appdaemon_bind_ip}} -p {{appdaemon_port}} -t 3",
             "subscribers": ["casa"],
-            "handlers": ["homeassistant-sensor"],
+            "handlers": ["homeassistant-sensor", "influx-tcp"],
             "interval": {{sensu_default_check_interval}},
             "aggregate": "homeassistant",
             "homeassistant": {

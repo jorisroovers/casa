@@ -1,4 +1,4 @@
-AppDaemon:
+appdaemon:
 #  logfile: STDOUT
 #  errorfile: STDERR
 #  logsize: 100000
@@ -12,9 +12,11 @@ AppDaemon:
 #  api_key: 
 #  api_ssl_certificate: <path/to/root/CA/cert>
 #  api_ssl_key: <path/to/root/CA/key>
-HASS:
-  ha_url: {{appdaemon_ha_url}}
-  ha_key: {{homeassistant_http.api_password}}
+  plugins:
+    HASS:
+      type: hass
+      ha_url: {{appdaemon_ha_url}}
+      ha_key: {{homeassistant_http.api_password}}
 
-HADashboard:
+hadashboard:
   dash_url: {{appdaemon_dash_url}}

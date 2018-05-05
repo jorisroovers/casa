@@ -5,13 +5,6 @@ columns: 3
 
 {% include "./templates/dashboards/components.yaml" %}
 
-start_week_day:
-    widget_type: scene
-    title: Start Week Day
-    entity: scene.StartWeekDay
-    icon_on: fa-briefcase
-    icon_off: fa-briefcase
-
 bathroom_morning_ritual:
     widget_type: scene
     title: Bathroom Morning
@@ -22,7 +15,7 @@ bathroom_morning_ritual:
 # Note: every row needs to be present in the layout, even if empty
 layout:
     - sleep(1x1), home(1x1), away(1x1)
-    - bathroom_music_morning(1x1), start_week_day(1x1), bathroom_music_relax(1x1)
+    - bathroom_music_morning(1x1), bathroom_music_relax(1x1)
     - watch_tv(1x1), reading(1x1), cooking(1x1)
     - breakfast(1x1), relaxing(1x1), monitoring_checks_status(1x1)
     - include: Phone_navigation_panel

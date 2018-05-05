@@ -1,0 +1,40 @@
+---
+- name: Creating virtualenv for custom checks and handlers
+  command: virtualenv {{sensu_venv_dir}} creates="{{sensu_venv_dir}}"
+  become: yes
+
+- name: "Installing custom checks and handlers for python dependencies"
+  pip: name="{{item.name}}" virtualenv="{{sensu_venv_dir}}" version="{{item.version}}"
+  become: yes
+  with_items:
+    - { name: speedtest-cli, version: "1.0.7" }
+
+- name: Changing virtualenv owner to sensu owner
+  file: path={{sensu_venv_dir}} owner={{sensu_user}} group={{sensu_group}} recurse=yes
+  become: yes
+
+- name: Creating custom checks directory
+  file: path="{{sensu_custom_checks_dir}}" state=directory owner={{sensu_user}} group={{sensu_group}}
+  become: yes
+
+- name: Installing custom checks
+  template: src="checks/{{item}}" dest="{{sensu_custom_checks_dir}}/{{item}}"
+            owner={{sensu_user}} group={{sensu_group}} mode=u+rx
+  become: yes
+  with_items:
+    - check-speedtest.sh
+    - check-meraki.sh
+
+- name: Cloning seshat from github
+  git: repo=https://github.com/jorisroovers/seshat dest="{{sensu_custom_checks_dir}}/seshat" version=413bf0e6973fc9557acccc4bd16c5242afc0c114
+  become: yes
+  become_user: "{{sensu_user}}"
+
+- name: Installing seshat
+  shell: "npm install"
+  args:
+    chdir: "{{sensu_custom_checks_dir}}/seshat"
+  become: yes
+  # TODO: we should do this as the sensu user, but we can't because /opt/sensu is owned by root
+  # That requires a little more work to fix (leaving that for another day!)
+  

@@ -1,7 +1,18 @@
 ---
+- name: Creating appdaemon group
+  group: name="{{appdaemon_group}}" state=present system=yes
+  become: yes
+
+- name: Creating appdaemon user
+  user: name="{{appdaemon_user}}" comment="AppDaemon User" groups="{{appdaemon_group}},{{homeassistant_group}}"
+        home={{appdaemon_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
 # Install appdaemon in the same venv as hass to avoid problems with dependency mismatches
 - name: "Installing appdaemon"
   pip: name=appdaemon virtualenv="{{appdaemon_venv}}" version={{appdaemon_version}}
+  become: yes
+  become_user: "{{homeassistant_user}}"
 
 - name: Creating appdaemon directory
   file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}}
@@ -17,12 +28,13 @@
     - dashboards
     - custom_widgets
     - custom_css/casa
+  become: yes
 
 - name: Configuring appdaemon
-  template: src={{item}} dest={{appdaemon_dir}}/{{item}}
+  template: src={{item}} dest={{appdaemon_dir}}/{{item}} owner={{appdaemon_user}} group={{appdaemon_group}}
   with_items:
     - appdaemon.yaml
-    - apps.yaml
+    # - apps.yaml
     - dashboards/Home.dash
     - dashboards/Hallway.dash
     - dashboards/Media.dash
@@ -39,26 +51,33 @@
     - dashboards/Phone_navigation_panel.yaml
   notify:
     - restart_appdaemon
+  become: yes
 
 - name: Generating Camera Dashboards
   template: src=dashboards/Camera.dash dest="{{appdaemon_dir}}/dashboards/Camera_{{item.key}}.dash"
+            owner={{appdaemon_user}} group={{appdaemon_group}}
   with_dict: "{{nest_cams}}"
+  become: yes
 
 - name: Installing custom skin
-  template: src={{item}} dest={{appdaemon_dir}}/{{item}}
+  template: src={{item}} dest={{appdaemon_dir}}/{{item}} owner={{appdaemon_user}} group={{appdaemon_group}}
   with_items:
     - custom_css/casa/variables.yaml
     - custom_css/casa/dashboard.css
     - custom_css/casa/scripts.js
   notify:
     - restart_appdaemon
+  become: yes
 
 - name: Copying skin images
   copy:
     src: custom_css/casa/img
     dest: "{{appdaemon_dir}}/custom_css/casa"
+    owner: "{{appdaemon_user}}"
+    group: "{{appdaemon_group}}"
+  become: yes
 
-- include_tasks: genericweather_widget.yml
+# - include_tasks: genericweather_widget.yml
 
 - name: Installing appdaemon systemd service
   template: src=appdaemon.service dest=/etc/systemd/system/{{appdaemon_service}}.service

@@ -1,0 +1,15 @@
+{
+    "checks": {
+        "ps4-presence": {
+            "type": "metric",
+            "command": "curl -s --max-time 2 192.168.1.185:9295 && echo 'on' || echo 'off'",
+            "handlers": [ "homeassistant-sensor"],
+            "homeassistant": {
+                "sensor_type": "binary_sensor",
+                "sensor_state_source": ".check.output"
+            },
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}}
+        }
+    }
+}

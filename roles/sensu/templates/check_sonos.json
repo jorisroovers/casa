@@ -1,6 +1,6 @@
 {
     "checks": {
-        "sonos-http-api": {
+        "sonos-http-api.systemd": {
             "type": "metric",
             "command": "check-systemd.rb -s {{sonos_http_api_service}}.service",
             "subscribers": [ "casa" ],
@@ -12,6 +12,25 @@
             "remediation": {
                 "command": "sudo /bin/systemctl restart {{sonos_http_api_service}}.service"
             },
+            "homeassistant": {
+                "sensor_type": "binary_sensor"
+            }
+        },
+        "sonos-http-api.api": {
+            "type": "metric",
+            // use grep -q so we don't output anything -> needed because otherwise the output will be send to
+            // homeassistant, and in this case the output of the sonos API call is complex JSON, which we our
+            // homeassistant sensu handler can't handle
+            "command": "curl -s http://{{casa_ip}}:{{sonos_http_api_port}}/zones | grep -q -v error",
+            "subscribers": [ "casa" ],
+            "interval": {{sensu_default_check_interval}},
+            "handlers": [ "homeassistant-sensor"],
+            "aggregate": "homeassistant",
+            "occurrences": 3, // when remediator will be triggered
+            "refresh": {{sensu_default_refresh_interval}}, // after how many secs the remediator should retry
+            // "remediation": {
+            //     "command": "sudo /bin/systemctl restart {{sonos_http_api_service}}.service"
+            // },
             "homeassistant": {
                 "sensor_type": "binary_sensor"
             }

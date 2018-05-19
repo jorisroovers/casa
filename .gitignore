@@ -3,3 +3,4 @@ NOOBS*
 .venv*
 *-console.log
 .cache
+*.pyc

@@ -55,6 +55,7 @@
     - reload_homeassistant_automations
   tags:
     - hass-config
+    - hass-automations
   become: yes
 
 - name: "Configuring homeassistant known_devices (no restart needed)"
@@ -81,6 +82,16 @@
     - hass-config
   become: yes
 
+# Needs become:yes because it might do upgrade of config related packages during hass upgrades
+- name: "Validating homeassistant configuration"
+  shell: "{{homeassistant_venv}}/bin/hass --script check_config -c {{homeassistant_dir}}"
+  register: check_config_cmd
+  changed_when: False
+  failed_when: check_config_cmd.rc > 0
+  tags:
+    - hass-config
+  become: yes
+
 - name: "Ensure all files are owned by the homeassistant user"
   file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}} recurse=yes
   become: yes
@@ -93,7 +104,7 @@
     validate: visudo -cf %s
   become: yes
   with_items:
-    - {"user": "root", "command": "/bin/systemctl restart {{sonos_http_api_service}}.service"}
+    - {"user": "root", "command": "/bin/systemctl restart {{sonos_http_api_service}}"}
     - {"user": "root", "command": "/bin/systemctl restart {{homeassistant_service}}.service"}
 
 - name: Installing homeassistant systemd service
@@ -114,10 +125,10 @@
   template: src=hass-aliases.sh dest=/etc/profile.d/hass-aliases.sh
   become: yes
 
-- name: Adding cronjob to restart homeassistant every night at 5.01AM
-  cron: name="Nightly homeassistant restart" hour="5" minute="01"
-        job="/usr/bin/sudo /bin/systemctl restart {{homeassistant_service}}.service" user={{homeassistant_user}}
-  become: yes
+# - name: Adding cronjob to restart homeassistant every night at 5.01AM
+#   cron: name="Nightly homeassistant restart" hour="5" minute="01"
+#         job="/usr/bin/sudo /bin/systemctl restart {{homeassistant_service}}.service" user={{homeassistant_user}}
+#   become: yes
 
 - name: Make sure homeassistant service is started
   service: name={{homeassistant_service}} state=started enabled=yes

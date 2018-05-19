@@ -40,18 +40,18 @@ Other gear I have that is currently not (yet) integrated in the setup:
 The best way to get a quick overview of the software stack is to look at roles directory
 
 
-| Software | Description |
-|----------|-------------|
-| Ubuntu 17.10 | Operating Systems |
-| [Homeassistant](https://home-assistant.io/) | |
-| [HADashboard](http://appdaemon.readthedocs.io/en/stable/DASHBOARD_INSTALL.html) | |
-| [node-sonos-http-api](https://github.com/jishi/node-sonos-http-api) | |
-| [Sensu](https://sensuapp.org/) | Monitoring solution |
-| InfluxDB | |
-| Grafana | |
-| Logstash | |
-| slack | |
-| roofcam | |
+| Software                                                                        | Description         |
+| ------------------------------------------------------------------------------- | ------------------- |
+| Ubuntu 17.10                                                                    | Operating Systems   |
+| [Homeassistant](https://home-assistant.io/)                                     |                     |
+| [HADashboard](http://appdaemon.readthedocs.io/en/stable/DASHBOARD_INSTALL.html) |                     |
+| [node-sonos-http-api](https://github.com/jishi/node-sonos-http-api)             |                     |
+| [Sensu](https://sensuapp.org/)                                                  | Monitoring solution |
+| InfluxDB                                                                        |                     |
+| Grafana                                                                         |                     |
+| Logstash                                                                        |                     |
+| slack                                                                           |                     |
+| roofcam                                                                         |                     |
 
 # Getting Started
 
@@ -123,14 +123,9 @@ This is a list of things I'm considering to add to casa.
 - Weekend Hobby sensor
 - Raspberry PI online sensor
 - Fix aggregate sensor for homeassistant (google not working)
-- Fix PS4 sensor (currently always on)
 
 ## Actuator ideas
 - PS4Waker
-- Mirror bathroom heating:
-https://www.vloerverwarmingstore.nl/producten/87-1-overige+oplossingen/89-1-spiegelverwarming/p-239-e-heat+spiegelverwarming+folie?selected=622
-- Auto turn on mirror light when bathroom lights turn on using tp-link
-  (only when house not sleeping)
 - Lights in back kitchen
 
 ### Homematic Radiotor thermostat
@@ -238,11 +233,20 @@ scp -P 2222 -i ~/repos/casa/.vagrant/machines/home/virtualbox/private_key ubuntu
 ## Hass APIs
 ```bash
 export HASS_URL="http://0.0.0.0:8123"; export HASS_PASSWORD="$(awk '/api_password: /{print $2}'  /opt/homeassistant/configuration.yaml)"
+export HASS_URL="http://$HASS_IP:8123"; export HASS_PASSWORD="$(vault-get ' api_password')";
+
 # Getting  entity picture
 curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/states/camera.hallway | jq -r ".attributes.entity_picture"
-
+# Error log:
 curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/error_log
+# Specific entity state:
+curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/states/light.office
+
+# Turn on light
+curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" -d '{"entity_id": "light.office"}' $HASS_URL/api/services/light/turn_on
+
 ```
+
 
 ## Sensu
 Location of binary check scripts:
@@ -347,5 +351,14 @@ curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
 # Tests
 
 ```bash
-pytest --hadashboard-url http://<hadashboard_ip>:<hadashboard_port> tests/
+pytest --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" tests/
+```
+
+
+## AppDaemon issue
+Ran into https://github.com/home-assistant/home-assistant/issues/13644,
+fixed by running.
+
+```bash
+sudo /opt/homeassistant/.venv/bin/pip install aiohttp==3.1.3
 ```

@@ -8,14 +8,17 @@
         home={{appdaemon_dir}} createhome=no system=yes # Not a login user
   become: yes
 
+- name: Creating appdaemon directory
+  file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}}
+  become: yes
+
+- name: Manually create the appdaemon virtualenv
+  command: virtualenv {{appdaemon_venv}} -p python3 creates="{{appdaemon_venv}}"
+  become: yes
+
 # Install appdaemon in the same venv as hass to avoid problems with dependency mismatches
 - name: "Installing appdaemon"
   pip: name=appdaemon virtualenv="{{appdaemon_venv}}" version={{appdaemon_version}}
-  become: yes
-  become_user: "{{homeassistant_user}}"
-
-- name: Creating appdaemon directory
-  file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}}
   become: yes
 
 # Strongly believe all the permissions are set correctly, I think there's some bug here. More details:
@@ -75,6 +78,10 @@
     dest: "{{appdaemon_dir}}/custom_css/casa"
     owner: "{{appdaemon_user}}"
     group: "{{appdaemon_group}}"
+  become: yes
+
+- name: "Ensure all files are owned by the appdaemon user"
+  file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}} recurse=yes
   become: yes
 
 # - include_tasks: genericweather_widget.yml

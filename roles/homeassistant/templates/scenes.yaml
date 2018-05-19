@@ -157,22 +157,6 @@
     media_player.tv_room:
         state: paused
 
-- name: Sunset
-  entities:
-    group.lights_outside:
-        state: on
-    light.kantoor_sfeer_lamp_1:
-        state: on
-        kelvin: 2200
-        brightness_pct: 20
-        # Apparently brightness_pct doesn't work on a light group, hence why this is kantoor_sfeer_lamp_1
-        # and not kantoor_sfeer_verlichting
-
-- name: Midnight
-  entities:
-    group.lights_outside:
-        state: off
-
 ################################################################################
 # Cooking                                                                      #
 ################################################################################
@@ -227,6 +211,45 @@
         option: Bathroom Morning
     light.bathroom:
         state: on
+
+################################################################################
+# Evenings                                                                     #
+################################################################################
+
+- name: Sunset
+  entities:
+    group.lights_outside:
+        state: on
+    light.kantoor_sfeer_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+        # Apparently brightness_pct doesn't work on a light group, hence why this is kantoor_sfeer_lamp_1
+        # and not kantoor_sfeer_verlichting
+
+- name: Midnight
+  entities:
+    group.lights_outside:
+        state: off
+
+- name: ComeHomeEvening
+  entities:
+    group.lights_outside:
+        state: on
+    light.kantoor_sfeer_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+        # Apparently brightness_pct doesn't work on a light group, hence why this is kantoor_sfeer_lamp_1
+        # and not kantoor_sfeer_verlichting
+    light.woonkamer_tv:
+        state: on
+        kelvin: 2200
+        brightness_pct: 40
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
 
 ################################################################################
 # Working                                                                      #

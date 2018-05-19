@@ -40,6 +40,27 @@
       data:
         entity_id: input_select.living_preset
         option: NoPreset
+    - delay: 00:00:25    # Wait a bit, then try again, in case there was a light that didn't turn off
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
+
+- alias: Automatically Turn on come home evening scene when arriving home after sunset
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    from: "Away"
+    to: "Home"
+  condition:
+   - condition: and
+     conditions:
+       - condition: sun
+         after: sunset
+       - condition: sun   # Only do this after midnight when it's not morning yet
+         before: sunrise
+  action:
+    - service: scene.turn_on
+      entity_id: scene.ComeHomeEvening
 
 - id: auto_home_on_start_work
   alias: 'Automatically set house_mode to home when turning on the office light in the morning'
@@ -125,9 +146,13 @@
     - service: scene.turn_on
       data_template:
         entity_id: "{% raw %}{{ 'scene.Cooking' if is_state('input_boolean.cooking', 'on') else 'scene.StopCooking'}}{% endraw %}"
+    # When TV is off and no other music is playing => Play some music
     - condition: state
       entity_id: "device_tracker.samsungtv"
       state: "not_home"
+    - condition: state
+      entity_id: "media_player.tv_room"
+      state: "paused"
     - service: input_select.select_option
       data:
         entity_id: input_select.downstairs_music
@@ -243,7 +268,7 @@
       to: "off"
   condition:
     - condition: time
-      after: '07:30:00'
+      after: '07:00:00'
       before: '11:30:00'
       weekday:
         - mon
@@ -364,6 +389,15 @@
     - service: scene.turn_on
       data:
         entity_id: scene.Midnight
+    # Send slack notification when home or away (not when sleeping)
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: "input_select.house_mode"
+          state: "Home"
+        - condition: state
+          entity_id: "input_select.house_mode"
+          state: "Away"
     - service: notify.slack
       data:
         message: |
@@ -404,6 +438,32 @@
     - service: light.turn_on
       data:
         entity_id: light.office
+
+################################################################################
+# Washing Machine/Dryer                                                        #
+################################################################################
+
+- alias: Send notification on Washing Machine done
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.washing_machine
+      to: 'off'
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Washing machine done!
+
+- alias: Send notification on Dryer done
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.dryer
+      to: 'off'
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Dryer done!
 
 
 ################################################################################

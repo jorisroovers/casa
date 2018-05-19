@@ -1,0 +1,34 @@
+- name: Installing packages to allow apt to use a repository over HTTPS
+  apt: name={{item}} state=latest
+  become: yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Installing Docker apt source public key
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Adding Docker package source
+  lineinfile:
+    state: present
+    create: yes
+    path: /etc/apt/sources.list.d/elastic-5.x.list
+    line: "deb [arch=amd64] https://download.docker.com/linux/ubuntu artful stable"
+  become: yes
+  register: docker_package_source
+
+- name: "Updating apt-get cache"
+  apt: update_cache=yes
+  become: yes
+  when: docker_package_source.changed
+
+- name: "Installing docker"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - docker-ce

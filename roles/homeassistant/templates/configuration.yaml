@@ -123,6 +123,8 @@ hue:
   bridges:
     - host: {{phue_ip}}
       filename: phue.conf
+      allow_unreachable: true
+      allow_hue_groups: true
 
 tradfri:
   host: {{tradfri_ip}}
@@ -179,6 +181,9 @@ sensor:
         - temperature
         - windspeed
         - pressure
+    - platform: postnl
+      username: "{{postnl_username}}"
+      password: "{{postnl_password}}"
     - platform: google_travel_time
       api_key: {{google_travel_time_api_key}}
       origin: {{google_travel_time_origin}}
@@ -198,6 +203,9 @@ sensor:
           {% endraw %}
 
 binary_sensor:
+  - platform: workday
+    country: NL
+    workdays: [mon, tue, wed, thu, fri]
   - platform: template
     sensors:
       joris_working:
@@ -225,8 +233,8 @@ binary_sensor:
         # Housekeeping on Monday and Fridays
         friendly_name: "Housekeeping"
         value_template: >-
-          {% raw %}{{ (now().isoweekday() == 1) and (now().hour > 12 and now().hour < 15))
-              or (now().isoweekday() == 5) and (now().hour > 12 and now().hour < 14)) }}{% endraw %}
+          {% raw %}{{ ((now().isoweekday() == 1) and (now().hour > 12 and now().hour < 15))
+              or ((now().isoweekday() == 5) and (now().hour > 12 and now().hour < 14)) }}{% endraw %}
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
 

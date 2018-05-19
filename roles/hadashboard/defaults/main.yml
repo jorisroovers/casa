@@ -1,6 +1,6 @@
 appdaemon_version: 3.0.1
 appdaemon_dir: "/opt/appdaemon"
-appdaemon_venv: ""
+appdaemon_venv: "{{appdaemon_dir}}/.venv"
 appdaemon_user: "appdaemon"
 appdaemon_group: "appdaemon"
 appdaemon_bind_ip: 0.0.0.0

@@ -80,6 +80,7 @@
 - name: Creating custom handlers directory
   become: yes
   file: path="{{sensu_custom_handlers_dir}}" state=directory owner={{sensu_user}} group={{sensu_group}}
+  tags: [ sensu-handlers ]
 
 - name: Installing custom handlers
   template: src="{{item}}" dest="{{sensu_custom_handlers_dir}}/{{item}}"
@@ -88,11 +89,13 @@
   with_items:
     - remediation-handler.sh
     - homeassistant-sensor-handler.sh
+  tags: [ sensu-handlers ]
 
 - name: Creating sensu conf directory
   file: path={{sensu_conf_dir}} state=directory owner={{sensu_user}} group={{sensu_group}}
   notify: restart_sensu
   become: yes
+  tags: [sensu-checks]
 
 - name: Configuring sensu
   template: src={{item}} dest={{sensu_conf_dir}}/{{item}}
@@ -111,11 +114,13 @@
     - check_network_connectivity.json
     - check_hubs.json
     - check_hadash.json
+    - check_ps4.json
     - check_roofcam.json
     - check_logstash.json
     - check_nest.json
     - check_seshat.json
     - check_aggregates.json
+  tags: [sensu-checks]
 
 - name: Modifying sudoers file so sensu user can restart certain services
   lineinfile:

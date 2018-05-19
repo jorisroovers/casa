@@ -22,23 +22,33 @@ TIMESTAMP=$(echo "$INPUT" | jq -r .timestamp)
 SENSOR_TYPE=$(echo "$INPUT" | jq -r .check.homeassistant.sensor_type)
 echo "SENSOR TYPE: $SENSOR_TYPE"
 
- # Determine sensor attributes based on sensu check data
 # For name, replace dashboard and periods with underscores
-
 SENSOR_NAME="sensu_${NAME//-/_}"
 SENSOR_NAME="${SENSOR_NAME//./_}"
 
-if [ $SENSOR_TYPE == "binary_sensor" ]; then
-    if [ $STATUS == "0" ]; then
-        SENSOR_STATE="on"
+# For the sensor state, we allow the user to specify where to get it from in the sensu check itself
+SENSOR_STATE_SOURCE=$(echo "$INPUT" | jq -r .check.homeassistant.sensor_state_source)
+echo "SENSOR_STATE_SOURCE: $SENSOR_STATE_SOURCE"
+
+# No explicit sensor source specified, let's do a smart fallback
+if [ $SENSOR_STATE_SOURCE == "null" ]; then
+    # For binary sensors, let's use status
+    if [ $SENSOR_TYPE == "binary_sensor" ]; then
+        if [ $STATUS == "0" ]; then
+            SENSOR_STATE="on"
+        else
+            SENSOR_STATE="off"
+        fi
     else
-        SENSOR_STATE="off"
+        # Fallback to stdout for everything else
+        SENSOR_STATE="$OUTPUT"
+        # TODO: use jq to parse output. If valid JSON -> merge with payload
+        # `echo "$OUTPUT" | jq` will return and >0 exit code if invalid
+        # Note that the $OUTPUT has got newlines replaced with | -> we might not want that for this
     fi
 else
-    SENSOR_STATE="$OUTPUT"
-    # TODO: use jq to parse output. If valid JSON -> merge with payload
-    # `echo "$OUTPUT" | jq` will return and >0 exit code if invalid
-    # Note that the $OUTPUT has got newlines replaced with | -> we might not want that for this
+    # Explicit sensor source defined, let's use it!
+    SENSOR_STATE=$(echo "$INPUT" | jq -r "$SENSOR_STATE_SOURCE")
 fi
 
 echo "SENSOR NAME: $SENSOR_NAME"

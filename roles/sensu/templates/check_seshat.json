@@ -4,19 +4,25 @@
             "type": "metric",
             "command": "/usr/bin/node {{sensu_custom_checks_dir}}/seshat/dist/duration.js -k --measurement device_tracker.samsungtv --state home --write-duration --host {{influxdb_bind_ip}} --database :::influxdb.homeassistant.database::: --username :::influxdb.homeassistant.user:::  --password :::influxdb.homeassistant.password::: ",
             "subscribers": ["casa"],
-            "interval": 15
+            "interval": 45
         },
-        // "seshat.duration.binary_sensor.joris_working": {
-        //     "type": "metric",
-        //     "command": "/usr/bin/node {{sensu_custom_checks_dir}}/seshat/dist/duration.js -k --measurement binary_sensor.joris_working --state on --write-duration --host {{influxdb_bind_ip}} --database :::influxdb.homeassistant.database::: --username :::influxdb.homeassistant.user:::  --password :::influxdb.homeassistant.password::: ",
-        //     "subscribers": ["casa"],
-        //     "interval": 15
-        // },
+        "seshat.duration.binary_sensor.joris_working": {
+            "type": "metric",
+            "command": "/usr/bin/node {{sensu_custom_checks_dir}}/seshat/dist/duration.js -k --measurement binary_sensor.joris_working --state on --write-duration --host {{influxdb_bind_ip}} --database :::influxdb.homeassistant.database::: --username :::influxdb.homeassistant.user:::  --password :::influxdb.homeassistant.password::: ",
+            "subscribers": ["casa"],
+            "interval": 45
+        },
+        "seshat.duration.binary_sensor.sensu_ps4_presence": {
+            "type": "metric",
+            "command": "/usr/bin/node {{sensu_custom_checks_dir}}/seshat/dist/duration.js -k --measurement binary_sensor.sensu_ps4_presence --state on --write-duration --host {{influxdb_bind_ip}} --database :::influxdb.homeassistant.database::: --username :::influxdb.homeassistant.user:::  --password :::influxdb.homeassistant.password::: ",
+            "subscribers": ["casa"],
+            "interval": 45
+        },
         "seshat.duration.sensor.desk_state": {
             "type": "metric",
             "command": "/usr/bin/node {{sensu_custom_checks_dir}}/seshat/dist/duration.js -k --measurement sensor.desk_state --state up --write-duration --host {{influxdb_bind_ip}} --database :::influxdb.homeassistant.database::: --username :::influxdb.homeassistant.user:::  --password :::influxdb.homeassistant.password::: ",
             "subscribers": ["casa"],
-            "interval": 15
+            "interval": 45
         }
     }
 }

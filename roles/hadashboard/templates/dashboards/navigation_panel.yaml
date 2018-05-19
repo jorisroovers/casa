@@ -23,9 +23,15 @@ security_nav:
       timeout: {{navigation_timeout}}
       return: Home
 
+hallway_nav:
+    widget_type: navigate
+    title: Hall
+    icon_inactive: mdi-door-closed
+    dashboard: Hallway
+
 reload:
     widget_type: reload
     title: Reload
 
 layout:
-  - home_nav(1x1), media_nav(1x1), security_nav(1x1), reload(1x1)
+  - home_nav(1x1), media_nav(1x1), security_nav(1x1), hallway_nav(1x1), reload(1x1)

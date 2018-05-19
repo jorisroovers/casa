@@ -40,7 +40,7 @@ binary_sensor_roofcam:
 binary_sensor_sonos_http_api:
     widget_type: binary_sensor
     title: Sonos HTTP API
-    entity: binary_sensor.sensu_sonos_http_api
+    entity: binary_sensor.sensu_sonos_http_api_api
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: mdi-bullseye
@@ -118,6 +118,13 @@ script_restart_homeassistant:
     widget_type: script
     title: "Restart Homeassistant"
     entity: "script.restart_homeassistant"
+    icon_on: fa-refresh
+    icon_off: fa-refresh
+
+script_restart_sonos:
+    widget_type: script
+    title: "Restart Sonos"
+    entity: "script.restart_sonos"
     icon_on: fa-refresh
     icon_off: fa-refresh
 
@@ -309,14 +316,11 @@ tv_presence:
       "not_home": "Off"
 
 ps4_presence:
-    widget_type: device_tracker
+    widget_type: binary_sensor
     title: PS4
-    device: ps4
+    entity: binary_sensor.sensu_ps4_presence
     icon_on: mdi-power
     icon_off: mdi-power
-    state_map:
-      "home": "On"
-      "not_home": "Off"
 
 #######################################################################
 # DOWNSTAIRS MUSIC                                                    #

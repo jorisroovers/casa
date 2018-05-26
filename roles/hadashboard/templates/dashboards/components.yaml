@@ -601,3 +601,12 @@ roofcam_status:
     widget_type: sensor
     title: Roof water
     entity: sensor.sensu_roofcam_water_detection
+    value_style: "font-size: 150%;"
+
+desk_light:
+    widget_type: switch
+    title: Desk Lamp
+    entity: switch.desk_lamp
+    icon_on: fa-lightbulb-o
+    icon_off: fa-lightbulb-o
+    icon_style_active: "color: #e8e178;"

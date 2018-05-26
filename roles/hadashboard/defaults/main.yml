@@ -21,3 +21,5 @@ navigation_timeout: 120
 
 nest_cam_entity_pictures: {}
 roofcam_entity_picture: ""
+
+hadash_pincode: "1234"

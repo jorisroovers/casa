@@ -1,0 +1,65 @@
+title: LockScreen
+widget_dimensions: [120, 120]
+widget_margins: [5, 5]
+columns: 7
+
+{% include "./templates/dashboards/components.yaml" %}
+
+pincode_label:
+  widget_type: label
+
+pincode_number_1:
+  widget_type: label
+  text: "1"
+
+pincode_number_2:
+  widget_type: label
+  text: "2"
+
+pincode_number_3:
+  widget_type: label
+  text: "3"
+
+pincode_number_4:
+  widget_type: label
+  text: "4"
+
+pincode_number_5:
+  widget_type: label
+  text: "5"
+
+pincode_number_6:
+  widget_type: label
+  text: "6"
+
+pincode_number_7:
+  widget_type: label
+  text: "7"
+
+pincode_number_8:
+  widget_type: label
+  text: "8"
+
+pincode_number_9:
+  widget_type: label
+  text: "9"
+
+pincode_number_0:
+  widget_type: label
+  text: "0"
+
+pincode_unlock_button:
+  widget_type: label
+  text: OK
+
+pincode_clear_button:
+  widget_type: label
+  text: clear
+
+layout:
+    - spacer(2x1), house_mode(3x1)
+    - spacer(2x1), pincode_label(3x1)
+    - spacer(2x1), pincode_number_1(1x1), pincode_number_2(1x1), pincode_number_3(1x1)
+    - spacer(2x1), pincode_number_4(1x1), pincode_number_5(1x1), pincode_number_6(1x1)
+    - spacer(2x1), pincode_number_7(1x1), pincode_number_8(1x1), pincode_number_9(1x1)
+    - spacer(2x1), pincode_clear_button(1x1), pincode_number_0(1x1), pincode_unlock_button(1x1)

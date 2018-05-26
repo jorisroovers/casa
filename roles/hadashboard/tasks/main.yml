@@ -44,6 +44,7 @@
     - dashboards/Security_1.dash
     - dashboards/Security_2.dash
     - dashboards/Monitoring.dash
+    - dashboards/LockScreen.dash
     - dashboards/navigation_panel.yaml
     - dashboards/Phone_Home.dash
     - dashboards/Phone_Controls.dash
@@ -55,6 +56,7 @@
   notify:
     - restart_appdaemon
   become: yes
+  tags: [ hadash-dashboards ]
 
 - name: Generating Camera Dashboards
   template: src=dashboards/Camera.dash dest="{{appdaemon_dir}}/dashboards/Camera_{{item.key}}.dash"
@@ -71,6 +73,7 @@
   notify:
     - restart_appdaemon
   become: yes
+  tags: [ hadash-skins ]
 
 - name: Copying skin images
   copy:
@@ -79,6 +82,7 @@
     owner: "{{appdaemon_user}}"
     group: "{{appdaemon_group}}"
   become: yes
+  tags: [ hadash-skins ]
 
 - name: "Ensure all files are owned by the appdaemon user"
   file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}} recurse=yes

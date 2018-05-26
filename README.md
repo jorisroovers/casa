@@ -362,3 +362,18 @@ fixed by running.
 ```bash
 sudo /opt/homeassistant/.venv/bin/pip install aiohttp==3.1.3
 ```
+
+## Tradfri issue
+
+
+```
+2018-05-23 04:02:21 WARNING (MainThread) [homeassistant.components.sensor.tradfri] Observation failed for TRADFRI motion sensor
+Traceback (most recent call last):
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 92, in _get_response
+    r = yield from pr.response
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/aiocoap/protocol.py", line 816, in _run_outer
+    yield from cls._run(app_request, response, weak_observation, protocol, log, exchange_monitor_factory)
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/aiocoap/protocol.py", line 865, in _run
+    blockresponse = yield from blockrequest.response
+aiocoap.error.RequestTimedOut
+```

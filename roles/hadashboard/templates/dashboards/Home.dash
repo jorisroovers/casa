@@ -21,15 +21,12 @@ living_room_temperature:
     unit_style: "color: #f1c40f"
 
 humidity:
-    widget_type: gauge
+    widget_type: sensor
     title: Binnen Vochtigheid
-    units: "%"
-    min: 0
-    max: 100
+    precision: 0
     entity: sensor.living_room_thermostat_humidity
-    color: "#fff"
-    # unit_style: "color: #fff"
-    # precision: 0
+    value_style: "font-size: 350%; color: #fff;"
+    unit_style: "color: #fff"
 
 rijtijd_ilse:
     widget_type: sensor
@@ -49,5 +46,5 @@ layout:
     - living_room_temperature(2x1), outside_temperature(2x1), home(1x1), away(1x1), sleep(1x1), joris_working(1x1)
     - humidity(1x1), rijtijd_ilse(1x1), roofcam_status(1x1), spacer(1x1), washing_machine_status(1x1), dryer_status(1x1), watch_tv(1x1)
     - breakfast(1x1), cooking(1x1), light.kitchen(2x1), light.woonkamer_tv(2x1), light.living_room(2x1)
-    - relaxing(1x1), reading(1x1), light.eetkamer(2x1), light.tv_staanlamp(2x1), light.kantoor(2x1)
+    - relaxing(1x1), reading(1x1), light.eetkamer(2x1), light.tv_staanlamp(2x1), light.kantoor(1x1), desk_light(1x1)
     - include: navigation_panel

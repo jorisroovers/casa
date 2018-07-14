@@ -17,6 +17,7 @@ http:
 logger:
   default: info
   logs:
+    homeassistant.components.device_tracker: error
     homeassistant.components.device_tracker.nmap_tracker: error
     homeassistant.components.device_tracker.ping: warn
     homeassistant.components.http: warn

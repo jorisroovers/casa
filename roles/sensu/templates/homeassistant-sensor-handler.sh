@@ -16,6 +16,7 @@ NAME=$(echo "$INPUT" | jq -r .check.name)
 STATUS=$(echo "$INPUT" | jq -r .check.status)
 # replace newlines with | in the output. Just sending \n doesn't seem to work: there's probably a way to escape \n
 # properly, but don't feel like spending another 2hrs on figuring that out :)
+# echo "$INPUT"
 OUTPUT=$(echo "$INPUT" | jq -r -j .check.output | tr "\n" "|")
 SENSU_EVENT_ID=$(echo "$INPUT" | jq -r .id)
 TIMESTAMP=$(echo "$INPUT" | jq -r .timestamp)

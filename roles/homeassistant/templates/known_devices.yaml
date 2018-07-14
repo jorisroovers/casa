@@ -1,4 +1,4 @@
-{% for device_name, device_values in known_devices.iteritems() %}
+{% for device_name, device_values in known_devices.items() %}
 {{device_name}}:
   {% for key, value in device_values.iteritems() %}
   {{key}}: {{value}}

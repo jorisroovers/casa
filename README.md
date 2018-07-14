@@ -106,7 +106,6 @@ This is a list of things I'm considering to add to casa.
 - When pausing music -> set music preset to NoMusic
 - Alerting on e.g. open window: https://home-assistant.io/components/alert/
 ## Sensor ideas
-- Gaming sensor based on PS4 & TV Awake
 - Car at home detect sensor based on image recognition
 - Door/window sensors
 - Custom nest sensors based on python-nest, because current nest sensors in Hass aren't very good
@@ -359,9 +358,17 @@ pytest --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_I
 Ran into https://github.com/home-assistant/home-assistant/issues/13644,
 fixed by running.
 
+TypeError: __init__() got an unexpected keyword argument 'ssl'
+-> this has to do with the fac that aiohttp is outdated
+
+Fix with:
+
 ```bash
 sudo /opt/homeassistant/.venv/bin/pip install aiohttp==3.1.3
 ```
+
+Or by reinstalling homeassistant
+
 
 ## Tradfri issue
 
@@ -377,3 +384,62 @@ Traceback (most recent call last):
     blockresponse = yield from blockrequest.response
 aiocoap.error.RequestTimedOut
 ```
+
+# Hue issues
+
+```
+Traceback (most recent call last):
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/components/hue/bridge.py", line 47, in async_setup
+    hass, host, self.config_entry.data['username'])
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/components/hue/bridge.py", line 159, in get_bridge
+    websession=aiohttp_client.async_get_clientsession(hass)
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/aiohttp_client.py", line 38, in async_get_clientsession
+    hass.data[key] = async_create_clientsession(hass, verify_ssl)
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/aiohttp_client.py", line 55, in async_create_clientsession
+    connector = _async_get_connector(hass, verify_ssl)
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/aiohttp_client.py", line 163, in _async_get_connector
+    connector = aiohttp.TCPConnector(loop=hass.loop, ssl=ssl_context)
+TypeError: __init__() got an unexpected keyword argument 'ssl'
+```
+
+This has to do with an incompatible version of aiohttp
+
+--------
+Before"
+
+aiocoap==0.4a1
+aiohttp==2.3.10
+aiohttp-cors==0.7.0
+aiohue==1.5.0
+
+------------
+after:
+aiocoap==0.4a1
+aiohttp==3.3.2
+aiohttp-cors==0.7.0
+aiohue==1.5.0
+
+
+
+
+Traceback (most recent call last):
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/entity.py", line 196, in async_update_ha_state
+    yield from self.async_device_update()
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/entity.py", line 317, in async_device_update
+    yield from self.async_update()
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/components/light/tradfri.py", line 153, in async_update
+    await self._api(self._group.update())
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 152, in request
+    result = yield from self._execute(api_commands)
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 142, in _execute
+    _, res = yield from self._get_response(msg)
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 97, in _get_response
+    yield from self._reset_protocol(e)
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 79, in _reset_protocol
+    yield from protocol.shutdown()
+  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/aiocoap/protocol.py", line 133, in shutdown
+    for exchange_monitor, cancellable in self._active_exchanges.values():
+AttributeError: 'NoneType' object has no attribute 'values'
+
+
+https://github.com/ggravlingen/pytradfri/blob/master/pytradfri/api/aiocoap_api.py#L79

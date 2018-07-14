@@ -1,0 +1,7 @@
+kibana_docker_image: docker.elastic.co/kibana/kibana:6.3.1
+kibana_docker_elk_network_ip_address: "10.0.0.3"
+
+kibana_port: 5601
+
+kibana_docker_http_port_internal: "{{kibana_port}}"
+kibana_docker_http_port_external: "{{kibana_port}}"

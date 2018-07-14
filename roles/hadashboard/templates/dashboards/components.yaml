@@ -22,7 +22,7 @@ binary_sensor_google:
 binary_sensor_logstash:
     widget_type: binary_sensor
     title: Logstash
-    entity: binary_sensor.sensu_logstash
+    entity: binary_sensor.sensu_elk_logstash
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: mdi-bullseye

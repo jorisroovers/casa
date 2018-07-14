@@ -22,7 +22,7 @@ living_room_temperature:
 
 rijtijd_ilse:
     widget_type: sensor
-    title: Rijtijd Ilse
+    title: Rijtijd Werk Ilse
     precision: 0
     entity: sensor.rijtijd_werk_ilse
     value_style: "font-size: 350%"

@@ -9,10 +9,15 @@ camera:
     entity_picture: {{item.value.entity_picture}}
     refresh: {{camera_widget_refresh_rate}}
 
+back_button:
+    widget_type: javascript
+    command: window.history.back()
+    icon_inactive: mdi-arrow-left-bold-circle-outline
+
 layout:
     - camera(8x5)
     - spacer(8x1)
     - spacer(8x1)
     - spacer(8x1)
-    - spacer(8x1)
+    - spacer(7x1), back_button(1x1)
     - include: navigation_panel

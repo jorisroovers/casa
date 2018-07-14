@@ -100,11 +100,22 @@ $(document).ready(function () {
     autoLockScreen();
     $("#default-house-mode .value").bind('DOMSubtreeModified', autoLockScreen);
 
-    // #FUTURE: value colorization
+    // Drive Time value colorization
+    $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").bind('DOMSubtreeModified', function (e) {
+        let driveTime = parseInt($("#default-rijtijd-ilse .value").html());
+        if (driveTime < 40) {
+            $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").css("color", "#45b71b");
+        } else if (driveTime >= 40 && driveTime < 45) {
+            $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").css("color", "#FFD700");
+        } else { //driveTime > 40
+            $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").css("color", "red");
+        }
+    });
 
-    // #default-rijtijd-ilse .value {
-    //     color: red !important;
-    // }
+    $("#default-front-garden-camera").click(function (event) {
+        let id = event.currentTarget.id;
+    });
+
 
 });
 

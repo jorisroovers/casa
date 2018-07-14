@@ -74,7 +74,7 @@
    - scenes.yaml
    - scripts.yaml
 #   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
-   - phue.conf
+   - phue.conf # No longer neccessary?
   notify:
     - reload_homeassistant_config
     - restart_homeassistant

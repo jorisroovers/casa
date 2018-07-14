@@ -239,15 +239,20 @@
       entity_id: light.bathroom_group
       to: "on"
   condition:
-    - condition: time
-      after: '12:00:00'
-      before: '17:00:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: "binary_sensor.housekeeping"
+          state: "off"
+        - condition: time
+          after: '12:00:00'
+          before: '17:00:00'
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
   action:
     - service: scene.turn_on
       data:
@@ -267,15 +272,14 @@
       entity_id: light.bathroom_group
       to: "off"
   condition:
-    - condition: time
-      after: '07:00:00'
-      before: '11:30:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+   - condition: and
+     conditions:
+      - condition: time
+        after: '07:00:00'
+        before: '11:30:00'
+      - condition: state
+        entity_id: "binary_sensor.workday_sensor"
+        state: "on"
   action:
     - service: scene.turn_on
       data:
@@ -287,15 +291,14 @@
     entity_id: light.nachttafel_joris
     to: "on"
   condition:
-    - condition: time
-      after: '07:30:00'
-      before: '11:30:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+   - condition: and
+     conditions:
+      - condition: time
+        after: '07:30:00'
+        before: '11:30:00'
+      - condition: state
+        entity_id: "binary_sensor.workday_sensor"
+        state: "on"
   action:
     - service: scene.turn_on
       data:
@@ -308,15 +311,14 @@
       from: 'off'
       to: 'on'
   condition:
-    - condition: time
-      after: '07:30:00'
-      before: '11:30:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+    - condition: and
+      conditions:
+        - condition: time
+          after: '07:30:00'
+          before: '11:30:00'
+        - condition: state
+          entity_id: "binary_sensor.workday_sensor"
+          state: "on"
   action:
     - service: scene.turn_on
       data:
@@ -341,7 +343,7 @@
     - service: notify.slack
       data:
         message: |
-              You're gone from home! Set home automatically to away.
+              [Nest] You're gone from home! Set home automatically to away.
 
 - id: auto_home_nest_presence
   alias: 'Send message when coming home'
@@ -358,7 +360,7 @@
     - service: notify.slack
       data:
         message: |
-              Welcome home! Set home automatically to home.
+              [Nest] Welcome home! Set home automatically to home.
 
 
 ################################################################################

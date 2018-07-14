@@ -32,3 +32,8 @@
   become: yes
   with_items:
     - docker-ce
+
+# Required for ansible to run docker commands
+- name: "Installing docker-py"
+  pip: name=docker-py
+  become: yes

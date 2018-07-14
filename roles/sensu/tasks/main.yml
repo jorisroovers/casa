@@ -116,7 +116,7 @@
     - check_hadash.json
     - check_ps4.json
     - check_roofcam.json
-    - check_logstash.json
+    - check_elk.json
     - check_nest.json
     - check_seshat.json
     - check_aggregates.json

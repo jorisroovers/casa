@@ -1,0 +1,51 @@
+---
+- name: Create elk-network docker network
+  docker_network:
+    name: "{{elk_docker_network_name}}"
+    ipam_options:
+      subnet: "{{elk_docker_network_subnet}}"
+  become: yes
+
+
+- name: "Pull elasticsearch docker image"
+  docker_image:
+    name: "{{elasticsearch_docker_image}}"
+  become: yes
+
+# As per https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+- name: "Setting vm.max_map_count=262144 using sysctl"
+  sysctl:
+    name: vm.max_map_count
+    value: 262144
+    sysctl_set: yes
+    state: present
+  become: yes
+
+- name: Starting elasticsearch docker container
+  docker_container:
+    name: elasticsearch
+    image: "{{elasticsearch_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "esdata1:{{elasticsearch_data_dir}}"
+    ports:
+      - "{{elasticsearch_docker_http_port_internal}}:{{elasticsearch_docker_http_port_external}}"
+      - "{{elasticsearch_docker_tcp_port_internal}}:{{elasticsearch_docker_tcp_port_external}}"
+    networks:
+      - name: "{{elk_docker_network_name}}"
+        ipv4_address: "{{elasticsearch_docker_elk_network_ip_address}}"
+    env:
+        discovery.type: single-node
+  become: yes
+
+- name: "Add iptable rule for elasticsearch"
+  iptables: chain=INPUT protocol=tcp destination_port={{elasticsearch_docker_http_port_external}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="Elasticsearch HTTP"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+
+# /usr/share/elasticsearch/data
+
+# docker run -t -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.3.0

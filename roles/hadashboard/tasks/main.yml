@@ -63,6 +63,8 @@
             owner={{appdaemon_user}} group={{appdaemon_group}}
   with_dict: "{{nest_cams}}"
   become: yes
+  tags: [ hadash-dashboards ]
+
 
 - name: Installing custom skin
   template: src={{item}} dest={{appdaemon_dir}}/{{item}} owner={{appdaemon_user}} group={{appdaemon_group}}

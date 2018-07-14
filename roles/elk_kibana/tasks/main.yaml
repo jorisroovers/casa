@@ -1,0 +1,38 @@
+---
+- name: "Pull kibana image"
+  docker_image:
+    name: "{{kibana_docker_image}}"
+  become: yes
+
+- name: Starting kibana docker container
+  docker_container:
+    name: kibana
+    image: "{{kibana_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{kibana_docker_http_port_internal}}:{{kibana_docker_http_port_external}}"
+    networks:
+      - name: "{{elk_docker_network_name}}"
+        ipv4_address: "{{kibana_docker_elk_network_ip_address}}"
+    env:
+      SERVER_NAME: casa-kibana
+      ELASTICSEARCH_URL: "http://{{elasticsearch_docker_elk_network_ip_address}}:{{elasticsearch_api_port}}"
+  become: yes
+
+- name: "Add iptable rule for kibana"
+  iptables: chain=INPUT protocol=tcp destination_port={{kibana_docker_http_port_external}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="Kibana"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+
+# docker run -t -p 5600:5600 878491bdc281
+
+#  version: '2'
+# services:
+#   kibana:
+#     image: docker.elastic.co/kibana/kibana:6.3.1
+#     environment:
+#       SERVER_NAME: kibana.example.org
+#       ELASTICSEARCH_URL: http://elasticsearch.example.org

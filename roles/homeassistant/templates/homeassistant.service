@@ -6,6 +6,8 @@ After=network.target
 Type=simple
 User=%i
 ExecStart={{homeassistant_dir}}/.venv/bin/hass -c "{{homeassistant_dir}}"
+# Homeassistant tends to take a long time to shut down. We got no time for that, let's send kill signal after 2 sec
+TimeoutStopSec=2
 
 [Install]
 WantedBy=multi-user.target

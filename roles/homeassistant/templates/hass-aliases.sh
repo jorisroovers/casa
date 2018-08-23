@@ -15,6 +15,13 @@ function ha-re(){
     systemctl status {{homeassistant_service}}
 }
 
+function ha-kill(){
+    echo "Killing homeassistant..."
+    sudo systemctl kill {{homeassistant_service}}
+    echo "Done"
+    systemctl status {{homeassistant_service}}
+}
+
 function ha-start(){
     echo "Starting homeassistant..."
     sudo systemctl start {{homeassistant_service}}

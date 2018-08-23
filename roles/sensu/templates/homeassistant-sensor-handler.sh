@@ -59,6 +59,8 @@ echo "SENSOR NAME: $SENSOR_NAME"
 PAYLOAD='{"state": "'$SENSOR_STATE'", "attributes": {"friendly_name": "'$NAME'", "status": "'$STATUS'", "sensu_event_id": "'$SENSU_EVENT_ID'","output": "'$OUTPUT'",  "source":"sensu", "timestamp": "'$TIMESTAMP'"}}'
 echo -n "Making API call to Homeassistant to install sensor $SENSOR_NAME ..."
 echo "PAYLOAD: $PAYLOAD"
+# TODO: the line below shows the HA-password in plain-text in the process output, we should fix that
+# Note that this also shows up in "sensu-status" output since this script will be running as a subprocess
 OUTPUT=$(curl -m 2 -X POST -H "x-ha-access: $HASS_API_PASSWORD"  -H "Content-Type: application/json" -d "$PAYLOAD"  "$HASS_HOST/api/states/$SENSOR_TYPE.$SENSOR_NAME")
 echo $OUTPUT
 echo -e "DONE"

@@ -23,6 +23,7 @@
     - silversearcher-ag
     - logrotate
     - net-tools # ifconfig
+    - htop # better top :-)
     - sysstat # mpstat
     - tree
     - grc # generic colourizer https://github.com/garabik/grc
@@ -41,6 +42,15 @@
   args:
     chdir: "/tmp"
     creates: "/usr/bin/rg"
+  become: yes
+
+- name: "Installing bat"
+  shell: >
+    curl -L  https://github.com/sharkdp/bat/releases/download/v0.6.1/bat_0.6.1_amd64.deb -o bat_0.6.1_amd64.deb;
+    dpkg -i bat_0.6.1_amd64.deb
+  args:
+    chdir: "/tmp"
+    creates: "/usr/bin/bat"
   become: yes
 
 - name: "Installing more utilities (python)"

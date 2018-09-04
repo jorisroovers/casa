@@ -15,6 +15,7 @@
     name: backup_script
   with_items:
     - { backup_type: 'github', backup_min_size: "{{ 22 * 1024 * 1024 }}" }
+    - { backup_type: 'trello', backup_min_size: "{{ 22  * 1024 }}" }
   vars:
     backup_type: "{{item.backup_type}}"
     script_content: "{{lookup('template', './templates/{{item.backup_type}}-backup.sh')}}"

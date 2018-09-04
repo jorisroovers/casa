@@ -52,7 +52,7 @@
     from: "Away"
     to: "Home"
   condition:
-   - condition: and
+   - condition: or
      conditions:
        - condition: sun
          after: sunset
@@ -478,18 +478,18 @@
     entity_id: input_select.camera_preset
     to: "Home"
   action:
-    - service: shell_command.disable_nest_camera
+    - service: camera.turn_off
       data:
-        camera_serial_id: "{{nest_cams.diepvries.serial_id}}"
-    - service: shell_command.enable_nest_camera
+        entity_id: camera.diepvries
+    - service: camera.turn_on
       data:
-        camera_serial_id: "{{nest_cams.hallway.serial_id}}"
-    - service: shell_command.enable_nest_camera
+        entity_id: camera.hallway
+    - service: camera.turn_on
       data:
-        camera_serial_id: "{{nest_cams.front_garden.serial_id}}"
-    - service: shell_command.enable_nest_camera
+        entity_id: camera.front_garden
+    - service: camera.turn_on
       data:
-        camera_serial_id: "{{nest_cams.back_garden.serial_id}}"
+        entity_id: camera.backyard_2
 
 - alias: Camera Preset All On Automation
   trigger:
@@ -497,18 +497,18 @@
     entity_id: input_select.camera_preset
     to: "All On"
   action:
-    - service: shell_command.enable_nest_camera
+    - service: camera.turn_on
       data:
-        camera_serial_id: "{{nest_cams.diepvries.serial_id}}"
-    - service: shell_command.enable_nest_camera
+        entity_id: camera.diepvries
+    - service: camera.turn_on
       data:
-        camera_serial_id: "{{nest_cams.hallway.serial_id}}"
-    - service: shell_command.enable_nest_camera
+        entity_id: camera.hallway
+    - service: camera.turn_on
       data:
-        camera_serial_id: "{{nest_cams.front_garden.serial_id}}"
-    - service: shell_command.enable_nest_camera
+        entity_id: camera.front_garden
+    - service: camera.turn_on
       data:
-        camera_serial_id: "{{nest_cams.back_garden.serial_id}}"
+        entity_id: camera.backyard_2
     - service: notify.slack
       data:
         message: |

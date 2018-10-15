@@ -30,6 +30,7 @@
     - jq
     - libxml2-dev
     - libxslt1-dev
+    - mosh
 
 - name: "Installing pip"
   easy_install: name=pip

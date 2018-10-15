@@ -175,7 +175,17 @@ curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" -d 
 
 ```
 
+## seshat
 
+```sh
+export INFLUXDB_BIND_IP="0.0.0.0"
+export INFLUXDB_DB=""
+export INFLUXDB_USERNAME=""
+export INFLUXDB_PASSWORD=""
+
+
+/usr/bin/node /opt/sensu/checks/seshat/dist/duration.js -k --measurement sensor.desk_state --state up --write-duration --host $INFLUXDB_BIND_IP --database $INFLUXDB_DB  --username $INFLUXDB_USERNAME  --password $INFLUXDB_PASSWORD
+```
 ## Sensu
 Location of binary check scripts:
 ```
@@ -207,7 +217,6 @@ http://www.leefilters.com/lighting/mired-shift-calculator.html
 Home-assistant does not allow you to change attributes (like kelvin/brightness) on a group of lights at a time yet
 Even if they are exposed by Tradfri/Hue as a single light.
 https://community.home-assistant.io/t/grouped-light-control/1034/49
-
 
 ## Extra open ports
 

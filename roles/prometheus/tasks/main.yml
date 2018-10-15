@@ -1,0 +1,105 @@
+- name: Creating prometheus group
+  group: name="{{prometheus_group}}" state=present system=yes
+  become: yes
+
+- name: Creating prometheus user
+  user: name="{{prometheus_user}}" comment="Prometheus User" group="{{prometheus_group}}"
+        home={{prometheus_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating prometheus directory
+  file: path={{prometheus_dir}} state=directory owner={{prometheus_user}} group={{prometheus_group}}
+  become: yes
+
+- name: Create prometheus-network docker network
+  docker_network:
+    name: "{{prometheus_docker_network_name}}"
+    ipam_options:
+      subnet: "{{prometheus_docker_network_subnet}}"
+  become: yes
+
+- name: "Configuring prometheus"
+  template: src={{item}} dest={{prometheus_dir}}/{{item}}
+  with_items:
+   - prometheus.yml
+   - blackbox.yml
+  tags:
+    - prometheus-config
+  become: yes
+
+- name: Starting prometheus docker container
+  docker_container:
+    name: prometheus
+    image: "{{prometheus_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{prometheus_port_internal}}:{{prometheus_port_external}}"
+    volumes:
+      - "{{prometheus_dir}}/prometheus.yml:/etc/prometheus/prometheus.yml"
+    networks:
+      - name: "{{prometheus_docker_network_name}}"
+        ipv4_address: "{{prometheus_docker_network_ip_address}}"
+  become: yes
+  tags:
+    - prometheus-container
+
+- name: Starting node-exporter docker container
+  docker_container:
+    name: prometheus-node-exporter
+    image: "{{node_exporter_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{node_exporter_port_internal}}:{{node_exporter_port_external}}"
+    volumes:
+      - "/proc:/host/proc"
+      - "/sys:/host/sys"
+      - "/:/rootfs"
+    networks:
+      - name: "{{prometheus_docker_network_name}}"
+        ipv4_address: "{{node_exporter_docker_network_ip_address}}"
+      # - name: "host"
+    command:
+      - "--path.procfs /host/proc"
+      - "--path.sysfs /host/proc"
+      - "--collector.systemd"  # To add collectors, just add a --collect.<name> line below from the list on https://github.com/prometheus/node_exporter
+      - "--collector.filesystem.ignored-mount-points '^/(sys|proc|dev|host|etc)($|/)'"
+  become: yes
+  tags:
+    - node-exporter-container
+
+- name: Starting blackbox-exporter docker container
+  docker_container:
+    name: blackbox-exporter
+    image: "{{blackbox_exporter_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{blackbox_exporter_port_internal}}:{{blackbox_exporter_port_external}}"
+    volumes:
+      - "{{prometheus_dir}}/:/config"
+    networks:
+      - name: "{{prometheus_docker_network_name}}"
+        ipv4_address: "{{blackbox_exporter_docker_network_ip_address}}"
+      # - name: "host"
+    command:
+      - "--config.file=/config/blackbox.yml"
+  become: yes
+  tags:
+    - blackbox-exporter-container
+
+
+- name: "Add iptable rule for prometheus"
+  iptables: chain=INPUT protocol=tcp destination_port={{prometheus_port_external}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="Prometheus HTTP"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+# TODO:
+#  - InfluxDB integration: https://docs.influxdata.com/influxdb/v1.6/supported_protocols/prometheus
+#  - Convert node-exporter from running in container to running natively (required to access and export systemd services)
+#  - Run arbitrary shell script for monitoring
+#  - Run handlers: restart, send-to-hass
+# Docker run commands:
+# node-exporter:     docker run -p 9100:9100 -v "/proc:/host/proc" -v "/sys:/host/sys" -v "/:/rootfs" --net="host" prom/node-exporter --path.procfs /host/proc --path.sysfs /host/proc --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+# blackbox-exporter: docker run -d -p 9115:9115 --name blackbox-exporter -v `pwd`:/config prom/blackbox-exporter:v0.12.0 --config.file=/config/blackbox.yml
+# process-exporter:  docker run -d --rm -p 9256:9256 --privileged -v /proc:/host/proc -v `pwd`:/config ncabatoff/process-exporter --procfs /host/proc -config.path /config/filename.yml

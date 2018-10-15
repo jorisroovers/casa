@@ -1,0 +1,7 @@
+scrape_configs:
+- job_name: 'node'
+  static_configs:
+  - targets: ['{{node_exporter_docker_network_ip_address}}:{{node_exporter_port_external}}']
+- job_name: 'node2'
+  static_configs:
+  - targets: ['{{blackbox_exporter_docker_network_ip_address}}:{{blackbox_exporter_port_external}}']

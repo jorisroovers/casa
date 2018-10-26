@@ -170,6 +170,8 @@ sensor:
          - type: disk_use_percent
            arg: /
          - type: memory_use_percent
+         - type: load_5m
+         - type: processor_use
     - platform: fastdotcom
       minute:
          - 1

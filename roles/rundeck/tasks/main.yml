@@ -1,0 +1,5 @@
+# docker run  -p 4440:4440 -v /tmp/data:/home/rundeck/server/data rundeck/rundeck:3.0.7
+# ------------
+# realm.properties file:
+# admin:admin,user,admin
+# user:user,user

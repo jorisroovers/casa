@@ -20,5 +20,9 @@ influxdb_sensu_password: "pass123"
 influxdb_grafana_user: "myuser2"
 influxdb_grafana_password: "pass456"
 
+influxdb_prometheus_db: "prometheus"
+influxdb_prometheus_user: "myuser3"
+influxdb_prometheus_password: "pass789"
+
 influxdb_ssl_cert_path: /etc/ssl/influxdb-selfsigned.crt
 influxdb_ssl_key_path: /etc/ssl/influxdb-selfsigned.key

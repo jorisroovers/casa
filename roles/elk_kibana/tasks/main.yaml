@@ -17,7 +17,10 @@
     env:
       SERVER_NAME: casa-kibana
       ELASTICSEARCH_URL: "http://{{elasticsearch_docker_elk_network_ip_address}}:{{elasticsearch_api_port}}"
+    recreate: "{{recreate_containers}}"
   become: yes
+  tags:
+    - kibana-container
 
 - name: "Add iptable rule for kibana"
   iptables: chain=INPUT protocol=tcp destination_port={{kibana_docker_http_port_external}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT

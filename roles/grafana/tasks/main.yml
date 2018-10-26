@@ -80,6 +80,8 @@
     datasource_user: "{{influxdb_grafana_user}}"
     datasource_password: "{{influxdb_grafana_password}}"
     datasource_database: "{{influxdb_homeassistant_db}}"
+  tags:
+    - grafana-datasources
 
 - name: "Installing sensu datasource"
   include_tasks: install_influxdb_datasource.yml
@@ -88,6 +90,18 @@
     datasource_user: "{{influxdb_sensu_user}}"
     datasource_password: "{{influxdb_sensu_password}}"
     datasource_database: "{{influxdb_sensu_db}}"
+  tags:
+    - grafana-datasources
+
+- name: "Installing prometheus-influxdb datasource"
+  include_tasks: install_influxdb_datasource.yml
+  vars:
+    datasource_name: "prometheus-influxdb"
+    datasource_user: "{{influxdb_prometheus_user}}"
+    datasource_password: "{{influxdb_prometheus_password}}"
+    datasource_database: "{{influxdb_prometheus_db}}"
+  tags:
+    - grafana-datasources
 
 # Important: Dashboard import needs to happen through the same tool
 # Just importing an exported dashboard through grafana UI won't work!

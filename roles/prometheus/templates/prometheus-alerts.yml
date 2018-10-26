@@ -1,0 +1,55 @@
+groups:
+- name: sonos-api
+  rules:
+    # SONOS-HTTP-API
+    - alert: sonos-http-api.systemd
+      expr: "node_systemd_unit_state{name=~'{{sonos_http_api_service}}(.*)', state='active'} == 0"
+      for: 30s
+      labels:
+        severity: page
+      annotations:
+        summary: "sonos API down"
+
+- name: ELK
+  rules:
+    - alert: elk-logstash.systemd
+      expr: "node_systemd_unit_state{name=~'{{logstash_service}}(.*)', state='active'} == 0"
+      for: 30s
+      labels:
+        severity: page
+    - alert: elk-es.http
+      expr: "probe_success{name='elk-es.http'} == 0"
+      for: 30s
+      labels:
+        severity: page
+    - alert: elk-kibana.http
+      expr: "probe_success{name='elk-kibana.http'} == 0"
+      for: 30s
+      labels:
+        severity: page
+
+- name: Hubs
+  rules:
+    - alert: hue.hub
+      expr: "probe_success{name='hue.icmp'} == 0"
+      for: 30s
+      labels:
+        severity: page
+    - alert: tradfri.hub
+      expr: "probe_success{name='tradfri.icmp'} == 0"
+      for: 30s
+      labels:
+        severity: page
+
+- name: Homeassistant
+  rules:
+    - alert: hadash.http
+      expr: "probe_success{name='hadash.http'} == 0"
+      for: 30s
+      labels:
+        severity: page
+    - alert: homeassistant.http
+      expr: "probe_success{name='homeassistant.http'} == 0"
+      for: 30s
+      labels:
+        severity: page

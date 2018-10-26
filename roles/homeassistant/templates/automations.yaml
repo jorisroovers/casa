@@ -481,6 +481,9 @@
     - service: camera.turn_off
       data:
         entity_id: camera.diepvries
+    - service: camera.turn_off
+      data:
+        entity_id: camera.office
     - service: camera.turn_on
       data:
         entity_id: camera.hallway
@@ -489,7 +492,7 @@
         entity_id: camera.front_garden
     - service: camera.turn_on
       data:
-        entity_id: camera.backyard_2
+        entity_id: camera.backyard
 
 - alias: Camera Preset All On Automation
   trigger:
@@ -502,13 +505,16 @@
         entity_id: camera.diepvries
     - service: camera.turn_on
       data:
+        entity_id: camera.office
+    - service: camera.turn_on
+      data:
         entity_id: camera.hallway
     - service: camera.turn_on
       data:
         entity_id: camera.front_garden
     - service: camera.turn_on
       data:
-        entity_id: camera.backyard_2
+        entity_id: camera.backyard
     - service: notify.slack
       data:
         message: |

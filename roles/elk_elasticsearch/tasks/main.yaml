@@ -36,7 +36,11 @@
         ipv4_address: "{{elasticsearch_docker_elk_network_ip_address}}"
     env:
         discovery.type: single-node
+    recreate: "{{recreate_containers}}"
   become: yes
+  tags:
+    - elasticsearch-container
+    - es-container
 
 - name: "Add iptable rule for elasticsearch"
   iptables: chain=INPUT protocol=tcp destination_port={{elasticsearch_docker_http_port_external}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
@@ -44,7 +48,6 @@
   become: yes
   notify: save_iptables
   tags: [iptables, iptable]
-
 
 # /usr/share/elasticsearch/data
 

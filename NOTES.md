@@ -103,7 +103,10 @@ export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD
 echo "export INFLUX_USERNAME=\"$INFLUX_USERNAME\"; export INFLUX_PASSWORD=\"$INFLUX_PASSWORD\";"
 influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD"
 # Examples
+show users;
 show grants for "<example user>";
+use mydatabase;
+show series; # recall, influx doesn't have tables, it has timeseries
 
 influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD" -execute "show databases"
 ```
@@ -384,3 +387,6 @@ aiocoap==0.4a1
 aiohttp==3.3.2
 aiohttp-cors==0.7.0
 aiohue==1.5.0
+
+# Prometheus
+Add basic auth through nginx (or envoy?): https://prometheus.io/docs/guides/basic-auth/

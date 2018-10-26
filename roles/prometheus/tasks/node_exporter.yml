@@ -1,0 +1,16 @@
+---
+- name: "Installing prometheus-node-exporter"
+  shell: >
+    curl -L  https://github.com/prometheus/node_exporter/releases/download/v0.16.0/node_exporter-0.16.0.linux-amd64.tar.gz | tar zxv;
+    cp node_exporter-0.16.0.linux-amd64/node_exporter {{prometheus_dir}}/node_exporter
+  args:
+    chdir: "/tmp"
+    creates: "{{prometheus_dir}}/node_exporter"
+  become: yes
+
+- name: Installing prometheus-node-exporter systemd service
+  template: src=prometheus-node-exporter.service dest=/etc/systemd/system/{{node_exporter_service}}.service
+  notify:
+    - daemon_reload
+    - restart_node_exporter
+  become: yes

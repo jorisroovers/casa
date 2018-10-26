@@ -5,3 +5,5 @@ kibana_port: 5601
 
 kibana_docker_http_port_internal: "{{kibana_port}}"
 kibana_docker_http_port_external: "{{kibana_port}}"
+
+recreate_containers: no

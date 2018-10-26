@@ -20,7 +20,6 @@
     - python-setuptools # Installs easy_install
     - python-virtualenv
     - vim
-    - silversearcher-ag
     - logrotate
     - net-tools # ifconfig
     - htop # better top :-)

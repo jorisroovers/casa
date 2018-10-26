@@ -1,7 +1,87 @@
+global:
+  scrape_interval: 15s
+
+# Export to influxDB
+remote_write:
+  - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/write?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
+    tls_config:
+      key_file: /config/influx.pem
+      cert_file: /config/influx.cert
+      insecure_skip_verify: yes # don't verify server
+
+remote_read:
+  - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/read?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
+    tls_config:
+      key_file: /config/influx.pem
+      cert_file: /config/influx.cert
+      insecure_skip_verify: yes # don't verify server
+
+rule_files:
+  - /config/prometheus-alerts.yml
+alerting:
+  alertmanagers:
+   - static_configs:
+      - targets:
+        - "{{alertmanager_host}}:{{alertmanager_port}}"
+
 scrape_configs:
-- job_name: 'node'
-  static_configs:
-  - targets: ['{{node_exporter_docker_network_ip_address}}:{{node_exporter_port_external}}']
-- job_name: 'node2'
-  static_configs:
-  - targets: ['{{blackbox_exporter_docker_network_ip_address}}:{{blackbox_exporter_port_external}}']
+  - job_name: 'Node Exporter'
+    static_configs:
+      - targets: ['{{node_exporter_host}}:{{node_exporter_port}}']
+
+  - job_name: 'HTTP Checks (Blackbox Exporter)'
+    metrics_path: /probe
+    params:
+      module: [http_200]
+    static_configs:
+      - targets:
+          - http://google.com
+        labels:
+          name: google.http
+      - targets:
+          -  http://{{casa_ip}}:{{appdaemon_port}}
+        labels:
+          name: hadash.http
+      - targets:
+          -  http://{{casa_ip}}:{{homeassistant_port}}
+        labels:
+          name: homeassistant.http
+      - targets:
+          -  http://{{casa_ip}}:{{elasticsearch_api_port}}
+        labels:
+          name: elk-es.http
+      - targets:
+          -  http://{{casa_ip}}:{{kibana_port}}
+        labels:
+          name: elk-kibana.http
+    relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: '{{blackbox_exporter_host}}:{{blackbox_exporter_port}}'  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'ICMP Checks (Blackbox Exporter)'
+    metrics_path: /probe
+    params:
+      module: [home_hubs]
+    static_configs:
+      - targets:
+          - "{{phue_ip}}"
+        labels:
+          name: hue.icmp
+      - targets:
+          - "{{tradfri_ip}}"
+        labels:
+          name: tradfri.icmp
+    relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: '{{blackbox_exporter_host}}:{{blackbox_exporter_port}}'  # The blackbox exporter's real hostname:port.
+
+
+

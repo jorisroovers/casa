@@ -1,0 +1,13 @@
+webhook_user: webhook
+webhook_group: webhook
+webhook_dir: /opt/webhook
+webhook_bin_dir: "{{webhook_dir}}/bin"
+webhook_scripts_dir: "{{webhook_dir}}/scripts"
+
+webhook_service_name: "webhook"
+webhook_service: "{{webhook_service_name}}@{{webhook_user}}"
+
+webhook_auth_secret: "mysecret"
+
+
+

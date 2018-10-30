@@ -3,6 +3,9 @@ This is a list of things I'm considering to add to casa.
 
 ## General
 
+- Synthetic tests for Homeassistant (run pytests continously)
+- Envoy/Nginx proxy for prometheus, webhook
+- Run homeassistant in docker
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
 - https://home-assistant.io/components/media_player.cast/
@@ -292,9 +295,8 @@ curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
 
 ```bash
 source activate .venv36 # conda env
-pytest --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" tests/
+pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" tests/
 ```
-
 
 ## Tradfri issue
 
@@ -390,3 +392,11 @@ aiohue==1.5.0
 
 # Prometheus
 Add basic auth through nginx (or envoy?): https://prometheus.io/docs/guides/basic-auth/
+
+Checks to convert:
+- PS4 On/off -> homeassistant device
+- Roofcam alive
+- Roofcam water detector
+- Seshat
+- Sonos Error
+- Backup checks

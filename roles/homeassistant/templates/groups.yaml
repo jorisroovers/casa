@@ -9,9 +9,9 @@ lights_downstairs:
    - light.woonkamer_tv
    - light.tv_staanlamp
    - light.living_room
-   - light.eetkamer
+   - light.dining_table
    - light.kitchen
-   - light.kantoor
+   - light.office
    - switch.desk_lamp
 
 lights_downstairs_automatic:

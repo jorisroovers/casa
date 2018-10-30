@@ -105,8 +105,6 @@
   tags: [iptables, iptable]
 
 # TODO:
-#  - InfluxDB integration: https://docs.influxdata.com/influxdb/v1.6/supported_protocols/prometheus
-#  - Convert node-exporter from running in container to running natively (required to access and export systemd services)
 #  - Run arbitrary shell script for monitoring
 #  - Run handlers: restart, send-to-hass
 #  - https://github.com/adhocteam/script_exporter

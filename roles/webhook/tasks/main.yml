@@ -1,0 +1,70 @@
+- name: Creating webhook group
+  group: name="{{webhook_group}}" state=present system=yes
+  become: yes
+
+- name: Creating webhook user
+  user: name="{{webhook_user}}" comment="Webhook User" group="{{webhook_group}}"
+        home={{webhook_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating webhook directories
+  file: path={{item}} state=directory owner={{webhook_user}} group={{webhook_group}}
+  become: yes
+  with_items:
+    - "{{webhook_bin_dir}}"
+    - "{{webhook_scripts_dir}}"
+
+- name: "Downloading webhook"
+  shell: >
+    curl -L https://github.com/adnanh/webhook/releases/download/2.6.8/webhook-linux-amd64.tar.gz | tar zxv;
+    cp webhook-linux-amd64/webhook {{webhook_bin_dir}}/webhook
+  become: yes
+  args:
+    chdir: "/tmp"
+    creates: "{{webhook_bin_dir}}/webhook"
+  notify: restart_webhook
+
+- name: "Configuring webhook"
+  template: src={{item}} dest={{webhook_dir}}/{{item}}
+            owner={{webhook_user}} group={{webhook_group}}
+  with_items:
+    - hooks.json
+  tags:
+    - webhook-config
+  become: yes
+  notify: restart_webhook
+
+- name: "Adding webhook scripts"
+  template: src={{item}} dest={{webhook_scripts_dir}}/{{item}}
+            owner={{webhook_user}} group={{webhook_group}} mode=u+x
+  with_items:
+    - restart-service.sh
+  tags:
+    - webhook-scripts
+  become: yes
+
+- name: "Ensure all files are owned by the webhook user"
+  file: path={{webhook_dir}} state=directory owner={{webhook_user}} group={{webhook_group}} recurse=yes
+  become: yes
+  notify: restart_webhook
+
+- name: Modifying sudoers file so webhook user can restart certain services
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{webhook_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "root", "command": "/bin/systemctl restart {{roofcam_service}}.service"}
+    - {"user": "root", "command": "/bin/systemctl restart {{sonos_http_api_service}}.service"}
+
+- name: Create webhook service
+  include_role:
+    name: systemd_service
+  vars:
+    service_shorthand: "{{webhook_service_name}}"
+    service_name: "{{webhook_service}}"
+    service_working_dir: "{{webhook_dir}}"
+    service_exec_start: "{{webhook_bin_dir}}/webhook -hooks {{webhook_dir}}/hooks.json -verbose"
+  notify: restart_webhook

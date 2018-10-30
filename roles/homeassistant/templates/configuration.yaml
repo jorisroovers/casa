@@ -21,6 +21,7 @@ logger:
     homeassistant.components.device_tracker.nmap_tracker: error
     homeassistant.components.device_tracker.ping: warn
     homeassistant.components.http: warn
+    # homeassistant.components.automation: debug
 
 # View all events in a logbook
 logbook:
@@ -129,7 +130,7 @@ hue:
 
 tradfri:
   host: {{tradfri_ip}}
-  allow_tradfri_groups: true
+  # allow_tradfri_groups: true # Doesn't seem to work anymore?, use light groups below
 
 # Creating own groups so we can control all lights at once, working around
 # this and other issues:
@@ -144,11 +145,17 @@ light:
       - light.bathroom_right_front
       - light.bathroom_shower
   - platform: group
-    name: office
+    name: Office
     entities:
       - light.office_lamp_1
       - light.office_lamp_2
       - light.office_lamp_3
+  - platform: group
+    name: Dining Table
+    entities:
+      - light.eetkamer_lamp_1
+      - light.eetkamer_lamp_2
+      - light.eetkamer_lamp_3
 
 switch:
 {% for switch_name, ip_address in tplink_switches.iteritems() %}

@@ -8,6 +8,7 @@
   roles:
     - { role: base, tags: ['base']}
     - { role: samba-client, tags: ['samba', 'cifs', 'smb']}
+    - { role: webhook, tags: ['webhook']}
     - { role: influxdb, tags: ['influxdb', 'influx']}
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
     - { role: prometheus, tags: ['prometheus', 'prom']}
@@ -21,7 +22,3 @@
     - { role: docker, tags: ['docker']}
     - { role: elk_elasticsearch, tags: ['elasticsearch', 'ES', 'es']}
     - { role: elk_kibana, tags: ['kibana']}
-
-
-#    - { role: monit, tags: ['monit']}
-#    - { role: monit-hass-sensors, tags: ['monit-hass-sensors', 'mhs']}

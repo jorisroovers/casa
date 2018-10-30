@@ -1,0 +1,20 @@
+[{
+    "id": "restart-service",
+    "execute-command": "{{webhook_scripts_dir}}/restart-service.sh",
+    "command-working-directory": "{{webhook_dir}}",
+    "pass-arguments-to-command": [{
+        "source": "payload",
+        "name": "servicename"
+    }],
+    "trigger-rule": {
+        "match": {
+            "type": "value",
+            {{ /* not exactly safe */ }}
+            "value": "mysecret",
+            "parameter": {
+                "source": "header",
+                "name": "X-Webhook-Auth"
+            }
+        }
+    }
+}]

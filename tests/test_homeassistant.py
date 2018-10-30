@@ -5,6 +5,8 @@ LOG = logging.getLogger()
 
 
 def test_light_groups(driver, homeassistant_url, homeassistant_password):
+    """ Test that light groups are working """
+
     headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
     response = requests.get(f"{homeassistant_url}/api/states/light.office", headers=headers)
     original_light_state = response.json()['state']
@@ -19,3 +21,13 @@ def test_light_groups(driver, homeassistant_url, homeassistant_password):
             lamp_entity_url = f"{homeassistant_url}/api/states/{lamp_entity}"
             response = requests.get(lamp_entity_url, headers=headers)
             assert response.json()['state'] == state
+
+
+def test_automations_on(driver, homeassistant_url, homeassistant_password):
+    """ Test that all automations are enabled """
+
+    headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
+    response = requests.get(f"{homeassistant_url}/api/states", headers=headers)
+    for item in response.json():
+        if item['entity_id'].startswith("automation."):
+            assert item['state'] == "on"

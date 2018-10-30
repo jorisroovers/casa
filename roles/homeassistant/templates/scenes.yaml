@@ -13,10 +13,10 @@
         option: NoMusic
     input_select.bathroom_music:
         option: Bathroom NoMusic
-    input_boolean.cooking:
-        option: off
     input_select.camera_preset:
         option: All On
+    input_boolean.cooking:
+        state: off
 
 - name: Home
   entities:
@@ -34,7 +34,7 @@
     input_select.bathroom_music:
         option: Bathroom NoMusic
     input_boolean.cooking:
-        option: off
+        state: off
     input_select.camera_preset:
         option: All On
 
@@ -170,7 +170,7 @@
     input_select.camera_preset:
         option: Home
     input_boolean.cooking:
-        option: on
+        state: on
 
 - name: StopCooking
   entities:
@@ -179,7 +179,7 @@
     light.kitchen:
         state: off
     input_boolean.cooking:
-        option: off
+        state: off
 
 ################################################################################
 # Mornings                                                                     #
@@ -202,14 +202,14 @@
         state: on
     input_select.camera_preset:
         option: Home
-    light.bathroom:
+    light.bathroom_group:
         state: off
 
 - name: BathroomMorningWeekDay
   entities:
     input_select.bathroom_music:
         option: Bathroom Morning
-    light.bathroom:
+    light.bathroom_group:
         state: on
 
 ################################################################################
@@ -281,7 +281,7 @@
 ################################################################################
 - name: BathroomEnter
   entities:
-    light.bathroom:
+    light.bathroom_group:
         state: on
     switch.bathroom_mirror:
         state: on
@@ -290,7 +290,7 @@
   entities:
     input_select.bathroom_music:
         option: "Bathroom NoMusic"
-    light.bathroom:
+    light.bathroom_group:
         state: off
     switch.bathroom_mirror:
         state: off

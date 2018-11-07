@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User={{prometheus_user}}
-ExecStart={{prometheus_dir}}/node_exporter --collector.systemd
+ExecStart={{prometheus_dir}}/node_exporter --collector.systemd --collector.textfile.directory {{backups_prometheus_exports_dir}}
 
 [Install]
 WantedBy=multi-user.target

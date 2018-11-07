@@ -1,5 +1,7 @@
-backup_monitoring_script: "{{backups_dir}}/{{backup_type}}-backup-check.sh"
-backup_file_filter: "{{backups_dir}}/{{backup_type}}/*.tar.gz"
+backup_dir: "{{backups_dir}}/{{backup_type}}"
+backup_monitoring_script: "{{backup_dir}}/{{backup_type}}-backup-check.sh"
+backup_file_filter: "{{backup_dir}}/data/*.tar.gz"
+backup_prometheus_script: "{{backup_dir}}/{{backup_type}}-prometheus-exports.sh"
 
 backup_max_time_diff: "{{ 60 * 60 * 12 }}"  # 12 hours
 backup_min_size: "{{ 1024 * 1024 * 22 }}" # 22 MB (= size at time of writing script, backup will only grow)

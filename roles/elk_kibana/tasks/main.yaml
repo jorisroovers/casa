@@ -28,14 +28,3 @@
   become: yes
   notify: save_iptables
   tags: [iptables, iptable]
-
-
-# docker run -t -p 5600:5600 878491bdc281
-
-#  version: '2'
-# services:
-#   kibana:
-#     image: docker.elastic.co/kibana/kibana:6.3.1
-#     environment:
-#       SERVER_NAME: kibana.example.org
-#       ELASTICSEARCH_URL: http://elasticsearch.example.org

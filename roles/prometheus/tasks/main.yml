@@ -105,7 +105,8 @@
   tags: [iptables, iptable]
 
 # TODO:
-#  - Run arbitrary shell script for monitoring
+#  - Run arbitrary shell script for monitoring.
+#   -> Use textcollectors in node_exporters in combination with cronjobs
 #  - Run handlers: restart, send-to-hass
 #  - https://github.com/adhocteam/script_exporter
 # Docker run commands:

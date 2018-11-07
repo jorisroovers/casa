@@ -5,7 +5,7 @@
 
 ############################################################################################
 # Config
-PARENT_DIRECTORY="{{backups_dir}}/$BACKUP_TYPE"
+PARENT_DIRECTORY="{{backups_dir}}/$BACKUP_TYPE/data"
 BACKUP_NAME="$BACKUP_TYPE-backup-$(date +'%Y-%m-%d_%H-%M-%S')"
 DIRECTORY="${PARENT_DIRECTORY}/$BACKUP_NAME"
 

@@ -1,9 +1,3 @@
 ---
-- name: "[{{backup_type}} backup check] Creating backup monitoring (check) script"
-  template: src="backup-check.sh" dest="{{backup_monitoring_script}}"
-            owner={{backups_user}} group={{backups_group}} mode=u=rwx,o=rx
-
-- name: "[{{backup_type}} backup check] Adding sensu check for backup monitoring script"
-  template: src="backup-check.json.j2" dest="{{sensu_conf_dir}}/check_backup_{{backup_type}}.json"
-  notify: restart_sensu
-  become: yes
+- import_tasks: prometheus_exporter.yml
+# - import_tasks: sensu_check.yml

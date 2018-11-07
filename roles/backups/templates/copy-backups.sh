@@ -35,7 +35,7 @@ mkdir "${TARGET_DIRECTORY}"
 
 # List all directories
 # NOTE: trailing slash is important, and don't add quotes, otherwise the globbing doesn't work
-backup_types=$(ls -d $BACKUPS_DIRECTORY/*/)
+backup_types=$(ls -d $BACKUPS_DIRECTORY/*/data/)
 
 for backup_type_dir in $backup_types; do
     last_backup=$(ls ${backup_type_dir}*.tar.gz | tail -n 1)

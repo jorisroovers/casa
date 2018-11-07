@@ -35,7 +35,7 @@ scrape_configs:
       module: [http_200]
     static_configs:
       - targets:
-          - http://google.com
+          - http://www.google.com
         labels:
           name: google.http
       - targets:

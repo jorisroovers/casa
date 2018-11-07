@@ -1,0 +1,22 @@
+
+- name: Creating copy-backups directory
+  file: dest={{backups_dir}}/copy-backups state=directory owner={{backups_user}} group={{backups_group}}
+  become: yes
+
+- name: Copying copy-backups.sh
+  template: src="copy-backups.sh" dest="{{backups_dir}}/copy-backups/copy-backups.sh"
+            owner={{backups_user}} group={{backups_group}} mode=u+x
+
+- name: Install copy-backups check
+  include_role:
+    name: backup_check
+  vars:
+    backup_type: "copy-backups"
+    backup_file_filter: "-d {{backups_external_copy_path}}/*/"
+    backup_min_size: 0
+    # TODO: on Samba, directory sizes return as 0, should make sure there's actually files in there
+
+# Run backups at the 15 min mark every 6 hrs - this ensures that other backups have finished
+- name: "Adding cronjob for copy-backups script"
+  cron: name="Periodic copy-backups.sh run" hour="*/6" minute="15" job="{{backups_dir}}/copy-backups/copy-backups.sh"
+        user={{backups_user}}

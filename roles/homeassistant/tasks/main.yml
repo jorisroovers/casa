@@ -136,3 +136,7 @@
 
 - name: force all notified handlers to run at this point, not waiting until the end (because homeassistant restart is slow)
   meta: flush_handlers
+
+
+# docker run -d --name="home-assistant" -v  /opt/homeassistant:/config -v /etc/localtime:/etc/localtime:ro --net=host homeassistant/home-assistant:0.79.3
+# 

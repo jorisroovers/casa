@@ -1,1 +1,3 @@
-backup_script: "{{backups_dir}}/{{backup_type}}-backup.sh"
+backup_dir: "{{backups_dir}}/{{backup_type}}"
+backup_data_dir: "{{backup_dir}}/data"
+backup_script: "{{backup_dir}}/{{backup_type}}-backup.sh"

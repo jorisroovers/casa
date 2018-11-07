@@ -9,3 +9,4 @@ modules:
     timeout: 3s
     http:
       method: GET
+      preferred_ip_protocol: "ip4"

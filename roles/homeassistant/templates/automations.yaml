@@ -358,9 +358,9 @@
   initial_state: True
   trigger:
     - platform: state
-      entity_id: sensor.sensu_nest_presence
-      from: 'home'
-      to: 'away'
+      entity_id: binary_sensor.home_away
+      from: 'off'
+      to: 'on'
   action:
     - service: input_select.select_option
       data:
@@ -376,9 +376,9 @@
   initial_state: True
   trigger:
     - platform: state
-      entity_id: sensor.sensu_nest_presence
-      from: 'away'
-      to: 'home'
+      entity_id: binary_sensor.home_away
+      from: 'on'
+      to: 'off'
   action:
     - service: input_select.select_option
       data:

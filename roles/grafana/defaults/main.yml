@@ -1,5 +1,8 @@
+grafana_docker_image: "grafana/grafana:5.3.4"
+
 grafana_user: "grafana"
 grafana_group: "{{grafana_user}}"
+grafana_uid: 472 # Needs to be 472 to work with docker: http://docs.grafana.org/installation/docker/#migration-from-a-previous-version-of-the-docker-container-to-5-1-or-later
 grafana_conf_dir: "/etc/grafana"
 grafana_log_dir: "/var/log/grafana"
 

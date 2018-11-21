@@ -131,7 +131,8 @@ to use the same grafana-backup-tool to do the restore, like so:
 
 ```bash
 git clone https://github.com/ysde/grafana-backup-tool.git
-export GRAFANA_URL="http://localhost:3001"; export GRAFANA_TOKEN="<token>";
+# Get token from http://casa:3001/org/apikeys
+export GRAFANA_URL="http://casa:3001"; export GRAFANA_TOKEN="<token>";
 python grafana-backup-tool/createDashboard.py dashboards/Overview.dashboard
 ```
 
@@ -397,6 +398,4 @@ Checks to convert:
 - PS4 On/off -> homeassistant device
 - Roofcam alive
 - Roofcam water detector
-- Seshat
 - Sonos Error
-- Backup checks

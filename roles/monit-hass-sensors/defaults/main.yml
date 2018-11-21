@@ -1,6 +1,0 @@
-monit_hass_sensors_user: "{{ansible_ssh_user}}"
-monit_hass_sensors_group: "{{ansible_ssh_user}}"
-monit_hass_sensors_dir: /opt/monit-hass-sensors
-monit_hass_sensors_ha_url: "http://0.0.0.0:{{homeassistant_port}}"
-monit_hass_sensors_monit_url: "http://0.0.0.0:{{monit_http_port}}"
-monit_hass_sensors_service: "monit-hass-sensors"

@@ -22,3 +22,5 @@
     - { role: docker, tags: ['docker']}
     - { role: elk_elasticsearch, tags: ['elasticsearch', 'ES', 'es']}
     - { role: elk_kibana, tags: ['kibana']}
+    - { role: seshat, tags: ['seshat']}
+

@@ -21,5 +21,5 @@ layout:
     - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1)
     - binary_sensor_backup_github(1x1), binary_sensor_backup_influxdb(1x1), binary_sensor_backup_grafana(1x1), binary_sensor_backup_copy(1x1)
     - spacer(1x1)
-    - spacer(6x1), script_restart_sonos(1x1), script_restart_homeassistant(1x1)
+    - spacer(8x1)
     - include: navigation_panel

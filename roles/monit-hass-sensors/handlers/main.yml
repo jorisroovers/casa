@@ -1,7 +1,0 @@
-- name: daemon_reload
-  command: systemctl daemon-reload
-  become: yes
-
-- name: restart_monit_hass_sensors
-  service: name={{monit_hass_sensors_service}} state=restarted
-  become: yes

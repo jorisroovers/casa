@@ -1,5 +1,4 @@
 homeassistant_dir: "/opt/homeassistant"
-homeassistant_venv: "{{homeassistant_dir}}/.venv"
 homeassistant_bind_ip: 0.0.0.0
 homeassistant_port: 8123
 homeassistant_version: 0.79.3
@@ -7,6 +6,8 @@ homeassistant_user: "homeassistant"
 homeassistant_group: "homeassistant"
 homeassistant_service: "homeassistant@{{homeassistant_user}}"
 homeassistant_logfile: "{{homeassistant_dir}}/home-assistant.log"
+
+homeassistant_docker_image: "homeassistant/home-assistant:{{homeassistant_version}}"
 
 homeassistant_general_config:
   name: MyHome

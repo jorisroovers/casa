@@ -1,0 +1,3 @@
+seshat_user: seshat
+seshat_group: "{{seshat_user}}"
+seshat_dir: "/opt/seshat"

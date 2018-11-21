@@ -1,4 +1,0 @@
-monit_http_port: 2812
-monit_http_username: "defaultusername"
-monit_http_password: "defaultpassword"
-monit_allowed: []

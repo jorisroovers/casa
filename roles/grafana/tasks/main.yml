@@ -1,57 +1,35 @@
 ---
-- name: Installing Grafana apt source public key
+- name: Creating grafana group
+  group: name="{{grafana_group}}" state=present system=yes
   become: yes
-  apt_key:
-    url: https://packagecloud.io/gpg.key
-    state: present
 
-# Using Debian package source on ubuntu as per installation instructions:
-# "Use the above line even if you are on Ubuntu or another Debian version."
-# http://docs.grafana.org/installation/debian/
-- name: Adding Grafana package source
-  lineinfile:
-    state: present
-    create: yes
-    path: /etc/apt/sources.list.d/grafana.list
-    line: "deb https://packagecloud.io/grafana/stable/debian jessie main"
+- name: Creating grafana user
+  user: name="{{grafana_user}}" comment="Homeassistant User" group="{{grafana_group}}" uid="{{grafana_uid}}"
+        home={{grafana_conf_dir}} createhome=no system=yes # Not a login user
   become: yes
-  register: grafana_package_source
 
-- name: "Updating apt-get cache"
-  apt: update_cache=yes
+- name: Creating grafana conf directory
+  file: path={{grafana_conf_dir}} state=directory owner={{grafana_user}} group={{grafana_group}}
   become: yes
-  when: grafana_package_source.changed
-
-- name: Installing grafana
-  apt: name={{item}} state=present
-  become: yes
-  notify: restart_grafana
-  with_items:
-    - grafana
 
 - name: Configuring grafana
   template: src=grafana.ini dest={{grafana_conf_dir}}/grafana.ini owner={{grafana_user}} group={{grafana_group}}
-  notify:
-    - restart_grafana
   become: yes
 
-- name: Installing grafana plugins
-  # Use plugins ls + grep to determine whether plugin is already installed (=makes this command idempotent)
-  shell: "grafana-cli plugins ls | grep {{item}} || grafana-cli plugins install {{item}}"
-  register: grafana_plugins
-  changed_when: grafana_plugins.stdout | search("successfully")
+- name: Starting grafana docker container
+  docker_container:
+    name: grafana
+    image: "{{grafana_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{grafana_conf_dir}}/:/etc/grafana"
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    env:
+        GF_INSTALL_PLUGINS: "grafana-piechart-panel,natel-discrete-panel"
   become: yes
-  notify:
-    - restart_grafana
-  with_items:
-    - grafana-piechart-panel
-    - natel-discrete-panel
-
-- name: Make sure grafana services are started and enabled
-  service: name={{item}} state=started enabled=yes
-  become: yes
-  with_items:
-    - "{{grafana_service}}"
+  tags:
+    - grafana-container
 
 - name: "Add iptable rule for grafana"
   iptables: chain=INPUT protocol=tcp destination_port={{grafana_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
@@ -60,13 +38,9 @@
   notify: save_iptables
   tags: [iptables, iptable]
 
-
 - name: Installing some convenience aliases
   template: src=grafana-aliases.sh dest=/etc/profile.d/grafana-aliases.sh
   become: yes
-
-- name: force all notified handlers to run at this point, so that new auth credentials take effect before installing data sources
-  meta: flush_handlers
 
 - name: Wait for grafana to come online
   wait_for:
@@ -80,16 +54,6 @@
     datasource_user: "{{influxdb_grafana_user}}"
     datasource_password: "{{influxdb_grafana_password}}"
     datasource_database: "{{influxdb_homeassistant_db}}"
-  tags:
-    - grafana-datasources
-
-- name: "Installing sensu datasource"
-  include_tasks: install_influxdb_datasource.yml
-  vars:
-    datasource_name: "sensu"
-    datasource_user: "{{influxdb_sensu_user}}"
-    datasource_password: "{{influxdb_sensu_password}}"
-    datasource_database: "{{influxdb_sensu_db}}"
   tags:
     - grafana-datasources
 

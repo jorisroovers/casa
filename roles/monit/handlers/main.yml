@@ -1,6 +1,0 @@
-- name: reload_monit
-  # From http://docs.ansible.com/ansible/latest/service_module.html
-  # Note that reloaded will start the service if it is not already started,
-  # even if your chosen init system wouldn't normally.
-  service: name=monit.service state=reloaded
-  become: yes

@@ -5,6 +5,7 @@ appdaemon_user: "appdaemon"
 appdaemon_group: "appdaemon"
 appdaemon_bind_ip: 0.0.0.0
 appdaemon_port: 5050
+appdaemon_docker_image: "acockburn/appdaemon:3.0.2"
 
 appdaemon_dashboards_dir: "{{appdaemon_dir}}/dashboards"
 appdaemon_custom_widgets_dir: "{{appdaemon_dashboards_dir}}/custom_widgets"

@@ -8,6 +8,8 @@ columns: 8
 sonos:
     widget_type: media_player
     entity: media_player.living_room
+    level_down_style: "font-size: 200%"
+    level_up_style: "font-size: 200%"
 
 layout:
     - sonos(3x2), spacer(3x1), tv_presence(1x1), ps4_presence(1x1)

@@ -20,6 +20,6 @@ layout:
     - monitoring_checks_status(1x1), binary_sensor_google(1x1), binary_sensor_logstash(1x1), binary_sensor_roofcam(1x1), binary_sensor_sonos_http_api(1x1), binary_sensor_tradfri_hub(1x1), binary_sensor_phue_hub(1x1)
     - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1)
     - binary_sensor_backup_github(1x1), binary_sensor_backup_influxdb(1x1), binary_sensor_backup_grafana(1x1), binary_sensor_backup_copy(1x1)
-    - spacer(1x1)
+    - housekeeping(1x1)
     - spacer(8x1)
     - include: navigation_panel

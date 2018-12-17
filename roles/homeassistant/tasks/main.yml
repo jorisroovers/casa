@@ -26,6 +26,13 @@
   tags:
     - homeassistant-container
 
+- name: "Docker post-startup changes"
+  shell: "docker exec homeassistant {{item}}"
+  with_items:
+    - apt-get update
+    - apt-get install -y jq
+  become: yes
+
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
@@ -56,9 +63,15 @@
    - phue.conf # No longer neccessary?
   notify:
     - reload_homeassistant_config
-    - restart_homeassistant
+    # - restart_homeassistant
   tags:
     - hass-config
+  become: yes
+
+- name: "Adding prom2hass.sh script"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}} mode=u+x
+  with_items:
+   - prom2hass.sh
   become: yes
 
 - name: "Ensure all files are owned by the homeassistant user"

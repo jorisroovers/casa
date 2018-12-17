@@ -76,7 +76,6 @@ function assert_backup_age(){
 
 function assert_backup_size(){
     backup_path="$1"
-    echo "PATH: $backup_path"
     min_size="$2"
     size=$(stat -c %s "$backup_path")
     echo "The backup is $size bytes"

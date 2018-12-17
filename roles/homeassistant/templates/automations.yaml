@@ -116,6 +116,16 @@
         preset: "{% raw %}{{ states('input_select.downstairs_music') | lower | replace(' ', '_')}}{% endraw %}"
 
 ################################################################################
+# "Nighttiime"                                                                 #
+################################################################################
+# - alias: Automatically edit Lux of 
+#   initial_state: True
+#   trigger:
+#     platform: state
+#     entity_id: device_tracker.samsungtv
+#     to: "home"
+
+################################################################################
 # TV                                                                           #
 ################################################################################
 - alias: Automatically set LivingPreset to Watching TV when turning on the TV

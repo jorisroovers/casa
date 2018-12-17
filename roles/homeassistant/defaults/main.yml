@@ -1,7 +1,7 @@
 homeassistant_dir: "/opt/homeassistant"
 homeassistant_bind_ip: 0.0.0.0
 homeassistant_port: 8123
-homeassistant_version: 0.79.3
+homeassistant_version: 0.83.3 # 0.84.2
 homeassistant_user: "homeassistant"
 homeassistant_group: "homeassistant"
 homeassistant_service: "homeassistant@{{homeassistant_user}}"

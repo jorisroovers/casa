@@ -119,6 +119,10 @@
         option: Christmas
     input_select.camera_preset:
         option: Home
+    switch.christmas_tree:
+        state: on
+    switch.christmas_ambience_office:
+        state: on
 
 - name: Relaxing
   entities:
@@ -226,6 +230,10 @@
         brightness_pct: 20
         # Apparently brightness_pct doesn't work on a light group, hence why this is kantoor_sfeer_lamp_1
         # and not kantoor_sfeer_verlichting
+    switch.christmas_tree:
+        state: on
+    switch.christmas_ambience_office:
+        state: on
 
 - name: Midnight
   entities:

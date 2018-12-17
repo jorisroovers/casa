@@ -44,16 +44,22 @@ light_office:
     widget_type: light
     entity: light.office
     title: Kantoor
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
 
 light_dinner_table:
     widget_type: light
     entity: light.dining_table
     title: Eet tafel
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
 
 light_living_ambience:
     widget_type: light
     entity: light.kantoor_sfeer_lamp_1
     title: Living Sfeer
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
 
 # Note: every row needs to be present in the layout, even if empty
 layout:
@@ -61,5 +67,5 @@ layout:
     - living_room_temperature(2x1), outside_temperature(2x1), home(1x1), away(1x1), sleep(1x1), joris_working(1x1)
     - humidity(1x1), rijtijd_ilse(1x1), spacer(1x1), spacer(1x1), washing_machine_status(1x1), dryer_status(1x1), watch_tv(1x1)
     - breakfast(1x1), cooking(1x1), light.kitchen(2x1), light.woonkamer_tv(2x1), light.living_room(2x1)
-    - relaxing(1x1), reading(1x1), light_dinner_table(2x1), light.tv_staanlamp(1x1), light_living_ambience(1x1), light_office(1x1), desk_light(1x1)
+    - relaxing(1x1), reading(1x1), christmas(1x1), light_dinner_table(1x1), light.tv_staanlamp(1x1), light_living_ambience(1x1), light_office(1x1), desk_light(1x1)
     - include: navigation_panel

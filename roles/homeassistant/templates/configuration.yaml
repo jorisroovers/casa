@@ -199,6 +199,13 @@ sensor:
       origin: {{google_travel_time_origin}}
       destination: {{google_travel_time_destination}}
       name: {{google_travel_time_name}}
+    - platform: time_date
+      display_options:
+        - 'time'
+    - platform: command_line
+      name: "prom2hass"
+      command: /config/prom2hass.sh
+      scan_interval: 20
     - platform: template
       sensors:
         desk_state:
@@ -218,10 +225,17 @@ binary_sensor:
     workdays: [mon, tue, wed, thu, fri]
   - platform: template
     sensors:
+      joris_is_workday:
+        friendly_name: "Joris is workday"
+        {% raw %}
+        value_template: "{{ is_state('binary_sensor.workday_sensor', 'on') and not(states('binary_sensor.joris_pto')) }}"
+        {% endraw %}
+
+      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
       joris_working:
         friendly_name: "Joris working"
         {% raw %}
-        value_template: "{{ (states('device_tracker.mbpcisco') == 'home') and (now().isoweekday() < 6)}}"
+        value_template: "{{ (states('device_tracker.mbpcisco') == 'home') and (is_state('binary_sensor.joris_is_workday', 'on')) }}"
         {% endraw %}
 
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'
@@ -242,9 +256,10 @@ binary_sensor:
       housekeeping:
         # Housekeeping on Monday and Fridays
         friendly_name: "Housekeeping"
+        entity_id: sensor.time
         value_template: >-
-          {% raw %}{{ ((now().isoweekday() == 1) and (now().hour > 12 and now().hour < 15))
-              or ((now().isoweekday() == 5) and (now().hour > 12 and now().hour < 14)) }}{% endraw %}
+          {% raw %}{{ ((now().isoweekday() == 1) and (now().hour >= 12 and now().hour < 16))
+              or ((now().isoweekday() == 5) and (now().hour >= 12 and now().hour < 14)) }}{% endraw %}
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
 
@@ -320,6 +335,12 @@ input_select:
 input_boolean:
   cooking:
     name: Cooking
+    initial: off
+  joris_pto:
+    name: Joris PTO
+    initial: off
+  ilse_pto:
+    name: Ilse PTO
     initial: off
 
 script: !include scripts.yaml

@@ -28,3 +28,10 @@ lights_outside:
   entities:
     - light.lamp_voordeur_1
     - light.garden
+
+lights_christmas:
+  name: "Christmas lights"
+  view: no
+  entities:
+    - switch.christmas_tree
+    - switch.christmas_ambience_office

@@ -13,6 +13,8 @@ back_button:
     widget_type: javascript
     command: window.history.back()
     icon_inactive: mdi-arrow-left-bold-circle-outline
+    icon_style_active: "z-index: 100"
+    icon_style_inactive: "z-index: 100"
 
 layout:
     - camera(8x5)

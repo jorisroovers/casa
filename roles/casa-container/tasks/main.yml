@@ -1,0 +1,3 @@
+- name: Installing some convenience aliases
+  template: src=aliases.sh dest=/etc/profile.d/{{alias_shorthand}}-aliases.sh
+  become: yes

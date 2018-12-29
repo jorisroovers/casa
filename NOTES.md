@@ -3,21 +3,21 @@ This is a list of things I'm considering to add to casa.
 
 ## General
 
+- HaDash: darker nav buttons
+- HaDash: camera on-click expansion
+- HaDash: auto-nav back to homescreen
 - Synthetic tests for Homeassistant (run pytests continously)
 - Envoy/Nginx proxy for prometheus, webhook
-- Run homeassistant in docker
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
 - https://home-assistant.io/components/media_player.cast/
 - Alexa integration
-- Force state update on Nest after changing state through python-nest command
 - Improve roofcam accuracy
 - sonos-node-http-api: SSL & auth
 - Better messaging in slack (also include lights + custom nest sensors)
 - sudo askpass program lastpass
 - limit speedtest.net CPU cycles using cgroups
 - Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
-- HADashboard automatically go back to homescreen when no activity
 - Use Flux to change light color in hallway depending on time of day: https://home-assistant.io/components/switch.flux/
 - Upstairs scenes: packing, working
 - Grafana, discrete panel:
@@ -33,6 +33,10 @@ This is a list of things I'm considering to add to casa.
   - Spotify playing
 - Runkeeper API: https://github.com/mko/runkeeper-js
   -> Stats wrt workouts etc
+
+### Old TODO (no longer relevant)
+- Force state update on Nest after changing state through python-nest command
+
 
 ## Automation Ideas
 - When pausing music -> set music preset to NoMusic
@@ -399,3 +403,5 @@ Checks to convert:
 - Roofcam alive
 - Roofcam water detector
 - Sonos Error
+- InfluxDB systemd service
+- 

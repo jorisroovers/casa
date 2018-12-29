@@ -8,6 +8,7 @@ homeassistant_service: "homeassistant@{{homeassistant_user}}"
 homeassistant_logfile: "{{homeassistant_dir}}/home-assistant.log"
 
 homeassistant_docker_image: "homeassistant/home-assistant:{{homeassistant_version}}"
+homeassistant_container_name: "homeassistant"
 
 homeassistant_general_config:
   name: MyHome

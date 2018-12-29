@@ -4,29 +4,47 @@
 monitoring_checks_status:
     widget_type: binary_sensor
     title: Monitoring
-    entity: binary_sensor.sensu_homeassistant_aggregate
+    entity: binary_sensor.prometheus_aggregate
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-monitor-heart-rate
+    icon_off: fa-monitor-heart-rate
 
 binary_sensor_google:
     widget_type: binary_sensor
     title: google.com
-    entity: binary_sensor.sensu_google_com
+    entity: binary_sensor.prometheus_google_http
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
 
 binary_sensor_logstash:
     widget_type: binary_sensor
     title: Logstash
-    entity: binary_sensor.sensu_elk_logstash
+    entity:  binary_sensor.prometheus_elk_logstash_systemd
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
+
+binary_sensor_elasticsearch:
+    widget_type: binary_sensor
+    title: Elasticsearch
+    entity: binary_sensor.prometheus_elk_es_http
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
+
+binary_sensor_kibana:
+    widget_type: binary_sensor
+    title: Kibana
+    entity: binary_sensor.prometheus_elk_kibana_http
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
 
 binary_sensor_roofcam:
     widget_type: binary_sensor
@@ -34,71 +52,71 @@ binary_sensor_roofcam:
     entity: binary_sensor.sensu_roofcam
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
 
 binary_sensor_sonos_http_api:
     widget_type: binary_sensor
     title: Sonos HTTP API
-    entity: binary_sensor.sensu_sonos_http_api_api
+    entity: binary_sensor.prometheus_sonos_http_api_systemd
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
 
 binary_sensor_phue_hub:
     widget_type: binary_sensor
     title: Philips Hue Hub
-    entity: binary_sensor.sensu_hub_phue
+    entity: binary_sensor.prometheus_hue_hub
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
 
 binary_sensor_tradfri_hub:
     widget_type: binary_sensor
     title: Ikea Tradfri Hub
-    entity: binary_sensor.sensu_hub_tradfri
+    entity: binary_sensor.prometheus_tradfri_hub
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
 
-binary_sensor_backup_github:
-  widget_type: binary_sensor
-  title: Github backup
-  entity: binary_sensor.sensu_backup_github
-  icon_style_active: "color: #aaff00;"
-  icon_style_inactive: "color: red"
-  icon_on: mdi-bullseye
-  icon_off: mdi-bullseye
+# binary_sensor_backup_github:
+#   widget_type: binary_sensor
+#   title: Github backup
+#   entity: binary_sensor.sensu_backup_github
+#   icon_style_active: "color: #aaff00;"
+#   icon_style_inactive: "color: red"
+#   icon_on: fa-bullseye
+#   icon_off: fa-bullseye
 
-binary_sensor_backup_influxdb:
-    widget_type: binary_sensor
-    title: InfluxDB backup
-    entity: binary_sensor.sensu_backup_influxdb
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+# binary_sensor_backup_influxdb:
+#     widget_type: binary_sensor
+#     title: InfluxDB backup
+#     entity: binary_sensor.sensu_backup_influxdb
+#     icon_style_active: "color: #aaff00;"
+#     icon_style_inactive: "color: red"
+#     icon_on: fa-bullseye
+#     icon_off: fa-bullseye
 
-binary_sensor_backup_grafana:
-    widget_type: binary_sensor
-    title: Grafana backup
-    entity: binary_sensor.sensu_backup_grafana
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+# binary_sensor_backup_grafana:
+#     widget_type: binary_sensor
+#     title: Grafana backup
+#     entity: binary_sensor.sensu_backup_grafana
+#     icon_style_active: "color: #aaff00;"
+#     icon_style_inactive: "color: red"
+#     icon_on: fa-bullseye
+#     icon_off: fa-bullseye
 
 binary_sensor_backup_copy:
     widget_type: binary_sensor
     title: Backups copy
-    entity: binary_sensor.sensu_backup_copy_backups
+    entity:  binary_sensor.prometheus_backups
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
-    icon_on: mdi-bullseye
-    icon_off: mdi-bullseye
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
 
 smoke_alarm_downstairs:
     widget_type: binary_sensor
@@ -106,6 +124,8 @@ smoke_alarm_downstairs:
     entity: binary_sensor.living_room_nest_protect_online
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
+    icon_on: mdi-smoke-detector
+    icon_off: mdi-smoke-detector
 
 smoke_alarm_upstairs:
     widget_type: binary_sensor
@@ -113,6 +133,8 @@ smoke_alarm_upstairs:
     entity: binary_sensor.upstairs_nest_protect_online
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
+    icon_on: mdi-smoke-detector
+    icon_off: mdi-smoke-detector
 
 script_restart_homeassistant:
     widget_type: script
@@ -263,7 +285,7 @@ reading:
 house_mode:
     widget_type: sensor
     title: Huis Mode
-    text_style: "text-transform: uppercase;font-size: 300%"
+    text_style: "text-transform: uppercase;font-size: 500%"
     entity: input_select.house_mode
     state_map:
         Home: Thuis
@@ -334,6 +356,12 @@ ps4_presence:
 #######################################################################
 # DOWNSTAIRS MUSIC                                                    #
 #######################################################################
+
+sonos:
+    widget_type: media_player
+    entity: media_player.living_room
+    level_down_style: "font-size: 200%"
+    level_up_style: "font-size: 200%"
 
 music_party:
     widget_type: mode
@@ -579,6 +607,76 @@ roofcam_camera:
 
 
 ####################################
+# Lights                           #
+####################################
+
+desk_light:
+    widget_type: switch
+    title: Desk Lamp
+    entity: switch.desk_lamp
+    icon_on: mdi-desk-lamp
+    icon_off: mdi-desk-lamp
+    icon_style_active: "color: #e8e178;"
+
+christmas_lights:
+    widget_type: light
+    title: Chrismas Lights
+    entity: group.lights_christmas
+    icon_on: fa-lights-holiday
+    icon_off: fa-lights-holiday
+    icon_style_active: "color: #e8e178;"
+
+tv_table_light:
+    widget_type: light
+    title: TV Staanlamp
+    entity: light.tv_staanlamp
+    icon_on: fa-lamp
+    icon_off: fa-lamp
+    icon_style_active: "color: #e8e178;"
+
+kitchen_light:
+    widget_type: light
+    title: Keuken
+    entity: light.kitchen
+    icon_style_active: "color: #e8e178;"
+
+woonkamer_tv_light:
+    widget_type: light
+    title: Woonkamer TV
+    entity: light.woonkamer_tv
+    icon_style_active: "color: #e8e178;"
+
+living_room_light:
+    widget_type: light
+    title: Living Room
+    entity: light.living_room
+    icon_style_active: "color: #e8e178;"
+
+light_dinner_table:
+    widget_type: light
+    entity: light.dining_table
+    title: Eet tafel
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
+light_office:
+    widget_type: light
+    entity: light.office
+    title: Kantoor
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
+light_living_ambience:
+    widget_type: light
+    entity: light.kantoor_sfeer_lamp_1
+    title: Living Sfeer
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
+####################################
 # Misc                             #
 ####################################
 
@@ -589,6 +687,23 @@ cooking:
     icon_on: mdi-pot-mix
     icon_off: mdi-pot-mix
     icon_style_active: "color: #efc980"
+
+joris_pto:
+    widget_type: input_boolean
+    title: Joris PTO
+    entity: input_boolean.joris_pto
+    icon_on: fa-male
+    icon_off: fa-male
+    icon_style_active: "color: #000e7a"
+
+ilse_pto:
+    widget_type: input_boolean
+    title: Ilse PTO
+    entity: input_boolean.ilse_pto
+    icon_on: fa-female
+    icon_off: fa-female
+    icon_style_active: "color: #ff1489"
+
 
 washing_machine_status:
     widget_type: binary_sensor
@@ -612,10 +727,3 @@ roofcam_status:
     entity: sensor.sensu_roofcam_water_detection
     value_style: "font-size: 150%;"
 
-desk_light:
-    widget_type: switch
-    title: Desk Lamp
-    entity: switch.desk_lamp
-    icon_on: fa-lightbulb
-    icon_off: fa-lightbulb
-    icon_style_active: "color: #e8e178;"

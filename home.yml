@@ -8,7 +8,7 @@
   roles:
     - { role: base, tags: ['base']}
     - { role: samba-client, tags: ['samba', 'cifs', 'smb']}
-    - { role: webhook, tags: ['webhook']}
+    # - { role: webhook, tags: ['webhook']}
     - { role: influxdb, tags: ['influxdb', 'influx']}
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
     - { role: prometheus, tags: ['prometheus', 'prom']}

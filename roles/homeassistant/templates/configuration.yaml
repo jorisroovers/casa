@@ -156,6 +156,12 @@ light:
       - light.eetkamer_lamp_1
       - light.eetkamer_lamp_2
       - light.eetkamer_lamp_3
+  - platform: group
+    name: Hallway
+    entities:
+      - light.hal_lamp_1
+      - light.hal_lamp_2
+      - light.hal_lamp_3
 
 switch:
 {% for switch_name, ip_address in tplink_switches.iteritems() %}
@@ -163,6 +169,10 @@ switch:
     name: {{switch_name}}
     host: {{ip_address}}
 {% endfor %}
+  - platform: flux
+    mode: mired
+    lights:
+      - light.hal_lamp_1
 
 panel_iframe:
   roofcam:

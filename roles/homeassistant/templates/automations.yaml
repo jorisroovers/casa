@@ -118,12 +118,23 @@
 ################################################################################
 # "Nighttiime"                                                                 #
 ################################################################################
-# - alias: Automatically edit Lux of 
+# - alias: Automatically edit Lux of lights
 #   initial_state: True
 #   trigger:
 #     platform: state
-#     entity_id: device_tracker.samsungtv
-#     to: "home"
+#     entity_id: binary_sensor.joris_pto
+#     to: "on"
+#   action:
+#     - service: input_select.select_option
+#       data:
+#         entity_id: input_select.living_preset
+#         option: "Watching TV"
+
+
+#     light.tv_staanlamp:
+#         state: on
+#         kelvin: 2200
+#         brightness_pct: 20
 
 ################################################################################
 # TV                                                                           #

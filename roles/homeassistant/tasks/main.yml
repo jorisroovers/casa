@@ -14,7 +14,7 @@
 
 - name: Starting homeassistant docker container
   docker_container:
-    name: homeassistant
+    name: "{{homeassistant_container_name}}"
     image: "{{homeassistant_docker_image}}"
     state: started # Modify and restart iff config has changed
     volumes:
@@ -32,6 +32,13 @@
     - apt-get update
     - apt-get install -y jq
   become: yes
+
+- name: Install casa-container for homeassistant (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "ha"
+    container_name: "{{homeassistant_container_name}}"
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -84,9 +91,3 @@
   become: yes
   notify: save_iptables
   tags: [iptables, iptable]
-
-- name: Installing some convenience aliases
-  template: src=hass-aliases.sh dest=/etc/profile.d/hass-aliases.sh
-  become: yes
-
-# docker run -d --name="home-assistant" -v  /opt/homeassistant:/config -v /etc/localtime:/etc/localtime:ro --net=host homeassistant/home-assistant:0.79.3

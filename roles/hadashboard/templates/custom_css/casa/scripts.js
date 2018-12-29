@@ -14,6 +14,11 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
+// Navigate to new page, retain skin
+function navigate(uri) {
+    window.location.href = uri + "?skin=casa";
+}
+
 
 $(document).ready(function () {
     $("#default-monitoring-checks-status").click(function () {
@@ -33,9 +38,9 @@ $(document).ready(function () {
             if ($("#default-house-mode .value").html().toLowerCase() == "thuis") {
                 let returnURI = getUrlParameter("returnURI");
                 if (returnURI) {
-                    window.location.href = returnURI + "?skin=casa";
+                    navigate(returnURI);
                 } else {
-                    window.location.href = "/Hallway?skin=casa";
+                    navigate("/Hallway");
                 }
             }
         });
@@ -91,14 +96,21 @@ $(document).ready(function () {
     }
 
     function autoLockScreen() {
-        let houseMode = $("#default-house-mode .value").html().toLowerCase();
-        // if houseMode is set to away or sleeping and we're not already on the Lockscreen -> navigate to lockscreen
-        if ((houseMode == "weg" || houseMode == "slapen") && (window.location.pathname.indexOf("LockScreen") < 0)) {
-            window.location.href = "/LockScreen?skin=casa&returnURI=" + window.location.pathname;
+        let houseMode = $("#default-house-mode .value");
+        if (houseMode.length) {
+            houseMode = houseMode.html().toLowerCase();
+            // if houseMode is set to away or sleeping and we're not already on the Lockscreen -> navigate to lockscreen
+            if ((houseMode == "weg" || houseMode == "slapen") && (window.location.pathname.indexOf("LockScreen") < 0)) {
+                window.location.href = "/LockScreen?skin=casa&returnURI=" + window.location.pathname;
+            }
         }
     }
     autoLockScreen();
     $("#default-house-mode .value").bind('DOMSubtreeModified', autoLockScreen);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RIJTIJD COLORIZATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Drive Time value colorization
     $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").bind('DOMSubtreeModified', function (e) {
@@ -112,15 +124,75 @@ $(document).ready(function () {
         }
     });
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CAMERAS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     $("#default-front-garden-camera").click(function (event) {
+        // TODO: make the onclick actually work
         let id = event.currentTarget.id;
     });
 
 
+    $('.img-frame').on("error", function (event) {
+        // if an image doesn't load properly, show a message on top of it
+        let target = $(event.target);
+        parent = $(target.parents(".widget"));
+        if (!parent.find('.camera-offline-message').length) {
+            let el = $("<div>").addClass('camera-offline-message');
+            el.append($("<div>").html("Camera offline or unreachable"));
+            parent.append(el);
+        }
+    }).on("load", function (event) {
+        // remove any previous offline messages when an image loads successfully
+        let target = $(event.target);
+        let parent = $(target.parents(".widget"));
+        parent.find('.camera-offline-message').remove();
+
+        // On click: go to larger camera image
+        let el = parent.find('.camera-clickable');
+        if (el.length == 0) {
+            el = $("<div>").addClass('camera-clickable');
+            let camera_url = "Camera_" + parent.find(".title").text().toLowerCase().replace(/ /g, "_");
+            el.on("click", function () {
+                navigate(camera_url);
+            });
+            parent.append(el);
+        }
+
+        // TODO: fix toggle
+        // let toggle = parent.find('.camera-toggle');
+        // if (toggle.length == 0) {
+        //     toggle = $("<div>").addClass('camera-toggle').html("toggle");
+        //     toggle.on("click", function () {
+        //         console.log("toggling camera");
+        //         $.post("/call_service", {
+        //             "service": "camera/turn_off",
+        //             "entity_id": "camera.hallway",
+        //         });
+        //     });
+        //     parent.append(toggle);
+        // }
+
+    });
 });
 
-// Disable scrolling on iOS:
+
+// Disable scrolling on iOS
 // https://stackoverflow.com/questions/7768269/ipad-safari-disable-scrolling-and-bounce-effect
+// Instead scroll becomes a click
+var lastMovedTime = Date.now()
 document.ontouchmove = function (event) {
     event.preventDefault();
+
+    // Only turn scroll into a click for the first scroll event we get
+    // A real scroll on iOS will invoke this function multiple times, typically a few tens of msec apart.
+    // We don't want to turn all those events into clicks, since that will cause multiple toggles of the button that is
+    // clicked instead of just one.
+    let lastMovedDelta = Date.now() - lastMovedTime;
+    lastMovedTime = Date.now();
+    console.log(lastMovedDelta);
+    if (lastMovedDelta > 100) {
+        event.target.click();
+    }
 };

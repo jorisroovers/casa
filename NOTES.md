@@ -3,6 +3,7 @@ This is a list of things I'm considering to add to casa.
 
 ## General
 
+- Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
 - HaDash: darker nav buttons
 - HaDash: camera on-click expansion
 - HaDash: auto-nav back to homescreen
@@ -134,10 +135,10 @@ Note that the exported json files (with extension .dashboard) can not just be im
 to use the same grafana-backup-tool to do the restore, like so:
 
 ```bash
-git clone https://github.com/ysde/grafana-backup-tool.git
+cd /tmp; git clone https://github.com/ysde/grafana-backup-tool.git
 # Get token from http://casa:3001/org/apikeys
 export GRAFANA_URL="http://casa:3001"; export GRAFANA_TOKEN="<token>";
-python grafana-backup-tool/createDashboard.py dashboards/Overview.dashboard
+python grafana-backup-tool/createDashboard.py ~/Downloads/dashboards/Overview.dashboard
 ```
 
 # Miscellaneous notes
@@ -300,6 +301,7 @@ curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
 
 ```bash
 source activate .venv36 # conda env
+cd tests  # important to be inside the tests directory!
 pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" tests/
 ```
 

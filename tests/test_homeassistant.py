@@ -31,3 +31,16 @@ def test_automations_on(driver, homeassistant_url, homeassistant_password):
     for item in response.json():
         if item['entity_id'].startswith("automation."):
             assert item['state'] == "on"
+
+
+def test_light_naming_convention(driver, homeassistant_url, homeassistant_password):
+    """ Test that all light friendly names match onto their entity ids.
+        We enforce this convention in casa as mismatches are often a cause of the wrong
+        lights being used in scenes and automations. """
+
+    headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
+    response = requests.get(f"{homeassistant_url}/api/states", headers=headers)
+    for item in response.json():
+        if item['entity_id'].startswith("light."):
+            expected_entity_id = "light." + item['attributes']['friendly_name'].lower().replace(" ", "_")
+            assert item['entity_id'] == expected_entity_id

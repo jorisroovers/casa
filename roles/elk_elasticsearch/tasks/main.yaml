@@ -37,6 +37,7 @@
     env:
         discovery.type: single-node
     recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
   become: yes
   tags:
     - elasticsearch-container

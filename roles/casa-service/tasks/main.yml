@@ -1,0 +1,12 @@
+- name: Creating {{service_name}} group
+  group: name="{{group}}" state=present system=yes
+  become: yes
+
+- name: Creating {{service_name}} user
+  user: name="{{user}}" comment="{{service_name}} User" group="{{group}}"
+        home={{directory}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating {{service_name}} directory
+  file: path={{directory}} state=directory owner={{user}} group={{group}}
+  become: yes

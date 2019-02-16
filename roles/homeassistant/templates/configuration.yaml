@@ -78,9 +78,9 @@ device_tracker:
       {{key}}: {{value}}
 {% endfor %}
 
-  - platform: owntracks_http
-    interval_seconds: 3
-    consider_home: 10
+  # - platform: owntracks_http
+  #   interval_seconds: 3
+  #   consider_home: 10
 
 # Track the sun
 sun:
@@ -94,8 +94,6 @@ weblink:
       url: http://{{casa_ip}}:{{sonos_http_api_port}}/
     - name: HADashboard
       url: {{appdaemon_dash_url}}
-    - name: Uchiwa Dashboard
-      url: http://{{casa_ip}}:{{uchiwa_port}}
 
 scene: !include scenes.yaml
 
@@ -252,14 +250,14 @@ binary_sensor:
       washing_machine:
         friendly_name: "Washing Machine"
         {% raw %}
-        value_template: "{{ states.switch.washing_machine.attributes.current_power_w | float > 1000 }}"
+        value_template: "{{ states.switch.washing_machine.attributes.current_power_w | float > 100 }}"
         {% endraw %}
 
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'
       dryer:
         friendly_name: "Dryer"
         {% raw %}
-        value_template: "{{ states.switch.dryer.attributes.current_power_w | float > 1000 }}"
+        value_template: "{{ states.switch.dryer.attributes.current_power_w | float > 100 }}"
         {% endraw %}
 
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'

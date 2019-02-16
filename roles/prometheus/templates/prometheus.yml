@@ -54,6 +54,10 @@ scrape_configs:
           -  http://{{casa_ip}}:{{kibana_port}}
         labels:
           name: elk-kibana.http
+      - targets:
+          - http://{{casa_ip}}:{{sonos_http_api_port}}/zones
+        labels:
+          name: sonos-http-api.http
     relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target

@@ -224,11 +224,11 @@
   entities:
     group.lights_outside:
         state: on
-    light.kantoor_sfeer_lamp_1:
+    light.living_ambience_lamp_1:
         state: on
         kelvin: 2200
         brightness_pct: 20
-        # Apparently brightness_pct doesn't work on a light group, hence why this is kantoor_sfeer_lamp_1
+        # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
         # and not kantoor_sfeer_verlichting
     switch.christmas_tree:
         state: on
@@ -244,11 +244,11 @@
   entities:
     group.lights_outside:
         state: on
-    light.kantoor_sfeer_lamp_1:
+    light.living_ambience_lamp_1:
         state: on
         kelvin: 2200
         brightness_pct: 20
-        # Apparently brightness_pct doesn't work on a light group, hence why this is kantoor_sfeer_lamp_1
+        # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
         # and not kantoor_sfeer_verlichting
     light.woonkamer_tv:
         state: on

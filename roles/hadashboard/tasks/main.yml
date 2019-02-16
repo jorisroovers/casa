@@ -99,6 +99,7 @@
       - "{{appdaemon_dir}}/:/conf"
     network_mode: host
     recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
   become: yes
   tags:
     - appdaemon-container

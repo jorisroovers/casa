@@ -1,0 +1,47 @@
+- name: Starting selenium docker container
+  docker_container:
+    name: "{{selenium_container_name}}"
+    image: "{{selenium_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - /dev/shm:/dev/shm
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - selenium-container
+
+- name: Install casa-container for selenium (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "selenium"
+    container_name: "{{selenium_container_name}}"
+
+- name: Creating casa-tests casa-service
+  include_role:
+    name: casa-service
+  vars:
+    service_name: "casa-tests"
+  become: yes
+
+- name: Copy over casa-tests files
+  copy:
+    src: ../../tests/
+    dest: /opt/casa-tests
+    owner: "casa-tests"
+    group: "casa-tests"
+  become: yes
+
+- name: "Creating casa-tests-prometheus-exports.sh"
+  template: src="casa-tests-prometheus-exports.sh" dest="/opt/casa-tests/casa-tests-prometheus-exports.sh"
+            owner=casa-tests group=casa-tests mode=u=rwx,o=rx
+  become: yes
+
+- name: Build casa-tests container
+  docker_image:
+    path: /opt/casa-tests
+    name: casa-tests
+    force: yes
+  become: yes

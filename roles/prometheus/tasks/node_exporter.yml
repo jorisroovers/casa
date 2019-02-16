@@ -14,3 +14,11 @@
     - daemon_reload
     - restart_node_exporter
   become: yes
+
+# NOTE: Don't expose node-exporter IPs, that data can be accessed through prometheus
+# - name: "Add iptable rule for node-exporter"
+#   iptables: chain=INPUT protocol=tcp destination_port={{node_exporter_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+#             comment="Prometheus Node Exporter"
+#   become: yes
+#   notify: save_iptables
+#   tags: [iptables, iptable]

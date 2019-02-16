@@ -23,9 +23,9 @@ function navigate(uri) {
 $(document).ready(function () {
     $("#default-monitoring-checks-status").click(function () {
         if (window.location.pathname.indexOf("Phone") >= 0) {
-            window.location.href = "/Phone_Monitoring?skin=casa"
+            window.location.href = "/Phone_Monitoring?skin=casa&timeout=120&return=Phone_Home"
         } else {
-            window.location.href = "/Monitoring?skin=casa"
+            window.location.href = "/Monitoring?skin=casa&timeout=120&return=Home"
         }
     });
 

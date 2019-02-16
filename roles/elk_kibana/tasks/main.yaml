@@ -18,6 +18,7 @@
       SERVER_NAME: casa-kibana
       ELASTICSEARCH_URL: "http://{{elasticsearch_docker_elk_network_ip_address}}:{{elasticsearch_api_port}}"
     recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
   become: yes
   tags:
     - kibana-container

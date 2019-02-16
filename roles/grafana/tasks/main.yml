@@ -25,6 +25,7 @@
       - "{{grafana_conf_dir}}/:/etc/grafana"
     network_mode: host
     recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
     env:
         GF_INSTALL_PLUGINS: "grafana-piechart-panel,natel-discrete-panel"
   become: yes

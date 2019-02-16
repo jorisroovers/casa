@@ -1,0 +1,3 @@
+directory: "/opt/{{service_name}}"
+user: "{{service_name}}"
+group: "{{service_name}}"

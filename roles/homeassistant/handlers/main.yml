@@ -10,7 +10,7 @@
     - homeassistant/reload_core_config
     - automation/reload
     - group/reload
-  notify: restart_homeassistant
+  # notify: restart_homeassistant
   ignore_errors: yes
 
 - name: reload_homeassistant_automations

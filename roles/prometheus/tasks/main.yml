@@ -54,6 +54,7 @@
     command:
       - "--config.file=/config/prometheus.yml"
     recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
   become: yes
   tags:
     - prometheus-container
@@ -75,6 +76,7 @@
     command:
       - "--config.file=/config/alertmanager.yml"
     recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
   become: yes
   tags:
     - alertmanager-container
@@ -92,6 +94,7 @@
     command:
       - "--config.file=/config/blackbox.yml"
     recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
   become: yes
   tags:
     - blackbox-exporter-container

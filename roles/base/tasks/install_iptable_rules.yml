@@ -35,5 +35,5 @@
   notify: save_iptables
 
 - name: "Deny INPUT everything else"
-  iptables: chain=INPUT policy=DROP
+  iptables: chain=INPUT policy=ACCEPT
   notify: save_iptables

@@ -12,7 +12,7 @@
     - { role: influxdb, tags: ['influxdb', 'influx']}
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
     - { role: prometheus, tags: ['prometheus', 'prom']}
-    - { role: sensu, tags: ['sensu']} # depends-on: influxdb
+    # - { role: sensu, tags: ['sensu']} # depends-on: influxdb
     - { role: backups, tags: ['backup', 'backups']} # depends-on: sensu
     - { role: elk_logstash, tags: ['elk', 'logstash']}
     - { role: homeassistant, tags: ['homeassistant', 'hass']}
@@ -23,4 +23,6 @@
     - { role: elk_elasticsearch, tags: ['elasticsearch', 'ES', 'es']}
     - { role: elk_kibana, tags: ['kibana']}
     - { role: seshat, tags: ['seshat']}
+    - { role: casa-tests, tags: ['casa-tests', 'tests', 'test']}
+
 

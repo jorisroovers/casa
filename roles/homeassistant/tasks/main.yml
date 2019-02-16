@@ -12,34 +12,6 @@
   file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
   become: yes
 
-- name: Starting homeassistant docker container
-  docker_container:
-    name: "{{homeassistant_container_name}}"
-    image: "{{homeassistant_docker_image}}"
-    state: started # Modify and restart iff config has changed
-    volumes:
-      - "{{homeassistant_dir}}/:/config"
-      - /etc/localtime:/etc/localtime:ro
-    network_mode: host
-    recreate: "{{recreate_containers}}"
-  become: yes
-  tags:
-    - homeassistant-container
-
-- name: "Docker post-startup changes"
-  shell: "docker exec homeassistant {{item}}"
-  with_items:
-    - apt-get update
-    - apt-get install -y jq
-  become: yes
-
-- name: Install casa-container for homeassistant (aliases only for now)
-  include_role:
-    name: casa-container
-  vars:
-    alias_shorthand: "ha"
-    container_name: "{{homeassistant_container_name}}"
-
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
@@ -84,6 +56,35 @@
 - name: "Ensure all files are owned by the homeassistant user"
   file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}} recurse=yes
   become: yes
+
+- name: Starting homeassistant docker container
+  docker_container:
+    name: "{{homeassistant_container_name}}"
+    image: "{{homeassistant_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{homeassistant_dir}}/:/config"
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - homeassistant-container
+
+- name: "Docker post-startup changes"
+  shell: "docker exec homeassistant {{item}}"
+  with_items:
+    - apt-get update
+    - apt-get install -y jq
+  become: yes
+
+- name: Install casa-container for homeassistant (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "ha"
+    container_name: "{{homeassistant_container_name}}"
 
 - name: "Add iptable rule for Homeassistant"
   iptables: chain=INPUT protocol=tcp destination_port={{homeassistant_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT

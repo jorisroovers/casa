@@ -58,7 +58,7 @@ binary_sensor_roofcam:
 binary_sensor_sonos_http_api:
     widget_type: binary_sensor
     title: Sonos HTTP API
-    entity: binary_sensor.prometheus_sonos_http_api_systemd
+    entity: binary_sensor.prometheus_sonos_http_api_http
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye

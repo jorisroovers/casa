@@ -74,6 +74,14 @@ groups:
       labels:
         severity: page
 
+- name: Sanity Tests
+  rules:
+    - alert: tests-sanity.status
+      expr: "casa_tests_status > 0"
+      for: 30s
+      labels:
+        severity: page
+
 - name: InfluxDB
   rules:
     - alert: influxdb.systemd

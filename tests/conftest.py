@@ -1,9 +1,11 @@
-import pytest
+import logging
 import os
+import pytest
+import requests
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-import logging
 
 # Turn off logging for selenium:
 # https://stackoverflow.com/questions/9226519/turning-off-logging-in-selenium-from-python
@@ -62,3 +64,10 @@ def homeassistant_url(request):
 @pytest.fixture(scope="module")
 def homeassistant_password(request):
     return request.config.getoption("--homeassistant-password")
+
+
+@pytest.fixture(scope="module")
+def hass_states(request, homeassistant_url, homeassistant_password):
+    headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
+    response = requests.get(f"{homeassistant_url}/api/states", headers=headers)
+    return response.json()

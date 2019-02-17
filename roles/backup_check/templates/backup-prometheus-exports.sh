@@ -16,10 +16,10 @@ echo "--------------------------------------------------------------------------
 {{backup_monitoring_script}}
 backup_check_status=$?
 echo "-----------------------------------------------------------------------------------------------------------------"
-echo "Writing prometheus metrics to {{backups_prometheus_exports_dir}}/{{backup_type}}.prom"
+echo "Writing prometheus metrics to {{node_exporter_textfile_exports}}/{{backup_type}}.prom"
 
 # Output .prom file so prometheus (or more specifically node_exporter) can pick up the metrics
-cat << EOF > {{backups_prometheus_exports_dir}}/{{backup_type}}.prom
+cat << EOF > {{node_exporter_textfile_exports}}/{{backup_type}}.prom
 # HELP custom_backup_size Custom Backup Size
 # TYPE custom_backup_size gauge
 custom_backup_size{name="{{backup_type}}"} $backup_size

@@ -3,10 +3,6 @@
   file: dest={{backups_dir}} state=directory owner={{backups_user}} group={{backups_group}}
   become: yes
 
-- name: Creating backups prometheus-exports directory
-  file: dest={{backups_prometheus_exports_dir}} state=directory owner={{backups_user}} group={{backups_group}}
-  become: yes
-
 - name: Copying util files to {{backups_dir}}
   template: src="{{item}}" dest="{{backups_dir}}/{{item}}"
             owner={{backups_user}} group={{backups_group}} mode=u+x

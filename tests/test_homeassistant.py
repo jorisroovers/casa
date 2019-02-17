@@ -1,10 +1,12 @@
 import logging
+import pytest
+
 import requests
 
 LOG = logging.getLogger()
 
 
-def test_light_groups(driver, homeassistant_url, homeassistant_password):
+def test_light_groups(homeassistant_url, homeassistant_password):
     """ Test that light groups are working """
 
     headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
@@ -23,24 +25,33 @@ def test_light_groups(driver, homeassistant_url, homeassistant_password):
             assert response.json()['state'] == state
 
 
-def test_automations_on(driver, homeassistant_url, homeassistant_password):
+@pytest.mark.sanity
+def test_automations_on(hass_states):
     """ Test that all automations are enabled """
 
-    headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
-    response = requests.get(f"{homeassistant_url}/api/states", headers=headers)
-    for item in response.json():
+    for item in hass_states:
         if item['entity_id'].startswith("automation."):
             assert item['state'] == "on"
 
 
-def test_light_naming_convention(driver, homeassistant_url, homeassistant_password):
+@pytest.mark.sanity
+def test_light_naming_convention(hass_states):
     """ Test that all light friendly names match onto their entity ids.
         We enforce this convention in casa as mismatches are often a cause of the wrong
         lights being used in scenes and automations. """
 
-    headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
-    response = requests.get(f"{homeassistant_url}/api/states", headers=headers)
-    for item in response.json():
+    for item in hass_states:
         if item['entity_id'].startswith("light."):
             expected_entity_id = "light." + item['attributes']['friendly_name'].lower().replace(" ", "_")
             assert item['entity_id'] == expected_entity_id
+
+
+@pytest.mark.sanity
+def test_group_entities(hass_states):
+    """ Tests that all entities in all groups actually exist, this catches group misconfigurations. """
+
+    all_entity_ids = [i['entity_id'] for i in hass_states]
+    for item in hass_states:
+        if item['entity_id'].startswith("group."):
+            for member_entity_id in item['attributes']['entity_id']:
+                assert member_entity_id in all_entity_ids

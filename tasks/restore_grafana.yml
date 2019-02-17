@@ -1,0 +1,12 @@
+---
+- hosts: home
+  tasks:
+    -  include_vars:
+          dir: ../roles/grafana/defaults
+    - debug:
+        var: grafana_port
+
+# cd /tmp; git clone https://github.com/ysde/grafana-backup-tool.git
+# # Get token from http://casa:3001/org/apikeys
+# export GRAFANA_URL="http://casa:3001"; export GRAFANA_TOKEN="<token>";
+# python grafana-backup-tool/createDashboard.py ~/Downloads/dashboards/Overview.dashboard

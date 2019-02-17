@@ -18,4 +18,6 @@ node_exporter_service: "{{prometheus_user}}@prometheus-node-exporter"
 node_exporter_port: 9100
 node_exporter_host: "{{casa_ip}}"
 
+node_exporter_textfile_exports: "{{prometheus_dir}}/textfile_exports"
+
 recreate_containers: no

@@ -36,9 +36,9 @@ for i in $(seq 0 $(( $NUM_RULES-1 ))); do
     # Hass requires the use of double quotes, single quotes will result in the payload being rejected
     PAYLOAD='{"state": "'$SENSOR_STATE'", "attributes": {"friendly_name": "'$SENSOR_NAME'",  "source":"prometheus", "timestamp": "'$TIMESTAMP'"}}'
     echo -n "Making API call to Homeassistant to install sensor $SENSOR_NAME ..."
-    echo "PAYLOAD: $PAYLOAD"
-    OUTPUT=$(curl -m 2 -X POST -H "x-ha-access: $HASS_API_PASSWORD"  -H "Content-Type: application/json" -d "$PAYLOAD"  "$HASS_HOST/api/states/$SENSOR_TYPE.$SENSOR_NAME")
-    echo $OUTPUT
+    # echo "PAYLOAD: $PAYLOAD"
+    OUTPUT=$(curl -s -m 2 -X POST -H "x-ha-access: $HASS_API_PASSWORD"  -H "Content-Type: application/json" -d "$PAYLOAD"  "$HASS_HOST/api/states/$SENSOR_TYPE.$SENSOR_NAME")
+    # echo $OUTPUT
     echo -e "DONE"
 done
 
@@ -48,7 +48,7 @@ TIMESTAMP=$(date +%s)
 
 PAYLOAD='{"state": "'$AGGREGATE_STATE'", "attributes": {"friendly_name": "'$SENSOR_NAME'",  "source":"prometheus", "timestamp": "'$TIMESTAMP'"}}'
 echo -n "Making API call to Homeassistant to install sensor $SENSOR_NAME ..."
-echo "PAYLOAD: $PAYLOAD"
-OUTPUT=$(curl -m 2 -X POST -H "x-ha-access: $HASS_API_PASSWORD"  -H "Content-Type: application/json" -d "$PAYLOAD"  "$HASS_HOST/api/states/$SENSOR_TYPE.$SENSOR_NAME")
-echo $OUTPUT
+# echo "PAYLOAD: $PAYLOAD"
+OUTPUT=$(curl -s -m 2 -X POST -H "x-ha-access: $HASS_API_PASSWORD"  -H "Content-Type: application/json" -d "$PAYLOAD"  "$HASS_HOST/api/states/$SENSOR_TYPE.$SENSOR_NAME")
+# echo $OUTPUT
 echo -e "DONE"

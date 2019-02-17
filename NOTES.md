@@ -4,6 +4,7 @@ This is a list of things I'm considering to add to casa.
 ## General
 
 - Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
+- Prometheus: alert when node_exporter is not adding new textfiles (i.e. when test results aren't being collected)
 - HaDash: darker nav buttons
 - HaDash: camera on-click expansion
 - HaDash: auto-nav back to homescreen

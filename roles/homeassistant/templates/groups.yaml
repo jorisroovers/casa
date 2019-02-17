@@ -20,7 +20,7 @@ lights_downstairs_automatic:
   name: "Automatically controlled downstairs lights"
   view: no
   entities:
-    - light.kantoor_sfeer_lamp_1
+    - light.living_ambience_lamp_1
 
 lights_outside:
   name: "Lights outside"

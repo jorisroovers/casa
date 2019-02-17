@@ -118,6 +118,15 @@ binary_sensor_backup_copy:
     icon_on: fa-bullseye
     icon_off: fa-bullseye
 
+binary_sensor_sanity_tests:
+    widget_type: binary_sensor
+    title: Sanity Tests
+    entity:  binary_sensor.prometheus_tests_sanity_status
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
+
 smoke_alarm_downstairs:
     widget_type: binary_sensor
     title: Rookmelder Living
@@ -670,7 +679,7 @@ light_office:
 
 light_living_ambience:
     widget_type: light
-    entity: light.kantoor_sfeer_lamp_1
+    entity: light.living_ambience_lamp_1
     title: Living Sfeer
     level_down_style: "font-size: 140%"
     level_up_style: "font-size: 140%"

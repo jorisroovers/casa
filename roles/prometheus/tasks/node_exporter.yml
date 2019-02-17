@@ -15,6 +15,10 @@
     - restart_node_exporter
   become: yes
 
+- name: Creating textfile exports directory
+  file: dest={{node_exporter_textfile_exports}} state=directory owner={{prometheus_user}} group={{prometheus_group}} mode=o+w
+  become: yes
+
 # NOTE: Don't expose node-exporter IPs, that data can be accessed through prometheus
 # - name: "Add iptable rule for node-exporter"
 #   iptables: chain=INPUT protocol=tcp destination_port={{node_exporter_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT

@@ -29,19 +29,35 @@
 - name: Copy over casa-tests files
   copy:
     src: ../../tests/
-    dest: /opt/casa-tests
+    dest: "{{casa_tests_dir}}"
     owner: "casa-tests"
     group: "casa-tests"
   become: yes
 
-- name: "Creating casa-tests-prometheus-exports.sh"
-  template: src="casa-tests-prometheus-exports.sh" dest="/opt/casa-tests/casa-tests-prometheus-exports.sh"
+- name: "Creating casa-tests-sanity.sh"
+  template: src="casa-tests-sanity.sh" dest="{{casa_tests_dir}}/casa-tests-sanity.sh"
             owner=casa-tests group=casa-tests mode=u=rwx,o=rx
   become: yes
 
 - name: Build casa-tests container
   docker_image:
-    path: /opt/casa-tests
+    path: "{{casa_tests_dir}}"
     name: casa-tests
     force: yes
+  become: yes
+
+- name: Modifying sudoers file so casa-tests user can run casa-tests docker container
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'casa-tests ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "root", "command": "/usr/bin/docker run casa-tests *"}
+
+# Run casa-tests every 5 min
+- name: "Adding cronjob for  script"
+  cron: name="Periodic casa-tests sanity run" minute="*/5" job="{{casa_tests_dir}}/casa-tests-sanity.sh"
+        user=casa-tests
   become: yes

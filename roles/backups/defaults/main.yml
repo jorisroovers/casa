@@ -2,8 +2,6 @@ backups_dir: "/opt/backups"
 backups_user: "{{ansible_ssh_user}}"
 backups_group: "{{backups_user}}"
 
-backups_prometheus_exports_dir: "{{backups_dir}}/prometheus/exports"
-
 github_backups_dir: "{{backups_dir}}/github"
 github_username: "foobar"
 github_access_token: "barfoo"

@@ -27,6 +27,7 @@ Here's a list of home-automation gear I use that is integrated with casa:
 - Nest Thermostat
 - Nest Protect smoke detectors
 - TP link HS100 and HS110 Power Switches
+- Samsung SmartTV UE48H6200AW
 - A simple custom-build Arduino sensor for measure the current height of my standing desk
 
 Other gear I have that is currently not (yet) integrated in the setup:

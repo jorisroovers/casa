@@ -24,5 +24,7 @@
     - { role: elk_kibana, tags: ['kibana']}
     - { role: seshat, tags: ['seshat']}
     - { role: casa-tests, tags: ['casa-tests', 'tests', 'test']}
+    - { role: samtvcli, tags: ['samtvcli', 'samtv', 'samsungtv']}
+
 
 

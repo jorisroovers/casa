@@ -18,7 +18,9 @@
   ignore_errors: yes
 
 - name: restart_homeassistant
-  service: name=homeassistant@{{homeassistant_user}} state=restarted
+  docker_container:
+    name: "{{homeassistant_container_name}}"
+    restart: yes
   become: yes
   # notify: wait_for_homeassistant_port
 

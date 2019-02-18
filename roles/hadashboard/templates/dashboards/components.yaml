@@ -127,6 +127,15 @@ binary_sensor_sanity_tests:
     icon_on: fa-bullseye
     icon_off: fa-bullseye
 
+binary_sensor_node_exporter:
+    widget_type: binary_sensor
+    title: Node Exporter
+    entity:  binary_sensor.prometheus_node_exporter_up
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
+
 smoke_alarm_downstairs:
     widget_type: binary_sensor
     title: Rookmelder Living

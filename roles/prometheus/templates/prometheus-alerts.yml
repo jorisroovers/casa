@@ -89,3 +89,11 @@ groups:
       for: 30s
       labels:
         severity: page
+
+- name: Node Exporter
+  rules:
+    - alert: node_exporter.up
+      expr: "up{job='Node Exporter'} == 0"
+      for: 30s
+      labels:
+        severity: page

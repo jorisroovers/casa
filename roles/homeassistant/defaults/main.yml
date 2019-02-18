@@ -41,6 +41,7 @@ atv_host: 10.0.0.2
 atv_login_id: "atv_login_id"
 
 samsungtv_host: 10.0.0.3
+samsungtv_session_key: "abc123"
 
 tplink_switches:
   myswitch: 10.0.0.6

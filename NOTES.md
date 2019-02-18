@@ -88,7 +88,16 @@ Keeping these here mostly for personal reference.
 ## Samsung TV
 
 TV Model: UE48H6200AW
+Using https://github.com/McKael/samtv to control samsung tv.
+To Pair:
+```sh
+./samtvcli --server $SAMSUNGTV_IP pair
+# Wait for TV to show pin
+./samtvcli --server $SAMSUNGTV_IP pair --pin <pincode>
+# CLI will print session id and session key, record these
+```
 
+### Older info:
 - Samsung smartTV support: https://home-assistant.io/components/media_player.samsungtv/
 - https://github.com/Ape/samsungctl
 - Open ports: 7676, 8000, 8001, 8080, 8443
@@ -137,9 +146,11 @@ to use the same grafana-backup-tool to do the restore, like so:
 
 ```bash
 cd /tmp; git clone https://github.com/ysde/grafana-backup-tool.git
-# Get token from http://casa:3001/org/apikeys
-export GRAFANA_URL="http://casa:3001"; export GRAFANA_TOKEN="<token>";
+# 1. Get token from http://casa:3001/org/apikeys
+# 2. Update grafana_backups_api_token in casa-data
+export GRAFANA_URL="http://casa:3001"; export GRAFANA_TOKEN="$(vault-get grafana_backups_api_token)";
 python grafana-backup-tool/createDashboard.py ~/Downloads/dashboards/Overview.dashboard
+ansible-playbook -i ~/repos/casa-data/inventory/mbp-server home.yml --tags backups
 ```
 
 # Miscellaneous notes
@@ -407,4 +418,3 @@ Checks to convert:
 - Roofcam water detector
 - Sonos Error
 - InfluxDB systemd service
-- 

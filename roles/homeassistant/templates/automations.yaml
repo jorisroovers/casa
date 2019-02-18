@@ -169,6 +169,20 @@
       data:
         entity_id: "scene.StopWatchingTV"
 
+- alias: Turn off TV on away/sleep
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Away"
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Sleeping"
+  action:
+    - service: shell_command.samsungtv_send_key
+      data_template:
+        key: "KEY_POWEROFF"
+
 ################################################################################
 # Cooking                                                                      #
 ################################################################################
@@ -260,6 +274,10 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.BathroomEnter"
+    - service: notify.slack
+      data:
+        message: |
+              Bathroom Enter
 
 - alias: Bathroom Exit
   initial_state: True
@@ -274,6 +292,10 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.BathroomLeave"
+    - service: notify.slack
+      data:
+        message: |
+              Bathroom Exit
 
 - alias: Music on afternoon shower during weekday
   initial_state: True

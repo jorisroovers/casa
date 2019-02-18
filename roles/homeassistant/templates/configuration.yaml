@@ -42,12 +42,6 @@ influxdb:
   verify_ssl: false # self-signed cert
 
 notify:
-    # Had some issues with getting pushbullet notifications to work, signing out and in helped:
-    # https://www.reddit.com/r/PushBullet/comments/53jvht/no_notifications_on_ios_10/
-  - name: pushbullet
-    platform: pushbullet
-    api_key: {{pushbullet_api_key}}
-
   # Hass only works with legacy slack tokens
   # https://api.slack.com/custom-integrations/legacy-tokens
   # Slack's advantage over pushbullet is the ability to format messages and more customizable notification preferences
@@ -98,7 +92,7 @@ weblink:
 scene: !include scenes.yaml
 
 media_player:
-  - platform: sonos
+  # - platform: sonos  # Deprecated
   - platform: cast # Chromecast
   - platform: samsungtv
     host: {{samsungtv_host}}
@@ -287,6 +281,7 @@ shell_command:
     play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
     play_sonos_preset: 'curl "{{sonos_http_api_url_base}}/preset/{% raw %}{{preset}}{% endraw %}"'
     restart_sonos: '/usr/bin/sudo /bin/systemctl restart {{sonos_http_api_service}}'
+    samsungtv_send_key: '/usr/bin/samtvcli --server {{samsungtv_host}} --session-id 1 --session-key {{samsungtv_session_key}} key {% raw %}{{key}}{% endraw %}'
 
 input_select:
   house_mode:

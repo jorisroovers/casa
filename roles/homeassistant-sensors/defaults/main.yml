@@ -1,0 +1,1 @@
+homeassistant_sensors_dir: "{{homeassistant_dir}}/custom_sensors"

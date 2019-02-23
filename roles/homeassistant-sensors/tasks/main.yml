@@ -1,0 +1,4 @@
+- name: Creating homeassistant sensors directory
+  file: path={{homeassistant_sensors_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
+  become: yes
+

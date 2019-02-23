@@ -51,9 +51,7 @@
 - name: "Adding prom2hass.sh script"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}} mode=u+x
   with_items:
-   - prom2hass.sh
-  notify:
-    - restart_homeassistant
+   - prom2hass.py
   become: yes
 
 - name: "Ensure all files are owned by the homeassistant user"

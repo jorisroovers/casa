@@ -3,5 +3,5 @@
   become: yes
 
 - name: restart_node_exporter
-  service: name={{node_exporter_service}} state=restarted
+  service: name={{node_exporter_service}} state=restarted enabled=yes
   become: yes

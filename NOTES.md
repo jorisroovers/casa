@@ -1,14 +1,31 @@
 # TODO
 This is a list of things I'm considering to add to casa.
 
-## General
 
-- Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
-- Prometheus: alert when node_exporter is not adding new textfiles (i.e. when test results aren't being collected)
-- HaDash: darker nav buttons
-- HaDash: camera on-click expansion
+# Fixes
+- Fix Seshat
 - HaDash: auto-nav back to homescreen
-- Synthetic tests for Homeassistant (run pytests continously)
+- Fix stats dashboard on grafana
+- Fix washing machine
+- Fix Roofcam
+- 
+
+## Incremental Improvements
+- Prom2Hass -> not just for alerts but for all metrics
+- Add CPU load to grafana dashboard
+- Add artists playlists to HaDashboard
+  - E.g. Select artist, then hit "play button"
+- Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
+- Afvalwijzer sensor in HaDashboard
+- PostNL sensor in HaDashboard
+- Upgrade grafana to 6.x
+
+## Aspirational improvements
+
+- Re-add raspberry pi, incl monitoring
+- Nest cams on HaDash?
+
+
 - Envoy/Nginx proxy for prometheus, webhook
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
@@ -18,7 +35,6 @@ This is a list of things I'm considering to add to casa.
 - sonos-node-http-api: SSL & auth
 - Better messaging in slack (also include lights + custom nest sensors)
 - sudo askpass program lastpass
-- limit speedtest.net CPU cycles using cgroups
 - Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
 - Use Flux to change light color in hallway depending on time of day: https://home-assistant.io/components/switch.flux/
 - Upstairs scenes: packing, working
@@ -63,7 +79,6 @@ This is a list of things I'm considering to add to casa.
 
 ## Actuator ideas
 - PS4Waker
-- Lights in back kitchen
 
 ### Homematic Radiotor thermostat
 https://www.conrad.nl/nl/homematic-ip-draadloze-radiatorthermostaat-hmip-etrv-2-1406552.html?WT.mc_id=gshop&WT.srch=1&gclid=CjwKCAiArOnUBRBJEiwAX0rG_fbAavfdl8fReKPGIuYmW6GDnaOdXExPkVhENMpaS9t9W8L_VXlm6BoCL-oQAvD_BwE&insert=8J&tid=933477491_46789847735_pla-415594332407_pla-1406552

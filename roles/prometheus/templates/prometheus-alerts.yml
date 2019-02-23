@@ -21,11 +21,11 @@ groups:
       for: 30s
       labels:
         severity: page
-    - alert: elk-es.http
-      expr: "probe_success{name='elk-es.http'} == 0"
-      for: 30s
-      labels:
-        severity: page
+    # - alert: elk-es.http
+    #   expr: "probe_success{name='elk-es.http'} == 0"
+    #   for: 30s
+    #   labels:
+    #     severity: page
     - alert: elk-kibana.http
       expr: "probe_success{name='elk-kibana.http'} == 0"
       for: 30s

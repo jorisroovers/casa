@@ -13,7 +13,7 @@ monitoring_checks_status:
 binary_sensor_google:
     widget_type: binary_sensor
     title: google.com
-    entity: binary_sensor.prometheus_google_http
+    entity: binary_sensor.google_http
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
@@ -22,25 +22,25 @@ binary_sensor_google:
 binary_sensor_logstash:
     widget_type: binary_sensor
     title: Logstash
-    entity:  binary_sensor.prometheus_elk_logstash_systemd
+    entity:  binary_sensor.elk_logstash_systemd
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
     icon_off: fa-bullseye
 
-binary_sensor_elasticsearch:
-    widget_type: binary_sensor
-    title: Elasticsearch
-    entity: binary_sensor.prometheus_elk_es_http
-    icon_style_active: "color: #aaff00;"
-    icon_style_inactive: "color: red"
-    icon_on: fa-bullseye
-    icon_off: fa-bullseye
+# binary_sensor_elasticsearch:
+#     widget_type: binary_sensor
+#     title: Elasticsearch
+#     entity: binary_sensor.elk_es_http
+#     icon_style_active: "color: #aaff00;"
+#     icon_style_inactive: "color: red"
+#     icon_on: fa-bullseye
+#     icon_off: fa-bullseye
 
 binary_sensor_kibana:
     widget_type: binary_sensor
     title: Kibana
-    entity: binary_sensor.prometheus_elk_kibana_http
+    entity: binary_sensor.elk_kibana_http
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
@@ -58,7 +58,7 @@ binary_sensor_roofcam:
 binary_sensor_sonos_http_api:
     widget_type: binary_sensor
     title: Sonos HTTP API
-    entity: binary_sensor.prometheus_sonos_http_api_http
+    entity: binary_sensor.sonos_http_api_http
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
@@ -67,7 +67,7 @@ binary_sensor_sonos_http_api:
 binary_sensor_phue_hub:
     widget_type: binary_sensor
     title: Philips Hue Hub
-    entity: binary_sensor.prometheus_hue_hub
+    entity: binary_sensor.hue_hub
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
@@ -76,7 +76,7 @@ binary_sensor_phue_hub:
 binary_sensor_tradfri_hub:
     widget_type: binary_sensor
     title: Ikea Tradfri Hub
-    entity: binary_sensor.prometheus_tradfri_hub
+    entity: binary_sensor.tradfri_hub
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
@@ -112,7 +112,7 @@ binary_sensor_tradfri_hub:
 binary_sensor_backup_copy:
     widget_type: binary_sensor
     title: Backups copy
-    entity:  binary_sensor.prometheus_backups
+    entity:  binary_sensor.backups
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
@@ -121,7 +121,7 @@ binary_sensor_backup_copy:
 binary_sensor_sanity_tests:
     widget_type: binary_sensor
     title: Sanity Tests
-    entity:  binary_sensor.prometheus_tests_sanity_status
+    entity:  binary_sensor.tests_sanity_status
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye
@@ -130,7 +130,7 @@ binary_sensor_sanity_tests:
 binary_sensor_node_exporter:
     widget_type: binary_sensor
     title: Node Exporter
-    entity:  binary_sensor.prometheus_node_exporter_up
+    entity:  binary_sensor.node_exporter_up
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye

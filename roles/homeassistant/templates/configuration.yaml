@@ -179,7 +179,9 @@ sensor:
          - type: disk_use_percent
            arg: /
          - type: memory_use_percent
+         - type: load_1m
          - type: load_5m
+         - type: load_15m
          - type: processor_use
     - platform: fastdotcom
       minute:
@@ -206,7 +208,7 @@ sensor:
         - 'time'
     - platform: command_line
       name: "prom2hass"
-      command: /config/prom2hass.sh
+      command: python /config/prom2hass.py
       scan_interval: 20
     - platform: template
       sensors:
@@ -230,7 +232,7 @@ binary_sensor:
       joris_is_workday:
         friendly_name: "Joris is workday"
         {% raw %}
-        value_template: "{{ is_state('binary_sensor.workday_sensor', 'on') and not(states('binary_sensor.joris_pto')) }}"
+        value_template: "{{ is_state('binary_sensor.workday_sensor', 'on') and is_state('input_boolean.joris_pto', 'off') }}"
         {% endraw %}
 
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'

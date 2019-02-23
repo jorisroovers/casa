@@ -50,7 +50,7 @@
   notify: restart_logstash
   with_items:
     - http-to-file.conf
-    - homeassistant-to-es.conf
+    # - homeassistant-to-es.conf
   tags: ['logstash-conf']
 
 - name: Make sure logstash services are started and enabled

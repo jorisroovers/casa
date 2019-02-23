@@ -3,7 +3,7 @@
 alias ?="cat /etc/profile.d/*aliases*"
 
 alias {{alias_shorthand}}-status='sudo docker ps -f "name={{container_name}}"'
-alias {{alias_shorthand}}-logs="sudo docker logs -n 300 -f {{container_name}}"
+alias {{alias_shorthand}}-logs="sudo docker logs --tail 300 -f {{container_name}}"
 alias {{alias_shorthand}}-log="{{alias_shorthand}}-logs"
 
 function {{alias_shorthand}}-re(){
@@ -29,7 +29,7 @@ function {{alias_shorthand}}-start(){
 
 function {{alias_shorthand}}-stop(){
     echo "Stopping homeassistant..."
-    sudo docker start {{container_name}}
+    sudo docker stop {{container_name}}
     echo "Done"
     sudo docker ps -f "name={{container_name}}"
 }

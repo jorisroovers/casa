@@ -122,7 +122,7 @@
 #   initial_state: True
 #   trigger:
 #     platform: state
-#     entity_id: binary_sensor.joris_pto
+#     entity_id: input_boolean.joris_pto
 #     to: "on"
 #   action:
 #     - service: input_select.select_option
@@ -274,16 +274,13 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.BathroomEnter"
-    - service: notify.slack
-      data:
-        message: |
-              Bathroom Enter
 
 - alias: Bathroom Exit
   initial_state: True
   trigger:
     - platform: state
       entity_id: media_player.bathroom
+      from: "playing"
       to: "paused"
     - platform: state
       entity_id: light.bathroom_group
@@ -292,10 +289,6 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.BathroomLeave"
-    - service: notify.slack
-      data:
-        message: |
-              Bathroom Exit
 
 - alias: Music on afternoon shower during weekday
   initial_state: True
@@ -333,6 +326,7 @@
   trigger:
     - platform: state
       entity_id: media_player.bathroom
+      from: "playing"
       to: "paused"
     - platform: state
       entity_id: light.bathroom_group

@@ -30,6 +30,7 @@
     - libxml2-dev
     - libxslt1-dev
     - mosh
+    - iotop
 
 - name: "Installing pip"
   easy_install: name=pip

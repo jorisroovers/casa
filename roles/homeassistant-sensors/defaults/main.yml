@@ -1,1 +1,3 @@
 homeassistant_sensors_dir: "{{homeassistant_dir}}/custom_sensors"
+home_zipcode: "1234"
+home_housenumber: "1234"

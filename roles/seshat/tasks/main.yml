@@ -13,7 +13,7 @@
   become: yes
 
 - name: Cloning seshat from github
-  git: repo=https://github.com/jorisroovers/seshat dest="{{seshat_dir}}" version=413bf0e6973fc9557acccc4bd16c5242afc0c114
+  git: repo=https://github.com/jorisroovers/seshat dest="{{seshat_dir}}" version=413bf0e6973fc9557acccc4bd16c5242afc0c114 force=yes
   become: yes
   become_user: "{{seshat_user}}"
 
@@ -28,8 +28,12 @@
   become: yes
   become_user: "{{seshat_user}}"
 
+
+# Replaced "source" with "." (=dot) for sourcing env vars as 'source' wasn't working
+# Probably because cron was using /bin/sh and not /bin/bash
+# https://unix.stackexchange.com/questions/27289/how-can-i-run-a-cron-command-with-existing-environmental-variables
 - name: "Adding cronjobs for seshat"
-  cron: name="Seshat {{item.name}}" minute="*/1" job="source {{seshat_dir}}/seshat_env.sh; {{item.job}}" user={{seshat_user}}
+  cron: name="Seshat {{item.name}}" minute="*/1" job=". {{seshat_dir}}/seshat_env.sh; {{item.job}} >> {{seshat_dir}}/seshat.log 2>&1" user={{seshat_user}}
   become: yes
   with_items:
       - { "name": "device_tracker.samsungtv",

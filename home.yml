@@ -16,6 +16,7 @@
     - { role: backups, tags: ['backup', 'backups']} # depends-on: sensu
     - { role: elk_logstash, tags: ['elk', 'logstash']}
     - { role: homeassistant, tags: ['homeassistant', 'hass']}
+    - { role: homeassistant-sensors, tags: ['homeassistant-sensors', 'hass-sensors']}
     - { role: hadashboard, tags: ['appdaemon', 'hadash', 'hadashboard']}
     - { role: roofcam, tags: ['roofcam']}
     - { role: node-sonos-http-api, tags: ['sonos']}

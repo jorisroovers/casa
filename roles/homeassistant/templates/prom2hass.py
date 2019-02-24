@@ -11,6 +11,7 @@ DEBUG = True
 ################################################################################
 # Utility Functions
 
+
 def debug(msg):
     if DEBUG:
         print(msg)
@@ -27,7 +28,7 @@ def create_sensor(sensor_type, sensor_name, payload):
 ################################################################################
 # SENSORS
 debug("Fetching sensors from prometheus...")
-resp = requests.get(PROMETHEUS_HOST + "/api/v1/query?query={homeassistant='yes'}")
+resp = requests.get(PROMETHEUS_HOST + "/api/v1/query?query={homeassistant='yes'}", timeout=2)
 
 debug("Adding sensors from homeassistant...")
 data = resp.json()['data']['result']
@@ -49,7 +50,7 @@ for item in data:
 ################################################################################
 # ALERTS
 debug("Fetching alerts from prometheus...")
-resp = requests.get(PROMETHEUS_HOST + "/api/v1/rules")
+resp = requests.get(PROMETHEUS_HOST + "/api/v1/rules", timeout=2)
 data = resp.json()['data']
 
 debug("Adding alerts as sensors from homeassistant...")

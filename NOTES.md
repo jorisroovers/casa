@@ -1,18 +1,20 @@
 # TODO
 This is a list of things I'm considering to add to casa.
 
-
-# Fixes
+# Needs verification
 - Fix Seshat
+- Add CPU load to grafana dashboard
+
+## Fixes
 - HaDash: auto-nav back to homescreen
 - Fix stats dashboard on grafana
 - Fix washing machine
 - Fix Roofcam
-- 
+
 
 ## Incremental Improvements
 - Prom2Hass -> not just for alerts but for all metrics
-- Add CPU load to grafana dashboard
+
 - Add artists playlists to HaDashboard
   - E.g. Select artist, then hit "play button"
 - Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)

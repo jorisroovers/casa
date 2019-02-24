@@ -690,6 +690,8 @@ light_living_ambience:
     widget_type: light
     entity: light.living_ambience_lamp_1
     title: Living Sfeer
+    icon_on: mdi-floor-lamp
+    icon_off: mdi-floor-lamp
     level_down_style: "font-size: 140%"
     level_up_style: "font-size: 140%"
     icon_style_active: "color: #e8e178;"

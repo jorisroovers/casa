@@ -1,0 +1,22 @@
+- name: "Determining filename of latest grafana backup"
+  shell: "ls /opt/networkshare/auto_backups/$(ls /opt/networkshare/auto_backups/ | tail -n 1)/grafana*"
+  register: grafana_backup_path
+
+- debug:
+    var: grafana_backup_path
+
+- name: "Copying latest grafana backup copy to /tmp"
+  shell: "cp {{grafana_backup_path.stdout}} /tmp;"
+
+- name: "Extracting latest grafana backup copy to /tmp"
+  unarchive:
+    remote_src: yes
+    src: "{{grafana_backup_path.stdout}}"
+    dest: /tmp/
+  become: yes
+
+- name: "Running grafana-backup-tool to restore dashboards"
+  shell: |
+            export GRAFANA_URL="http://0.0.0.0:3001";
+            export GRAFANA_TOKEN="{{grafana_backups_api_token}}";
+            ls /tmp/dashboards/ | awk '{ print "python {{grafana_backups_dir}}/grafana-backup-tool/createDashboard.py /tmp/dashboards/"$1}' | sh

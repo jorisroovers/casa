@@ -75,3 +75,9 @@
   tags:
     - grafana-backup
     - backups
+
+- name: "Restoring dashboards from latest backup"
+  include_tasks: restore_dashboards.yml
+  when: grafana_restore_backup
+  tags:
+    - grafana-restore-backup

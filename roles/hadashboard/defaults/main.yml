@@ -1,4 +1,4 @@
-appdaemon_version: 3.0.1
+appdaemon_version: 3.0.2
 appdaemon_dir: "/opt/appdaemon"
 appdaemon_venv: "{{appdaemon_dir}}/.venv"
 appdaemon_user: "appdaemon"

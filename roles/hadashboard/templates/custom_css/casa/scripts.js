@@ -125,6 +125,41 @@ $(document).ready(function () {
     });
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // TRASH COLORIZATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Trash Pickup colorization
+    $("#default-trash-pickup .value, #default-trash-pickup .state_text").bind('DOMSubtreeModified', function (e) {
+        let pickupDate = $("#default-trash-pickup .state_text").html();
+        if (pickupDate == "") return;
+        let pickupDateTs = new Date(pickupDate + " 00:00").getTime(); // time = midnight (current timezone)
+        let day_before_4pm = pickupDateTs - (8 * 60 * 60 * 1000); // 4pm = 8 hrs before midnight
+        let day_itself_11am = pickupDateTs + (11 * 60 * 60 * 1000); // 11am = 11 hrs after midnight
+        let nowTs = new Date().getTime();
+        let pickupType = $("#default-trash-pickup .value").html().toUpperCase();
+
+        if (nowTs > day_before_4pm && nowTs < day_itself_11am) {
+            $("#default-trash-pickup .value").css("text-shadow", "-1px 0 white, 0 1px white, 1px 0 white, 0 -1px white");
+            if (pickupType == "GFT") {
+                $(".widget-basedisplay-default-trash-pickup").css("background", "#55ad68");
+                $("#default-trash-pickup .value").css("color", "#1b5e20");
+            } else if (pickupType == "PAPER") {
+                $(".widget-basedisplay-default-trash-pickup").css("background", "#4853d2");
+                $("#default-trash-pickup .value").css("color", "#202886");
+            } else if (pickupType == "PLASTIC") {
+                $(".widget-basedisplay-default-trash-pickup").css("background", "#d88014");
+                $("#default-trash-pickup .value").css("color", "#f7ae53");
+            }
+        } else {
+            // reset styles when date no longer in notification range
+            $(".widget-basedisplay-default-trash-pickup").css("background", "");
+            $("#default-trash-pickup .value").css("color", "");
+            $("#default-trash-pickup .value").css("text-shadow", "");
+
+        }
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // CAMERAS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

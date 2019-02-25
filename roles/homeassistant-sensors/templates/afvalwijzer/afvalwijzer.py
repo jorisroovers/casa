@@ -4,14 +4,26 @@ import datetime
 import os
 import requests
 
-for env_var in ['AFVALWIJZER_ZIPCODE', 'AFVALWIJZER_HOUSENUMBER']:
+for env_var in ['AFVALWIJZER_ZIPCODE', 'AFVALWIJZER_HOUSENUMBER', 'HASS_API_PASSWORD', 'HASS_HOST']:
     if not env_var in os.environ:
         print("Environment variable {0} required".format(env_var))
         exit(1)
 
 ########################################################################################################################
+# Utility functions
+
+
+def create_sensor(sensor_type, sensor_name, payload):
+    print("Making API call to Homeassistant to install sensor {0}.{1}".format(sensor_type, sensor_name))
+    headers = {"x-ha-access": os.environ['HASS_API_PASSWORD'], "Content-Type": "application/json"}
+    url = "{0}/api/states/{1}.{2}".format(os.environ['HASS_HOST'], sensor_type, sensor_name)
+    resp = requests.post(url, json=payload, headers=headers, timeout=2)
+    print("DONE ({0})".format(resp))
+
+########################################################################################################################
 # Fetch html page from afvalwijzer.nl
 # Cache the page so we don't have to fetch it all the time (since it rarely changes)
+
 
 CACHE_FILE = "/tmp/afvalwijzer-{0}-{1}.cache.html".format(os.environ['AFVALWIJZER_ZIPCODE'],
                                                           os.environ['AFVALWIJZER_HOUSENUMBER'])
@@ -65,7 +77,8 @@ for item in soup.find_all("a", class_="wasteInfoIcon"):
         trash_type = p_items[0]['class'][0]
         date_nl = p_items[0].find(text=True, recursive=False).strip()
         date_nl_parts = date_nl.split(" ")
-        parsed_date = datetime.datetime(now.year, MONTHS[date_nl_parts[2]], int(date_nl_parts[1]))
+        # Set pick-up time at 8AM in the morning
+        parsed_date = datetime.datetime(now.year, MONTHS[date_nl_parts[2]], int(date_nl_parts[1]), 8, 00)
         trash_pickups.append((parsed_date, trash_type))
 
 
@@ -75,15 +88,22 @@ next_pickup_plastic = next((i for i in trash_pickups if (i[0] >= now and i[1] ==
 next_pickup_gft = next((i for i in trash_pickups if (i[0] >= now and i[1] == "gft")), None)
 next_pickup_paper = next((i for i in trash_pickups if (i[0] >= now and i[1] == "papier")), None)
 
+next_pickup_sensor = {}
+
+payload = {
+    "state": next_pickup[1],
+    "attributes": {
+        "friendly_name": "afvalwijzer_next_pickup",
+        "pickup_time": next_pickup[0].timestamp(),
+        "pickup_date": next_pickup[0].strftime("%Y-%m-%d"),
+        "pickup_type": next_pickup[1],
+        "updated": now.timestamp()
+    }
+}
+
+create_sensor("sensor", "afvalwijzer_next_pickup", payload)
+
 print("NEXT", next_pickup)
 print("next plastic", next_pickup_plastic)
 print("next gft", next_pickup_gft)
 print("next paper", next_pickup_paper)
-
-
-# print(trash_type, "\t\t", parsed_date, parsed_date > now)
-
-# next_gft
-# next_plastic
-# next_paper
-# next

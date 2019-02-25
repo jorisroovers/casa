@@ -4,6 +4,8 @@ This is a list of things I'm considering to add to casa.
 # Needs verification
 - Fix Seshat
 - Add CPU load to grafana dashboard
+- Smooth out up/down in desk state sensor
+- Afvalwijzer sensor in HaDashboard
 
 ## Fixes
 - HaDash: auto-nav back to homescreen
@@ -11,14 +13,10 @@ This is a list of things I'm considering to add to casa.
 - Fix washing machine
 - Fix Roofcam
 
-
 ## Incremental Improvements
-- Prom2Hass -> not just for alerts but for all metrics
-
 - Add artists playlists to HaDashboard
   - E.g. Select artist, then hit "play button"
 - Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
-- Afvalwijzer sensor in HaDashboard
 - PostNL sensor in HaDashboard
 - Upgrade grafana to 6.x
 
@@ -158,6 +156,13 @@ nest --client-id $NEST_CLIENT_ID --client-secret $NEST_CLIENT_SECRET --token-cac
 
 Using this tool for backups: https://github.com/ysde/grafana-backup-tool
 
+Backup restoration:
+```sh
+# 1. Get token from http://casa:3001/org/apikeys
+# 2. Update grafana_backups_api_token in casa-data
+# 3. Run this:
+ansible-playbook -i ~/repos/casa-data/inventory/mbp-server home.yml --tags backups,grafana-restore-backup -e "recreate_containers=no grafana_restore_backup=yes"
+```
 Note that the exported json files (with extension .dashboard) can not just be imported through the grafana UI, you need
 to use the same grafana-backup-tool to do the restore, like so:
 

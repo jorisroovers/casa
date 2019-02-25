@@ -4,3 +4,8 @@ restart_homeassistant:
 restart_sonos:
   sequence:
     - service: shell_command.restart_sonos
+turn_off_tv:
+  sequence:
+    - service: shell_command.samsungtv_send_key
+      data:
+        key: "KEY_POWEROFF"

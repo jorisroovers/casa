@@ -1,4 +1,4 @@
-grafana_docker_image: "grafana/grafana:5.3.4"
+grafana_docker_image: "grafana/grafana:6.0.0"
 
 grafana_user: "grafana"
 grafana_group: "{{grafana_user}}"
@@ -16,3 +16,5 @@ grafana_admin_password: "pass123"
 grafana_backups_dir: "{{backups_dir}}/grafana"
 grafana_backups_venv: "{{grafana_backups_dir}}/.venv"
 grafana_backups_api_token: "mytoken"
+
+grafana_restore_backup: False

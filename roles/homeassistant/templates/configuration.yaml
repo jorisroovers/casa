@@ -188,6 +188,13 @@ sensor:
          - 1
          - 21
          - 41
+    - platform: filter
+      name: "filtered deskheight"
+      entity_id: sensor.deskheight
+      filters:
+        - filter: lowpass
+          time_constant: 10
+          precision: 0
     - platform: buienradar
       monitored_conditions:
         - symbol

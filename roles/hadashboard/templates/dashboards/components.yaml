@@ -363,6 +363,9 @@ tv_presence:
     state_map:
       "home": "On"
       "not_home": "Off"
+    post_service_active: # Doesn't work :(
+        service: script/turn_on
+        entity_id: script.turn_off_tv
 
 ps4_presence:
     widget_type: binary_sensor
@@ -724,7 +727,6 @@ ilse_pto:
     icon_off: fa-female
     icon_style_active: "color: #ff1489"
 
-
 washing_machine_status:
     widget_type: binary_sensor
     title: Wasmachine
@@ -747,3 +749,9 @@ roofcam_status:
     entity: sensor.sensu_roofcam_water_detection
     value_style: "font-size: 150%;"
 
+trash_pickup:
+    title: Trash
+    widget_type: sensor
+    entity:  sensor.afvalwijzer_next_pickup
+    container_style: "font-size: 150% !important; text-transform: uppercase;"
+    sub_entity: sensor.afvalwijzer_next_pickup.pickup_date

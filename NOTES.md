@@ -6,9 +6,12 @@ This is a list of things I'm considering to add to casa.
 - Add CPU load to grafana dashboard
 - Smooth out up/down in desk state sensor
 - Afvalwijzer sensor in HaDashboard
+- Upgrade grafana to 6.x
+- Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
+- HaDash: auto-nav back to homescreen
 
 ## Fixes
-- HaDash: auto-nav back to homescreen
+
 - Fix stats dashboard on grafana
 - Fix washing machine
 - Fix Roofcam
@@ -16,16 +19,11 @@ This is a list of things I'm considering to add to casa.
 ## Incremental Improvements
 - Add artists playlists to HaDashboard
   - E.g. Select artist, then hit "play button"
-- Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
 - PostNL sensor in HaDashboard
-- Upgrade grafana to 6.x
 
 ## Aspirational improvements
 
 - Re-add raspberry pi, incl monitoring
-- Nest cams on HaDash?
-
-
 - Envoy/Nginx proxy for prometheus, webhook
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.

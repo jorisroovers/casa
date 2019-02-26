@@ -752,6 +752,6 @@ roofcam_status:
 trash_pickup:
     title: Trash
     widget_type: sensor
-    entity:  sensor.afvalwijzer_next_pickup
+    entity: sensor.afvalwijzer_next_pickup
     container_style: "font-size: 150% !important; text-transform: uppercase;"
     sub_entity: sensor.afvalwijzer_next_pickup.pickup_date

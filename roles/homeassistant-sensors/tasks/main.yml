@@ -7,12 +7,14 @@
   become: yes
   with_items:
     - afvalwijzer
+    - ps4_presence
 
 - name: "Adding templates for specific sensors"
   template: src={{item}} dest={{homeassistant_sensors_dir}}/{{item}} mode=u+x owner={{homeassistant_user}} group={{homeassistant_group}}
   with_items:
     - afvalwijzer/afvalwijzer.py
     - afvalwijzer/afvalwijzer_env.sh
+    - ps4_presence/ps4_presence.sh
   become: yes
 
 # Should really be doing this is a virtualenv and fixing the versions, but lazy right now...
@@ -24,10 +26,14 @@
     - requests
   become: yes
 
-# Use "." (=dot) to source files, not "source", that doesn't wor
+# Use "." (=dot) to source files, not "source", that doesn't work
 # Probably because cron is using /bin/sh and not /bin/bash
 # https://unix.stackexchange.com/questions/27289/how-can-i-run-a-cron-command-with-existing-environmental-variables
 - name: "Adding cronjobs for afvalwijzer"
   cron: name="Afvalwijzer fetch" minute="*/1" job=". {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer_env.sh; {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer.py  >> {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer.log 2>&1" user={{homeassistant_user}}
+  become: yes
+
+- name: "Adding cronjobs for ps4_presence"
+  cron: name="PS4 Presence detection fetch" minute="*/1" job=". {{homeassistant_sensors_dir}}/ps4_presence/ps4_presence.sh  >> {{homeassistant_sensors_dir}}/ps4_presence/ps4_presence.log 2>&1" user={{homeassistant_user}}
   become: yes
 

@@ -1,3 +1,6 @@
 homeassistant_sensors_dir: "{{homeassistant_dir}}/custom_sensors"
 home_zipcode: "1234"
 home_housenumber: "1234"
+
+ps4_host: 10.0.0.1
+ps4_port: 1234

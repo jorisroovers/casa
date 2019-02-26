@@ -13,6 +13,8 @@ media_nav:
     args:
       timeout: {{navigation_timeout}}
       return: Home
+      # sticky:1 needed for timeout to still work after user has interacted with the page
+      sticky: 1
 
 security_nav:
     widget_type: navigate
@@ -22,6 +24,8 @@ security_nav:
     args:
       timeout: {{navigation_timeout}}
       return: Home
+      # sticky:1 needed for timeout to still work after user has interacted with the page
+      sticky: 1
 
 hallway_nav:
     widget_type: navigate

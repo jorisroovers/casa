@@ -113,7 +113,7 @@ $(document).ready(function () {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Drive Time value colorization
-    $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").bind('DOMSubtreeModified', function (e) {
+    function colorizeDrivingTime(e) {
         let driveTime = parseInt($("#default-rijtijd-ilse .value").html());
         if (driveTime < 40) {
             $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").css("color", "#45b71b");
@@ -122,17 +122,22 @@ $(document).ready(function () {
         } else { //driveTime > 40
             $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").css("color", "red");
         }
-    });
+    }
+
+    $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").bind('DOMSubtreeModified', colorizeDrivingTime);
+    // for Safari on initial load, Chrome will need the DOMSubtreeModified event as the initial content is empty
+    colorizeDrivingTime();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TRASH COLORIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     // Trash Pickup colorization
-    $("#default-trash-pickup .value, #default-trash-pickup .state_text").bind('DOMSubtreeModified', function (e) {
+
+    function colorizeTrashPickup(e) {
         let pickupDate = $("#default-trash-pickup .state_text").html();
-        if (pickupDate == "") return;
-        let pickupDateTs = new Date(pickupDate + " 00:00").getTime(); // time = midnight (current timezone)
+        if (pickupDate == "" || pickupDate == undefined) return;
+        let dateParts = pickupDate.split("-");
+        let pickupDateTs = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]), 0, 0, 0).getTime(); // time = midnight (current timezone)
         let day_before_4pm = pickupDateTs - (8 * 60 * 60 * 1000); // 4pm = 8 hrs before midnight
         let day_itself_11am = pickupDateTs + (11 * 60 * 60 * 1000); // 11am = 11 hrs after midnight
         let nowTs = new Date().getTime();
@@ -153,11 +158,17 @@ $(document).ready(function () {
         } else {
             // reset styles when date no longer in notification range
             $(".widget-basedisplay-default-trash-pickup").css("background", "");
-            $("#default-trash-pickup .value").css("color", "");
-            $("#default-trash-pickup .value").css("text-shadow", "");
+            $("#default-trash-pickup .value").css({
+                "color": "",
+                "text-shadow": ""
+            });
 
         }
-    });
+    };
+
+    $("#default-trash-pickup .value, #default-trash-pickup .state_text").bind('DOMSubtreeModified', colorizeTrashPickup);
+    // for Safari on initial load, Chrome will need the DOMSubtreeModified event as the initial content is empty
+    colorizeTrashPickup();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // CAMERAS

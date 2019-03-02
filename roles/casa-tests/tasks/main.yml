@@ -58,6 +58,6 @@
 
 # Run casa-tests every 5 min
 - name: "Adding cronjob for  script"
-  cron: name="Periodic casa-tests sanity run" minute="*/5" job="{{casa_tests_dir}}/casa-tests-sanity.sh"
+  cron: name="Periodic casa-tests sanity run" minute="*/5" job="{{casa_tests_dir}}/casa-tests-sanity.sh >> {{casa_tests_dir}}/casa-tests.log 2>&1"
         user=casa-tests
   become: yes

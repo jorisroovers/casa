@@ -8,7 +8,7 @@ columns: 8
 layout:
     - sonos(6x2), tv_presence(1x1), ps4_presence(1x1)
     - spacer(8x1)
-    - spacer(8x1)
+    - artist_selector(5x1), artist_play(1x1)
     - music_breakfast(1x1), music_dinner_with_friends(1x1)
     - music_party(1x1), music_pop(1x1), music_romance(1x1), music_lounge(1x1), music_christmas(1x1), music_disney(1x1), music_relaxing(1x1), music_coffee_bar(1x1)
     - include: navigation_panel

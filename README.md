@@ -7,7 +7,7 @@ I maintain this purely for fun (often favoring speed and exploration over qualit
 in mind, so use at your own risk! I don't expect the actual code to work for anyone but me, so please consider this as
 more as a reference rather than a plug-and-play solution.
 
-You might see a reference here and there to ```casa-data```: this is a private repo I maintain that contains the actual
+You might see some references to ```casa-data```: this is a private repo I maintain that contains the actual
 data relevant to my home (usernames, passwords, secrets, IP addresses, etc). The roles and playbooks in this repo all
 use dummy defaults.
 

@@ -370,7 +370,7 @@ tv_presence:
 ps4_presence:
     widget_type: binary_sensor
     title: PS4
-    entity: binary_sensor.sensu_ps4_presence
+    entity: binary_sensor.ps4_presence
     icon_on: mdi-power
     icon_off: mdi-power
 
@@ -553,6 +553,19 @@ music_dinner_with_friends:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
         option: NoMusic
+
+artist_selector:
+    widget_type: input_select
+    title: Artist
+    entity: input_select.music_artist_select
+
+artist_play:
+    widget_type: script
+    entity: "script.play_artist"
+    icon_on: mdi-play
+    icon_off: mdi-play
+    select_style: "font-size: 150% !important; height: 200% !important;"
+    selectcontainer_style: "overflow: visible !important;"
 
 #######################################################################
 # UPSTAIRS MUSIC                                                      #

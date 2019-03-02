@@ -9,3 +9,12 @@ turn_off_tv:
     - service: shell_command.samsungtv_send_key
       data:
         key: "KEY_POWEROFF"
+play_artist:
+  sequence:
+    - service: shell_command.play_sonos_preset
+      data_template:
+        preset: "{% raw %}{{ states('input_select.music_artist_select') | lower | replace(' ', '_')}}{% endraw %}"
+    # - service: notify.slack
+    #   data:
+    #     message: |
+    #           Playing "{% raw %}{{ states('input_select.music_artist_select') | lower | replace(' ', '_')}}{% endraw %}"

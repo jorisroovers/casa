@@ -54,7 +54,6 @@
   become: yes
   tags: [ hadash-dashboards ]
 
-
 - name: Installing custom skin
   template: src={{item}} dest={{appdaemon_dir}}/{{item}} owner={{appdaemon_user}} group={{appdaemon_group}}
   with_items:
@@ -105,3 +104,9 @@
     - appdaemon-container
     - hadash-container
 
+- name: Install casa-container for homeassistant (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "ad"
+    container_name: "{{appdaemon_docker_image}}"

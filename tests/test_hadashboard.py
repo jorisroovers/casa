@@ -1,8 +1,10 @@
 import logging
+import pytest
 
 LOG = logging.getLogger()
 
 
+@pytest.mark.sanity
 def test_entity_not_found(driver, hadashboard_url):
     # Find all dashboards:
     driver.get(hadashboard_url)
@@ -19,6 +21,7 @@ def test_entity_not_found(driver, hadashboard_url):
         if len(els) == 0:
             LOG.info(f"PASSED")
         for el in els:
+            LOG.error(f"{url}")
             LOG.error(f"{el.text}")
             LOG.error(f"NOT PASSED")
             no_errors = False

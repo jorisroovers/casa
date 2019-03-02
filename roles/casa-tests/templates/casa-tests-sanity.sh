@@ -5,8 +5,7 @@ echo "--------------------------------------------------------------------------
 sudo docker run casa-tests pytest -rw -s -m sanity --hadashboard-url http://{{casa_ip}}:{{appdaemon_port}} \
                                                    --homeassistant-url http://{{casa_ip}}:{{homeassistant_port}} \
                                                    --homeassistant-password $(awk '/api_password/{print $2}' /opt/homeassistant/configuration.yaml) \
-                                                   --remote-driver-url http://{{casa_ip}}:{{selenium_port}}/wd/hub \
-                                                   test_homeassistant.py
+                                                   --remote-driver-url http://{{casa_ip}}:{{selenium_port}}/wd/hub
 test_status_code=$?
 echo "-----------------------------------------------------------------------------------------------------------------"
 echo "Exporting test results to prometheus..."

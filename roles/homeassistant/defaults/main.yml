@@ -77,3 +77,5 @@ known_devices:
     picture:
     track: true
     vendor: MyVendor
+
+zwave_gateway_device: "/dev/usbmygateway"

@@ -44,6 +44,15 @@
     - { src: "downstairs.json", dest: "disney.json", favorite: "Disney Greatest Hits" }
     - { src: "downstairs.json", dest: "dinner_with_friends.json", favorite: "Dinner with Friends" }
     - { src: "nomusic.json", dest: "nomusic.json", players: ["TV Room", "Living Room"] }
+    # Artists
+    - { src: "downstairs.json", dest: "alabama_shakes.json", favorite: "This Is Alabama Shakes" }
+    - { src: "downstairs.json", dest: "bruce_springsteen.json", favorite: "This Is Bruce Springsteen" }
+    - { src: "downstairs.json", dest: "bruno_mars.json", favorite: "This Is Bruno Mars" }
+    - { src: "downstairs.json", dest: "celine_dion.json", favorite: "This Is Celine Dion" }
+    - { src: "downstairs.json", dest: "coldplay.json", favorite: "This Is Coldplay" }
+    - { src: "downstairs.json", dest: "kensington.json", favorite: "This Is Kensington" }
+    - { src: "downstairs.json", dest: "marco_borsato.json", favorite: "This Is Marco Borsato" }
+    # Bathroom
     - { src: "upstairs.json", dest: "bathroom_morning.json", favorite: "Morning Motivation" }
     - { src: "upstairs.json", dest: "bathroom_relaxing.json", favorite: "Relax & Unwind" }
     - { src: "nomusic.json", dest: "bathroom_nomusic.json", players: ["Bathroom"] }

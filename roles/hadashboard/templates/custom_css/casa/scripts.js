@@ -148,7 +148,7 @@ $(document).ready(function () {
             if (pickupType == "GFT") {
                 $(".widget-basedisplay-default-trash-pickup").css("background", "#55ad68");
                 $("#default-trash-pickup .value").css("color", "#1b5e20");
-            } else if (pickupType == "PAPER") {
+            } else if (pickupType == "PAPIER") {
                 $(".widget-basedisplay-default-trash-pickup").css("background", "#4853d2");
                 $("#default-trash-pickup .value").css("color", "#202886");
             } else if (pickupType == "PLASTIC") {

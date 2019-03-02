@@ -42,3 +42,5 @@
           "job": "/usr/bin/node {{seshat_dir}}/dist/duration.js -k --measurement binary_sensor.joris_working --state on --write-duration --host $INFLUX_HOST --database $INFLUX_DB --username $INFLUX_USER --password $INFLUX_PASSWORD"}
       - { "name": "sensor.desk_state",
           "job": "/usr/bin/node {{seshat_dir}}/dist/duration.js -k --measurement sensor.desk_state --state up --write-duration --host $INFLUX_HOST --database $INFLUX_DB --username $INFLUX_USER --password $INFLUX_PASSWORD"}
+      - { "name": "binary_sensor.ps4_presence",
+          "job": "/usr/bin/node {{seshat_dir}}/dist/duration.js -k --measurement binary_sensor.ps4_presence --state on --write-duration --host $INFLUX_HOST --database $INFLUX_DB --username $INFLUX_USER --password $INFLUX_PASSWORD"}

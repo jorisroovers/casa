@@ -4,26 +4,36 @@ This is a list of things I'm considering to add to casa.
 # Needs verification
 - Fix Seshat
 - Add CPU load to grafana dashboard
-- Smooth out up/down in desk state sensor
 - Afvalwijzer sensor in HaDashboard
 - Upgrade grafana to 6.x
 - Grafana: ansible tasks (under top-level tasks/ to restore grafana datasource)
 - HaDash: auto-nav back to homescreen
-
-## Fixes
-
+- avg worked this week
+- start/end time work
+- PS4 presence sensor
 - Fix stats dashboard on grafana
-- Fix washing machine
-- Fix Roofcam
-
-## Incremental Improvements
 - Add artists playlists to HaDashboard
   - E.g. Select artist, then hit "play button"
+- Upgrade Homeassistant to latest version
+
+## Fixes
+- Fix washing machine
+- Fix Roofcam
+- Smooth out up/down in desk state sensor
+
+## Incremental Improvements
 - PostNL sensor in HaDashboard
+- Alexa shopping list sync
+- Update HaDash phone dashboards
 
 ## Aspirational improvements
-
+- Zwave playing
+- Automated Thermostats
 - Re-add raspberry pi, incl monitoring
+- Energy use monitoring
+
+## Other
+
 - Envoy/Nginx proxy for prometheus, webhook
 - Location tracking via OwnTracks
    -> This requires a DDNS, which means exposing everything to the web, which has security implications.
@@ -92,7 +102,6 @@ Not clear if this will work on our radiators.
 ## HADashboard
 - HADashboard: Volume control
 - HADashboard: Custom Nest Cam controls (incl enable-disable support + link to livestream)
-- HADashboard: enlarge camera view on click (not so hard using custom JS)
 - HADashboard: Custom weather widget
 
 # Technical notes
@@ -175,29 +184,6 @@ ansible-playbook -i ~/repos/casa-data/inventory/mbp-server home.yml --tags backu
 
 # Miscellaneous notes
 
-## Upgrading homeassistant
-
-When upgrading homeassistant, you need to manually start it because on first run hass will install a bunch of additional packages.
-Especially installing pyatv tends to take 10+ mins.
-
-Try running
-```bash
-ps -ef | grep pip
-```
-# Virtualbox performance issues
-I keep running into vagrant box lock ups. Some details of research I've done around this:
-
-https://joeshaw.org/terrible-vagrant-virtualbox-performance-on-mac-os-x/
-
-```
-export CASA_VM=$(VBoxManage list vms | grep casa_home | cut -f1 -d" " | tr -d "\"")
-VBoxManage storagectl $CASA_VM --name "IDE" --hostiocache on
-```
-
-TODO
-```
-NAT: Error(22) while setting RCV capacity to (65536)
-```
 ## SCP
 
 scp -P 2222 -i ~/repos/casa/.vagrant/machines/home/virtualbox/private_key ubuntu@127.0.0.1:/home/ubuntu/redis.conf .
@@ -380,61 +366,10 @@ Probably should keep eye on https://aiocoap.readthedocs.io/en/latest/news.html f
 
 
 
-## AppDaemon issue
-Ran into https://github.com/home-assistant/home-assistant/issues/13644,
-fixed by running.
-
-TypeError: __init__() got an unexpected keyword argument 'ssl'
--> this has to do with the fac that aiohttp is outdated
-
-Fix with:
-
-```bash
-sudo /opt/homeassistant/.venv/bin/pip install aiohttp==3.1.3
-```
-
-Or by reinstalling homeassistant
-
-# Hue issues
-
-```
-Traceback (most recent call last):
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/components/hue/bridge.py", line 47, in async_setup
-    hass, host, self.config_entry.data['username'])
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/components/hue/bridge.py", line 159, in get_bridge
-    websession=aiohttp_client.async_get_clientsession(hass)
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/aiohttp_client.py", line 38, in async_get_clientsession
-    hass.data[key] = async_create_clientsession(hass, verify_ssl)
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/aiohttp_client.py", line 55, in async_create_clientsession
-    connector = _async_get_connector(hass, verify_ssl)
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/aiohttp_client.py", line 163, in _async_get_connector
-    connector = aiohttp.TCPConnector(loop=hass.loop, ssl=ssl_context)
-TypeError: __init__() got an unexpected keyword argument 'ssl'
-```
-
-This has to do with an incompatible version of aiohttp
-
---------
-Before"
-
-aiocoap==0.4a1
-aiohttp==2.3.10
-aiohttp-cors==0.7.0
-aiohue==1.5.0
-
-------------
-after:
-aiocoap==0.4a1
-aiohttp==3.3.2
-aiohttp-cors==0.7.0
-aiohue==1.5.0
-
 # Prometheus
 Add basic auth through nginx (or envoy?): https://prometheus.io/docs/guides/basic-auth/
 
 Checks to convert:
-- PS4 On/off -> homeassistant device
 - Roofcam alive
 - Roofcam water detector
 - Sonos Error
-- InfluxDB systemd service

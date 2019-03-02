@@ -35,6 +35,8 @@ data = resp.json()['data']['result']
 for item in data:
     sensor_type = item['metric'].get("homeassistant_sensor_type", "sensor")
     sensor_state = item['value'][1]
+    if sensor_type == "binary_sensor":
+        sensor_state = "on" if int(sensor_state) >= 1 else "off"
     payload = {
         "state": "{}".format(sensor_state),
         "attributes": {

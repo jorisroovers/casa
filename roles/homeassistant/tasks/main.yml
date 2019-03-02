@@ -69,6 +69,8 @@
     network_mode: host
     recreate: "{{recreate_containers}}"
     restart_policy: unless-stopped
+    devices:
+      - "{{zwave_gateway_device}}:{{zwave_gateway_device}}"
   become: yes
   tags:
     - homeassistant-container

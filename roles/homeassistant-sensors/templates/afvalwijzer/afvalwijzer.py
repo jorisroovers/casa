@@ -78,7 +78,7 @@ for item in soup.find_all("a", class_="wasteInfoIcon"):
         date_nl = p_items[0].find(text=True, recursive=False).strip()
         date_nl_parts = date_nl.split(" ")
         # Set pick-up time at 8AM in the morning
-        parsed_date = datetime.datetime(now.year, MONTHS[date_nl_parts[2]], int(date_nl_parts[1]), 8, 00)
+        parsed_date = datetime.datetime(now.year, MONTHS[date_nl_parts[2]], int(date_nl_parts[1]), 11, 00)
         trash_pickups.append((parsed_date, trash_type))
 
 

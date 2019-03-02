@@ -217,6 +217,9 @@ sensor:
       name: "prom2hass"
       command: python /config/prom2hass.py
       scan_interval: 20
+      # Let's set the sensor to always be 1, otherwise hass will try to capture the much more verbose output
+      # of prom2hass which it doesn't allow since sensor states can only be 255 characters.
+      value_template: "1"
     - platform: template
       sensors:
         desk_state:
@@ -278,6 +281,9 @@ nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
 
+zwave:
+  usb_path: "{{zwave_gateway_device}}"
+
 {#
   1. Use %raw to insert braces into the lines below without ansible replacing them.
   2. FYI that in shell_command can't combine variables with actual shells (so using >> and | won't work)
@@ -301,6 +307,17 @@ input_select:
      - Sleeping
     initial: Home
     icon: mdi:home
+  music_artist_select:
+    name: Artist
+    options:
+     - Alabama Shakes
+     - Bruce Springsteen
+     - Bruno Mars
+     - Celine Dion
+     - Coldplay
+     - Kensington
+     - Marco Borsato
+    icon: mdi:music
   living_preset:
     name: Living Scene
     options:

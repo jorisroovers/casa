@@ -1,0 +1,11 @@
+[Unit]
+Description=Prometheus Node Exporter
+After=network.target
+
+[Service]
+Type=simple
+User={{node_exporter_user}}
+ExecStart={{node_exporter_dir}}/node_exporter --collector.systemd --collector.textfile.directory {{node_exporter_textfile_exports}}
+
+[Install]
+WantedBy=multi-user.target

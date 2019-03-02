@@ -2,3 +2,6 @@ tools_dir: "/opt/tools"
 tools_user: "{{ansible_ssh_user}}"
 tools_group: "{{tools_user}}"
 casa_public_key: "ssh-rsa abc123..."
+
+rg_download_url: "https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-i686-unknown-linux-musl.tar.gz"
+bat_download_url: "https://github.com/sharkdp/bat/releases/download/v0.10.0/bat_0.10.0_amd64.deb"

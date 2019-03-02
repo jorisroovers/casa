@@ -25,12 +25,14 @@ This is a list of things I'm considering to add to casa.
 - PostNL sensor in HaDashboard
 - Alexa shopping list sync
 - Update HaDash phone dashboards
+- Upstairs scenes: packing, working
+
 
 ## Aspirational improvements
 - Zwave playing
 - Automated Thermostats
 - Re-add raspberry pi, incl monitoring
-- Energy use monitoring
+- Energy use monitoring 
 
 ## Other
 
@@ -45,7 +47,6 @@ This is a list of things I'm considering to add to casa.
 - sudo askpass program lastpass
 - Smarter office lighting behavior (relax, etc -> don't turn off lights when working)
 - Use Flux to change light color in hallway depending on time of day: https://home-assistant.io/components/switch.flux/
-- Upstairs scenes: packing, working
 - Grafana, discrete panel:
   - Patch: https://github.com/NatelEnergy/grafana-discrete-panel/blob/master/src/module.ts#L194
     To make it so that time is shown not in humanize() but in specified timeframe
@@ -267,6 +268,14 @@ https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu
 
 
 IPv6 traffic?
+
+## DSMR
+
+Use ser2net: 
+```bash
+sudo apt install ser2net -y
+```
+
 
 ## Sonos-http-api
 When Sonos playbar is streaming from tv the /TV Room/state call returns the following.

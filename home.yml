@@ -1,10 +1,8 @@
 ---
-# Note: install homeassistant before roofcam, because homeassistant takes a long time to start up the first time
-# This way, homeassistant can already start up while we install roofcam
 # Note: There's dependencies between these roles, but they are not made explicit through role dependencies because
-# this keeps it easy during development to just run a single role without its dependencies (and not having to 
+# this keeps it easy during development to just run a single role without its dependencies (and not having to
 # create all sorts of constructions with variables and tags).
-- hosts: home
+- hosts: controller
   roles:
     - { role: base, tags: ['base']}
     - { role: samba-client, tags: ['samba', 'cifs', 'smb']}
@@ -12,6 +10,7 @@
     - { role: influxdb, tags: ['influxdb', 'influx']}
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
     - { role: prometheus, tags: ['prometheus', 'prom']}
+    - { role: prometheus_node_exporter, tags: ['node_exporter']}
     # - { role: sensu, tags: ['sensu']} # depends-on: influxdb
     - { role: backups, tags: ['backup', 'backups']} # depends-on: sensu
     - { role: elk_logstash, tags: ['elk', 'logstash']}
@@ -25,3 +24,8 @@
     - { role: elk_kibana, tags: ['kibana']}
     - { role: seshat, tags: ['seshat']}
     - { role: casa-tests, tags: ['casa-tests', 'tests', 'test']}
+
+- hosts: energy_tracker
+  roles:
+    - { role: base, tags: ['base']}
+    - { role: prometheus_node_exporter, tags: ['node_exporter']}

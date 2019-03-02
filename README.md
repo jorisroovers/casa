@@ -71,3 +71,12 @@ ansible-playbook home.yml -i inventory/vagrant --tags roofcam
 # using production data
 ansible-playbook home.yml -i  ~/repos/casa-data/inventory/vagrant
 ```
+
+### PROD
+
+```bash
+ansible-playbook -i ~/repos/casa-data/inventory/prod --tags node_exporter --limit controller home.yml
+
+# Only run 'node_exporter' tag against target energy_tracker host
+ansible-playbook -i ~/repos/casa-data/inventory/prod --tags node_exporter --limit energy* home.yml
+```

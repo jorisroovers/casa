@@ -14,10 +14,7 @@ blackbox_exporter_docker_image: "prom/blackbox-exporter:v0.12.0"
 blackbox_exporter_port: 9115
 blackbox_exporter_host: "{{casa_ip}}"
 
-node_exporter_service: "{{prometheus_user}}@prometheus-node-exporter"
+recreate_containers: no
+
 node_exporter_port: 9100
 node_exporter_host: "{{casa_ip}}"
-
-node_exporter_textfile_exports: "{{prometheus_dir}}/textfile_exports"
-
-recreate_containers: no

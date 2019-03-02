@@ -59,10 +59,6 @@
   tags:
     - prometheus-container
 
-- import_tasks: node_exporter.yml
-  tags:
-    - prometheus-node-exporter
-
 - name: Starting alertmanager docker container
   docker_container:
     name: prometheus-alertmanager

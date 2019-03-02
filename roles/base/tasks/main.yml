@@ -38,8 +38,9 @@
 
 - name: "Installing rg"
   shell: >
-    curl -L  https://github.com/BurntSushi/ripgrep/releases/download/0.7.1/ripgrep-0.7.1-x86_64-unknown-linux-musl.tar.gz | tar zxv;
-    cp ripgrep-0.7.1-x86_64-unknown-linux-musl/rg /usr/bin/rg
+    curl -L {{rg_download_url}} -o ripgrep.tar.gz;
+    tar xvf ripgrep.tar.gz;
+    cp ripgrep*/rg /usr/bin/;
   args:
     chdir: "/tmp"
     creates: "/usr/bin/rg"
@@ -47,8 +48,8 @@
 
 - name: "Installing bat"
   shell: >
-    curl -L  https://github.com/sharkdp/bat/releases/download/v0.6.1/bat_0.6.1_amd64.deb -o bat_0.6.1_amd64.deb;
-    dpkg -i bat_0.6.1_amd64.deb
+    curl -L {{bat_download_url}} -o bat.deb;
+    dpkg -i bat.deb;
   args:
     chdir: "/tmp"
     creates: "/usr/bin/bat"

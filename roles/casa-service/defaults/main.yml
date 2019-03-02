@@ -1,3 +1,4 @@
 directory: "/opt/{{service_name}}"
 user: "{{service_name}}"
 group: "{{service_name}}"
+service: "{{user}}@{{service_name}}"

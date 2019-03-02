@@ -1,3 +1,16 @@
+- name: "Setting casa-service facts for {{service_name}}"
+  set_fact: "{{service_name}}_dir={{directory}} {{service_name}}_user={{user}} {{service_name}}_group={{group}} {{service_name}}_service={{service}}"
+
+
+- name: "{{service_name}} facts"
+  debug:
+    var: "{{ item }}"
+  with_items:
+   - "{{service_name}}_dir"
+   - "{{service_name}}_user"
+   - "{{service_name}}_group"
+   - "{{service_name}}_service"
+
 - name: Creating {{service_name}} group
   group: name="{{group}}" state=present system=yes
   become: yes

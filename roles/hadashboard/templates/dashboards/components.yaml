@@ -127,10 +127,20 @@ binary_sensor_sanity_tests:
     icon_on: fa-bullseye
     icon_off: fa-bullseye
 
-binary_sensor_node_exporter:
+binary_sensor_node_exporter_controller:
     widget_type: binary_sensor
-    title: Node Exporter
-    entity:  binary_sensor.node_exporter_up
+    title: Node Exporter Controller
+    entity: binary_sensor.node_exporter_controller_up
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
+
+
+binary_sensor_node_exporter_energy_tracker:
+    widget_type: binary_sensor
+    title: Node Exporter Energy Tracker
+    entity: binary_sensor.node_exporter_energy_tracker_up
     icon_style_active: "color: #aaff00;"
     icon_style_inactive: "color: red"
     icon_on: fa-bullseye

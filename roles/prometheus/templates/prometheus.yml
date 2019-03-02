@@ -27,7 +27,12 @@ alerting:
 scrape_configs:
   - job_name: 'Node Exporter'
     static_configs:
-      - targets: ['{{node_exporter_host}}:{{node_exporter_port}}']
+      - targets: ['{{casa_ip}}:{{node_exporter_port}}']
+        labels:
+          name: controller
+      - targets: ['{{groups["energy_tracker"][0]}}:{{node_exporter_port}}']
+        labels:
+          name: energy_tracker
 
   - job_name: 'HTTP Checks (Blackbox Exporter)'
     metrics_path: /probe
@@ -46,10 +51,6 @@ scrape_configs:
           -  http://{{casa_ip}}:{{homeassistant_port}}
         labels:
           name: homeassistant.http
-      - targets:
-          -  http://{{casa_ip}}:{{elasticsearch_api_port}}
-        labels:
-          name: elk-es.http
       - targets:
           -  http://{{casa_ip}}:{{kibana_port}}
         labels:

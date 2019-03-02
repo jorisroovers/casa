@@ -1,11 +1,19 @@
 ---
+- name: Creating node_exporter casa-service
+  include_role:
+    name: casa-service
+  vars:
+    service_name: "node_exporter"
+  become: yes
+
 - name: "Installing prometheus-node-exporter"
   shell: >
-    curl -L  https://github.com/prometheus/node_exporter/releases/download/v0.16.0/node_exporter-0.16.0.linux-amd64.tar.gz | tar zxv;
-    cp node_exporter-0.16.0.linux-amd64/node_exporter {{prometheus_dir}}/node_exporter
+    curl -L  {{node_exporter_download_url}} -o node_exporter.tar.gz;
+    tar xvf node_exporter.tar.gz;
+    cp node_exporter*/node_exporter {{node_exporter_dir}}/node_exporter
   args:
     chdir: "/tmp"
-    creates: "{{prometheus_dir}}/node_exporter"
+    creates: "{{node_exporter_dir}}/node_exporter"
   become: yes
 
 - name: Installing prometheus-node-exporter systemd service
@@ -16,7 +24,7 @@
   become: yes
 
 - name: Creating textfile exports directory
-  file: dest={{node_exporter_textfile_exports}} state=directory owner={{prometheus_user}} group={{prometheus_group}} mode=o+w
+  file: dest={{node_exporter_textfile_exports}} state=directory owner={{node_exporter_user}} group={{node_exporter_group}} mode=o+w
   become: yes
 
 # NOTE: Don't expose node-exporter IPs, that data can be accessed through prometheus

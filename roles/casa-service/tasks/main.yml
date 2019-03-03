@@ -1,15 +1,16 @@
 - name: "Setting casa-service facts for {{service_name}}"
-  set_fact: "{{service_name}}_dir={{directory}} {{service_name}}_user={{user}} {{service_name}}_group={{group}} {{service_name}}_service={{service}}"
+  set_fact: "{{service_varname}}_dir={{directory}} {{service_varname}}_user={{user}} {{service_varname}}_group={{group}} {{service_varname}}_service={{service}}"
 
+  # "The variable name 'casa-tests_dir' is not valid. Variables must start with a letter or underscore character, and contain only letters, numbers and underscores."
 
 - name: "{{service_name}} facts"
   debug:
     var: "{{ item }}"
   with_items:
-   - "{{service_name}}_dir"
-   - "{{service_name}}_user"
-   - "{{service_name}}_group"
-   - "{{service_name}}_service"
+   - "{{service_varname}}_dir"
+   - "{{service_varname}}_user"
+   - "{{service_varname}}_group"
+   - "{{service_varname}}_service"
 
 - name: Creating {{service_name}} group
   group: name="{{group}}" state=present system=yes

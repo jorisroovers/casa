@@ -82,7 +82,23 @@
   vars:
     backup_type: "influxdb"
     script_content: "{{lookup('template', './templates/influxdb-backup.sh')}}"
-    backup_min_size: "{{ 2 * 1024 * 1024 }}"
+    backup_min_size: "{{ 650 * 1024 }}"
   tags:
     - influxdb-backup
     - backups
+
+- name: Installing influxdb-backup-restore-check.sh
+  template: src=influxdb-backup-restore-check.sh dest="{{backups_dir}}/influxdb"
+            owner={{backups_user}} group={{backups_group}} mode=u+x
+  become: yes
+  tags:
+  - influxdb-backup
+  - backups
+
+- name: "Adding cronjob for influxdb-backup-restore-check"
+  cron: name="Periodic influxdb-backup-restore-check run" minute="*/60"
+        job="{{backups_dir}}/influxdb/influxdb-backup-restore-check.sh >> {{backups_dir}}/influxdb/influxdb-backup-restore-check.log 2>&1"
+        user={{backups_user}}
+  tags:
+  - influxdb-backup
+  - backups

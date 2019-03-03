@@ -29,3 +29,4 @@
   roles:
     - { role: base, tags: ['base']}
     - { role: prometheus_node_exporter, tags: ['node_exporter']}
+    - { role: ser2net, tags: ['ser2net']}

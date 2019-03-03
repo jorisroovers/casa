@@ -14,7 +14,8 @@ This is a list of things I'm considering to add to casa.
 - Fix stats dashboard on grafana
 - Add artists playlists to HaDashboard
   - E.g. Select artist, then hit "play button"
-- Upgrade Homeassistant to latest version
+- InfluxDB backup restores
+- Re-add raspberry pi, incl monitoring
 
 ## Fixes
 - Fix washing machine
@@ -26,12 +27,12 @@ This is a list of things I'm considering to add to casa.
 - Alexa shopping list sync
 - Update HaDash phone dashboards
 - Upstairs scenes: packing, working
-
+- Upgrade Homeassistant to latest version
+- https://www.home-assistant.io/components/utility_meter/
 
 ## Aspirational improvements
 - Zwave playing
 - Automated Thermostats
-- Re-add raspberry pi, incl monitoring
 - Energy use monitoring 
 
 ## Other
@@ -58,11 +59,9 @@ This is a list of things I'm considering to add to casa.
 
 - Laptop checks:
   - Spotify playing
+
 - Runkeeper API: https://github.com/mko/runkeeper-js
   -> Stats wrt workouts etc
-
-### Old TODO (no longer relevant)
-- Force state update on Nest after changing state through python-nest command
 
 
 ## Automation Ideas
@@ -139,8 +138,9 @@ curl: (7) Failed to connect to $SAMSUNGTV_IP port 8001: Connection refused
 
 
 ## InfluxDB:
-```
-export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)";
+```bash
+export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)"; export INFLUX_HOST="$HASS_IP";
+
 echo "export INFLUX_USERNAME=\"$INFLUX_USERNAME\"; export INFLUX_PASSWORD=\"$INFLUX_PASSWORD\";"
 influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD"
 # Examples
@@ -150,6 +150,10 @@ use mydatabase;
 show series; # recall, influx doesn't have tables, it has timeseries
 
 influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD" -execute "show databases"
+
+
+influx -ssl --unsafeSsl -username "$INFLUX_USERNAME" -password "$INFLUX_PASSWORD" -host "$INFLUX_HOST"  -execute "show databases"
+
 ```
 
 ## python-nest
@@ -268,13 +272,6 @@ https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu
 
 
 IPv6 traffic?
-
-## DSMR
-
-Use ser2net: 
-```bash
-sudo apt install ser2net -y
-```
 
 
 ## Sonos-http-api

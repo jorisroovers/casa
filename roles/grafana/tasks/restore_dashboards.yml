@@ -1,5 +1,5 @@
 - name: "Determining filename of latest grafana backup"
-  shell: "ls /opt/networkshare/auto_backups/$(ls /opt/networkshare/auto_backups/ | tail -n 1)/grafana*"
+  shell: "ls {{backups_external_copy_path}}/$(ls {{backups_external_copy_path}}/ | tail -n 1)/grafana*"
   register: grafana_backup_path
 
 - debug:

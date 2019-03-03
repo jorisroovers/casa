@@ -1,4 +1,5 @@
 node_exporter_download_url: "https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-amd64.tar.gz"
 
+node_exporter_dir: "/opt/node_exporter" # needed for backup ch
 node_exporter_textfile_exports: "{{node_exporter_dir}}/textfile_exports"
 node_exporter_service: "{{node_exporter_user}}@node_exporter"

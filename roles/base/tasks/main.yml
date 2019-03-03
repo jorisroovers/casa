@@ -94,6 +94,10 @@
     src: simple-server.py
     dest: "{{tools_dir}}/simple-server.py"
 
+- name: Make /tmp world writable (generally useful when interacting with /tmp)
+  file: path=/tmp mode=o+rw
+  become: yes
+
 - name: "Installing basic IP Tables rules"
   include_tasks: install_iptable_rules.yml
   become: yes

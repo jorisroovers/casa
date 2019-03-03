@@ -205,6 +205,10 @@ sensor:
     - platform: postnl
       username: "{{postnl_username}}"
       password: "{{postnl_password}}"
+    - platform: dsmr
+      host: "{{groups["energy_tracker"][0]}}"
+      port: "{{ser2net_public_port}}"
+      dsmr_version: 4
     - platform: google_travel_time
       api_key: {{google_travel_time_api_key}}
       origin: {{google_travel_time_origin}}

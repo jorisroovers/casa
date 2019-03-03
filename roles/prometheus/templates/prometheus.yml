@@ -29,10 +29,10 @@ scrape_configs:
     static_configs:
       - targets: ['{{casa_ip}}:{{node_exporter_port}}']
         labels:
-          name: controller
+          src: controller
       - targets: ['{{groups["energy_tracker"][0]}}:{{node_exporter_port}}']
         labels:
-          name: energy_tracker
+          src: energy_tracker
 
   - job_name: 'HTTP Checks (Blackbox Exporter)'
     metrics_path: /probe

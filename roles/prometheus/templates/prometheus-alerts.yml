@@ -93,16 +93,15 @@ groups:
 - name: Node Exporter - Controller
   rules:
     - alert: node_exporter.controller.up
-      expr: "up{job='Node Exporter',name='controller'} == 0"
+      expr: "up{job='Node Exporter',src='controller'} == 0"
       for: 30s
       labels:
         severity: page
 
-
 - name: Node Exporter - Energy Tracker
   rules:
     - alert: node_exporter.energy_tracker.up
-      expr: "up{job='Node Exporter',name='energy_tracker'} == 0"
+      expr: "up{job='Node Exporter',src='energy_tracker'} == 0"
       for: 30s
       labels:
         severity: page

@@ -1,0 +1,2 @@
+ser2net_serial_device: /dev/ttyUSB0
+ser2net_public_port: 2001

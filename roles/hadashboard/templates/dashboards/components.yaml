@@ -1,4 +1,12 @@
 ############################################
+# Navigation                               #
+############################################
+
+reload:
+    widget_type: reload
+    title: Reload
+
+############################################
 # Monitoring                               #
 ############################################
 monitoring_checks_status:
@@ -393,6 +401,7 @@ sonos:
     entity: media_player.living_room
     level_down_style: "font-size: 200%"
     level_up_style: "font-size: 200%"
+    step: 5
 
 music_party:
     widget_type: mode
@@ -578,7 +587,7 @@ artist_play:
     selectcontainer_style: "overflow: visible !important;"
 
 #######################################################################
-# UPSTAIRS MUSIC                                                      #
+# Bathroom                                                      #
 #######################################################################
 
 bathroom_music_morning:
@@ -614,6 +623,14 @@ bathroom_music_relax:
         service: input_select/select_option
         entity_id: input_select.bathroom_music
         option: "Bathroom NoMusic"
+
+bathroom_temperature:
+    widget_type: sensor
+    title: Badkamer
+    precision: 1
+    entity: sensor.aeotec_zw100_multisensor_6_temperature
+    value_style: "font-size: 400%; color: #f1c40f"
+    unit_style: "color: #f1c40f"
 
 ####################################
 # Cameras                          #
@@ -778,3 +795,30 @@ trash_pickup:
     entity: sensor.afvalwijzer_next_pickup
     container_style: "font-size: 150% !important; text-transform: uppercase;"
     sub_entity: sensor.afvalwijzer_next_pickup.pickup_date
+
+package_delivery:
+    title: Post
+    widget_type: sensor
+    entity: sensor.postnl
+    value_style: "font-size: 400% !important; text-transform: uppercase; color: #fff;"
+    units: ""
+
+outside_temperature:
+    widget_type: sensor
+    title: Buiten Temperatuur
+    precision: 1
+    entity: sensor.br_temperature
+    value_style: "font-size: 500%"
+
+living_room_temperature:
+    widget_type: sensor
+    title: Binnen Temperatuur
+    precision: 1
+    entity: sensor.living_room_thermostat_temperature
+    value_style: "font-size: 500%; color: #f1c40f"
+    unit_style: "color: #f1c40f"
+
+weather:
+    widget_type: entitypicture
+    title: Weer
+    entity: sensor.br_symbol_highres

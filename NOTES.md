@@ -16,6 +16,9 @@ This is a list of things I'm considering to add to casa.
   - E.g. Select artist, then hit "play button"
 - InfluxDB backup restores
 - Re-add raspberry pi, incl monitoring
+- Sound 5%
+- Bathroom motion turn in lights of Home
+- Siri maps navigate home
 
 ## Fixes
 - Fix washing machine
@@ -28,12 +31,18 @@ This is a list of things I'm considering to add to casa.
 - Update HaDash phone dashboards
 - Upstairs scenes: packing, working
 - Upgrade Homeassistant to latest version
-- https://www.home-assistant.io/components/utility_meter/
 
 ## Aspirational improvements
-- Zwave playing
 - Automated Thermostats
-- Energy use monitoring 
+- Energy use monitoring: https://www.home-assistant.io/components/utility_meter/
+- Light washok
+- Light attic incl switch for other lights, but how disable switch
+- Standing bulb bureau avond
+- Touchpad sensitiviteit
+- Siri shortcut ETA home
+- Lakens Verschonen sensor
+- Lights kelder
+- Siris auto backups?
 
 ## Other
 
@@ -328,49 +337,6 @@ source activate .venv36 # conda env
 cd tests  # important to be inside the tests directory!
 pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" tests/
 ```
-
-## Tradfri issue
-
-
-```
-2018-05-23 04:02:21 WARNING (MainThread) [homeassistant.components.sensor.tradfri] Observation failed for TRADFRI motion sensor
-Traceback (most recent call last):
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 92, in _get_response
-    r = yield from pr.response
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/aiocoap/protocol.py", line 816, in _run_outer
-    yield from cls._run(app_request, response, weak_observation, protocol, log, exchange_monitor_factory)
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/aiocoap/protocol.py", line 865, in _run
-    blockresponse = yield from blockrequest.response
-aiocoap.error.RequestTimedOut
-```
-
-```
-Traceback (most recent call last):
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/entity.py", line 196, in async_update_ha_state
-    yield from self.async_device_update()
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/helpers/entity.py", line 317, in async_device_update
-    yield from self.async_update()
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/homeassistant/components/light/tradfri.py", line 153, in async_update
-    await self._api(self._group.update())
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 152, in request
-    result = yield from self._execute(api_commands)
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 142, in _execute
-    _, res = yield from self._get_response(msg)
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 97, in _get_response
-    yield from self._reset_protocol(e)
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/pytradfri/api/aiocoap_api.py", line 79, in _reset_protocol
-    yield from protocol.shutdown()
-  File "/opt/homeassistant/.venv/lib/python3.6/site-packages/aiocoap/protocol.py", line 133, in shutdown
-    for exchange_monitor, cancellable in self._active_exchanges.values():
-AttributeError: 'NoneType' object has no attribute 'values'
-```
-
-https://github.com/ggravlingen/pytradfri/blob/master/pytradfri/api/aiocoap_api.py#L79
-
-
-Probably should keep eye on https://aiocoap.readthedocs.io/en/latest/news.html for newer versions.
-
-
 
 # Prometheus
 Add basic auth through nginx (or envoy?): https://prometheus.io/docs/guides/basic-auth/

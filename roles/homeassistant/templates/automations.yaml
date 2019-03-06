@@ -264,6 +264,21 @@
         entity_id: input_select.bathroom_music
         option: "Bathroom NoMusic"
 
+- alias: Bathroom Auto Enter - Daytime
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.aeotec_zw100_multisensor_6_sensor
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_select.house_mode
+      state: 'Home'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomEnter"
+
 - alias: Bathroom Enter
   initial_state: True
   trigger:

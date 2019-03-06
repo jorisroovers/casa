@@ -5,21 +5,6 @@ columns: 8
 
 {% include "./templates/dashboards/components.yaml" %}
 
-outside_temperature:
-    widget_type: sensor
-    title: Buiten Temperatuur
-    precision: 1
-    entity: sensor.br_temperature
-    value_style: "font-size: 400%"
-
-living_room_temperature:
-    widget_type: sensor
-    title: Binnen Temperatuur
-    precision: 1
-    entity: sensor.living_room_thermostat_temperature
-    value_style: "font-size: 400%; color: #f1c40f"
-    unit_style: "color: #f1c40f"
-
 humidity:
     widget_type: sensor
     title: Binnen Vochtigheid
@@ -30,7 +15,7 @@ humidity:
 
 rijtijd_ilse:
     widget_type: sensor
-    title: Rijtijd Ilse
+    title: Reistijd Ilse
     precision: 0
     entity: sensor.rijtijd_werk_ilse
     value_style: "font-size: 350%"
@@ -43,9 +28,9 @@ clock:
 
 # Note: every row needs to be present in the layout, even if empty
 layout:
-    - clock(4x1), house_mode(3x1), monitoring_checks_status(1x1)
-    - living_room_temperature(2x1), outside_temperature(2x1), home(1x1), away(1x1), sleep(1x1), joris_working(1x1)
-    - humidity(1x1), rijtijd_ilse(1x1), sonos(2x2), washing_machine_status(1x1), dryer_status(1x1), watch_tv(1x1), trash_pickup(1x1)
+    - clock(2x1), living_room_temperature(2x1), house_mode(3x1), monitoring_checks_status(1x1)
+    - humidity(1x1), weather(1x1), outside_temperature(2x1), home(1x1), away(1x1), sleep(1x1), joris_working(1x1)
+    - washing_machine_status(1x1), dryer_status(1x1), sonos(2x2), watch_tv(1x1), rijtijd_ilse(1x1), package_delivery(1x1), trash_pickup(1x1)
     - breakfast(1x1), cooking(1x1), kitchen_light(2x1), woonkamer_tv_light(1x1), tv_table_light(1x1)
     - relaxing(1x1), reading(1x1), light_dinner_table(2x1), living_room_light(1x1), light_living_ambience(1x1), light_office(1x1), desk_light(1x1)
     - include: navigation_panel

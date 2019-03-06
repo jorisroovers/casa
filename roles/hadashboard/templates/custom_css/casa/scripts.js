@@ -128,6 +128,25 @@ $(document).ready(function () {
     // for Safari on initial load, Chrome will need the DOMSubtreeModified event as the initial content is empty
     colorizeDrivingTime();
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // PACKAGE DELIVERY COLORIZATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Drive Time value colorization
+    function colorizePackageDelivery(e) {
+        let packageCount = parseInt($("#default-package-delivery .value").html());
+        if (packageCount > 0) {
+            $(".widget-basedisplay-default-package-delivery").css("background", "#d88014");
+        } else {
+            $(".widget-basedisplay-default-package-delivery").css("background", "");
+        }
+    }
+
+    $("#default-package-delivery .value").bind('DOMSubtreeModified', colorizePackageDelivery);
+    // for Safari on initial load, Chrome will need the DOMSubtreeModified event as the initial content is empty
+    colorizePackageDelivery();
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TRASH COLORIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -85,6 +85,6 @@ reload:
 # Note: every row needs to be present in the layout, even if empty
 layout:
     - clock(4x1), house_mode(2x1), reload(1x1), monitoring_checks_status(1x1)
-    - home(2x2), away(2x2), sleep(2x2), rijtijd_ilse(2x1)
+    - home(2x2), away(2x2), sleep(2x2), rijtijd_ilse(1x1), trash_pickup(1x1)
     - outside_temperature(2x1)
     - front_garden_camera(4x3), back_garden_camera(4x3)

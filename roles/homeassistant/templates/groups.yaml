@@ -13,8 +13,8 @@ lights_downstairs:
    - light.kitchen
    - light.office
    - switch.desk_lamp
-   - switch.christmas_tree
-   - switch.christmas_ambience_office
+  #  - switch.christmas_tree
+  #  - switch.christmas_ambience_office
 
 lights_downstairs_automatic:
   name: "Automatically controlled downstairs lights"
@@ -29,9 +29,9 @@ lights_outside:
     - light.lamp_voordeur_1
     - light.garden
 
-lights_christmas:
-  name: "Christmas lights"
-  view: no
-  entities:
-    - switch.christmas_tree
-    - switch.christmas_ambience_office
+# lights_christmas:
+#   name: "Christmas lights"
+#   view: no
+#   entities:
+#     - switch.christmas_tree
+#     - switch.christmas_ambience_office

@@ -246,9 +246,11 @@ $(document).ready(function () {
 // Disable scrolling on iOS
 // https://stackoverflow.com/questions/7768269/ipad-safari-disable-scrolling-and-bounce-effect
 // Instead scroll becomes a click
+// TODO: consider: https://makandracards.com/makandra/51956-event-order-when-clicking-on-touch-devices
 var lastMovedTime = Date.now()
 document.ontouchmove = function (event) {
     event.preventDefault();
+    event.stopPropagation();
 
     // Only turn scroll into a click for the first scroll event we get
     // A real scroll on iOS will invoke this function multiple times, typically a few tens of msec apart.
@@ -257,7 +259,7 @@ document.ontouchmove = function (event) {
     let lastMovedDelta = Date.now() - lastMovedTime;
     lastMovedTime = Date.now();
     console.log(lastMovedDelta);
-    if (lastMovedDelta > 100) {
+    if (lastMovedDelta > 1000) {
         event.target.click();
     }
 };

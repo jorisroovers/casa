@@ -6,6 +6,8 @@ homeassistant:
 # Discover some devices automatically
 # discovery:
 
+system_health:
+
 # Set API Password
 http:
   api_password: {{homeassistant_http.api_password}}
@@ -92,8 +94,6 @@ weblink:
 scene: !include scenes.yaml
 
 media_player:
-  # - platform: sonos  # Deprecated
-  - platform: cast # Chromecast
   - platform: samsungtv
     host: {{samsungtv_host}}
     port: 8001
@@ -156,11 +156,6 @@ light:
       - light.hal_lamp_3
 
 switch:
-{% for switch_name, ip_address in tplink_switches.iteritems() %}
-  - platform: tplink
-    name: {{switch_name}}
-    host: {{ip_address}}
-{% endfor %}
   - platform: flux
     mode: mired
     lights:
@@ -183,11 +178,6 @@ sensor:
          - type: load_5m
          - type: load_15m
          - type: processor_use
-    - platform: fastdotcom
-      minute:
-         - 1
-         - 21
-         - 41
     - platform: filter
       name: "filtered deskheight"
       entity_id: sensor.deskheight

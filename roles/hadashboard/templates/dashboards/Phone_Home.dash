@@ -1,5 +1,5 @@
 title: Home
-widget_dimensions: [123, 123]
+widget_dimensions: [130, 130]
 widget_margins: [5, 5]
 columns: 3
 
@@ -18,5 +18,5 @@ layout:
     - bathroom_music_morning(1x1), bathroom_music_relax(1x1), bathroom_temperature(1x1)
     - watch_tv(1x1), reading(1x1), cooking(1x1)
     - breakfast(1x1), relaxing(1x1), monitoring_checks_status(1x1)
-    - reload(1x1)
+    - reload(1x1), light.nachttafel_joris(1x1)
     - include: Phone_navigation_panel

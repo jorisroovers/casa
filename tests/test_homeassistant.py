@@ -47,6 +47,17 @@ def test_light_naming_convention(hass_states):
 
 
 @pytest.mark.sanity
+def test_scene_entities(hass_states):
+    """ Tests that all entities in all scenes actually exist, this catches scene misconfigurations. """
+    all_entity_ids = [i['entity_id'] for i in hass_states]
+    for item in hass_states:
+        if item['entity_id'].startswith("scene."):
+            for member_entity_id in item['attributes']['entity_id']:
+                if not member_entity_id in all_entity_ids:
+                    assert member_entity_id in all_entity_ids
+
+
+@pytest.mark.sanity
 def test_group_entities(hass_states):
     """ Tests that all entities in all groups actually exist, this catches group misconfigurations. """
 

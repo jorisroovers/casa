@@ -7,7 +7,7 @@ home_nav:
 controls_nav:
     widget_type: navigate
     title: Controls
-    icon_inactive: fa-dashboard
+    icon_inactive: fa-tachometer-alt
     url: /Phone_Controls
 
 more_nav:

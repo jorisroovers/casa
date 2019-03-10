@@ -30,7 +30,7 @@
 # Probably because cron is using /bin/sh and not /bin/bash
 # https://unix.stackexchange.com/questions/27289/how-can-i-run-a-cron-command-with-existing-environmental-variables
 - name: "Adding cronjobs for afvalwijzer"
-  cron: name="Afvalwijzer fetch" minute="*/1" job=". {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer_env.sh; {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer.py  >> {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer.log 2>&1" user={{homeassistant_user}}
+  cron: name="Afvalwijzer fetch" minute="*/5" job=". {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer_env.sh; {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer.py  >> {{homeassistant_sensors_dir}}/afvalwijzer/afvalwijzer.log 2>&1" user={{homeassistant_user}}
   become: yes
 
 - name: "Adding cronjobs for ps4_presence"

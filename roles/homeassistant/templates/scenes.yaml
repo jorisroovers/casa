@@ -78,11 +78,11 @@
         state: off
     light.living_room:
         state: off
-    light.eetkamer:
+    light.dining_table:
         state: on
     light.kitchen:
         state: off
-    light.kantoor:
+    light.office:
         state: off
     input_select.downstairs_music:
         option: Breakfast
@@ -98,7 +98,7 @@
         state: on
         kelvin: 2200
         brightness_pct: 20
-    light.kantoor:
+    light.office:
         state: off
     light.living_room:
         state: off
@@ -119,10 +119,10 @@
         option: Christmas
     input_select.camera_preset:
         option: Home
-    switch.christmas_tree:
-        state: on
-    switch.christmas_ambience_office:
-        state: on
+    # switch.christmas_tree:
+    #     state: on
+    # switch.christmas_ambience_office:
+    #     state: on
 
 - name: Relaxing
   entities:
@@ -133,7 +133,7 @@
         state: on
         kelvin: 2200
         brightness_pct: 20
-    light.kantoor:
+    light.office:
         state: off
     light.living_room:
         state: off
@@ -192,7 +192,7 @@
   entities:
     group.lights_outside:
         state: off
-    light.kantoor:
+    light.office:
         state: on
     light.nachttafel_joris:
         state: off
@@ -230,10 +230,10 @@
         brightness_pct: 20
         # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
         # and not kantoor_sfeer_verlichting
-    switch.christmas_tree:
-        state: on
-    switch.christmas_ambience_office:
-        state: on
+    # switch.christmas_tree:
+    #     state: on
+    # switch.christmas_ambience_office:
+    #     state: on
 
 - name: Midnight
   entities:
@@ -272,7 +272,7 @@
 
 - name: Working
   entities:
-    light.kantoor:
+    light.office:
         state: on
     switch.desk_lamp:
         state: on
@@ -291,7 +291,7 @@
   entities:
     light.bathroom_group:
         state: on
-    switch.bathroom_mirror:
+    switch.bathroom_mirror_light:
         state: on
 
 - name: BathroomLeave
@@ -300,7 +300,7 @@
         option: "Bathroom NoMusic"
     light.bathroom_group:
         state: off
-    switch.bathroom_mirror:
+    switch.bathroom_mirror_light:
         state: off
 
 - name: RelaxingShower

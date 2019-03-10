@@ -11,6 +11,7 @@
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
     - { role: prometheus, tags: ['prometheus', 'prom']}
     - { role: prometheus_node_exporter, tags: ['node_exporter']}
+    - { role: prometheus_process_exporter, tags: ['process_exporter', 'process-exporter']}
     # - { role: sensu, tags: ['sensu']} # depends-on: influxdb
     - { role: backups, tags: ['backup', 'backups']} # depends-on: sensu
     - { role: elk_logstash, tags: ['elk', 'logstash']}

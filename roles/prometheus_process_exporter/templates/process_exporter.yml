@@ -1,0 +1,22 @@
+process_names:
+  - name: "node_exporter"
+    exe:
+      - node_exporter
+  - name: "homeassistant"
+    cmdline:
+      - homeassistant
+  - name: "logstash"
+    cmdline:
+     - logstash
+  - name: "influxd"
+    exe:
+     - influxd
+  - name: "prometheus"
+    exe:
+     - prometheus
+  - name: "appdaemon"
+    cmdline:
+     - appdaemon
+  - name: "chrome"
+    exe:
+     - chrome

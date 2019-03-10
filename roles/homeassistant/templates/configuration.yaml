@@ -235,6 +235,23 @@ sensor:
           entity_picture_template: "{{ states.sensor.br_symbol.attributes.entity_picture | replace('30x30', '300x300') }}"
           {% endraw %}
 
+        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+
+        postnl_enroute:
+          friendly_name: "postnl enroute"
+          {% raw %}
+          value_template: >-
+            {% set ns = namespace(shipments=0) %}
+            {% for shipment in state_attr('sensor.postnl', 'shipments') %}
+              {% if not shipment['status']['isDelivered'] %}
+               {% set ns.shipments=ns.shipments+1 %}
+              {% endif %}
+            {% endfor %}
+            {{ ns.shipments }}
+          {% endraw %}
+
+        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+
 binary_sensor:
   - platform: workday
     country: NL

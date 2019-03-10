@@ -1,0 +1,39 @@
+---
+- name: Creating process-exporter casa-service
+  include_role:
+    name: casa-service
+  vars:
+    service_name: "process-exporter"
+  become: yes
+
+- name: Configuring process-exporter
+  template: src=process_exporter.yml dest="{{process_exporter_dir}}/process_exporter.yml" owner={{process_exporter_user}} group={{process_exporter_group}}
+  become: yes
+
+- name: Starting process-exporter docker container
+  docker_container:
+    name: prometheus-process-exporter
+    privileged: yes
+    image: "{{process_exporter_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{process_exporter_port}}:{{process_exporter_port}}"
+    volumes:
+      - "/proc:/host/proc"
+      - "{{process_exporter_dir}}/:/config"
+    network_mode: host
+    command:
+      - "--procfs /host/proc"
+      - "-config.path /config/process_exporter.yml"
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - process-exporter-container
+
+- name: Install casa-container for process-exporter (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "pe"
+    container_name: "prometheus-process-exporter"

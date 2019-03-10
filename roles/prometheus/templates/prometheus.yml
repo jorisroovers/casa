@@ -34,6 +34,12 @@ scrape_configs:
         labels:
           src: energy_tracker
 
+  - job_name: 'Process Exporters'
+    static_configs:
+      - targets: ['{{casa_ip}}:{{process_exporter_port}}']
+        labels:
+          src: controller
+
   - job_name: 'HTTP Checks (Blackbox Exporter)'
     metrics_path: /probe
     params:

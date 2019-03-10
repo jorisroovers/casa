@@ -391,6 +391,7 @@ ps4_presence:
     entity: binary_sensor.ps4_presence
     icon_on: mdi-power
     icon_off: mdi-power
+    state_text: 1
 
 #######################################################################
 # DOWNSTAIRS MUSIC                                                    #
@@ -799,7 +800,7 @@ trash_pickup:
 package_delivery:
     title: Post
     widget_type: sensor
-    entity: sensor.postnl
+    entity: sensor.postnl_enroute
     value_style: "font-size: 400% !important; text-transform: uppercase; color: #fff;"
     units: ""
 

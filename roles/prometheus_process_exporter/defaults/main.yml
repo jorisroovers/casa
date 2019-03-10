@@ -1,0 +1,2 @@
+process_exporter_docker_image: "ncabatoff/process-exporter:0.4.0"
+process_exporter_port: 9256

@@ -91,8 +91,6 @@ weblink:
     - name: HADashboard
       url: {{appdaemon_dash_url}}
 
-scene: !include scenes.yaml
-
 media_player:
   - platform: samsungtv
     host: {{samsungtv_host}}
@@ -236,7 +234,6 @@ sensor:
           {% endraw %}
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-
         postnl_enroute:
           friendly_name: "postnl enroute"
           {% raw %}
@@ -248,6 +245,22 @@ sensor:
               {% endif %}
             {% endfor %}
             {{ ns.shipments }}
+          {% endraw %}
+
+        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+        postnl_details:
+          friendly_name: "PostNL Shipment Details"
+          {% raw %}
+          value_template: >-
+            {% if states("sensor.postnl") | int > 0 %}
+              <ol>
+              {%- for shipment in state_attr('sensor.postnl', 'shipments') %}
+                {%- if not shipment['status']['isDelivered'] %}
+                  <li>[{{ shipment['recipient']['fullName'] }}] {{ shipment['title'] }}</li>
+                {%- endif %}
+              {%- endfor %}
+              </ol>
+            {% endif %}
           {% endraw %}
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
@@ -275,14 +288,14 @@ binary_sensor:
       washing_machine:
         friendly_name: "Washing Machine"
         {% raw %}
-        value_template: "{{ states.switch.washing_machine.attributes.current_power_w | float > 100 }}"
+        value_template: "{{ states.switch.washing_machine.attributes.current_power_w | float > 2 }}"
         {% endraw %}
 
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'
       dryer:
         friendly_name: "Dryer"
         {% raw %}
-        value_template: "{{ states.switch.dryer.attributes.current_power_w | float > 100 }}"
+        value_template: "{{ states.switch.dryer.attributes.current_power_w | float > 2 }}"
         {% endraw %}
 
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'
@@ -370,6 +383,7 @@ input_select:
     initial: Bathroom NoMusic
     options:
       - Bathroom Relaxing
+      - Bathroom Happy
       - Bathroom Morning
       - Bathroom NoMusic
   camera_preset:
@@ -391,25 +405,13 @@ input_boolean:
     name: Ilse PTO
     initial: off
 
-script: !include scripts.yaml
-
-######################
-##  CONFIG EDITOR   ##
-#####################
-
 # Enable config editor
 config:
 
+script: !include scripts.yaml
+
 group: !include groups.yaml
 
-#zwave:
-#  device_config: !include zwave_device_config.yaml
+scene: !include_dir_merge_list scenes/
 
-
-###################
-##  AUTOMATION   ##
-##################
-
-# Include the automation editor:
-automation: !include automations.yaml
-
+automation: !include_dir_merge_list automations/

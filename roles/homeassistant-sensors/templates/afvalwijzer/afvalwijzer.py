@@ -88,22 +88,36 @@ next_pickup_plastic = next((i for i in trash_pickups if (i[0] >= now and i[1] ==
 next_pickup_gft = next((i for i in trash_pickups if (i[0] >= now and i[1] == "gft")), None)
 next_pickup_paper = next((i for i in trash_pickups if (i[0] >= now and i[1] == "papier")), None)
 
-next_pickup_sensor = {}
 
+#######################################################################################################################
+# Create homeassistant sensors
+
+# Next pickup
 payload = {
     "state": next_pickup[1],
     "attributes": {
-        "friendly_name": "afvalwijzer_next_pickup",
+        "friendly_name": "afvalwijzer_next_pickup_" + next_pickup[1],
         "pickup_time": next_pickup[0].timestamp(),
         "pickup_date": next_pickup[0].strftime("%Y-%m-%d"),
         "pickup_type": next_pickup[1],
         "updated": now.timestamp()
     }
 }
-
 create_sensor("sensor", "afvalwijzer_next_pickup", payload)
 
-print("NEXT", next_pickup)
-print("next plastic", next_pickup_plastic)
-print("next gft", next_pickup_gft)
-print("next paper", next_pickup_paper)
+# Next pickups for specific trash types
+next_trash_pickups = [next_pickup_plastic, next_pickup_gft, next_pickup_paper]
+
+for pickup in next_trash_pickups:
+
+    payload = {
+        "state": pickup[1],
+        "attributes": {
+            "friendly_name": "afvalwijzer_next_pickup_" + pickup[1],
+            "pickup_time": pickup[0].timestamp(),
+            "pickup_date": pickup[0].strftime("%Y-%m-%d"),
+            "pickup_type": pickup[1],
+            "updated": now.timestamp()
+        }
+    }
+    create_sensor("sensor", "afvalwijzer_next_pickup_" + pickup[1], payload)

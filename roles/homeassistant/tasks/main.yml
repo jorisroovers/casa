@@ -8,14 +8,21 @@
         home={{homeassistant_dir}} createhome=no system=yes # Not a login user
   become: yes
 
-- name: Creating homeassistant directory
-  file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
+- name: Creating homeassistant directories
+  file: path="{{item}}" state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
   become: yes
+  with_items:
+    - "{{homeassistant_dir}}"
+    - "{{homeassistant_dir}}/automations"
+    - "{{homeassistant_dir}}/scenes"
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
-   - automations.yaml
+    - automations/automations.yaml
+    - automations/hallway.yaml
+    - automations/house_mode.yaml
+    - automations/bathroom.yaml
   notify:
     - reload_homeassistant_automations
     # - restart_homeassistant
@@ -37,7 +44,7 @@
   with_items:
    - configuration.yaml
    - groups.yaml
-   - scenes.yaml
+   - scenes/scenes.yaml
    - scripts.yaml
 #   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
    - phue.conf # No longer neccessary?

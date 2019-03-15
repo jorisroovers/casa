@@ -7,6 +7,14 @@
   notify: restart_sshd
   become:  yes
 
+- name: "Modifying sudoers file to extend sudoers timeout for user '{{ansible_ssh_user}}'"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'Defaults:{{ansible_ssh_user}} timestamp_timeout=30'
+    validate: visudo -cf %s
+  become: yes
+
 - name: Only run "apt update_cache=yes" if we last did so more than 3600 seconds ago
   apt: update_cache=yes cache_valid_time=3600
   become: yes

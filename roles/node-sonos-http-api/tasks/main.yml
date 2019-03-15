@@ -54,6 +54,7 @@
     - { src: "downstairs.json", dest: "marco_borsato.json", favorite: "This Is Marco Borsato" }
     # Bathroom
     - { src: "upstairs.json", dest: "bathroom_morning.json", favorite: "Morning Motivation" }
+    - { src: "upstairs.json", dest: "bathroom_happy.json", favorite: "Happy Hits!" }
     - { src: "upstairs.json", dest: "bathroom_relaxing.json", favorite: "Relax & Unwind" }
     - { src: "nomusic.json", dest: "bathroom_nomusic.json", players: ["Bathroom"] }
   notify:

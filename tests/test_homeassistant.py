@@ -35,6 +35,15 @@ def test_automations_on(hass_states):
 
 
 @pytest.mark.sanity
+def test_no_invalid_config(hass_states):
+    """ Test that there are no persistent_notification.invalid_config messages """
+
+    for item in hass_states:
+        invalid_config_error = item['entity_id'].startswith("persistent_notification.invalid_config")
+        assert not invalid_config_error, item['attributes']['message']
+
+
+@pytest.mark.sanity
 def test_light_naming_convention(hass_states):
     """ Test that all light friendly names match onto their entity ids.
         We enforce this convention in casa as mismatches are often a cause of the wrong

@@ -224,6 +224,9 @@
   entities:
     group.lights_outside:
         state: on
+    light.office:
+        state: on
+        kelvin: 2000
     light.living_ambience_lamp_1:
         state: on
         kelvin: 2200
@@ -269,6 +272,9 @@
         option: NoMusic
     light.kitchen:
         state: off
+    light.office:
+        state: on
+        kelvin: 3500
 
 - name: Working
   entities:
@@ -294,6 +300,24 @@
     switch.bathroom_mirror_light:
         state: on
 
+- name: BathroomEnterEvening
+  entities:
+    light.bathroom_group:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    switch.bathroom_mirror_light:
+        state: on
+
+- name: BathroomEnterDay
+  entities:
+    light.bathroom_group:
+        state: on
+        kelvin: 2500
+        brightness_pct: 75
+    switch.bathroom_mirror_light:
+        state: on
+
 - name: BathroomLeave
   entities:
     input_select.bathroom_music:
@@ -307,3 +331,21 @@
   entities:
     input_select.bathroom_music:
         option: "Bathroom Relaxing"
+
+################################################################################
+# Hallway                                                                      #
+################################################################################
+
+- name: HallwayEvening
+  entities:
+    light.hallway:
+        state: on
+        kelvin: 1500
+        brightness_pct: 10
+
+- name: HallwayDay
+  entities:
+    light.hallway:
+        state: on
+        kelvin: 2500
+        brightness_pct: 75

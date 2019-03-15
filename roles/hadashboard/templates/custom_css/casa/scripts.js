@@ -21,7 +21,7 @@ function navigate(uri) {
 
 
 $(document).ready(function () {
-    $("#default-monitoring-checks-status").click(function () {
+    $("#default-monitoring-checks-status, #default-package-delivery").click(function () {
         if (window.location.pathname.indexOf("Phone") >= 0) {
             window.location.href = "/Phone_Monitoring?skin=casa&timeout=120&return=Phone_Home"
         } else {
@@ -127,7 +127,6 @@ $(document).ready(function () {
     $("#default-rijtijd-ilse .value, #default-rijtijd-ilse .unit").bind('DOMSubtreeModified', colorizeDrivingTime);
     // for Safari on initial load, Chrome will need the DOMSubtreeModified event as the initial content is empty
     colorizeDrivingTime();
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PACKAGE DELIVERY COLORIZATION

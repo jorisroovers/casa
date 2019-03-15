@@ -11,6 +11,6 @@ layout:
     - monitoring_checks_status(1x1), binary_sensor_google(1x1), binary_sensor_logstash(1x1), binary_sensor_kibana(1x1), binary_sensor_sonos_http_api(1x1), binary_sensor_backup_copy(1x1)
     - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1),  binary_sensor_tradfri_hub(1x1), binary_sensor_phue_hub(1x1), binary_sensor_sanity_tests(1x1), binary_sensor_node_exporter_controller(1x1), binary_sensor_node_exporter_energy_tracker(1x1)
     - housekeeping(1x1), joris_pto(1x1), ilse_pto(1x1)
-    - spacer(8x1)
+    - package_delivery_details(5x1)
     - spacer(8x1)
     - include: navigation_panel

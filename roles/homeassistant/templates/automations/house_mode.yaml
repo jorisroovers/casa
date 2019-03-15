@@ -1,0 +1,67 @@
+################################################################################
+# House Mode                                                                   #
+################################################################################
+- alias: Automatically set scene for House Mode
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+  action:
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_preset
+        option: NoPreset
+    - delay: 00:00:25    # Wait a bit, then try again, in case there was a light that didn't turn off
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
+
+- alias: Automatically Turn on come home evening scene when arriving home after sunset
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    from: "Away"
+    to: "Home"
+  condition:
+   - condition: or
+     conditions:
+       - condition: sun
+         after: sunset
+       - condition: sun   # Only do this after midnight when it's not morning yet
+         before: sunrise
+  action:
+    - service: scene.turn_on
+      entity_id: scene.ComeHomeEvening
+
+- id: auto_home_on_start_work
+  alias: 'Automatically set house_mode to home when turning on the office light in the morning'
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.joris_working
+      to: 'on'
+    - platform: state
+      entity_id: light.office
+      to: 'on'
+  condition:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.house_mode
+        state: 'Sleeping'
+      - condition: time
+        after: '05:00:00'
+        before: '18:00:00'
+  action:
+    # - service: notify.slack
+    #   data:
+    #     message: |
+    #           Good Morning, enjoy your day!
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: "Home"

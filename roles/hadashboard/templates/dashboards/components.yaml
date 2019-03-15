@@ -625,6 +625,23 @@ bathroom_music_relax:
         entity_id: input_select.bathroom_music
         option: "Bathroom NoMusic"
 
+bathroom_music_happy:
+    widget_type: mode
+    title: Bathroom Happy
+    icon_on: fa-smile
+    icon_off: fa-smile
+    icon_style_active: "color: #FFD700;"
+    entity: input_select.bathroom_music
+    mode: "Bathroom Happy"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.bathroom_music
+        option: "Bathroom Happy"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.bathroom_music
+        option: "Bathroom NoMusic"
+
 bathroom_temperature:
     widget_type: sensor
     title: Badkamer
@@ -740,6 +757,16 @@ light_living_ambience:
     level_up_style: "font-size: 140%"
     icon_style_active: "color: #e8e178;"
 
+light_nightstand_joris:
+    widget_type: light
+    entity: light.nachttafel_joris
+    title: Nightstand Joris
+    icon_on: mdi-floor-lamp
+    icon_off: mdi-floor-lamp
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
 ####################################
 # Misc                             #
 ####################################
@@ -802,6 +829,13 @@ package_delivery:
     widget_type: sensor
     entity: sensor.postnl_enroute
     value_style: "font-size: 400% !important; text-transform: uppercase; color: #fff;"
+    units: ""
+
+package_delivery_details:
+    title: Post
+    widget_type: sensor
+    entity: sensor.postnl_details
+    container_style: "text-align: left; padding-top: 15px; padding-left: 45px; line-height: 125%; font-size: 170%;"
     units: ""
 
 outside_temperature:

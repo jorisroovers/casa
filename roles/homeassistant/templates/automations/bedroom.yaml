@@ -1,0 +1,39 @@
+- alias: Start heating in bedroom when switching on switch
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_bedroom
+      to: "on"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.living_room"
+        temperature: 26
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.hm_cc_rt_dn_oeq2416597"
+        temperature: 23
+    - service: notify.slack
+      data:
+        message: |
+              Started heating bedroom
+
+- alias: Stop heating in bedroom when switching off switch
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_bedroom
+      to: "off"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.living_room"
+        temperature: 22
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.hm_cc_rt_dn_oeq2416597"
+        temperature: 6
+    - service: notify.slack
+      data:
+        message: |
+              Stopped heating bedroom

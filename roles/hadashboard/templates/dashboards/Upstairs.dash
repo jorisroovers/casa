@@ -1,0 +1,15 @@
+title: Upstairs
+widget_dimensions: [120, 120]
+widget_margins: [5, 5]
+columns: 8
+
+{% include "./templates/dashboards/components.yaml" %}
+
+# Note: every row needs to be present in the layout, even if empty
+layout:
+    - bedroom_temperature(2x1), bedroom_heater(1x1), light_nightstand_joris(1x1)
+    - bathroom_temperature(2x1)
+    - spacer(8x1)
+    - spacer(8x1)
+    - spacer(8x1)
+    - include: navigation_panel

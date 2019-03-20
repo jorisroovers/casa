@@ -11,23 +11,9 @@ security_nav:
     icon_inactive: mdi-security-home
     url: /Phone_Security_1
 
-joris_presence:
-    widget_type: device_tracker
-    title: Joris
-    device: jorissiphone
-    icon_on: fa-male
-    icon_off: fa-male
-
-ilse_presence:
-    widget_type: device_tracker
-    title: Ilse
-    device: iphonevanilse
-    icon_on: fa-female
-    icon_off: fa-female
-
 # Note: every row needs to be present in the layout, even if empty
 layout:
-    - security_nav(1x1), joris_presence(1x1), ilse_presence(1x1)
+    - security_nav(1x1)
     - spacer(3x1)
     - spacer(3x1)
     - spacer(3x1)

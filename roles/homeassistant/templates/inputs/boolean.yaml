@@ -1,0 +1,12 @@
+cooking:
+  name: Cooking
+  initial: off
+joris_pto:
+  name: Joris PTO
+  initial: off
+ilse_pto:
+  name: Ilse PTO
+  initial: off
+heat_bedroom:
+  name: Heat Bedroom
+  initial: off

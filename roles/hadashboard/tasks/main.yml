@@ -30,6 +30,7 @@
     - appdaemon.yaml
     # - apps.yaml
     - dashboards/Home.dash
+    - dashboards/Upstairs.dash
     - dashboards/Hallway.dash
     - dashboards/Media.dash
     - dashboards/Security_1.dash

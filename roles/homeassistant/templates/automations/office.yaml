@@ -1,0 +1,39 @@
+################################################################################
+# Office                                                                       #
+################################################################################
+
+- alias: Auto-change office scene based on house-mode when office in use
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+  condition:
+    - condition: state
+      entity_id: light.office
+      state: 'on'
+  action:
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.Office{{ states('input_select.house_mode')}}{% endraw %}"
+
+- alias: Turn off Office Desk light when turning off office light
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: light.office
+      to: 'off'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.desk_lamp
+
+- alias: Turn on Office light when turning on office desk light
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: switch.desk_lamp
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.office

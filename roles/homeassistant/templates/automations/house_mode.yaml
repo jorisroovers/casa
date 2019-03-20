@@ -1,6 +1,42 @@
 ################################################################################
 # House Mode                                                                   #
 ################################################################################
+- alias: Auto-determine house mode when set to 'Auto'
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    to: "Auto"
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: |
+          {% raw %}
+          {% if is_state('binary_sensor.is_evening', 'on') %}
+            Evening
+          {% else %}
+            Day
+          {% endif %}
+          {% endraw %}
+
+- id: auto_evening_mode
+  alias: 'Automatically set HouseMode to Evening in the evening'
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.is_evening
+      to: "on"
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: "Evening"
+    - service: notify.slack
+      data:
+        message: |
+              Sun is about to set - set house mode to Evening.
+
 - alias: Automatically set scene for House Mode
   initial_state: True
   trigger:
@@ -24,8 +60,8 @@
   trigger:
     platform: state
     entity_id: input_select.house_mode
-    from: "Away"
-    to: "Home"
+    from: "Auto"
+    to: "Evening"
   condition:
    - condition: or
      conditions:
@@ -64,4 +100,4 @@
     - service: input_select.select_option
       data_template:
         entity_id: input_select.house_mode
-        option: "Home"
+        option: "Day"

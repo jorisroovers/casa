@@ -7,9 +7,9 @@ columns: 3
 
 # Note: every row needs to be present in the layout, even if empty
 layout:
-    - sleep(1x1), home(1x1), away(1x1)
-    - bathroom_music_morning(1x1), bathroom_music_relax(1x1), bathroom_music_happy(1x1)
-    - watch_tv(1x1), reading(1x1), bathroom_temperature(1x1)
-    - breakfast(1x1), relaxing(1x1), cooking(1x1)
+    - day(1x1), evening(1x1), sleep(1x1)
+    - bathroom_music_morning(1x1), bathroom_music_relax(1x1), away(1x1)
+    - bathroom_music_happy(1x1), bathroom_temperature(1x1), bedroom_temperature(1x1)
+    - bedroom_heater(1x1), breakfast(1x1), relaxing(1x1)
     - reload(1x1), light_nightstand_joris(1x1), monitoring_checks_status(1x1)
     - include: Phone_navigation_panel

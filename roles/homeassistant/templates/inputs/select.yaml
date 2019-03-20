@@ -1,0 +1,64 @@
+house_mode:
+  name: House mode
+  options:
+    - Day
+    - Evening
+    - Sleeping
+    - Away
+    - Auto
+  initial: Day
+  icon: mdi:home
+music_artist_select:
+  name: Artist
+  options:
+    - Alabama Shakes
+    - Bruce Springsteen
+    - Bruno Mars
+    - Celine Dion
+    - Coldplay
+    - Kensington
+    - Marco Borsato
+  icon: mdi:music
+living_preset:
+  name: Living Scene
+  options:
+    - NoPreset
+    - Romance
+    - Christmas
+    - Relaxing
+    - Watching TV
+    - Breakfast
+    - Reading
+downstairs_music:
+  name: Downstairs Music
+  initial: NoMusic
+  icon: mdi:music
+  options:
+    - Breakfast
+    - Party
+    - Pop
+    - Lounge
+    - Romance
+    - Christmas
+    - Coffee Bar
+    - Relaxing
+    - Disney
+    - Dinner With Friends
+    - Reading # Reading doesn't have associated music in sonos (nor does it stop the music)
+    - NoMusic
+bathroom_music:
+  name: Bathroom Music
+  icon: mdi:music
+  initial: Bathroom NoMusic
+  options:
+    - Bathroom Relaxing
+    - Bathroom Happy
+    - Bathroom Morning
+    - Bathroom NoMusic
+camera_preset:
+  name: Camera Preset
+  initial: Home
+  icon: mdi:camcorder
+  options:
+    - All On
+    - Home

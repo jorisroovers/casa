@@ -118,9 +118,23 @@ hue:
       allow_unreachable: true
       allow_hue_groups: true
 
+
 tradfri:
   host: {{tradfri_ip}}
   # allow_tradfri_groups: true # Doesn't seem to work anymore?, use light groups below
+
+homematic:
+  interfaces:
+    rf:
+      host: "{{homematic_controller_ip}}"
+      resolvenames: json
+      username: "{{homematic_controller_username}}"
+      password: "{{homematic_controller_password}}"
+  hosts:
+    ccu2:
+      host: "{{homematic_controller_ip}}"
+      username: "{{homematic_controller_username}}"
+      password: "{{homematic_controller_password}}"
 
 # Creating own groups so we can control all lights at once, working around
 # this and other issues:
@@ -256,10 +270,12 @@ sensor:
               <ol>
               {%- for shipment in state_attr('sensor.postnl', 'shipments') %}
                 {%- if not shipment['status']['isDelivered'] %}
-                  <li>[{{ shipment['recipient']['fullName'] }}] {{ shipment['title'] }}</li>
+                  <li>[{{ shipment['recipient']['fullName'] | regex_replace("Roovers|heer|t\.a\.v\. Joris", "") | trim  }}] {{ shipment['title'] }}</li>
                 {%- endif %}
               {%- endfor %}
               </ol>
+            {% else %}
+            No packages en route
             {% endif %}
           {% endraw %}
 
@@ -307,6 +323,16 @@ binary_sensor:
           {% raw %}{{ ((now().isoweekday() == 1) and (now().hour >= 12 and now().hour < 16))
               or ((now().isoweekday() == 5) and (now().hour >= 12 and now().hour < 14)) }}{% endraw %}
 
+      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+      is_evening:
+        friendly_name: "Is Evening"
+        entity_id: sensor.time
+
+        # Evening: hour before next sunset OR if  next sunset > midnight (i.e. next sunset is taking place next day)
+        value_template: >-
+          {% raw %}{{ ( as_timestamp(states.sun.sun.attributes.next_setting) > as_timestamp(states.sun.sun.attributes.next_midnight) ) or
+                 ( as_timestamp(now()) > (as_timestamp(states.sun.sun.attributes.next_setting) - (0.75*3600)) ) }}{% endraw %}
+
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
 
 nest:
@@ -330,80 +356,9 @@ shell_command:
     restart_sonos: '/usr/bin/sudo /bin/systemctl restart {{sonos_http_api_service}}'
     samsungtv_send_key: '/usr/bin/samtvcli --server {{samsungtv_host}} --session-id 1 --session-key {{samsungtv_session_key}} key {% raw %}{{key}}{% endraw %}'
 
-input_select:
-  house_mode:
-    name: House mode
-    options:
-     - Home
-     - Away
-     - Sleeping
-    initial: Home
-    icon: mdi:home
-  music_artist_select:
-    name: Artist
-    options:
-     - Alabama Shakes
-     - Bruce Springsteen
-     - Bruno Mars
-     - Celine Dion
-     - Coldplay
-     - Kensington
-     - Marco Borsato
-    icon: mdi:music
-  living_preset:
-    name: Living Scene
-    options:
-      - NoPreset
-      - Romance
-      - Christmas
-      - Relaxing
-      - Watching TV
-      - Breakfast
-      - Reading
-  downstairs_music:
-    name: Downstairs Music
-    initial: NoMusic
-    icon: mdi:music
-    options:
-      - Breakfast
-      - Party
-      - Pop
-      - Lounge
-      - Romance
-      - Christmas
-      - Coffee Bar
-      - Relaxing
-      - Disney
-      - Dinner With Friends
-      - Reading # Reading doesn't have associated music in sonos (nor does it stop the music)
-      - NoMusic
-  bathroom_music:
-    name: Bathroom Music
-    icon: mdi:music
-    initial: Bathroom NoMusic
-    options:
-      - Bathroom Relaxing
-      - Bathroom Happy
-      - Bathroom Morning
-      - Bathroom NoMusic
-  camera_preset:
-    name: Camera Preset
-    initial: Home
-    icon: mdi:camcorder
-    options:
-      - All On
-      - Home
+input_select: !include inputs/select.yaml
 
-input_boolean:
-  cooking:
-    name: Cooking
-    initial: off
-  joris_pto:
-    name: Joris PTO
-    initial: off
-  ilse_pto:
-    name: Ilse PTO
-    initial: off
+input_boolean: !include inputs/boolean.yaml
 
 # Enable config editor
 config:

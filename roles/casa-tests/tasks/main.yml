@@ -54,7 +54,7 @@
     validate: visudo -cf %s
   become: yes
   with_items:
-    - {"user": "root", "command": "/usr/bin/docker run casa-tests *"}
+    - {"user": "root", "command": "/usr/bin/timeout * docker run casa-tests *"}
 
 # Run casa-tests every 5 min
 - name: "Adding cronjob for  script"

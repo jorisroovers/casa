@@ -18,10 +18,29 @@
     input_boolean.cooking:
         state: off
 
-- name: Home
+- name: Day
   entities:
     input_select.camera_preset:
         option: Home
+
+- name: Evening
+  entities:
+    input_select.camera_preset:
+        option: Home
+    group.lights_outside:
+        state: on
+    light.living_ambience_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+        # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
+        # and not kantoor_sfeer_verlichting
+
+    # switch.christmas_tree:
+    #     state: on
+    # switch.christmas_ambience_office:
+    #     state: on
+
 
 # When away, don't turn off lights_downstairs_automatic or group.lights_outside
 # These are controlled automatically for security reasons
@@ -220,24 +239,6 @@
 # Evenings                                                                     #
 ################################################################################
 
-- name: Sunset
-  entities:
-    group.lights_outside:
-        state: on
-    light.office:
-        state: on
-        kelvin: 2000
-    light.living_ambience_lamp_1:
-        state: on
-        kelvin: 2200
-        brightness_pct: 20
-        # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
-        # and not kantoor_sfeer_verlichting
-    # switch.christmas_tree:
-    #     state: on
-    # switch.christmas_ambience_office:
-    #     state: on
-
 - name: Midnight
   entities:
     group.lights_outside:
@@ -293,13 +294,6 @@
 ################################################################################
 # Bathroom                                                                     #
 ################################################################################
-- name: BathroomEnter
-  entities:
-    light.bathroom_group:
-        state: on
-    switch.bathroom_mirror_light:
-        state: on
-
 - name: BathroomEnterEvening
   entities:
     light.bathroom_group:
@@ -348,4 +342,15 @@
     light.hallway:
         state: on
         kelvin: 2500
+        brightness_pct: 75
+
+################################################################################
+# Office                                                                       #
+################################################################################
+
+- name: OfficeEvening
+  entities:
+    light.office:
+        state: on
+        kelvin: 2000
         brightness_pct: 75

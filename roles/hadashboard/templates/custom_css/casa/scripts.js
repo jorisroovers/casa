@@ -35,7 +35,8 @@ $(document).ready(function () {
         // When the house-mode changes to Home, automatically redirect to the page we were on previously
         // (fallback = Hallway)
         $("#default-house-mode .value").bind('DOMSubtreeModified', function (e) {
-            if ($("#default-house-mode .value").html().toLowerCase() == "thuis") {
+            let houseMode = $("#default-house-mode .value").html().toLowerCase();
+            if (["dag", "avond"].indexOf(houseMode) >= 0) {
                 let returnURI = getUrlParameter("returnURI");
                 if (returnURI) {
                     navigate(returnURI);
@@ -57,7 +58,7 @@ $(document).ready(function () {
                 $.post("/call_service", {
                     "service": "input_select/select_option",
                     "entity_id": "input_select.house_mode",
-                    "option": "Home",
+                    "option": "Auto",
                     "namespace": "default"
                 });
             } else {

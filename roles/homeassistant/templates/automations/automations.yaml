@@ -20,7 +20,7 @@
         entity_id: "{% raw %}scene.{{ states('input_select.living_preset') | lower | replace(' ', '_')}}{% endraw %}"
 
     # When disabling music, keep the current house mode (as this automation might be triggered by a change in
-    # house mode). When enabling music, set house mode to Home.
+    # house mode). When enabling music, set house mode to Auto.
     - service: input_select.select_option
       data_template:
         entity_id: input_select.house_mode
@@ -29,7 +29,7 @@
           {% if is_state('input_select.living_preset', 'NoPreset') %}
             {{ states('input_select.house_mode') }}
           {% else %}
-            Home
+            Auto
           {% endif %}
           {% endraw %}
 
@@ -46,27 +46,6 @@
     - service: shell_command.play_sonos_preset
       data_template:
         preset: "{% raw %}{{ states('input_select.downstairs_music') | lower | replace(' ', '_')}}{% endraw %}"
-
-################################################################################
-# "Nighttiime"                                                                 #
-################################################################################
-# - alias: Automatically edit Lux of lights
-#   initial_state: True
-#   trigger:
-#     platform: state
-#     entity_id: input_boolean.joris_pto
-#     to: "on"
-#   action:
-#     - service: input_select.select_option
-#       data:
-#         entity_id: input_select.living_preset
-#         option: "Watching TV"
-
-
-#     light.tv_staanlamp:
-#         state: on
-#         kelvin: 2200
-#         brightness_pct: 20
 
 ################################################################################
 # TV                                                                           #
@@ -273,7 +252,7 @@
     - service: input_select.select_option
       data:
         entity_id: input_select.house_mode
-        option: Home
+        option: Auto
     - service: notify.slack
       data:
         message: |
@@ -285,22 +264,6 @@
 ################################################################################
 
 - id: sunset_outdoor_lighting
-  alias: 'Turn on outdoor lighting at sunset'
-  initial_state: True
-  trigger:
-    - platform: sun
-      event: sunset
-      offset: "-00:45:00"
-  action:
-    - service: scene.turn_on
-      data:
-        entity_id: scene.Sunset
-    - service: notify.slack
-      data:
-        message: |
-              Sun is about to set - triggered Sunset scene.
-
-- id: sunset_outdoor_lighting
   alias: 'Turning off outdoor lighting at midnight'
   initial_state: True
   trigger:
@@ -310,12 +273,16 @@
     - service: scene.turn_on
       data:
         entity_id: scene.Midnight
-    # Send slack notification when home or away (not when sleeping)
+    # Send slack notification when day, evening or away (not when sleeping).
+    # Note that hass doesn't support 'not' conditions
     - condition: or
       conditions:
         - condition: state
           entity_id: "input_select.house_mode"
-          state: "Home"
+          state: "Day"
+        - condition: state
+          entity_id: "input_select.house_mode"
+          state: "Evening"
         - condition: state
           entity_id: "input_select.house_mode"
           state: "Away"
@@ -336,32 +303,6 @@
       - service: scene.turn_on
         data_template:
           entity_id: "{% raw %}{{ 'scene.Working' if is_state('binary_sensor.joris_working', 'on') else 'scene.NotWorking'}}{% endraw %}"
-
-################################################################################
-# Office                                                                       #
-################################################################################
-
-- alias: Turn off Office Desk light when turning off office light
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: light.office
-      to: 'off'
-  action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.desk_lamp
-
-- alias: Turn on Office light when turning on office desk light
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: switch.desk_lamp
-      to: 'on'
-  action:
-    - service: light.turn_on
-      data:
-        entity_id: light.office
 
 ################################################################################
 # Washing Machine/Dryer                                                        #

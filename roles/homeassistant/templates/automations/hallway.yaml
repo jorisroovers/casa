@@ -7,47 +7,7 @@
     - platform: state
       entity_id: light.hallway
       to: "on"
-  condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: "input_select.house_mode"
-          state: "Home"
-        - condition: sun
-          after: "sunset"
-          before_offset: "00:45:00"
   action:
-    - service: notify.slack
-      data:
-        message: |
-              Hallway evening
     - service: scene.turn_on
-      data:
-        entity_id: "scene.HallwayEvening"
-
-- alias: Hallway Day
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: light.hallway
-      to: "on"
-  condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: "input_select.house_mode"
-          state: "Home"
-        - condition: sun
-          after: "sunrise"
-          before_offset: "00:45:00"
-        - condition: sun
-          before: "sunset"
-          before_offset: "01:00:00"
-  action:
-    - service: notify.slack
-      data:
-        message: |
-              Hallway Daytime
-    - service: scene.turn_on
-      data:
-        entity_id: "scene.HallwayDay"
+      data_template:
+        entity_id: "{% raw %}scene.Hallway{{ states('input_select.house_mode')}}{% endraw %}"

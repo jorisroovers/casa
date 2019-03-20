@@ -324,7 +324,8 @@ house_mode:
     text_style: "text-transform: uppercase;font-size: 500%"
     entity: input_select.house_mode
     state_map:
-        Home: Thuis
+        Day: Dag
+        Evening: Avond
         Away: Weg
         Sleeping: Slapen
 
@@ -341,19 +342,33 @@ away:
         entity_id: input_select.house_mode
         option: "Away"
 
-home:
+day:
     widget_type: mode
-    title: Thuis
+    title: Dag
     entity: input_select.house_mode
     icon_on: fa-unlock
     icon_off: fa-unlock
     icon_style_active: "color: #FFD700;"
-    mode: "Home"
+    mode: "Day"
     script: script.house_mode_home
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.house_mode
-        option: "Home"
+        option: "Day"
+
+evening:
+    widget_type: mode
+    title: Avond
+    entity: input_select.house_mode
+    icon_on: mdi-weather-sunset
+    icon_off: mdi-weather-sunset
+    icon_style_active: "color: #FFD700;"
+    mode: "Evening"
+    script: script.house_mode_home
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.house_mode
+        option: "Evening"
 
 sleep:
     widget_type: mode
@@ -647,7 +662,7 @@ bathroom_temperature:
     title: Badkamer
     precision: 1
     entity: sensor.aeotec_zw100_multisensor_6_temperature
-    value_style: "font-size: 400%; color: #f1c40f"
+    value_style: "font-size: 375%; color: #f1c40f"
     unit_style: "color: #f1c40f"
 
 ####################################
@@ -684,6 +699,26 @@ roofcam_camera:
     entity_picture: {{roofcam_entity_picture}}
     refresh: {{camera_widget_refresh_rate}}
 
+########################################
+# Upstairs                             #
+########################################
+
+bedroom_temperature:
+    title: Slaapkamer
+    widget_type: sensor
+    precision: 1
+    entity: climate.hm_cc_rt_dn_oeq2416597.current_temperature
+    value_style: "font-size: 375%; color: #f1c40f"
+    unit_style: "color: #f1c40f"
+    sub_entity: climate.hm_cc_rt_dn_oeq2416597.temperature
+
+bedroom_heater:
+    widget_type: input_boolean
+    title: Slaapkamer verwarming
+    entity: input_boolean.heat_bedroom
+    icon_on: mdi-radiator
+    icon_off: mdi-radiator
+    icon_style_active: "color: #ef5353;"
 
 ####################################
 # Lights                           #
@@ -818,7 +853,7 @@ roofcam_status:
     value_style: "font-size: 150%;"
 
 trash_pickup:
-    title: Trash
+    title: Afval
     widget_type: sensor
     entity: sensor.afvalwijzer_next_pickup
     container_style: "font-size: 150% !important; text-transform: uppercase;"
@@ -840,18 +875,19 @@ package_delivery_details:
 
 outside_temperature:
     widget_type: sensor
-    title: Buiten Temperatuur
+    title: Buiten
     precision: 1
     entity: sensor.br_temperature
     value_style: "font-size: 500%"
 
 living_room_temperature:
     widget_type: sensor
-    title: Binnen Temperatuur
+    title: Living
     precision: 1
     entity: sensor.living_room_thermostat_temperature
     value_style: "font-size: 500%; color: #f1c40f"
     unit_style: "color: #f1c40f"
+    sub_entity: sensor.living_room_thermostat_target
 
 weather:
     widget_type: entitypicture

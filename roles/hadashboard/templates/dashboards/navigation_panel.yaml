@@ -1,6 +1,6 @@
 home_nav:
     widget_type: navigate
-    title: Hoofdpaneel
+    title: Home
     icon_inactive: fa-home
     icon_active: fa-home
     url: /Home
@@ -29,13 +29,19 @@ security_nav:
 
 hallway_nav:
     widget_type: navigate
-    title: Hall
+    title: Hal
     icon_inactive: mdi-door-closed
     dashboard: Hallway
+
+upstairs:
+    widget_type: navigate
+    title: Boven
+    icon_inactive: mdi-stairs
+    dashboard: Upstairs
 
 reload:
     widget_type: reload
     title: Reload
 
 layout:
-  - home_nav(1x1), media_nav(1x1), security_nav(1x1), hallway_nav(1x1), reload(1x1)
+  - home_nav(1x1), media_nav(1x1), security_nav(1x1), hallway_nav(1x1), upstairs(1x1), reload(1x1)

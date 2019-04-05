@@ -7,9 +7,9 @@ columns: 8
 
 # Note: every row needs to be present in the layout, even if empty
 layout:
-    - bedroom_temperature(2x1), bedroom_heater(1x1), light_nightstand_joris(1x1)
-    - bathroom_temperature(2x1)
-    - spacer(8x1)
+    - bedroom_temperature(2x1), bedroom_heater(1x1), light_nightstand_joris(1x1), light_nightstand_ilse(1x1)
+    - bathroom_temperature(2x1), bathroom_light(1x1), bathroom_mirror_light(1x1), light_laundry_room(1x1)
+    - bathroom_media_player(2x2)
     - spacer(8x1)
     - spacer(8x1)
     - include: navigation_panel

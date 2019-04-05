@@ -7,8 +7,8 @@ columns: 3
 
 layout:
     - monitoring_checks_status(1x1), binary_sensor_google(1x1), binary_sensor_logstash(1x1)
-    - binary_sensor_sonos_http_api(1x1)
-    - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1), binary_sensor_backup_copy(1x1)
-    - spacer(3x1)
+    - binary_sensor_sonos_http_api(1x1), binary_sensor_backup_copy(1x1), binary_sensor_sanity_tests(1x1)
+    - binary_sensor_node_exporter_controller(1x1), binary_sensor_node_exporter_energy_tracker(1x1), binary_sensor_tradfri_hub(1x1)
+    - smoke_alarm_downstairs(1x1), smoke_alarm_upstairs(1x1), binary_sensor_phue_hub(1x1)
     - reload(1x1), spacer(3x1)
     - include: Phone_navigation_panel

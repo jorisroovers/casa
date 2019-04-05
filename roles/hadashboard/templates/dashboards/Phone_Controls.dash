@@ -13,6 +13,6 @@ layout:
     - sonos(3x2)
     - spacer(2x1)
     - woonkamer_tv_light(1x1), living_room_light(1x1), light_dinner_table(1x1)
-    - kitchen_light(1x1), light_office(1x1), cooking(1x1)
-    - reload(1x1), watch_tv(1x1), reading(1x1)
+    - kitchen_light(1x1), light_office(1x1), bathroom_light(1x1)
+    - reload(1x1), light_laundry_room(1x1)
     - include: Phone_navigation_panel

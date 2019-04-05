@@ -44,6 +44,12 @@ groups:
       for: 30s
       labels:
         severity: page
+    - alert: homematic.hub
+      expr: "probe_success{name='homematic.icmp'} == 0"
+      for: 30s
+      labels:
+        severity: page
+
 
 - name: Homeassistant
   rules:
@@ -102,6 +108,11 @@ groups:
   rules:
     - alert: node_exporter.energy_tracker.up
       expr: "up{job='Node Exporter',src='energy_tracker'} == 0"
+      for: 30s
+      labels:
+        severity: page
+    - alert: energy_tracker.ser2net
+      expr: "probe_success{name='energy_tracker.ser2net'} == 0"
       for: 30s
       labels:
         severity: page

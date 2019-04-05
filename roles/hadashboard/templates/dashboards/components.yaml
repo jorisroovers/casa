@@ -606,6 +606,13 @@ artist_play:
 # Bathroom                                                      #
 #######################################################################
 
+bathroom_media_player:
+    widget_type: media_player
+    entity: media_player.bathroom
+    level_down_style: "font-size: 200%"
+    level_up_style: "font-size: 200%"
+    step: 5
+
 bathroom_music_morning:
     widget_type: mode
     title: Bathroom Morning
@@ -798,6 +805,36 @@ light_nightstand_joris:
     title: Nightstand Joris
     icon_on: mdi-floor-lamp
     icon_off: mdi-floor-lamp
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
+light_nightstand_ilse:
+    widget_type: light
+    entity: light.nachttafel_ilse
+    title: Nightstand Ilse
+    icon_on: mdi-floor-lamp
+    icon_off: mdi-floor-lamp
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
+bathroom_light:
+    widget_type: light
+    title: Bathroom
+    entity: light.bathroom_group
+    icon_style_active: "color: #e8e178;"
+
+bathroom_mirror_light:
+    widget_type: switch
+    title: Bathroom Mirror
+    entity: switch.bathroom_mirror_light
+    icon_style_active: "color: #e8e178;"
+
+light_laundry_room:
+    widget_type: light
+    entity:  light.laundry_room_lamp_1
+    title: Laundry Room
     level_down_style: "font-size: 140%"
     level_up_style: "font-size: 140%"
     icon_style_active: "color: #e8e178;"

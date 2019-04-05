@@ -29,6 +29,16 @@ lights_outside:
     - light.lamp_voordeur_1
     - light.garden
 
+lights_upstairs:
+  name: "Lights Upstairs"
+  view: no
+  entities:
+    - light.bathroom_group
+    - light.nachttafel_ilse
+    - light.nachttafel_joris
+    - light.laundry_room_lamp_1
+    - switch.bathroom_mirror_light
+
 # lights_christmas:
 #   name: "Christmas lights"
 #   view: no

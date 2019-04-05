@@ -25,6 +25,7 @@
     - automations/house_mode.yaml
     - automations/bathroom.yaml
     - automations/bedroom.yaml
+    - automations/laundryroom.yaml
     - automations/office.yaml
   notify:
     - reload_homeassistant_automations

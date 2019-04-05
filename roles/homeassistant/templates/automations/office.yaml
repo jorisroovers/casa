@@ -5,8 +5,11 @@
 - alias: Auto-change office scene based on house-mode when office in use
   initial_state: True
   trigger:
-    platform: state
-    entity_id: input_select.house_mode
+    - platform: state
+      entity_id: input_select.house_mode
+    - platform: state
+      entity_id: light.office
+      to: 'on'
   condition:
     - condition: state
       entity_id: light.office

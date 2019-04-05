@@ -59,6 +59,13 @@
   tags:
     - prometheus-container
 
+- name: Install casa-container for prometheus (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "prom"
+    container_name: "prometheus"
+
 - name: Starting alertmanager docker container
   docker_container:
     name: prometheus-alertmanager
@@ -77,6 +84,13 @@
   tags:
     - alertmanager-container
 
+- name: Install casa-container for prometheus (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "alertmanager"
+    container_name: "prometheus-alertmanager"
+
 - name: Starting blackbox-exporter docker container
   docker_container:
     name: prometheus-blackbox-exporter
@@ -94,6 +108,13 @@
   become: yes
   tags:
     - blackbox-exporter-container
+
+- name: Install casa-container for prometheus (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "be"
+    container_name: "prometheus-blackbox-exporter"
 
 # NOTE: Don't expose blackbox-exporter or node-exporter IPs, that data can be accessed through prometheus
 - name: "Add iptable rule for prometheus"

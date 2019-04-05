@@ -28,7 +28,7 @@
     - service: climate.set_temperature
       data:
         entity_id: "climate.living_room"
-        temperature: 22
+        temperature: 21
     - service: climate.set_temperature
       data:
         entity_id: "climate.hm_cc_rt_dn_oeq2416597"

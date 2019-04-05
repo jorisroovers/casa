@@ -1,7 +1,7 @@
 ################################################################################
 # Hallway Mode                                                                 #
 ################################################################################
-- alias: Hallway evening
+- alias: Hallway Time of Day
   initial_state: True
   trigger:
     - platform: state
@@ -11,3 +11,14 @@
     - service: scene.turn_on
       data_template:
         entity_id: "{% raw %}scene.Hallway{{ states('input_select.house_mode')}}{% endraw %}"
+
+- alias: Toilet Time of Day
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: light.wc_beneden_lamp_1
+      to: "on"
+  action:
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.Toilet{{ states('input_select.house_mode')}}{% endraw %}"

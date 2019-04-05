@@ -14,8 +14,8 @@ security_nav:
 # Note: every row needs to be present in the layout, even if empty
 layout:
     - security_nav(1x1)
-    - spacer(3x1)
-    - spacer(3x1)
+    - relaxing(1x1), cooking(1x1)
+    - breakfast(1x1), watch_tv(1x1), reading(1x1)
     - spacer(3x1)
     - romance(1x1), reload(1x1)
     - include: Phone_navigation_panel

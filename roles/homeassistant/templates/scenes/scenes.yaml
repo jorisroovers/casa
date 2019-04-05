@@ -17,6 +17,8 @@
         option: All On
     input_boolean.cooking:
         state: off
+    input_select.living_preset:
+        option: NoPreset
 
 - name: Day
   entities:
@@ -48,6 +50,8 @@
   entities:
     group.lights_downstairs:
         state: off
+    group.lights_upstairs:
+        state: off
     input_select.downstairs_music:
         option: NoMusic
     input_select.bathroom_music:
@@ -56,6 +60,8 @@
         state: off
     input_select.camera_preset:
         option: All On
+    input_select.living_preset:
+        option: NoPreset
 
 ################################################################################
 # Living Scenes                                                                #
@@ -213,6 +219,7 @@
         state: off
     light.office:
         state: on
+        kelvin: 3500
     light.nachttafel_joris:
         state: off
     light.kitchen:
@@ -233,6 +240,10 @@
     input_select.bathroom_music:
         option: Bathroom Morning
     light.bathroom_group:
+        state: on
+        kelvin: 3000
+        brightness_pct: 100
+    switch.bathroom_mirror_light:
         state: on
 
 ################################################################################
@@ -344,6 +355,20 @@
         kelvin: 2500
         brightness_pct: 75
 
+- name: ToiletDay
+  entities:
+    light.wc_beneden_lamp_1:
+        state: on
+        kelvin: 2500
+        brightness_pct: 100
+
+- name: ToiletEvening
+  entities:
+    light.wc_beneden_lamp_1:
+        state: on
+        kelvin: 1500
+        brightness_pct: 10
+
 ################################################################################
 # Office                                                                       #
 ################################################################################
@@ -354,3 +379,21 @@
         state: on
         kelvin: 2000
         brightness_pct: 75
+
+################################################################################
+# Laundry                                                                      #
+################################################################################
+
+- name: LaundryDay
+  entities:
+    light.laundry_room_lamp_1:
+        state: on
+        kelvin: 2500
+        brightness_pct: 100
+
+- name: LaundryEvening
+  entities:
+    light.laundry_room_lamp_1:
+        state: on
+        kelvin: 1500
+        brightness_pct: 10

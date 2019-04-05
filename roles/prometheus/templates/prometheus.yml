@@ -76,7 +76,7 @@ scrape_configs:
   - job_name: 'ICMP Checks (Blackbox Exporter)'
     metrics_path: /probe
     params:
-      module: [home_hubs]
+      module: [ping]
     static_configs:
       - targets:
           - "{{phue_ip}}"
@@ -86,6 +86,10 @@ scrape_configs:
           - "{{tradfri_ip}}"
         labels:
           name: tradfri.icmp
+      - targets:
+          - "{{homematic_controller_ip}}"
+        labels:
+          name: homematic.icmp
     relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -94,5 +98,21 @@ scrape_configs:
         - target_label: __address__
           replacement: '{{blackbox_exporter_host}}:{{blackbox_exporter_port}}'  # The blackbox exporter's real hostname:port.
 
+  - job_name: 'TCP Checks (Blackbox Exporter)'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+          - '{{groups["energy_tracker"][0]}}:{{ser2net_public_port}}'
+        labels:
+          name: energy_tracker.ser2net
+    relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: '{{blackbox_exporter_host}}:{{blackbox_exporter_port}}'  # The blackbox exporter's real hostname:port.
 
 

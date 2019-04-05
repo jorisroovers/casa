@@ -37,3 +37,31 @@
 - name: "Installing docker-py"
   pip: name=docker-py
   become: yes
+
+# Add script to periodically prune docker resources
+# It's not ideal that this sits under the tools/ directory, but the alternative is having to create a special docker
+# user and directory which is not worth it.
+- name: Creating tools directory
+  file: dest={{tools_dir}} state=directory owner={{tools_user}} group={{tools_group}}
+  become: yes
+
+- name: Installing some convenience aliases
+  template: src=docker-system-prune.sh dest={{tools_dir}} owner={{tools_user}} group={{tools_group}} mode=u+x
+  become: yes
+
+- name: Modifying sudoers file so tools user can run docker prune related commands
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{tools_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "root", "command": "/usr/bin/docker system prune -f"}
+    - {"user": "root", "command": "/bin/systemctl daemon-reload"}
+
+# Run prune script every 3 hours
+- name: "Adding cronjob for script"
+  cron: name="Periodic docker prune script run" minute="15" hour="*/3" job="{{tools_dir}}/docker-system-prune.sh >> {{tools_dir}}/docker-system-prune.log 2>&1"
+        user={{tools_user}}
+  become: yes

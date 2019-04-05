@@ -1,0 +1,13 @@
+################################################################################
+# Laundry Room                                                                 #
+################################################################################
+- alias: Laundry Room Time of Day
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: light.laundry_room_lamp_1
+      to: "on"
+  action:
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.Laundryroom{{ states('input_select.house_mode')}}{% endraw %}"

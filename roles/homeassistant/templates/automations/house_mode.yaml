@@ -46,10 +46,6 @@
     - service: scene.turn_on
       data_template:
         entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.living_preset
-        option: NoPreset
     - delay: 00:00:25    # Wait a bit, then try again, in case there was a light that didn't turn off
     - service: scene.turn_on
       data_template:

@@ -204,9 +204,11 @@ sensor:
         - temperature
         - windspeed
         - pressure
+{% for account in postnl_accounts %}
     - platform: postnl
-      username: "{{postnl_username}}"
-      password: "{{postnl_password}}"
+      username: "{{ account['username'] }}"
+      password: "{{ account['password'] }}"
+{% endfor %}
     - platform: dsmr
       host: "{{groups["energy_tracker"][0]}}"
       port: "{{ser2net_public_port}}"
@@ -253,7 +255,7 @@ sensor:
           {% raw %}
           value_template: >-
             {% set ns = namespace(shipments=0) %}
-            {% for shipment in state_attr('sensor.postnl', 'shipments') %}
+            {% for shipment in state_attr('sensor.postnl', 'shipments') + state_attr('sensor.postnl_2', 'shipments') %}
               {% if not shipment['status']['isDelivered'] %}
                {% set ns.shipments=ns.shipments+1 %}
               {% endif %}
@@ -266,11 +268,11 @@ sensor:
           friendly_name: "PostNL Shipment Details"
           {% raw %}
           value_template: >-
-            {% if states("sensor.postnl") | int > 0 %}
+            {% if states("sensor.postnl") | int + states("sensor.postnl_2") | int > 0 %}
               <ol>
-              {%- for shipment in state_attr('sensor.postnl', 'shipments') %}
+              {%- for shipment in state_attr('sensor.postnl', 'shipments') + state_attr('sensor.postnl_2', 'shipments') %}
                 {%- if not shipment['status']['isDelivered'] %}
-                  <li>[{{ shipment['recipient']['fullName'] | regex_replace("Roovers|heer|t\.a\.v\. Joris", "") | trim  }}] {{ shipment['title'] }}</li>
+                <li>[{{ "Joris" if shipment in state_attr('sensor.postnl_2', 'shipments') else "Ilse" }}] {{ as_timestamp(shipment['status']['enroute']['timeframe']['from']) | timestamp_custom('%a %d %b %Y, %H:%M-')}}{{ as_timestamp(shipment['status']['enroute']['timeframe']['to']) | timestamp_custom('%H:%M')}} {{ shipment['title'] }}</li>
                 {%- endif %}
               {%- endfor %}
               </ol>

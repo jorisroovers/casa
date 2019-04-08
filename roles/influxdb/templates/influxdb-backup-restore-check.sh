@@ -11,7 +11,7 @@ INFLUX_HOST="0.0.0.0"
 
 ########################################################################################################################
 # Cleanup previous runs of this script
-echo "******  $(date) ******"
+echo "****** $(date +'%Y-%m-%d %H:%M:%S %Z') ******"
 echo "Testing out influxDB backup restoration in $TMP_DIR"
 echo -n "Cleaning up any previous backup restoration attempts..."
 rm -rf $TMP_DIR

@@ -95,61 +95,6 @@
         key: "KEY_POWEROFF"
 
 ################################################################################
-# Cooking                                                                      #
-################################################################################
-
-- alias: Automatically trigger Cooking scene when cooking enabled
-  initial_state: True
-  trigger:
-    platform: state
-    entity_id: input_boolean.cooking
-  action:
-    - service: scene.turn_on
-      data_template:
-        entity_id: "{% raw %}{{ 'scene.Cooking' if is_state('input_boolean.cooking', 'on') else 'scene.StopCooking'}}{% endraw %}"
-    # When TV is off and no other music is playing => Play some music
-    - condition: state
-      entity_id: "device_tracker.samsungtv"
-      state: "not_home"
-    - condition: state
-      entity_id: "media_player.tv_room"
-      state: "paused"
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.downstairs_music
-        option: "Dinner With Friends"
-
-- alias: Automatically disable cooking when turning off kitchen lights
-  initial_state: True
-  trigger:
-    platform: state
-    entity_id: light.kitchen
-    to: "off"
-  action:
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.cooking
-
-- alias: Automatically stop cooking in the evening after 45min if the TV is on
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: input_boolean.cooking
-      to: "on"
-  condition:
-    - condition: time
-      after: '17:30:00'
-      before: '22:00:00'
-  action:
-    - delay: 0:45
-    - condition: state
-      entity_id: "device_tracker.samsungtv"
-      state: "home"
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.cooking
-
-################################################################################
 # Mornings                                                                     #
 ################################################################################
 

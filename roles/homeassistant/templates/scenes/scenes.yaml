@@ -338,49 +338,6 @@
         option: "Bathroom Relaxing"
 
 ################################################################################
-# Hallway                                                                      #
-################################################################################
-
-- name: HallwayEvening
-  entities:
-    light.hallway:
-        state: on
-        kelvin: 1500
-        brightness_pct: 10
-
-- name: HallwayDay
-  entities:
-    light.hallway:
-        state: on
-        kelvin: 2500
-        brightness_pct: 75
-
-- name: ToiletDay
-  entities:
-    light.wc_beneden_lamp_1:
-        state: on
-        kelvin: 2500
-        brightness_pct: 100
-
-- name: ToiletEvening
-  entities:
-    light.wc_beneden_lamp_1:
-        state: on
-        kelvin: 1500
-        brightness_pct: 10
-
-################################################################################
-# Office                                                                       #
-################################################################################
-
-- name: OfficeEvening
-  entities:
-    light.office:
-        state: on
-        kelvin: 2000
-        brightness_pct: 75
-
-################################################################################
 # Laundry                                                                      #
 ################################################################################
 

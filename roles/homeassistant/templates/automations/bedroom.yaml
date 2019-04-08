@@ -37,3 +37,35 @@
       data:
         message: |
               Stopped heating bedroom
+
+- alias: Notify when heat rises above 21 degrees in bedroom when heater is on
+  initial_state: True
+  trigger:
+    - platform: numeric_state
+      entity_id: climate.hm_cc_rt_dn_oeq2416597
+      value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
+      above: 21
+  condition:
+    - condition: state
+      entity_id: "input_boolean.heat_bedroom"
+      state: "on"
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Bedroom temp heated above 21 degrees
+
+- alias: Automatically bedroom temperature operation mode to manual
+  initial_state: True
+  trigger:
+    - platform: template
+      value_template: "{% raw %}{{ states.climate.hm_cc_rt_dn_oeq2416597.attributes.operation_mode == 'auto' }}{% endraw %}"
+  action:
+    - service: climate.set_operation_mode
+      data:
+        entity_id: "climate.hm_cc_rt_dn_oeq2416597"
+        operation_mode: "manual"
+    - service: notify.slack
+      data:
+        message: |
+              Bedroom heating was changed to 'auto' mode, set back to 'manual' mode.

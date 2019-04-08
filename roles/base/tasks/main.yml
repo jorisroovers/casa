@@ -63,6 +63,15 @@
     creates: "/usr/bin/bat"
   become: yes
 
+- name: Installing fzf (1/2) - Cloning from git
+  git: repo=https://github.com/junegunn/fzf dest="{{ansible_env.HOME}}/.fzf" version="0.18.0" force=yes
+
+- name: Installing fzf (2/2) - Running installer script
+  shell: >
+    {{ansible_env.HOME}}/.fzf/install --completion --key-bindings --update-rc
+  args:
+    creates: "{{ansible_env.HOME}}/.fzf/bin/fzf"
+
 - name: "Installing more utilities (python)"
   pip: name={{item}} state=present
   with_items:

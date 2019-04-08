@@ -84,7 +84,7 @@ groups:
   rules:
     - alert: tests-sanity.status
       expr: "casa_tests_status > 0"
-      for: 30s
+      for: 90s
       labels:
         severity: page
 

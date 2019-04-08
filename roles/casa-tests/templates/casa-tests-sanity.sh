@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "****** $(date +'%Y-%m-%d %H:%M:%S %Z') ******"
 echo "Running tests..."
 echo "-----------------------------------------------------------------------------------------------------------------"
 sudo timeout 120 docker run casa-tests pytest -rw -s -m sanity --hadashboard-url http://{{casa_ip}}:{{appdaemon_port}} \

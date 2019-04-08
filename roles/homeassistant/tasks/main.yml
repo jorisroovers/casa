@@ -27,6 +27,7 @@
     - automations/bedroom.yaml
     - automations/laundryroom.yaml
     - automations/office.yaml
+    - automations/kitchen.yaml
   notify:
     - reload_homeassistant_automations
     # - restart_homeassistant
@@ -49,6 +50,8 @@
    - configuration.yaml
    - groups.yaml
    - scenes/scenes.yaml
+   - scenes/office.yaml
+   - scenes/hallway.yaml
    - inputs/boolean.yaml
    - inputs/select.yaml
    - scripts.yaml

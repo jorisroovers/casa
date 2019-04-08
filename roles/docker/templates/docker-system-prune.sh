@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "****** $(date +'%Y-%m-%d %H:%M:%S %Z') ******"
 echo "Running docker system prune..."
 sudo docker system prune -f
 echo "DONE"

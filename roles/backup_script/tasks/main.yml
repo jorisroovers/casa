@@ -8,7 +8,7 @@
             owner={{backups_user}} group={{backups_group}} mode=u+x
 
 - name: "[{{backup_type}} backup] Adding cronjob for backup script"
-  cron: name="Periodic {{backup_type}} backup" hour="*/6" minute="0" job="{{backup_script}}" user={{backups_user}}
+  cron: name="Periodic {{backup_type}} backup" hour="*/6" minute="0" job="{{backup_script}} >> {{backup_dir}}/{{backup_type}}-backup.log 2>&1" user={{backups_user}}
 
 - name: Install backup check
   include_role:

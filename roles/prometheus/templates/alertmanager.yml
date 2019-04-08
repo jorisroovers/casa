@@ -22,4 +22,4 @@ receivers:
       - channel: "{{slack_default_channel}}"
         username: "{{slack_username}}"
         api_url: "{{slack_home_room_webhook}}"
-        text: "Sonos API down"
+        text: "Placeholder text"

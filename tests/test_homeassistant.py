@@ -25,6 +25,12 @@ def test_light_groups(homeassistant_url, homeassistant_password):
             assert response.json()['state'] == state
 
 
+def test_states(hass_states):
+    """ Assert that no entities have state 'unavailable' """
+    for item in hass_states:
+        assert not item['state'] == "unavailable", "{0}.state=='unavailable'".format(item['entity_id'])
+
+
 @pytest.mark.sanity
 def test_automations_on(hass_states):
     """ Test that all automations are enabled """

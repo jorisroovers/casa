@@ -1,0 +1,8 @@
+- name: "Installing cec-utils"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - cec-utils
+
+
+# TODO: sudo usermod -a -G video $(whoami)

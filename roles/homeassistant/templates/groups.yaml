@@ -21,6 +21,7 @@ lights_downstairs_automatic:
   view: no
   entities:
     - light.living_ambience_lamp_1
+    - light.office_ambience_lamp_1
 
 lights_outside:
   name: "Lights outside"

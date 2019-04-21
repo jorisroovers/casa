@@ -84,7 +84,7 @@ groups:
   rules:
     - alert: tests-sanity.status
       expr: "casa_tests_status > 0"
-      for: 90s
+      for: 12m # sanity tests run every 5 min, don't complain until at least 2 have failed consecutively
       labels:
         severity: page
 

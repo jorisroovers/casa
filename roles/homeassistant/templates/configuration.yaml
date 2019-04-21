@@ -167,12 +167,6 @@ light:
       - light.hal_lamp_2
       - light.hal_lamp_3
 
-switch:
-  - platform: flux
-    mode: mired
-    lights:
-      - light.hal_lamp_1
-
 panel_iframe:
   roofcam:
     title: 'roofcam'
@@ -190,13 +184,6 @@ sensor:
          - type: load_5m
          - type: load_15m
          - type: processor_use
-    - platform: filter
-      name: "filtered deskheight"
-      entity_id: sensor.deskheight
-      filters:
-        - filter: lowpass
-          time_constant: 10
-          precision: 0
     - platform: buienradar
       monitored_conditions:
         - symbol
@@ -340,6 +327,10 @@ binary_sensor:
 nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
+
+emulated_hue:
+  host_ip: "{{casa_ip}}"
+  advertise_ip: "{{casa_ip}}"
 
 zwave:
   usb_path: "{{zwave_gateway_device}}"

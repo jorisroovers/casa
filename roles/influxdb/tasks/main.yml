@@ -95,8 +95,9 @@
   - influxdb-backup
   - backups
 
+# Run influxb restore check "late" in the hour, so that it doesn't conflict with any backups which happen near the start of the hour
 - name: "Adding cronjob for influxdb-backup-restore-check"
-  cron: name="Periodic influxdb-backup-restore-check run" minute="*/60"
+  cron: name="Periodic influxdb-backup-restore-check run" minute="45"
         job="{{backups_dir}}/influxdb/influxdb-backup-restore-check.sh >> {{backups_dir}}/influxdb/influxdb-backup-restore-check.log 2>&1"
         user={{backups_user}}
   tags:

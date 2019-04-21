@@ -65,7 +65,7 @@ for group in data['groups']:
         else:
             rule_alerts = None
 
-        if rule_alerts:
+        if rule_alerts == "firing":
             sensor_state = "off"
             aggregate_state = "off"
         else:

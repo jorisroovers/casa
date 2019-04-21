@@ -12,6 +12,7 @@ BACKUP_RETENTION_COUNT=3
 GREEN="\e[32m"
 NO_COLOR="\e[0m"
 ############################################################################################
+echo "****** $(date +'%Y-%m-%d %H:%M:%S %Z') ******"
 
 # Purge old backups if count is exceeded
 num_backups=$(ls -d $TARGET_PARENT_DIRECTORY/*/ | wc -l)

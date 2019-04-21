@@ -739,6 +739,25 @@ desk_light:
     icon_off: mdi-desk-lamp
     icon_style_active: "color: #e8e178;"
 
+light_office:
+    widget_type: light
+    entity: light.office
+    title: Kantoor
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
+light_office_ambience:
+    widget_type: light
+    entity: light.office_ambience_lamp_1
+    title: Kantoor Sfeer
+    icon_on: mdi-floor-lamp
+    icon_off: mdi-floor-lamp
+    level_down_style: "font-size: 140%"
+    level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+    icon_style_active: "color: #e8e178;"
+
 christmas_lights:
     widget_type: light
     title: Chrismas Lights
@@ -777,14 +796,6 @@ light_dinner_table:
     widget_type: light
     entity: light.dining_table
     title: Eet tafel
-    level_down_style: "font-size: 140%"
-    level_up_style: "font-size: 140%"
-    icon_style_active: "color: #e8e178;"
-
-light_office:
-    widget_type: light
-    entity: light.office
-    title: Kantoor
     level_down_style: "font-size: 140%"
     level_up_style: "font-size: 140%"
     icon_style_active: "color: #e8e178;"

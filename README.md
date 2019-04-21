@@ -17,6 +17,7 @@ To get an idea of some of the automations I'm using, have a look at the [homeass
 - [Setup Details](#Setup-Details)
   - [Hardware](#Hardware)
   - [Software](#Software)
+  - [Home-assistant Details](#Home-assistant-Details)
 - [Getting Started](#Getting-Started)
 
 # General Notes
@@ -108,6 +109,7 @@ Here's a list of home-automation gear I currently have around my house:
 | [Aeotec ZW100 MultiSensor](https://aeotec.com/z-wave-sensor)                     | Multi-sensor. Used to detect movement, temperature and humidity in bathroom |
 | [iPad mini (Gen 2, Gen 4)](https://www.apple.com/lae/ipad-mini/)                                                        | Wall Mounted control panels             |
 | [Raspberry Pi](https://www.raspberrypi.org/) + [DSMR](https://www.home-assistant.io/components/dsmr/)           | Raspberry Pi connected to smart energy meter for energy monitoring.  |
+| [Amazon Echo dot](https://www.amazon.com/All-new-Echo-Dot-3rd-Gen/dp/B0792KTHKJ)              | Integrated with home-assistant using the [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) component - this allows for alexa integration without exposing the stack to the internet. |
 
 
 Other gear I have that is currently not (yet) integrated in the setup:
@@ -117,7 +119,6 @@ Other gear I have that is currently not (yet) integrated in the setup:
 | [AppleTV](https://www.apple.com/lae/tv/)                                        | There are some issues with [pyatv](https://github.com/postlund/pyatv) turning on the TV randomly that prevent me from properly integrating this |
 | [Elgato Eve Window sensor](https://www.evehome.com/en/eve-door-window)          | HomeKit only. Not currently using. |
 | [Elgato Eve Power plug](https://www.evehome.com/en/eve-energy)                  | Homekit only. Reset wifi every night at 4AM to deal with linksys router firmware issue. Blue-tooth based. Ability to power cycle network gear even when whole network is down. |
-| [Amazon Echo dot](https://www.amazon.com/All-new-Echo-Dot-3rd-Gen/dp/B0792KTHKJ)              | Integration not possible without exposing homeasisstant to the internet. Still brainstorming on workarounds. |
 | [Chromecast](https://store.google.com/product/chromecast)                       | We usually use our AppleTV(s) instead. |
 
 ## Software
@@ -152,8 +153,46 @@ On many occasions there's been a need to write custom scripts to enhance functio
 | [Seshat](https://github.com/jorisroovers/seshat) | Simple set of script(s) in typescript that aggregate some metrics from InfluxDB into more interesting statistics that I can display in grafana. These run every minute via a cronjob. |
 | [roofcam](https://github.com/jorisroovers/roofcam)                 |  Simple custom python program to determine whether my flat roof has any water on it (which means the draining pipes are clogged up). Uses very simple image manipulations on screenshots to determine this. At some point I'd like to do something more advanced with ML, but the current script already is ~85% accurate on test data. Don't always have this program running.                    |
 | [Afvalwijzer](roles/homeassistant-sensors/templates/afvalwijzer/afvalwijzer.py) | Simple script to determine when the next trash pick date is (exposed as sensors in homeassistant). Scrapes the Dutch [mijnafvalwijzer.nl](https://www.mijnafvalwijzer.nl/) once every 24 hours to determine this. |
-| [Desk-height](https://github.com/jorisroovers/arduino-playground/blob/master/personal/deskheight/main/main.ino) | Simple Arduino-based sensor to determine the current height of my standing desk using an ultrasonic sensor mounted underneath it. This info is then send over to my home server which does some simple processing in logstash and home-assistant to determine whether the desk is up or down. This is then used to calculate and show standing time statistics in grafana. |
+| [Desk-height](https://github.com/jorisroovers/arduino-playground/blob/master/personal/deskheight/main/) | Simple Arduino-based sensor to determine the current height of my standing desk using an ultrasonic sensor mounted underneath it. This info is then send over to my home server which does some simple processing in logstash and home-assistant to determine whether the desk is up or down. This is then used to calculate and show standing time statistics in grafana. |
 | [Backups](https://github.com/jorisroovers/casa/tree/master/roles/backups) | Set of scripts that do periodic backups of some personal data and copy the resulting tarballs over to a Samba/CIFS network share. Each backup script also has an accompanying monitoring script that periodically verifies whether the last backup was successful. |
+
+## Home-assistant Details
+
+Here's a little more detail on the different home-assistant components that are being used.
+
+TODO: Need to spend a bit more time on documenting this.
+
+ Component                                                                        | Description         |
+| ------------------------------------------------------------------------------- | ------------------- |
+| System Health | |
+| HTTP API | |
+| Logger | |
+| InfluxDB | |
+| Notify  - Slack | |
+| Device Tracker - Nmap  | |
+| Device Tracker - Ping | |
+| Sun | |
+| Media Player - SamsungTV | |
+| Media Player - Spotify | |
+| Hue | |
+| Tradfri | |
+| HomeMatic |
+| Light - Group | |
+| Sensor - System monitor | |
+| Sensor - Buienradar | |
+| Sensor - PostNL | |
+| Sensor - DSMR | |
+| Sensor - Commandline | |
+| Sensor - Template | |
+| Binary Sensor - Workday | |
+| Binary Sensor - Template | |
+| Nest  | |
+| Emulated Hue | |
+| Zwave | |
+| Shell Command | |
+| Input Select | |
+| Input Boolean | |
+
 
 # Getting Started
 

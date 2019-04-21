@@ -37,6 +37,10 @@
         brightness_pct: 20
         # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
         # and not kantoor_sfeer_verlichting
+    light.office_ambience_lamp_1:
+        state: on
+        kelvin: 2000
+        brightness_pct: 75
 
     # switch.christmas_tree:
     #     state: on
@@ -265,6 +269,10 @@
         brightness_pct: 20
         # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
         # and not kantoor_sfeer_verlichting
+    light.office_ambience_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
     light.woonkamer_tv:
         state: on
         kelvin: 2200

@@ -1,0 +1,7 @@
+- name: daemon_reload
+  command: systemctl daemon-reload
+  become: yes
+
+- name: restart_tv_api
+  service: name={{tv_api_service}} state=restarted
+  become: yes

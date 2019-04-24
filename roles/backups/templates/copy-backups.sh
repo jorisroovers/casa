@@ -10,6 +10,7 @@ BACKUP_RETENTION_COUNT=3
 
 #  COLORS
 GREEN="\e[32m"
+RED="\e[31m"
 NO_COLOR="\e[0m"
 ############################################################################################
 echo "****** $(date +'%Y-%m-%d %H:%M:%S %Z') ******"
@@ -20,7 +21,7 @@ diff=$(($num_backups - $BACKUP_RETENTION_COUNT))
 
 if [ $diff -gt 0 ]; then
     echo "Threshold of $BACKUP_RETENTION_COUNT exceeded: cleaning up last $diff backups..."
-    for directory in $(ls -d $TARGET_PARENT_DIRECTORY/*/  | sort -r | tail -n $diff); do
+    for directory in $(ls -d $TARGET_PARENT_DIRECTORY/*/ | sort -r | tail -n $diff); do
         echo -e "  Deleting $directory"
         rm -rf "$directory"
     done
@@ -40,8 +41,15 @@ backup_types=$(ls -d $BACKUPS_DIRECTORY/*/data/)
 
 for backup_type_dir in $backup_types; do
     last_backup=$(ls ${backup_type_dir}*.tar.gz | tail -n 1)
-    echo "Copying $last_backup to $TARGET_DIRECTORY..."
-    cp "$last_backup" "$TARGET_DIRECTORY"
+    echo -n "Copying $last_backup to $TARGET_DIRECTORY..."
+    # cp "$last_backup" "$TARGET_DIRECTORY"
+    rsync -avz "$last_backup" "$TARGET_DIRECTORY"
+    COPY_STATUS=$?
+    if [ $COPY_STATUS -eq 0 ]; then
+        echo -e ${GREEN}DONE${NO_COLOR}
+    else
+        echo -e ${RED}FAIL${NO_COLOR}
+    fi
 done
 
 echo -e "${GREEN}ALL DONE${NO_COLOR}"

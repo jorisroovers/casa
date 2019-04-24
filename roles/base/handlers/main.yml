@@ -1,5 +1,5 @@
-- name: restart_sshd
-  service: name=sshd state=restarted
+- name: restart_ssh
+  service: name=ssh state=restarted
   become: yes
 
 - name: restart_logind

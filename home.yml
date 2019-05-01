@@ -22,7 +22,7 @@
     - { role: node-sonos-http-api, tags: ['sonos']}
     - { role: docker, tags: ['docker']}
     # - { role: elk_elasticsearch, tags: ['elasticsearch', 'ES', 'es']}
-    - { role: elk_kibana, tags: ['kibana']}
+    # - { role: elk_kibana, tags: ['kibana']}
     - { role: seshat, tags: ['seshat']}
     - { role: casa-tests, tags: ['casa-tests', 'tests', 'test']}
 

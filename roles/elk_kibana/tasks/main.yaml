@@ -9,14 +9,10 @@
     name: kibana
     image: "{{kibana_docker_image}}"
     state: started # Modify and restart iff config has changed
-    ports:
-      - "{{kibana_docker_http_port_internal}}:{{kibana_docker_http_port_external}}"
-    networks:
-      - name: "{{elk_docker_network_name}}"
-        ipv4_address: "{{kibana_docker_elk_network_ip_address}}"
+    network_mode: host
     env:
       SERVER_NAME: casa-kibana
-      ELASTICSEARCH_URL: "http://{{elasticsearch_docker_elk_network_ip_address}}:{{elasticsearch_api_port}}"
+      ELASTICSEARCH_URL: "http://{{kibana_elasticsearch_address}}:{{elasticsearch_api_port}}"
     recreate: "{{recreate_containers}}"
     restart_policy: unless-stopped
   become: yes

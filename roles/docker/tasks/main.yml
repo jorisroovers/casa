@@ -33,6 +33,12 @@
   with_items:
     - docker-ce
 
+# Seems to be causing some issues - will look at cAdvisor instead
+# - name: Configuring docker
+#   template: src=daemon.json dest={{docker_config_dir}}/daemon.json
+#   become: yes
+#   notify: restart_docker
+
 # Required for ansible to run docker commands
 - name: "Installing docker-py"
   pip: name=docker-py

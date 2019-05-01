@@ -5,8 +5,9 @@
   changed_when: False
   ignore_errors: yes
 
-- name: Adding NodeJS 6 package source
-  shell: "curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -"
+# See here: https://github.com/nodesource/distributions/blob/master/README.md
+- name: Adding NodeJS 10 package source
+  shell: "curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -"
   become: yes
   when: node_version|failed
 
@@ -52,6 +53,9 @@
     - { src: "downstairs.json", dest: "coldplay.json", favorite: "This Is Coldplay" }
     - { src: "downstairs.json", dest: "kensington.json", favorite: "This Is Kensington" }
     - { src: "downstairs.json", dest: "marco_borsato.json", favorite: "This Is Marco Borsato" }
+    - { src: "downstairs.json", dest: "james_morrison.json", favorite: "This Is James Morrison" }
+    - { src: "downstairs.json", dest: "kinky_boots.json", favorite: "Kinky Boots (Original Broadway Cast Recording)" }
+
     # Bathroom
     - { src: "upstairs.json", dest: "bathroom_morning.json", favorite: "Morning Motivation" }
     - { src: "upstairs.json", dest: "bathroom_happy.json", favorite: "Happy Hits!" }

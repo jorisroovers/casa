@@ -345,20 +345,20 @@
     input_select.bathroom_music:
         option: "Bathroom Relaxing"
 
-################################################################################
-# Laundry                                                                      #
-################################################################################
+# ################################################################################
+# # Laundry                                                                      #
+# ################################################################################
 
-- name: LaundryDay
-  entities:
-    light.laundry_room_lamp_1:
-        state: on
-        kelvin: 2500
-        brightness_pct: 100
+# - name: LaundryDay
+#   entities:
+#     light.laundry_room_lamp_1:
+#         state: on
+#         kelvin: 2500
+#         brightness_pct: 100
 
-- name: LaundryEvening
-  entities:
-    light.laundry_room_lamp_1:
-        state: on
-        kelvin: 1500
-        brightness_pct: 10
+# - name: LaundryEvening
+#   entities:
+#     light.laundry_room_lamp_1:
+#         state: on
+#         kelvin: 1500
+#         brightness_pct: 10

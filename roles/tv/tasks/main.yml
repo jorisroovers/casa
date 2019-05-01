@@ -20,11 +20,11 @@
     - "{{video_user}}"
     - "{{tv_api_user}}"
 
-- name: "Disable screensleep (requires reboot)"
-  lineinfile:
-    dest: /etc/lightdm/lightdm.conf
-    line: "xserver-command=X -s 0 dpms"
-  become: yes
+# - name: "Disable screensleep (requires reboot)"
+#   lineinfile:
+#     dest: /etc/lightdm/lightdm.conf
+#     line: "xserver-command=X -s 0 dpms"
+#   become: yes
 
 - name: Creating tv-api virtualenv
   command: virtualenv -p python3 {{tv_api_dir}}/.venv creates="{{tv_api_dir}}/.venv"
@@ -60,3 +60,4 @@
   notify:
     - daemon_reload
     - restart_tv_api
+  tags: tv-api-service

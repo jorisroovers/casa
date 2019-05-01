@@ -1,0 +1,3 @@
+- name: restart_docker
+  service: name={{docker_service}} state=restarted
+  become: yes

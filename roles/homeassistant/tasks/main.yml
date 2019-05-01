@@ -84,6 +84,8 @@
       - /etc/localtime:/etc/localtime:ro
     network_mode: host
     recreate: "{{recreate_containers}}"
+    env: # https://community.home-assistant.io/t/endless-insecurerequestwarning-errors-with-unifi
+        PYTHONWARNINGS: "ignore:Unverified HTTPS request"
     restart_policy: unless-stopped
     devices:
       - "{{zwave_gateway_device}}:{{zwave_gateway_device}}"

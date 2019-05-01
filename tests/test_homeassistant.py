@@ -25,10 +25,20 @@ def test_light_groups(homeassistant_url, homeassistant_password):
             assert response.json()['state'] == state
 
 
+@pytest.mark.sanity
 def test_states(hass_states):
-    """ Assert that no entities have state 'unavailable' """
+    """ Assert that no entities have state 'unavailable' that we're not expecting """
+    # Fetch group of entities that we we should ignore when they're unavailable.
+    unavailable_allowed = []
+    unavailable_allowed_group = next((item for item in hass_states
+                                      if item['entity_id'] == "group.unavailable_allowed"), False)
+    if unavailable_allowed_group:
+        unavailable_allowed = unavailable_allowed_group['attributes']['entity_id']
+
+    # For all entities not part of the list that we expect to be unavailable, assert they're not unavailable.
     for item in hass_states:
-        assert not item['state'] == "unavailable", "{0}.state=='unavailable'".format(item['entity_id'])
+        if item['entity_id'] not in unavailable_allowed:
+            assert item['state'] != "unavailable", "{0}.state=='unavailable'".format(item['entity_id'])
 
 
 @pytest.mark.sanity

@@ -3,6 +3,38 @@
  **/
 
 
+.widget-basedisplay-default-trash-details .valueunit {
+  text-align: left;
+  padding-top: 15px;
+  padding-left: 45px;
+  line-height: 125%;
+  font-size: 170%;
+}
+
+.widget-basedisplay-default-trash-details .valueunit span:first-child {
+  width: 125px;
+  padding: 0 5px;
+  display: inline-block;
+  border-radius: 5px;
+  margin-right: 15px;
+  text-align: center;
+  text-shadow: "-1px 0 white, 0 1px white, 1px 0 white, 0 -1px white";
+}
+
+.widget-basedisplay-default-trash-details .gft {
+  background: #55ad68;
+  color: #1b5e20;
+}
+
+.widget-basedisplay-default-trash-details .plastic {
+  background: #4853d2;
+  color: #202886;
+}
+
+.widget-basedisplay-default-trash-details .paper {
+  background: #d88014;
+  color: #f7ae53;
+}
 
 .camera-offline-message {
   background-color: #444;
@@ -202,8 +234,6 @@ input {
 
 .icon-active {
   color: #aaff00;
-}
-
 }
 
 #container {

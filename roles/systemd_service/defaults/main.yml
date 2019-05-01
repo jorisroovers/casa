@@ -1,4 +1,5 @@
 service_shorthand: "myservice"
+service_shorthand_clean: "{{ service_shorthand | regex_replace('-', '_')}}"
 service_name: "myservice@fullyqualified"
 service_working_dir: "/opt/{{service_shorthand}}"
 service_exec_start: "/bin/myserver"

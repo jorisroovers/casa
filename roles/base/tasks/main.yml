@@ -4,7 +4,7 @@
 
 - name: Install custom sshd_config file
   template: src=sshd_config dest=/etc/ssh/sshd_config
-  notify: restart_sshd
+  notify: restart_ssh
   become:  yes
 
 - name: "Modifying sudoers file to extend sudoers timeout for user '{{ansible_ssh_user}}'"
@@ -41,7 +41,7 @@
     - iotop
 
 - name: "Installing pip"
-  easy_install: name=pip
+  pip: name=pip
   become: yes
 
 - name: "Installing rg"

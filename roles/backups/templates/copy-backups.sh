@@ -41,9 +41,10 @@ backup_types=$(ls -d $BACKUPS_DIRECTORY/*/data/)
 
 for backup_type_dir in $backup_types; do
     last_backup=$(ls ${backup_type_dir}*.tar.gz | tail -n 1)
-    echo -n "Copying $last_backup to $TARGET_DIRECTORY..."
-    # cp "$last_backup" "$TARGET_DIRECTORY"
-    rsync -avz "$last_backup" "$TARGET_DIRECTORY"
+    backup_size=$(ls -lh $last_backup | awk '{print $5}')
+    echo -n "Copying $last_backup to $TARGET_DIRECTORY ($backup_size) ..."
+    cp "$last_backup" "$TARGET_DIRECTORY"
+    # rsync -avz "$last_backup" "$TARGET_DIRECTORY"
     COPY_STATUS=$?
     if [ $COPY_STATUS -eq 0 ]; then
         echo -e ${GREEN}DONE${NO_COLOR}

@@ -5,7 +5,9 @@ TOKEN="{{github_access_token}}"
 
 echo "Fetching list of repositories..."
 # For now, we only back up non-forked repos. This is because some of the forks are pretty large
-REPOSITORIES="$(curl -u ${USERNAME}:${TOKEN} -s "https://api.github.com/user/repos?type=owner" | jq -r '.[] | select(.fork == false) | .html_url')"
+REPOSITORIES="$(curl -u ${USERNAME}:${TOKEN} -s "https://api.github.com/user/repos?type=owner&per_page=150" | jq -r '.[] | select(.fork == false) | .html_url')"
+
+echo $REPOSITORIES | tr " " "\n"
 
 echo "Downloading repositories..."
 for repository in $REPOSITORIES; do

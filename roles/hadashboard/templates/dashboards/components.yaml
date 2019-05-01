@@ -154,6 +154,15 @@ binary_sensor_node_exporter_energy_tracker:
     icon_on: fa-bullseye
     icon_off: fa-bullseye
 
+binary_sensor_node_exporter_tv_controller:
+    widget_type: binary_sensor
+    title: Node Exporter TV Controller
+    entity: binary_sensor.node_exporter_tv_controller_up
+    icon_style_active: "color: #aaff00;"
+    icon_style_inactive: "color: red"
+    icon_on: fa-bullseye
+    icon_off: fa-bullseye
+
 smoke_alarm_downstairs:
     widget_type: binary_sensor
     title: Rookmelder Living
@@ -842,13 +851,13 @@ bathroom_mirror_light:
     entity: switch.bathroom_mirror_light
     icon_style_active: "color: #e8e178;"
 
-light_laundry_room:
-    widget_type: light
-    entity:  light.laundry_room_lamp_1
-    title: Laundry Room
-    level_down_style: "font-size: 140%"
-    level_up_style: "font-size: 140%"
-    icon_style_active: "color: #e8e178;"
+# light_laundry_room:
+#     widget_type: light
+#     entity:  light.laundry_room_lamp_1
+#     title: Laundry Room
+#     level_down_style: "font-size: 140%"
+#     level_up_style: "font-size: 140%"
+#     icon_style_active: "color: #e8e178;"
 
 ####################################
 # Misc                             #
@@ -919,6 +928,12 @@ package_delivery_details:
     widget_type: sensor
     entity: sensor.postnl_details
     container_style: "text-align: left; padding-top: 15px; padding-left: 45px; line-height: 125%; font-size: 170%;"
+    units: ""
+
+trash_details:
+    title: Afval
+    widget_type: sensor
+    entity: sensor.afvalwijzer_details
     units: ""
 
 outside_temperature:

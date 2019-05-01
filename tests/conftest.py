@@ -39,8 +39,6 @@ def driver(request):
         driver_path = os.path.abspath(request.config.getoption("--chrome-driver-path"))
         driver = webdriver.Chrome(driver_path, options=options)
 
-        print("local-host")
-
     driver.set_page_load_timeout(5)
 
     # Make sure we call driver.quit() at the end to clean up to chromedriver process

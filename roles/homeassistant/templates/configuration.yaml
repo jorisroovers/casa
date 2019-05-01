@@ -237,6 +237,16 @@ sensor:
           {% endraw %}
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+        afvalwijzer_details:
+          friendly_name: "afvalwijzer details"
+          {% raw %}
+          value_template: >-
+            <div><span class="gft">GFT</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_gft", "pickup_date") }}</span></div>
+            <div><span class="plastic">PLASTIC</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_plastic", "pickup_date") }}</span></div>
+            <div><span class="paper">PAPER</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_papier", "pickup_date") }}</span></div>
+          {% endraw %}
+
+        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
         postnl_enroute:
           friendly_name: "postnl enroute"
           {% raw %}
@@ -348,6 +358,13 @@ shell_command:
     play_sonos_preset: 'curl "{{sonos_http_api_url_base}}/preset/{% raw %}{{preset}}{% endraw %}"'
     restart_sonos: '/usr/bin/sudo /bin/systemctl restart {{sonos_http_api_service}}'
     samsungtv_send_key: '/usr/bin/samtvcli --server {{samsungtv_host}} --session-id 1 --session-key {{samsungtv_session_key}} key {% raw %}{{key}}{% endraw %}'
+
+rest_command:
+  show_url_on_tv:
+    url: todo
+    method: GET
+    username: "{{tv_api_username}}"
+    password: "{{tv_api_password}}"
 
 input_select: !include inputs/select.yaml
 

@@ -1,4 +1,4 @@
-selenium_docker_image: "selenium/standalone-chrome:3.141.59"
+selenium_docker_image: "selenium/standalone-chrome:3.141.59-mercury"
 selenium_container_name: "selenium"
 selenium_port: 4444
 

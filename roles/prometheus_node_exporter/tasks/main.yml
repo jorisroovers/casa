@@ -23,6 +23,10 @@
     - restart_node_exporter
   become: yes
 
+- name: Start prometheus-node-exporter service
+  service: name={{node_exporter_service}}.service state=started enabled=yes
+  become: yes
+
 - name: Creating textfile exports directory
   file: dest={{node_exporter_textfile_exports}} state=directory owner={{node_exporter_user}} group={{node_exporter_group}} mode=o+w
   become: yes

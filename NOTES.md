@@ -148,6 +148,53 @@ Home-assistant does not allow you to change attributes (like kelvin/brightness) 
 Even if they are exposed by Tradfri/Hue as a single light.
 https://community.home-assistant.io/t/grouped-light-control/1034/49
 
+### Tradfri
+
+https://github.com/home-assistant/home-assistant/pull/19288/commits/871346535f55f42b4f8fa46ebab4d4255678b795
+
+
+2019-04-29 23:32:53 WARNING (MainThread) [homeassistant.components.tradfri.sensor] Observation failed for TRADFRI remote control
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/pytradfri/api/aiocoap_api.py", line 95, in _get_response
+    r = await pr.response
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 816, in _run_outer
+    yield from cls._run(app_request, response, weak_observation, protocol, log, exchange_monitor_factory)
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 865, in _run
+    blockresponse = yield from blockrequest.response
+aiocoap.error.RequestTimedOut
+2019-04-29 23:32:53 ERROR (MainThread) [homeassistant.core] Error doing job: Task exception was never retrieved
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/pytradfri/api/aiocoap_api.py", line 155, in request
+    result = await self._execute(api_commands)
+  File "/usr/local/lib/python3.7/site-packages/pytradfri/api/aiocoap_api.py", line 114, in _execute
+    await self._observe(api_command)
+  File "/usr/local/lib/python3.7/site-packages/pytradfri/api/aiocoap_api.py", line 172, in _observe
+    pr, r = await self._get_response(msg)
+  File "/usr/local/lib/python3.7/site-packages/pytradfri/api/aiocoap_api.py", line 95, in _get_response
+    r = await pr.response
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 816, in _run_outer
+    yield from cls._run(app_request, response, weak_observation, protocol, log, exchange_monitor_factory)
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 865, in _run
+    blockresponse = yield from blockrequest.response
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 740, in send_request
+    self.protocol.send_message(request, self._exchange_monitor_factory(request))
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 450, in send_message
+    self._send_initially(message, exchange_monitor)
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 458, in _send_initially
+    self._add_exchange(message, exchange_monitor)
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 269, in _add_exchange
+    self._active_exchanges[key] = (exchange_monitor, next_retransmission)
+TypeError: 'NoneType' object does not support item assignment
+2019-04-29 23:32:54 INFO (SyncWorker_9) [root] Sending control command: KEY
+2019-04-29 23:32:56 ERROR (MainThread) [homeassistant.core] Error doing job: Exception in callback <function Context._schedule_retransmit.<locals>.retr at 0x7fd603c4cc80>
+Traceback (most recent call last):
+  File "uvloop/cbhandles.pyx", line 245, in uvloop.loop.TimerHandle._run
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 330, in retr
+    self._retransmit(message, timeout, retransmission_counter)
+  File "/usr/local/lib/python3.7/site-packages/aiocoap/protocol.py", line 337, in _retransmit
+    exchange_monitor, next_retransmission = self._active_exchanges.pop(key)
+AttributeError: 'NoneType' object has no attribute 'pop'
+
 ## Extra open ports
 
 6379 -> Redis
@@ -231,3 +278,5 @@ Checks to convert:
 - Roofcam alive
 - Roofcam water detector
 - Sonos Error
+
+

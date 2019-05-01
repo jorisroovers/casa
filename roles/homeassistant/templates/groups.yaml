@@ -37,8 +37,16 @@ lights_upstairs:
     - light.bathroom_group
     - light.nachttafel_ilse
     - light.nachttafel_joris
-    - light.laundry_room_lamp_1
     - switch.bathroom_mirror_light
+    # - light.laundry_room_lamp_1
+
+# Entities that are allowed to be "unavailable".
+# Used as part of sanity testing to ignore certain entities that are unavailable that are expected to be so sometimes.
+unavailable_allowed:
+  name: Unavailable allowed
+  view: no
+  entities: []
+    # - light.laundry_room_lamp_1
 
 # lights_christmas:
 #   name: "Christmas lights"

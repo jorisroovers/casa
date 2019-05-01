@@ -27,7 +27,7 @@
     recreate: "{{recreate_containers}}"
     restart_policy: unless-stopped
     env:
-        GF_INSTALL_PLUGINS: "grafana-piechart-panel,natel-discrete-panel"
+        GF_INSTALL_PLUGINS: "grafana-piechart-panel,natel-discrete-panel,flant-statusmap-panel"
   become: yes
   tags:
     - grafana-container

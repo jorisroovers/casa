@@ -26,11 +26,11 @@ groups:
     #   for: 30s
     #   labels:
     #     severity: page
-    - alert: elk-kibana.http
-      expr: "probe_success{name='elk-kibana.http'} == 0"
-      for: 30s
-      labels:
-        severity: page
+    # - alert: elk-kibana.http
+    #   expr: "probe_success{name='elk-kibana.http'} == 0"
+    #   for: 30s
+    #   labels:
+    #     severity: page
 
 - name: Hubs
   rules:
@@ -60,6 +60,14 @@ groups:
         severity: page
     - alert: homeassistant.http
       expr: "probe_success{name='homeassistant.http'} == 0"
+      for: 30s
+      labels:
+        severity: page
+
+- name: Grafana
+  rules:
+    - alert: grafana.http
+      expr: "probe_success{name='grafana.http'} == 0"
       for: 30s
       labels:
         severity: page
@@ -113,6 +121,14 @@ groups:
         severity: page
     - alert: energy_tracker.ser2net
       expr: "probe_success{name='energy_tracker.ser2net'} == 0"
+      for: 30s
+      labels:
+        severity: page
+
+- name: Node Exporter - TV Controller
+  rules:
+    - alert: node_exporter.tv_controller.up
+      expr: "up{job='Node Exporter',src='tv_controller'} == 0"
       for: 30s
       labels:
         severity: page

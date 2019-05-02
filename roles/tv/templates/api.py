@@ -26,9 +26,17 @@ def run_command(cmd, shell=False, background=False, env=None):
 @hug.local()
 def show_url(url: hug.types.text):
     """Show URL in chromium-browser """
+    # Kill existing chrome sessions
+    run_command("sudo pkill -f chromium", shell=True)
+
+    # Turn on TV
     run_command("echo 'on 0' | cec-client RPI -s -d 1", shell=True)
-    run_command("echo 'as' | cec-client RPI -s -d 1", shell=True)
-    run_command("chromium-browser --start-fullscreen {0}".format(url),
+    # switch input to RPI - currently causes some issues, not strictly rquired for the use-case
+    # run_command("echo 'as' | cec-client RPI -s -d 1", shell=True)
+
+    # Show chromium-browser for user pi (doesn't work for other users right now)
+    run_command("sudo -u pi chromium-browser --start-fullscreen --app {0}".format(url),
                 env={"DISPLAY": ":0.0"}, shell=True, background=True)
+
     sys.stdout.flush()  # Make sure print/stdout commands show up in systemd logs
-    return {'message': 'URL:{0}'.format(url)}
+    return {'message': 'Opened URL:{0}'.format(url)}

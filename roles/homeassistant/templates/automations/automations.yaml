@@ -121,6 +121,7 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.StartWeekDay"
+    - service: rest_command.start_morning_tv
 
 - alias: Trigger BathroomMorning scene on light turn on during week days
   initial_state: True

@@ -7,7 +7,7 @@ restart_sonos:
 turn_off_tv:
   sequence:
     - service: shell_command.samsungtv_send_key
-      data:
+      data_template:
         key: "KEY_POWEROFF"
 play_artist:
   sequence:

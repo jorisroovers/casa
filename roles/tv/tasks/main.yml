@@ -20,11 +20,25 @@
     - "{{video_user}}"
     - "{{tv_api_user}}"
 
-# - name: "Disable screensleep (requires reboot)"
-#   lineinfile:
-#     dest: /etc/lightdm/lightdm.conf
-#     line: "xserver-command=X -s 0 dpms"
-#   become: yes
+- name: Disabling screen sleep (requires reboot)
+  ini_file:
+    path: /etc/lightdm/lightdm.conf
+    section: "Seat:*"
+    option: "xserver-command"
+    value: "X -s 0 -dpms"
+    backup: yes
+  become: yes
+
+- name: Modifying sudoers file so tv-api user can run chromium-browser commands
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{tv_api_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "pi", "command": "/usr/bin/chromium-browser"}
+    - {"user": "root", "command": "/usr/bin/pkill -f chromium"}
 
 - name: Creating tv-api virtualenv
   command: virtualenv -p python3 {{tv_api_dir}}/.venv creates="{{tv_api_dir}}/.venv"

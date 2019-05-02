@@ -360,8 +360,8 @@ shell_command:
     samsungtv_send_key: '/usr/bin/samtvcli --server {{samsungtv_host}} --session-id 1 --session-key {{samsungtv_session_key}} key {% raw %}{{key}}{% endraw %}'
 
 rest_command:
-  show_url_on_tv:
-    url: todo
+  start_morning_tv:
+    url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{appdaemon_port}}/Home?skin=casa"
     method: GET
     username: "{{tv_api_username}}"
     password: "{{tv_api_password}}"

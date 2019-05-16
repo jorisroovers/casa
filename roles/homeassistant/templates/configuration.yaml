@@ -207,7 +207,9 @@ sensor:
       name: {{google_travel_time_name}}
     - platform: time_date
       display_options:
-        - 'time'
+        - "time"
+        - "date"
+        - "date_time"
     - platform: command_line
       name: "prom2hass"
       command: python /config/prom2hass.py
@@ -279,6 +281,11 @@ sensor:
           {% endraw %}
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+        weekday:
+          friendly_name: "Weekday"
+          value_template: "{% raw %}{{ as_timestamp(now()) | timestamp_custom('%A') }}{% endraw %}"
+
+        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
 
 binary_sensor:
   - platform: workday
@@ -341,6 +348,46 @@ nest:
 emulated_hue:
   host_ip: "{{casa_ip}}"
   advertise_ip: "{{casa_ip}}"
+  expose_by_default: false
+  entities:
+    # Lights
+    light.kitchen:
+      name: "Kitchen"
+      hidden: false
+    light.office:
+      name: "Office"
+      hidden: false
+    light.living_room:
+      name: "Living Room"
+      hidden: false
+    light.dining_table:
+      name: "Dinner Table"
+      hidden: false
+    light.woonkamer_tv:
+      name: "TV lights"
+      hidden: false
+    # Scripts
+    script.turn_off_tv:
+      name: "Turn Off TV"
+      hidden: false
+    script.goodnight:
+      name: "Good Night"
+      hidden: false
+    script.leave:
+      name: "Leave"
+      hidden: false
+    # Scenes
+    scene.breakfast:
+      name: "Breakfast"
+      hidden: false
+    scene.dinner:
+      name: "Dinner"
+      hidden: false
+
+tts:
+  - platform: amazon_polly
+    aws_access_key_id: "{{aws_polly_access_key_id}}"
+    aws_secret_access_key: "{{aws_polly_secret_access_key}}"
 
 zwave:
   usb_path: "{{zwave_gateway_device}}"
@@ -361,7 +408,7 @@ shell_command:
 
 rest_command:
   start_morning_tv:
-    url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{appdaemon_port}}/Home?skin=casa"
+    url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{appdaemon_port}}/TV_Morning?skin=casa"
     method: GET
     username: "{{tv_api_username}}"
     password: "{{tv_api_password}}"

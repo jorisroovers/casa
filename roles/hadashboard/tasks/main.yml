@@ -45,6 +45,7 @@
     - dashboards/Phone_Monitoring.dash
     - dashboards/Phone_More.dash
     - dashboards/Phone_navigation_panel.yaml
+    - dashboards/TV_Morning.dash
   become: yes
   tags: [ hadash-dashboards ]
 

@@ -1,14 +1,31 @@
 restart_homeassistant:
   sequence:
     - service: homeassistant.restart
+
 restart_sonos:
   sequence:
     - service: shell_command.restart_sonos
+
 turn_off_tv:
   sequence:
     - service: shell_command.samsungtv_send_key
       data_template:
         key: "KEY_POWEROFF"
+
+goodnight: # Used by emulated hue
+  sequence:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: "Sleeping"
+
+leave: # Used by emulated hue
+  sequence:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: "Away"
+
 play_artist:
   sequence:
     - service: shell_command.play_sonos_preset
@@ -18,3 +35,38 @@ play_artist:
     #   data:
     #     message: |
     #           Playing "{% raw %}{{ states('input_select.music_artist_select') | lower | replace(' ', '_')}}{% endraw %}"
+
+tts_say:
+  sequence:
+    - service: media_player.volume_set
+      data_template:
+        entity_id: "{% raw %}{{entity_id}}{% endraw %}"
+        volume_level: "0.4"
+    - service: tts.amazon_polly_say
+      data_template:
+        entity_id: "{% raw %}{{entity_id}}{% endraw %}"
+        message: "{% raw %}{{message}}{% endraw %}"
+    - service: media_player.volume_set
+      data:
+        entity_id: "{% raw %}{{entity_id}}{% endraw %}"
+        volume_level: "0.1"
+
+demo:
+  sequence:
+    - service: script.tts_say
+      data_template:
+        entity_id: media_player.living_room
+        message: "Let's give a demo of the house!"
+    - service: rest_command.start_morning_tv
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.Demo1"
+    - delay: 00:00:10
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.Demo2"
+    - service: script.turn_off_tv
+    - service: script.tts_say
+      data_template:
+        entity_id: media_player.living_room
+        message: "That was the demo, hope you enjoyed it!"

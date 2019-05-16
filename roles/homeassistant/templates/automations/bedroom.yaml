@@ -38,13 +38,13 @@
         message: |
               Stopped heating bedroom
 
-- alias: Notify when heat rises above 21 degrees in bedroom when heater is on
+- alias: Switch off heater when heat reaches 19 degrees
   initial_state: True
   trigger:
     - platform: numeric_state
       entity_id: climate.hm_cc_rt_dn_oeq2416597
       value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
-      above: 21
+      above: 19
   condition:
     - condition: state
       entity_id: "input_boolean.heat_bedroom"
@@ -53,7 +53,10 @@
     - service: notify.slack
       data:
         message: |
-              Bedroom temp heated above 21 degrees
+              Bedroom temp heated above 19 degrees - turning off the heat
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.heat_bedroom
 
 - alias: Automatically bedroom temperature operation mode to manual
   initial_state: True

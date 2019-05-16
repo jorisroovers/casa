@@ -15,6 +15,18 @@
     validate: visudo -cf %s
   become: yes
 
+- name: Determining NodeJS version
+  shell: "node --version"
+  register: node_version
+  changed_when: False
+  ignore_errors: yes
+
+# See here: https://github.com/nodesource/distributions/blob/master/README.md
+- name: Adding NodeJS 10 package source
+  shell: "curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -"
+  become: yes
+  when: node_version|failed
+
 - name: Only run "apt update_cache=yes" if we last did so more than 3600 seconds ago
   apt: update_cache=yes cache_valid_time=3600
   become: yes
@@ -39,6 +51,7 @@
     - libxslt1-dev
     - mosh
     - iotop
+    - nodejs  # npm is included
 
 - name: "Installing pip"
   pip: name=pip

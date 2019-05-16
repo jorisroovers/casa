@@ -80,12 +80,9 @@
       data:
         entity_id: "scene.StopWatchingTV"
 
-- alias: Turn off TV on away/sleep
+- alias: Automations when setting house to Sleeping
   initial_state: True
   trigger:
-    - platform: state
-      entity_id: input_select.house_mode
-      to: "Away"
     - platform: state
       entity_id: input_select.house_mode
       to: "Sleeping"
@@ -93,12 +90,32 @@
     - service: shell_command.samsungtv_send_key
       data_template:
         key: "KEY_POWEROFF"
+    - service: script.tts_say
+      data_template:
+        entity_id: media_player.living_room
+        message: "Locking down the house. Good Night!"
+
+
+- alias: Automations when setting house to Away
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Away"
+  action:
+    - service: shell_command.samsungtv_send_key
+      data_template:
+        key: "KEY_POWEROFF"
+    - service: script.tts_say
+      data_template:
+        entity_id: media_player.living_room
+        message: "Locking down the house. Have a good trip!"
 
 ################################################################################
 # Mornings                                                                     #
 ################################################################################
 
-- alias: Start week day when exiting bathroom
+- alias: Start week day when exiting bathroom and house still sleeping
   initial_state: True
   trigger:
     - platform: state
@@ -117,6 +134,9 @@
       - condition: state
         entity_id: "binary_sensor.workday_sensor"
         state: "on"
+      - condition: state # Only do this automation when the house is still sleeping. This prevents this automation from messing up someone else presets who's already downstairs
+        entity_id: input_select.house_mode
+        state: "Sleeping"
   action:
     - service: scene.turn_on
       data:
@@ -163,6 +183,9 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.StartWorkingMorning"
+    - service: shell_command.samsungtv_send_key
+      data_template:
+        key: "KEY_POWEROFF"
 
 ################################################################################
 # Send message on nest-presence set to home or away                            #

@@ -198,6 +198,8 @@ $(document).ready(function () {
         let id = event.currentTarget.id;
     });
 
+    // disable scrolling for all iframes
+    $("iframe").attr("scrolling", "no");
 
     $('.img-frame').on("error", function (event) {
         // if an image doesn't load properly, show a message on top of it

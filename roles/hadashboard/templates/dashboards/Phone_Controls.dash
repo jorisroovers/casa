@@ -5,9 +5,11 @@ columns: 3
 
 {% include "./templates/dashboards/components.yaml" %}
 
-sonos:
-    widget_type: media_player
-    entity: media_player.living_room
+# Also imported, trying out if the import works
+# sonos:
+#     widget_type: media_player
+#     entity: media_player.living_room
+#     step: 5
 
 layout:
     - sonos(3x2)

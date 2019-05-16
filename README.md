@@ -192,6 +192,8 @@ TODO: Need to spend a bit more time on documenting this.
 | Shell Command | |
 | Input Select | |
 | Input Boolean | |
+| Amazon Polly | |
+| Emulated Hue | |
 
 
 # Getting Started

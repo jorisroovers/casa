@@ -52,6 +52,11 @@
    - scenes/scenes.yaml
    - scenes/office.yaml
    - scenes/hallway.yaml
+   - scenes/bathroom.yaml
+   - scenes/livingroom.yaml
+   - scenes/laundryroom.yaml
+   - scenes/house_mode.yaml
+   - scenes/demo.yaml
    - inputs/boolean.yaml
    - inputs/select.yaml
    - scripts.yaml
@@ -82,6 +87,8 @@
     volumes:
       - "{{homeassistant_dir}}/:/config"
       - /etc/localtime:/etc/localtime:ro
+    labels:
+      group: homeassistant
     network_mode: host
     recreate: "{{recreate_containers}}"
     env: # https://community.home-assistant.io/t/endless-insecurerequestwarning-errors-with-unifi

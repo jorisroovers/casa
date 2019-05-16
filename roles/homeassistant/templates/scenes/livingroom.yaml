@@ -1,0 +1,139 @@
+################################################################################
+# Living Scenes                                                                #
+################################################################################
+
+- name: Watching TV
+  entities:
+    light.woonkamer_tv:
+        state: on
+        kelvin: 2200
+        brightness_pct: 40
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    light.living_room:
+        state: off
+    input_select.downstairs_music:
+        option: NoMusic
+    input_select.camera_preset:
+        option: Home
+
+- name: StopWatchingTV
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.tv_staanlamp:
+        state: off
+    input_select.living_preset:
+        option: NoPreset
+
+- name: Breakfast
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.tv_staanlamp:
+        state: off
+    light.garden:
+        state: off
+    light.living_room:
+        state: off
+    light.dining_table:
+        state: on
+    light.kitchen:
+        state: off
+    light.office:
+        state: off
+    input_select.downstairs_music:
+        option: Breakfast
+    input_select.camera_preset:
+        option: Home
+
+- name: Dinner
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.tv_staanlamp:
+        state: off
+    light.living_room:
+        state: off
+    light.dining_table:
+        state: on
+    light.office:
+        state: off
+    input_select.downstairs_music:
+        option: Dinner With Friends
+    input_select.camera_preset:
+        option: Home
+
+- name: Romance
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    light.office:
+        state: off
+    light.living_room:
+        state: off
+    input_select.downstairs_music:
+        option: Romance
+    input_select.camera_preset:
+        option: Home
+
+- name: Christmas
+  entities:
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    light.living_room:
+        state: off
+    input_select.downstairs_music:
+        option: Christmas
+    input_select.camera_preset:
+        option: Home
+    # switch.christmas_tree:
+    #     state: on
+    # switch.christmas_ambience_office:
+    #     state: on
+
+- name: Relaxing
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 143
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    light.office:
+        state: off
+    light.living_room:
+        state: off
+    input_select.downstairs_music:
+        option: Relaxing
+    input_select.camera_preset:
+        option: Home
+
+- name: Reading
+  entities:
+    light.woonkamer_tv:
+        state: on
+        brightness: 255
+    light.living_room:
+        state: off
+    light.kitchen:
+        state: off
+    input_select.camera_preset:
+        option: Home
+
+- name: NoPreset
+  entities:
+    media_player.living_room:
+        state: paused
+    media_player.tv_room:
+        state: paused

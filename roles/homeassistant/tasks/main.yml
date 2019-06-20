@@ -82,7 +82,7 @@
 - name: Starting homeassistant docker container
   docker_container:
     name: "{{homeassistant_container_name}}"
-    image: "{{homeassistant_docker_image}}"
+    image: "{{homeassistant_container_image}}"
     state: started # Modify and restart iff config has changed
     volumes:
       - "{{homeassistant_dir}}/:/config"
@@ -95,7 +95,7 @@
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
     restart_policy: unless-stopped
     devices:
-      - "{{zwave_gateway_device}}:{{zwave_gateway_device}}"
+      - "{{zwave_gateway_device_host}}:{{zwave_gateway_device_container}}"
   become: yes
   tags:
     - homeassistant-container
@@ -116,6 +116,22 @@
   vars:
     alias_shorthand: "ha"
     container_name: "{{homeassistant_container_name}}"
+
+- name: Modifying sudoers file so homeassistant user can run restart homeassistant container
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{homeassistant_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "root", "command": "/usr/bin/timeout * docker restart homeassistant"}
+
+# Restart to deal with Tradfri issues: https://github.com/home-assistant/home-assistant/issues/14386
+- name: "Cronjob: restart homeassistant at 4.20AM every night"
+  cron: name="Nightly home-assistant restart" minute="20" hour="4" job="/usr/bin/sudo /usr/bin/timeout 180 docker restart homeassistant"
+        user={{homeassistant_user}}
+  become: yes
 
 - name: "Add iptable rule for Homeassistant"
   iptables: chain=INPUT protocol=tcp destination_port={{homeassistant_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT

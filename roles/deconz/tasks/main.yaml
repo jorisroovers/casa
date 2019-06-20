@@ -1,0 +1,30 @@
+- name: Creating deconz casa-service
+  include_role:
+    name: casa-service
+  vars:
+    service_name: "deconz"
+  become: yes
+
+- name: Starting deconz docker container
+  docker_container:
+    name: "{{deconz_container_name}}"
+    image: "{{deconz_container_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - "{{deconz_dir}}:/root/.local/share/dresden-elektronik/deCONZ"
+    labels:
+      group: deconz
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    env:
+        DECONZ_WEB_PORT: "{{deconz_web_port}}"
+        DECONZ_WS_PORT: "{{deconz_ws_port}}"
+        DECONZ_DEVICE: "{{deconz_gateway_device_container}}"
+        DECONZ_VNC_MODE: 0
+    restart_policy: unless-stopped
+    devices:
+      - "{{deconz_gateway_device_host}}:{{deconz_gateway_device_container}}"
+  become: yes
+  tags:
+    - deconz-container

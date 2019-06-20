@@ -36,6 +36,19 @@ scrape_configs:
       - targets: ['{{groups["tv_controller"][0]}}:{{node_exporter_port}}']
         labels:
           src: tv_controller
+    metric_relabel_configs:
+      - source_labels: [name]
+        regex: '.*veth.*'
+        action: drop
+      - source_labels: [name]
+        regex: '.*docker.*'
+        action: drop
+      - source_labels: [interface]
+        regex: '.*veth.*'
+        action: drop
+      - source_labels: [device]
+        regex: '.*veth.*'
+        action: drop
 
   - job_name: 'Process Exporters'
     static_configs:
@@ -43,11 +56,12 @@ scrape_configs:
         labels:
           src: controller
 
-  - job_name: 'Docker Exporter'
-    static_configs:
-      - targets: ['{{casa_ip}}:{{docker_prometheus_metrics_port}}']
-        labels:
-          src: controller
+  # Disabled: this caused all sort of issues with docker (still experimental)
+  # - job_name: 'Docker Exporter'
+  #   static_configs:
+  #     - targets: ['{{casa_ip}}:{{docker_prometheus_metrics_port}}']
+  #       labels:
+  #         src: controller
 
   - job_name: 'HTTP Checks (Blackbox Exporter)'
     metrics_path: /probe

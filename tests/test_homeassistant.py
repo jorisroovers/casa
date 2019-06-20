@@ -6,10 +6,10 @@ import requests
 LOG = logging.getLogger()
 
 
-def test_light_groups(homeassistant_url, homeassistant_password):
+def test_light_groups(homeassistant_url, homeassistant_token):
     """ Test that light groups are working """
 
-    headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
+    headers = {'Authorization': f"Bearer {homeassistant_token}", 'content-type': 'application/json'}
     response = requests.get(f"{homeassistant_url}/api/states/light.office", headers=headers)
     original_light_state = response.json()['state']
 

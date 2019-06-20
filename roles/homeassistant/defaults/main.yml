@@ -7,7 +7,7 @@ homeassistant_group: "homeassistant"
 homeassistant_service: "homeassistant@{{homeassistant_user}}"
 homeassistant_logfile: "{{homeassistant_dir}}/home-assistant.log"
 
-homeassistant_docker_image: "homeassistant/home-assistant:{{homeassistant_version}}"
+homeassistant_container_image: "homeassistant/home-assistant:{{homeassistant_version}}"
 homeassistant_container_name: "homeassistant"
 
 homeassistant_general_config:
@@ -19,7 +19,6 @@ homeassistant_general_config:
   time_zone: Europe/Amsterdam
 
 homeassistant_http:
-  api_password: "HttpApiPassword123"
   trusted_networks:
     - 10.0.0.0
 
@@ -78,4 +77,5 @@ known_devices:
     track: true
     vendor: MyVendor
 
-zwave_gateway_device: "/dev/usbmygateway"
+zwave_gateway_device_host: "/dev/usbmygateway"
+zwave_gateway_device_container: "/dev/usbmygateway"

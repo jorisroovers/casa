@@ -16,8 +16,8 @@ LOGGER.setLevel(logging.WARNING)
 def pytest_addoption(parser):
     parser.addoption("--hadashboard-url", action="store", required=True, help="URL of HADashboard to test")
     parser.addoption("--homeassistant-url", action="store", required=True, help="URL of homeassistant to test")
-    parser.addoption("--homeassistant-password", action="store",
-                     required=True, help="Password of homeassistant to test")
+    parser.addoption("--homeassistant-token", action="store",
+                     required=True, help="Long-lived access token of homeassistant to test")
     parser.addoption("--remote-driver-url", action="store",
                      help="URL of remote selenium driver")
     parser.addoption("--chrome-driver-path", action="store", default=os.path.expanduser("~/chromedriver"),
@@ -58,14 +58,12 @@ def hadashboard_url(request):
 def homeassistant_url(request):
     return request.config.getoption("--homeassistant-url")
 
+@pytest.fixture(scope="module")
+def homeassistant_token(request):
+    return request.config.getoption("--homeassistant-token")
 
 @pytest.fixture(scope="module")
-def homeassistant_password(request):
-    return request.config.getoption("--homeassistant-password")
-
-
-@pytest.fixture(scope="module")
-def hass_states(request, homeassistant_url, homeassistant_password):
-    headers = {'x-ha-access': homeassistant_password, 'content-type': 'application/json'}
+def hass_states(request, homeassistant_url, homeassistant_token):
+    headers = {'Authorization': f"Bearer {homeassistant_token}", 'content-type': 'application/json'}
     response = requests.get(f"{homeassistant_url}/api/states", headers=headers)
     return response.json()

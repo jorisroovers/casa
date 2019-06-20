@@ -16,7 +16,7 @@ GRANT ALL ON {{influxdb_homeassistant_db}} TO "{{influxdb_grafana_user}}"
 -- GRANT ALL ON {{influxdb_sensu_db}} TO "{{influxdb_grafana_user}}"
 
 -- Duration required (infinite by default)
-CREATE DATABASE {{influxdb_prometheus_db}} WITH DURATION 90d
+CREATE DATABASE {{influxdb_prometheus_db}} WITH DURATION 14d
 GRANT ALL ON {{influxdb_prometheus_db}} TO "{{influxdb_prometheus_user}}"
 GRANT ALL ON {{influxdb_prometheus_db}} TO "{{influxdb_grafana_user}}"
 -- Newline needed at the end for the last command to be executed, using this comment to ensure that

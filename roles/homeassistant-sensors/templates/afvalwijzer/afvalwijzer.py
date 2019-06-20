@@ -4,7 +4,7 @@ import datetime
 import os
 import requests
 
-for env_var in ['AFVALWIJZER_ZIPCODE', 'AFVALWIJZER_HOUSENUMBER', 'HASS_API_PASSWORD', 'HASS_HOST']:
+for env_var in ['AFVALWIJZER_ZIPCODE', 'AFVALWIJZER_HOUSENUMBER', 'HASS_API_TOKEN', 'HASS_HOST']:
     if not env_var in os.environ:
         print("Environment variable {0} required".format(env_var))
         exit(1)
@@ -15,7 +15,7 @@ for env_var in ['AFVALWIJZER_ZIPCODE', 'AFVALWIJZER_HOUSENUMBER', 'HASS_API_PASS
 
 def create_sensor(sensor_type, sensor_name, payload):
     print("Making API call to Homeassistant to install sensor {0}.{1}".format(sensor_type, sensor_name))
-    headers = {"x-ha-access": os.environ['HASS_API_PASSWORD'], "Content-Type": "application/json"}
+    headers = {"Authorization": "Bearer {0}".format(os.environ['HASS_API_TOKEN']), "Content-Type": "application/json"}
     url = "{0}/api/states/{1}.{2}".format(os.environ['HASS_HOST'], sensor_type, sensor_name)
     resp = requests.post(url, json=payload, headers=headers, timeout=2)
     print("DONE ({0})".format(resp))

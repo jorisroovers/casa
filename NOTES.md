@@ -91,17 +91,20 @@ scp -P 2222 -i ~/repos/casa/.vagrant/machines/home/virtualbox/private_key ubuntu
 ## Hass APIs
 ```bash
 export HASS_URL="http://0.0.0.0:8123"; export HASS_PASSWORD="$(awk '/api_password: /{print $2}'  /opt/homeassistant/configuration.yaml)"
-export HASS_URL="http://$HASS_IP:8123"; export HASS_PASSWORD="$(vault-get ' api_password')";
+
+export HASS_URL="http://$HASS_IP:8123"; export HASS_PASSWORD="$(vault-get ' api_password')"; export HASS_TOKEN="$(vault-get 'local_integrations')";
 
 # Getting  entity picture
-curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/states/camera.hallway | jq -r ".attributes.entity_picture"
+curl -s -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" $HASS_URL/api/states/camera.hallway | jq -r ".attributes.entity_picture"
 # Error log:
-curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/error_log
+curl -s -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" $HASS_URL/api/error_log
+
 # Specific entity state:
-curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" $HASS_URL/api/states/light.office
+curl -s -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" $HASS_URL/api/states/light.office
+
 
 # Turn on light
-curl -s -H "x-ha-access: $HASS_PASSWORD" -H "Content-Type: application/json" -d '{"entity_id": "light.office"}' $HASS_URL/api/services/light/turn_on
+curl -s -H "Authorization: Bearer $HASS_TOKEN" -H "Content-Type: application/json" -d '{"entity_id": "light.office"}' $HASS_URL/api/services/light/turn_on
 
 ```
 
@@ -268,7 +271,8 @@ curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
 ```bash
 source activate .venv36 # conda env
 cd tests  # important to be inside the tests directory!
-pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" tests/
+pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')" tests/
+
 ```
 
 # Prometheus

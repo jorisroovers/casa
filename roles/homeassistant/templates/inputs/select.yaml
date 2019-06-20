@@ -6,7 +6,7 @@ house_mode:
     - Sleeping
     - Away
     - Auto
-  initial: Day
+  # initial: Day # no 'initial' value -> restore state
   icon: mdi:home
 music_artist_select:
   name: Artist
@@ -33,7 +33,7 @@ living_preset:
     - Reading
 downstairs_music:
   name: Downstairs Music
-  initial: NoMusic
+  # initial: NoMusic
   icon: mdi:music
   options:
     - Breakfast
@@ -51,7 +51,7 @@ downstairs_music:
 bathroom_music:
   name: Bathroom Music
   icon: mdi:music
-  initial: Bathroom NoMusic
+  # initial: Bathroom NoMusic
   options:
     - Bathroom Relaxing
     - Bathroom Happy
@@ -59,7 +59,7 @@ bathroom_music:
     - Bathroom NoMusic
 camera_preset:
   name: Camera Preset
-  initial: Home
+  # initial: Home
   icon: mdi:camcorder
   options:
     - All On

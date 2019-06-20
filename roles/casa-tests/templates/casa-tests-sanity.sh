@@ -5,7 +5,7 @@ echo "Running tests..."
 echo "-----------------------------------------------------------------------------------------------------------------"
 sudo timeout 120 docker run casa-tests pytest -v -rw -s -m sanity --hadashboard-url http://{{casa_ip}}:{{appdaemon_port}} \
                                                    --homeassistant-url http://{{casa_ip}}:{{homeassistant_port}} \
-                                                   --homeassistant-password $(awk '/api_password/{print $2}' /opt/homeassistant/configuration.yaml) \
+                                                   --homeassistant-token {{homeassistant_api_access_tokens.local_integrations}} \
                                                    --remote-driver-url http://{{casa_ip}}:{{selenium_port}}/wd/hub
 test_status_code=$?
 echo "-----------------------------------------------------------------------------------------------------------------"

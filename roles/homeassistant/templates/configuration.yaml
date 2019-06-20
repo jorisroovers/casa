@@ -10,7 +10,6 @@ system_health:
 
 # Set API Password
 http:
-  api_password: {{homeassistant_http.api_password}}
   trusted_networks:
 {% for network in homeassistant_http.trusted_networks %}
      - {{network}}
@@ -390,7 +389,7 @@ tts:
     aws_secret_access_key: "{{aws_polly_secret_access_key}}"
 
 zwave:
-  usb_path: "{{zwave_gateway_device}}"
+  usb_path: "{{zwave_gateway_device_container}}"
 
 {#
   1. Use %raw to insert braces into the lines below without ansible replacing them.

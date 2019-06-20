@@ -88,7 +88,7 @@ I use [Prometheus](https://prometheus.io/) with [Node Exporter](https://github.c
 # Setup Details
 ## Hardware
 
-I host the whole stack on a [2011 Macbook Pro](https://support.apple.com/kb/SP619?locale=en_US) with a 2.7GHz dual-core i7 and 8GB of memory running Ubuntu 17.10. While the machine can easily handle the load, I expect that at some point I'll replace it with something that is more suited for running 24x7 - I have some concerns about fire safety with the Macbook's built-in battery.
+I host the whole stack on a [2011 Macbook Pro](https://support.apple.com/kb/SP619?locale=en_US) with a 2.7GHz dual-core i7 and 8GB of memory running Ubuntu. While the machine can easily handle the load, I expect that at some point I'll replace it with something that is more suited for running 24x7 - I have some concerns about fire safety with the Macbook's built-in battery.
 
 Here's a list of home-automation gear I currently have around my house:
 
@@ -125,7 +125,7 @@ Other gear I have that is currently not (yet) integrated in the setup:
 
 | Software                                                                        | Description         |
 | ------------------------------------------------------------------------------- | ------------------- |
-| [Ubuntu 17.10](http://old-releases.ubuntu.com/releases/17.10/)  | Operating System. I need to upgrade to a later version since 17.10 is no longer officially supported.  |
+| [Ubuntu 18.04](http://releases.ubuntu.com/18.04/)  | Operating System.  |
 | [Homeassistant](https://home-assistant.io/)       | Main home automation platform that integrates everything together.   |
 | [HADashboard](http://appdaemon.readthedocs.io/en/stable/DASHBOARD_INSTALL.html) | Part of [appdaemon](https://appdaemon.readthedocs.io/en/latest/) that allows for easy creation of dashboards for Home Assistant that are intended to be wall mounted (optimized for distance viewing).|
 | [Docker](https://www.docker.com/)      | A good amount of software components run in containers, I use plain docker to manage them. I've considered using something like docker swarm or kubernetes for management/orchestration, but given that I only run containers on a single machine for now, I don't believe the overhead is worth it.                    |
@@ -158,7 +158,7 @@ On many occasions there's been a need to write custom scripts to enhance functio
 
 ## Home-assistant Details
 
-Here's a little more detail on the different home-assistant components that are being used.
+Here's a little more detail on the different home-assistant integrations that are being used.
 
 TODO: Need to spend a bit more time on documenting this.
 
@@ -174,25 +174,26 @@ TODO: Need to spend a bit more time on documenting this.
 | Sun | |
 | Media Player - SamsungTV | |
 | Media Player - Spotify | |
-| Hue | |
-| Tradfri | |
-| HomeMatic |
-| Light - Group | |
+| [Hue](https://www.home-assistant.io/components/hue/) | Device Control: Philips Hue |
+| [Tradfri](https://www.home-assistant.io/components/tradfri/) | Device Control: Ikea Tradfri Lights |
+| [HomeMatic](https://www.home-assistant.io/components/homematic/) | Device Control: HomeMatic devices |
+| [Light Group](https://www.home-assistant.io/components/light.group/) | Combining multiple lights into groups |
 | Sensor - System monitor | |
-| Sensor - Buienradar | |
-| Sensor - PostNL | |
-| Sensor - DSMR | |
+| [Sensor - Buienradar](https://www.home-assistant.io/components/sensor.buienradar/) | Local weather reporting and events |
+| [Sensor - PostNL](https://www.home-assistant.io/components/postnl/) | Mail and package delivery notifications |
+| [Sensor - DSMR](https://www.home-assistant.io/components/dsmr/) | Energy monitoring using the Dutch DSMR energy monitoring protocol |
 | Sensor - Commandline | |
 | Sensor - Template | |
 | Binary Sensor - Workday | |
 | Binary Sensor - Template | |
 | Nest  | |
+| DeConz | TODO |
 | Emulated Hue | |
 | Zwave | |
 | Shell Command | |
 | Input Select | |
 | Input Boolean | |
-| Amazon Polly | |
+| [Amazon Polly](https://www.home-assistant.io/components/amazon_polly/) | AWS Text-to-Speech engine. Allows the house to talk back (e.g. "Good Night!"). Cool? Yes. Nerdy? For sure. |
 | Emulated Hue | |
 
 

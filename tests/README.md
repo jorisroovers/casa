@@ -14,11 +14,10 @@ docker run -d -p 4444:4444 -v /dev/shm:/dev/shm --name selenium selenium/standal
 ## Development
 
 ```sh
-pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" test_homeassistant.py::test_group_entities
-
+pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')" test_homeassistant.py::test_group_entities
 
 # Run tests marked as 'sanity'
-pytest -rw -s -m sanity --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')"
+pytest -rw -s -m sanity --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')"
 ```
 
 ## Production (docker)
@@ -29,7 +28,7 @@ pytest -rw -s -m sanity --hadashboard-url http://$HASS_IP:5050 --homeassistant-u
 docker build -t casa-tests .
 
 # Against
-docker run casa-tests pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-password "$(vault-get ' api_password')" --remote-driver-url http://127.0.0.1:4444/wd/hub test_homeassistant.py::test_group_entities
+docker run casa-tests pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')" --remote-driver-url http://127.0.0.1:4444/wd/hub test_homeassistant.py::test_group_entities
 
 
 ```

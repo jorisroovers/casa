@@ -3,7 +3,7 @@ import requests
 
 ################################################################################
 # Config
-HASS_API_PASSWORD = "{{homeassistant_http.api_password}}"
+HASS_API_TOKEN = "{{homeassistant_api_access_tokens.local_integrations}}"
 HASS_HOST = "http://0.0.0.0:{{homeassistant_port}}"
 PROMETHEUS_HOST = "http://0.0.0.0:{{prometheus_port}}"
 DEBUG = True
@@ -19,7 +19,7 @@ def debug(msg):
 
 def create_sensor(sensor_type, sensor_name, payload):
     debug("Making API call to Homeassistant to install sensor {0}.{1}".format(sensor_type, sensor_name))
-    headers = {"x-ha-access": HASS_API_PASSWORD, "Content-Type": "application/json"}
+    headers = {"Authorization": "Bearer {0}".format(HASS_API_TOKEN), "Content-Type": "application/json"}
     url = "{0}/api/states/{1}.{2}".format(HASS_HOST, sensor_type, sensor_name)
     resp = requests.post(url, json=payload, headers=headers, timeout=2)
     debug("DONE ({0})".format(resp))

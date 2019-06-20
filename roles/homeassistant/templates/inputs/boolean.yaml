@@ -1,12 +1,12 @@
 cooking:
   name: Cooking
-  initial: off
+  # initial: off
 joris_pto:
   name: Joris PTO
-  initial: off
+  # initial: off
 ilse_pto:
   name: Ilse PTO
-  initial: off
+  # initial: off
 heat_bedroom:
   name: Heat Bedroom
   initial: off

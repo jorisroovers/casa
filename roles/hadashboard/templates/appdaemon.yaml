@@ -16,7 +16,7 @@ appdaemon:
     HASS:
       type: hass
       ha_url: {{appdaemon_ha_url}}
-      ha_key: {{homeassistant_http.api_password}}
+      token: {{homeassistant_api_access_tokens.local_integrations}}
 
 hadashboard:
   dash_url: {{appdaemon_dash_url}}

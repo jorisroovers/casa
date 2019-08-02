@@ -1,3 +1,12 @@
+- name: "Testing API token (check if your API TOKEN is correct when this fails)"
+  uri:
+    url: http://0.0.0.0:3001/api/org
+    url_username: api_key
+    url_password: "{{grafana_backups_api_token}}"
+    force_basic_auth: yes
+  register: api_token_check_response
+  fail_when: api_token_check_response.status_code != 200
+
 - name: "Determining filename of latest grafana backup"
   shell: "ls {{backups_external_copy_path}}/$(ls {{backups_external_copy_path}}/ | tail -n 1)/grafana*"
   register: grafana_backup_path

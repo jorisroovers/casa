@@ -54,7 +54,11 @@
     - nodejs  # npm is included
 
 - name: "Installing pip"
-  pip: name=pip
+  shell: >
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py;
+    python get-pip.py
+  args:
+    chdir: "/tmp"
   become: yes
 
 - name: "Installing rg"

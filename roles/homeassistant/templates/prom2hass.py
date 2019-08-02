@@ -1,5 +1,8 @@
 import datetime
 import requests
+import logging
+import time
+start_time = time.time()
 
 ################################################################################
 # Config
@@ -7,14 +10,20 @@ HASS_API_TOKEN = "{{homeassistant_api_access_tokens.local_integrations}}"
 HASS_HOST = "http://0.0.0.0:{{homeassistant_port}}"
 PROMETHEUS_HOST = "http://0.0.0.0:{{prometheus_port}}"
 DEBUG = True
+LOG_FILE = "/config/prom2hass.log"
+PROM_FILE = "{{node_exporter_textfile_exports}}/prom2hass.prom"
 
 ################################################################################
 # Utility Functions
 
+LOG = logging.getLogger("prom2hass")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s - %(levelname)s - %(message)s", filename=LOG_FILE)
+
 
 def debug(msg):
-    if DEBUG:
-        print(msg)
+    LOG.info(msg)
+    # if DEBUG:
+    #     print(msg)
 
 
 def create_sensor(sensor_type, sensor_name, payload):
@@ -87,3 +96,14 @@ debug("Adding aggregate alert sensor to homeassistant...")
 payload['state'] = aggregate_state
 payload['attributes']['friendly_name'] = "prometheus_aggregate"
 create_sensor("binary_sensor", "prometheus_aggregate", payload)
+
+script_time = time.time()-start_time
+debug("Total script runtime: {0}".format(script_time))
+
+with open(PROM_FILE, "w+") as f:
+    lines = [
+        "# HELP prom2hass_duration_sec prom2hass script execution duration\n"
+        "# TYPE prom2hass_duration_sec gauge\n"
+        "prom2hass_duration_sec {0}\n".format(script_time)
+    ]
+    f.writelines(lines)

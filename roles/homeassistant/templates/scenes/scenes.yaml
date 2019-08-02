@@ -104,6 +104,10 @@
     light.office:
         state: on
         kelvin: 3500
+    light.woonkamer_tv:
+        state: off
+    light.tv_staanlamp:
+        state: off
 
 - name: Working
   entities:

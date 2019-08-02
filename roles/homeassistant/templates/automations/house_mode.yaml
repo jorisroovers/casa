@@ -27,6 +27,9 @@
     - platform: state
       entity_id: binary_sensor.is_evening
       to: "on"
+  condition:
+    - condition: template
+      value_template: "{% raw %}{{ states.input_select.house_mode.state != 'Sleeping' }}{% endraw %}" # Don't put house in Evening mode when we're already Sleeping (useful in the summer when then sun goes down late)
   action:
     - service: input_select.select_option
       data_template:

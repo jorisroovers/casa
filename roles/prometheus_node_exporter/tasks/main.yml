@@ -27,9 +27,27 @@
   service: name={{node_exporter_service}}.service state=started enabled=yes
   become: yes
 
-- name: Creating textfile exports directory
-  file: dest={{node_exporter_textfile_exports}} state=directory owner={{node_exporter_user}} group={{node_exporter_group}} mode=o+w
+- name: Creating textfile_exports and custom_collector directories
+  file: dest="{{item.dest}}" state=directory owner={{node_exporter_user}} group={{node_exporter_group}} mode={{item.mode}}
   become: yes
+  with_items:
+    - { dest: "{{node_exporter_textfile_exports}}", mode: "o+w" }
+    - { dest: "{{node_exporter_custom_collectors}}", mode: "u+w" }
+
+- name: Adding custom exporter scripts
+  template: src="{{item}}" dest="{{node_exporter_custom_collectors}}/{{item}}" owner={{node_exporter_user}} group={{node_exporter_group}} mode=u+x
+  become: yes
+  with_items:
+    - "process-cpu-usage.py"
+
+- name: "Adding cronjob for custom exporters"
+  cron: name="Periodic {{item}}.py run" minute="*/1" job="{{node_exporter_custom_collectors}}/{{item}}.py >> {{node_exporter_custom_collectors}}/{{item}}.log 2>&1"
+        user={{node_exporter_user}}
+  become: yes
+  with_items:
+   - "process-cpu-usage"
+
+
 
 # NOTE: Don't expose node-exporter IPs, that data can be accessed through prometheus
 # - name: "Add iptable rule for node-exporter"

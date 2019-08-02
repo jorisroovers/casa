@@ -65,6 +65,8 @@
         option: Dinner With Friends
     input_select.camera_preset:
         option: Home
+    media_player.living_room:
+        volume_level: 0.05
 
 - name: Romance
   entities:

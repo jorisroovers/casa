@@ -2,26 +2,26 @@ homeassistant:
 {% for key, value in homeassistant_general_config.iteritems() %}
   {{key}}: {{value}}
 {% endfor %}
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+{% for network in homeassistant_http.trusted_networks %}
+        - {{network}}
+{% endfor %}
+
 
 # Discover some devices automatically
 # discovery:
 
 system_health:
 
-# Set API Password
-http:
-  trusted_networks:
-{% for network in homeassistant_http.trusted_networks %}
-     - {{network}}
-{% endfor %}
-
 logger:
   default: info
-  logs:
-    homeassistant.components.device_tracker: error
-    homeassistant.components.device_tracker.nmap_tracker: error
-    homeassistant.components.device_tracker.ping: warn
-    homeassistant.components.http: warn
+  # logs:
+    # homeassistant.components.device_tracker: error
+    # homeassistant.components.device_tracker.nmap_tracker: error
+    # homeassistant.components.device_tracker.ping: warn
+    # homeassistant.components.http: warn
     # homeassistant.components.automation: debug
 
 # View all events in a logbook
@@ -30,17 +30,12 @@ logbook:
 # Enables the frontend
 frontend:
 
-# Enables support for tracking state changes over time.
-history:
+# The 'history' component is the history tab in the homeassitant UI. This tends to be very slow. We use
+# prometheus+grafana instead for historic data, so we can disable this.
+# history:
 
-influxdb:
-  host: localhost
-  port: "{{influxdb_port}}"
-  username: "{{influxdb_homeassistant_user}}"
-  password: "{{influxdb_homeassistant_password}}"
-  database: "{{influxdb_homeassistant_db}}"
-  ssl: true
-  verify_ssl: false # self-signed cert
+prometheus:
+  namespace: homeassistant
 
 notify:
   # Hass only works with legacy slack tokens
@@ -64,6 +59,11 @@ device_tracker:
     track_new_devices: no
     consider_home: 1200
     interval_seconds: 5
+    exclude:
+{% for excluded_target in nmap_exclude %}
+      - {{excluded_target}}
+{% endfor %}
+    # Newline required here so ansible doesn't mess up the indentation after 'endfor'
   - platform: ping
     track_new_devices: yes
     interval_seconds: 5
@@ -72,10 +72,6 @@ device_tracker:
 {% for key, value in device_tracker_ping.iteritems() %}
       {{key}}: {{value}}
 {% endfor %}
-
-  # - platform: owntracks_http
-  #   interval_seconds: 3
-  #   consider_home: 10
 
 # Track the sun
 sun:

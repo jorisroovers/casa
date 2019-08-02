@@ -2,7 +2,7 @@ prometheus_dir: /opt/prometheus
 prometheus_user: prometheus
 prometheus_group: "{{prometheus_user}}"
 
-prometheus_docker_image: "prom/prometheus:v2.9.2"
+prometheus_docker_image: "prom/prometheus:v2.11.1"
 prometheus_port: 9090
 prometheus_host: "{{casa_ip}}"
 

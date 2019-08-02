@@ -164,11 +164,11 @@ TODO: Need to spend a bit more time on documenting this.
 
  Component                                                                        | Description         |
 | ------------------------------------------------------------------------------- | ------------------- |
-| System Health | |
-| HTTP API | |
+| [System Health](https://www.home-assistant.io/components/system_health/) | Collection of basic system information |
+| HTTP API | Exposing via  |
 | Logger | |
 | InfluxDB | |
-| Notify  - Slack | |
+| [Notify  - Slack](https://www.home-assistant.io/components/slack/) | Notifications to slack on events. |
 | Device Tracker - Nmap  | |
 | Device Tracker - Ping | |
 | Sun | |
@@ -186,15 +186,14 @@ TODO: Need to spend a bit more time on documenting this.
 | Sensor - Template | |
 | Binary Sensor - Workday | |
 | Binary Sensor - Template | |
-| Nest  | |
+| [Nest](https://www.home-assistant.io/components/nest/) | Device Control: Nest |
 | DeConz | TODO |
-| Emulated Hue | |
+| [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) | Integration between Alexa and home-assistant |
 | Zwave | |
 | Shell Command | |
 | Input Select | |
 | Input Boolean | |
 | [Amazon Polly](https://www.home-assistant.io/components/amazon_polly/) | AWS Text-to-Speech engine. Allows the house to talk back (e.g. "Good Night!"). Cool? Yes. Nerdy? For sure. |
-| Emulated Hue | |
 
 
 # Getting Started

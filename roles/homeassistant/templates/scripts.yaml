@@ -26,6 +26,13 @@ leave: # Used by emulated hue
         entity_id: input_select.house_mode
         option: "Away"
 
+comehome: # Used by emulated hue
+  sequence:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.house_mode
+        option: "Auto"
+
 play_artist:
   sequence:
     - service: shell_command.play_sonos_preset

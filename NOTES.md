@@ -31,7 +31,6 @@ $ curl -I -m 2 http://$SAMSUNGTV_IP:8001/api/v2/
 curl: (7) Failed to connect to $SAMSUNGTV_IP port 8001: Connection refused
 ```
 
-
 ## InfluxDB:
 ```bash
 export INFLUX_USERNAME="$(vault-get influxdb_admin_user)";export INFLUX_PASSWORD="$(vault-get influxdb_admin_password)"; export INFLUX_HOST="$HASS_IP";

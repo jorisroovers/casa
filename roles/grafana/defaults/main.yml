@@ -1,4 +1,4 @@
-grafana_docker_image: "grafana/grafana:6.0.0"
+grafana_docker_image: "grafana/grafana:6.2.5"
 
 grafana_user: "grafana"
 grafana_group: "{{grafana_user}}"

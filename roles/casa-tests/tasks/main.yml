@@ -6,6 +6,8 @@
     volumes:
       - /dev/shm:/dev/shm
     network_mode: host
+    env:
+      START_XVFB: "false"
     recreate: "{{recreate_containers}}"
     restart_policy: unless-stopped
   become: yes

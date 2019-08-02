@@ -104,6 +104,14 @@ groups:
       labels:
         severity: page
 
+- name: High CPU usage
+  rules:
+    - alert: node.load15
+      expr: "node_load15 > 3" # Notify if 15 min load is higher than 3
+      for: 30s
+      labels:
+        severity: page
+
 - name: Node Exporter - Controller
   rules:
     - alert: node_exporter.controller.up

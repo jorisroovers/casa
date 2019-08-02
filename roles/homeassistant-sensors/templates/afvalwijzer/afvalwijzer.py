@@ -1,12 +1,34 @@
 #!/usr/bin/env python3
 from bs4 import BeautifulSoup
 import datetime
+import logging
 import os
 import requests
 
+
+########################################################################################################################
+# Setup Logging
+
+
+def setup_logging():
+    """ Setup logging """
+    root_log = logging.getLogger("afvalwijzer")
+    root_log.propagate = False  # Don't propagate to child loggers
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter("%(asctime)s %(levelname)s: %(name)s %(message)s", "%Y-%m-%d %H:%M:%S")
+    handler.setFormatter(formatter)
+    root_log.addHandler(handler)
+    # root_log.setLevel(logging.ERROR)
+
+setup_logging()
+LOG = logging.getLogger("afvalwijzer")
+
+########################################################################################################################
+# Check the correct env vars are set
+
 for env_var in ['AFVALWIJZER_ZIPCODE', 'AFVALWIJZER_HOUSENUMBER', 'HASS_API_TOKEN', 'HASS_HOST']:
     if not env_var in os.environ:
-        print("Environment variable {0} required".format(env_var))
+        LOG.fatal("Environment variable {0} required".format(env_var))
         exit(1)
 
 ########################################################################################################################
@@ -14,11 +36,11 @@ for env_var in ['AFVALWIJZER_ZIPCODE', 'AFVALWIJZER_HOUSENUMBER', 'HASS_API_TOKE
 
 
 def create_sensor(sensor_type, sensor_name, payload):
-    print("Making API call to Homeassistant to install sensor {0}.{1}".format(sensor_type, sensor_name))
+    LOG.info("Making API call to Homeassistant to install sensor {0}.{1}".format(sensor_type, sensor_name))
     headers = {"Authorization": "Bearer {0}".format(os.environ['HASS_API_TOKEN']), "Content-Type": "application/json"}
     url = "{0}/api/states/{1}.{2}".format(os.environ['HASS_HOST'], sensor_type, sensor_name)
     resp = requests.post(url, json=payload, headers=headers, timeout=2)
-    print("DONE ({0})".format(resp))
+    LOG.info("DONE ({0})".format(resp))
 
 ########################################################################################################################
 # Fetch html page from afvalwijzer.nl
@@ -35,25 +57,25 @@ now = datetime.datetime.now()
 
 if os.path.isfile(CACHE_FILE):
     use_cache = True
-    print("Found cached file", CACHE_FILE)
+    LOG.info("Found cached file", CACHE_FILE)
     st = os.stat(CACHE_FILE)
     time_delta = int(now.timestamp() - st.st_mtime)
-    print("Cache age is {0} secs (max age = {1})".format(time_delta, CACHE_MAX_AGE_SEC))
+    LOG.info("Cache age is {0} secs (max age = {1})".format(time_delta, CACHE_MAX_AGE_SEC))
     if time_delta > CACHE_MAX_AGE_SEC:
-        print("Cache age > {1} secs, refreshing the cache...".format(time_delta, CACHE_MAX_AGE_SEC))
+        LOG.info("Cache age > {1} secs, refreshing the cache...".format(time_delta, CACHE_MAX_AGE_SEC))
         use_cache = False
 
 if use_cache:
-    print("Reading content from cache ({0})".format(CACHE_FILE))
+    LOG.info("Reading content from cache ({0})".format(CACHE_FILE))
     content = open(CACHE_FILE, "r").read()
 else:
     url = "https://www.mijnafvalwijzer.nl/nl/{0}/{1}/".format(os.environ['AFVALWIJZER_ZIPCODE'],
                                                               os.environ['AFVALWIJZER_HOUSENUMBER'])
-    print("Getting afvalwijzer details from {0}".format(url))
+    LOG.info("Getting afvalwijzer details from {0}".format(url))
     resp = requests.get(url)
     content = resp.content
 
-    print("Saving content to cache ({0})".format(CACHE_FILE))
+    LOG.info("Saving content to cache ({0})".format(CACHE_FILE))
 
     # write fetched content to cache
     with open(CACHE_FILE, "w") as f:

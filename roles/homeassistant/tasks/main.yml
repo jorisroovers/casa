@@ -69,11 +69,13 @@
     - hass-config
   become: yes
 
-- name: "Adding prom2hass.sh script"
+- name: "Adding prom2hass.py script"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}} mode=u+x
   with_items:
    - prom2hass.py
   become: yes
+  tags:
+    - prom2hass
 
 - name: "Ensure all files are owned by the homeassistant user"
   file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}} recurse=yes
@@ -87,6 +89,7 @@
     volumes:
       - "{{homeassistant_dir}}/:/config"
       - /etc/localtime:/etc/localtime:ro
+      - "{{node_exporter_textfile_exports}}/:{{node_exporter_textfile_exports}}"
     labels:
       group: homeassistant
     network_mode: host

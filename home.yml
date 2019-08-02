@@ -14,7 +14,7 @@
     - { role: prometheus_node_exporter, tags: ['node_exporter']}
     - { role: prometheus_process_exporter, tags: ['process_exporter', 'process-exporter']}
     # - { role: sensu, tags: ['sensu']} # depends-on: influxdb
-    - { role: backups, tags: ['backup', 'backups']} # depends-on: sensu
+    - { role: backups, tags: ['backup', 'backups', 'backups-only']} # depends-on: sensu
     - { role: elk_logstash, tags: ['elk', 'logstash']}
     - { role: deconz, tags: ['deconz']}
     - { role: homeassistant, tags: ['homeassistant', 'hass']}

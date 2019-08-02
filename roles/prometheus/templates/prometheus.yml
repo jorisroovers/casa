@@ -2,19 +2,19 @@ global:
   scrape_interval: 15s
 
 # Export to influxDB
-remote_write:
-  - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/write?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
-    tls_config:
-      key_file: /config/influx.pem
-      cert_file: /config/influx.cert
-      insecure_skip_verify: yes # don't verify server
+# remote_write:
+#   - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/write?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
+#     tls_config:
+#       key_file: /config/influx.pem
+#       cert_file: /config/influx.cert
+#       insecure_skip_verify: yes # don't verify server
 
-remote_read:
-  - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/read?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
-    tls_config:
-      key_file: /config/influx.pem
-      cert_file: /config/influx.cert
-      insecure_skip_verify: yes # don't verify server
+# remote_read:
+#   - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/read?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
+#     tls_config:
+#       key_file: /config/influx.pem
+#       cert_file: /config/influx.cert
+#       insecure_skip_verify: yes # don't verify server
 
 rule_files:
   - /config/prometheus-alerts.yml
@@ -37,17 +37,11 @@ scrape_configs:
         labels:
           src: tv_controller
     metric_relabel_configs:
-      - source_labels: [name]
+      - source_labels: [name, interface, device]
         regex: '.*veth.*'
         action: drop
       - source_labels: [name]
         regex: '.*docker.*'
-        action: drop
-      - source_labels: [interface]
-        regex: '.*veth.*'
-        action: drop
-      - source_labels: [device]
-        regex: '.*veth.*'
         action: drop
 
   - job_name: 'Process Exporters'

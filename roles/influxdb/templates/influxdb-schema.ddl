@@ -7,7 +7,7 @@ CREATE USER "{{influxdb_grafana_user}}" WITH PASSWORD '{{influxdb_grafana_passwo
 CREATE USER "{{influxdb_prometheus_user}}" WITH PASSWORD '{{influxdb_prometheus_password}}'
 
 -- Duration required (infinite by default)
-CREATE DATABASE {{influxdb_homeassistant_db}} WITH DURATION 90d
+CREATE DATABASE {{influxdb_homeassistant_db}} WITH DURATION 30d
 GRANT ALL ON {{influxdb_homeassistant_db}} TO "{{influxdb_homeassistant_user}}"
 GRANT ALL ON {{influxdb_homeassistant_db}} TO "{{influxdb_grafana_user}}"
 

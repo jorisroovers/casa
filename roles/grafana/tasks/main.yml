@@ -68,6 +68,16 @@
   tags:
     - grafana-datasources
 
+- name: "Installing prometheus-influxdb datasource"
+  include_tasks: install_prometheus_datasource.yml
+  vars:
+    datasource_name: "prometheus-direct"
+    datasource_user: ""
+    datasource_password: ""
+    datasource_database: ""
+  tags:
+    - grafana-datasources
+
 # Important: Dashboard import needs to happen through the same tool
 # Just importing an exported dashboard through grafana UI won't work!
 - name: "Installing Grafana backup tool"

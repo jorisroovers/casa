@@ -41,11 +41,10 @@
         state: on
         kelvin: 2000
         brightness_pct: 75
-
-    # switch.christmas_tree:
-    #     state: on
-    # switch.christmas_ambience_office:
-    #     state: on
+    switch.christmas_tree:
+        state: on
+    switch.christmas_ambience_office:
+        state: on
 
 
 # When away, don't turn off lights_downstairs_automatic or group.lights_outside

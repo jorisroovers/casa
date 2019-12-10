@@ -129,8 +129,8 @@ Other gear I have that is currently not (yet) integrated in the setup:
 | [Homeassistant](https://home-assistant.io/)       | Main home automation platform that integrates everything together.   |
 | [HADashboard](http://appdaemon.readthedocs.io/en/stable/DASHBOARD_INSTALL.html) | Part of [appdaemon](https://appdaemon.readthedocs.io/en/latest/) that allows for easy creation of dashboards for Home Assistant that are intended to be wall mounted (optimized for distance viewing).|
 | [Docker](https://www.docker.com/)      | A good amount of software components run in containers, I use plain docker to manage them. I've considered using something like docker swarm or kubernetes for management/orchestration, but given that I only run containers on a single machine for now, I don't believe the overhead is worth it.                    |
-| [InfluxDB](https://docs.influxdata.com/influxdb)     | Time series database used to persistently store sensor and monitoring data.      | [Grafana](https://grafana.com/)                      |  Visualization dashboard to display metrics stored in homeassistant and influxDB.                  |
 | [ELK](https://www.elastic.co/elk-stack) | Log Aggregation, Search Indexing, web dashboard. Don't use ELK very excessively as it uses too much memory and CPU for my liking. I'm considering switching to [fleuntd](https://www.fluentd.org/) for the log aggregation part - but the truth is that I get by with just some CLI commands for the majority of what I need. Having a log aggregation stack installed is mostly for exploration purposes.    |
+| [Grafana](https://grafana.com/)                      |  Visualization dashboard to display metrics stored in homeassistant and prometheus.                  |
 | [Prometheus](https://prometheus.io/)   | Main monitoring platform that collects metrics on various components of my stack, and alerts when certain conditions are (not) met.   |
 | [Alert Manager](https://prometheus.io/docs/alerting/alertmanager/) | Default alerting solution for prometheus. |
 | [Node Exporter](https://github.com/prometheus/node_exporter) | Widely popular linux system data exporter for prometheus. |
@@ -143,6 +143,8 @@ Other gear I have that is currently not (yet) integrated in the setup:
 | [Ser2net](http://ser2net.sourceforge.net/) | Simple way to expose a serial port to the network. I use this to expose a serial stream coming from a Raspberry PI connected to my smart electricity meter to homeassistant.   |
 | [Monit](https://mmonit.com/monit/) | **No longer used**. When I started out, I used Monit for simple monitoring but I quickly required more elaborate monitoring capabilities. |
 | [Sensu](https://sensu.io/) | **No longer used**. I migrated from Monit to Sensu for monitoring but over time that ended up consuming way too much CPU and memory which tended to slow my whole stack down. Currently on Prometheus. |
+| [InfluxDB](https://docs.influxdata.com/influxdb)     | **No longer used** Time series database used to persistently store sensor and monitoring data. Stopped using it because Prometheus is already providing everything I needed and InfluxDB was adding too much overhead, contributing to high CPU utilization.  |
+
 
 On many occasions there's been a need to write custom scripts to enhance functionality or integrate certain systems together. The table below shows a few that I think are worth calling out - you'll probably find more when browsing the source code of this repository.
 
@@ -219,5 +221,5 @@ ansible-playbook home.yml -i inventory/vagrant
 # roofcam only
 ansible-playbook home.yml -i inventory/vagrant --tags roofcam
 # using production data
-ansible-playbook home.yml -i  ~/repos/casa-data/inventory/vagrant
+ansible-playbook home.yml -i  ~/repos/casa-data/inventory/prod
 ```

@@ -272,6 +272,10 @@ source activate .venv36 # conda env
 cd tests  # important to be inside the tests directory!
 pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')" tests/
 
+# sanity only
+pytest -m sanity -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')" tests/
+
+
 ```
 
 # Prometheus

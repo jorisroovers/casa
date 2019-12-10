@@ -8,7 +8,7 @@
     - { role: docker, tags: ['docker']}
     - { role: samba-client, tags: ['samba', 'cifs', 'smb']}
     # - { role: webhook, tags: ['webhook']}
-    - { role: influxdb, tags: ['influxdb', 'influx']}
+    # - { role: influxdb, tags: ['influxdb', 'influx']}
     - { role: grafana, tags: ['grafana']} # depends-on: influxdb
     - { role: prometheus, tags: ['prometheus', 'prom']}
     - { role: prometheus_node_exporter, tags: ['node_exporter']}
@@ -24,7 +24,7 @@
     - { role: node-sonos-http-api, tags: ['sonos']}
     # - { role: elk_elasticsearch, tags: ['elasticsearch', 'ES', 'es']}
     # - { role: elk_kibana, tags: ['kibana']}
-    - { role: seshat, tags: ['seshat']}
+    # - { role: seshat, tags: ['seshat']}
     - { role: casa-tests, tags: ['casa-tests', 'tests', 'test']}
 
 

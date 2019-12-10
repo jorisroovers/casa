@@ -13,8 +13,8 @@ lights_downstairs:
    - light.kitchen
    - light.office
    - switch.desk_lamp
-  #  - switch.christmas_tree
-  #  - switch.christmas_ambience_office
+   - switch.christmas_tree
+   - switch.christmas_ambience_office
 
 lights_downstairs_automatic:
   name: "Automatically controlled downstairs lights"
@@ -45,12 +45,12 @@ lights_upstairs:
 unavailable_allowed:
   name: Unavailable allowed
   view: no
-  entities: []
-    # - light.laundry_room_lamp_1
+  entities: # []
+    - light.living_ambience_lamp_1
 
-# lights_christmas:
-#   name: "Christmas lights"
-#   view: no
-#   entities:
-#     - switch.christmas_tree
-#     - switch.christmas_ambience_office
+lights_christmas:
+  name: "Christmas lights"
+  view: no
+  entities:
+    - switch.christmas_tree
+    - switch.christmas_ambience_office

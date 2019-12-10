@@ -4,7 +4,9 @@ import pytest
 LOG = logging.getLogger()
 
 
-@pytest.mark.sanity
+# We need selenium (or similar) since the dashboard pages require
+# javascript to be executed to render. Just fetching the page and parsing it
+# using e.g. BeautifulSoup won't work.
 def test_entity_not_found(driver, hadashboard_url):
     # Find all dashboards:
     driver.get(hadashboard_url)

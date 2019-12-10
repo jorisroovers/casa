@@ -13,7 +13,7 @@
         entity_id: "{% raw %}{{ 'scene.Cooking' if is_state('input_boolean.cooking', 'on') else 'scene.StopCooking'}}{% endraw %}"
     # When TV is off and no other music is playing => Play some music
     - condition: state
-      entity_id: "device_tracker.samsungtv"
+      entity_id: "device_tracker.tv_livingroom"
       state: "not_home"
     - condition: state
       entity_id: "media_player.tv_room"
@@ -47,7 +47,7 @@
   action:
     - delay: 0:45
     - condition: state
-      entity_id: "device_tracker.samsungtv"
+      entity_id: "device_tracker.tv_livingroom"
       state: "home"
     - service: input_boolean.turn_off
       data:

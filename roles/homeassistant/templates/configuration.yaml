@@ -3,12 +3,13 @@ homeassistant:
   {{key}}: {{value}}
 {% endfor %}
   auth_providers:
+    - type: homeassistant
     - type: trusted_networks
+      allow_bypass_login: true
       trusted_networks:
 {% for network in homeassistant_http.trusted_networks %}
         - {{network}}
 {% endfor %}
-
 
 # Discover some devices automatically
 # discovery:
@@ -17,9 +18,9 @@ system_health:
 
 logger:
   default: info
-  # logs:
-    # homeassistant.components.device_tracker: error
-    # homeassistant.components.device_tracker.nmap_tracker: error
+  logs:
+    homeassistant.components.device_tracker: error
+    homeassistant.components.device_tracker.nmap_tracker: error
     # homeassistant.components.device_tracker.ping: warn
     # homeassistant.components.http: warn
     # homeassistant.components.automation: debug
@@ -90,6 +91,11 @@ media_player:
   - platform: samsungtv
     host: {{samsungtv_host}}
     port: 8001
+    name: tv_bedroom
+  - platform: samsungtv
+    host: {{tv_livingroom_host}}
+    port: 8001
+    name: tv_livingroom
   # Apparently Hass' spotify component doesn't recognize sonos devices :(
   # https://community.home-assistant.io/t/spotify-does-not-find-sonos-players-in-source/16245
   - platform: spotify
@@ -189,7 +195,8 @@ sensor:
 {% for account in postnl_accounts %}
     - platform: postnl
       username: "{{ account['username'] }}"
-      password: "{{ account['password'] }}"
+      password: "{{ account.password }}"
+      name: "{{ account.name }}"
 {% endfor %}
     - platform: dsmr
       host: "{{groups["energy_tracker"][0]}}"
@@ -249,7 +256,7 @@ sensor:
           {% raw %}
           value_template: >-
             {% set ns = namespace(shipments=0) %}
-            {% for shipment in state_attr('sensor.postnl', 'shipments') + state_attr('sensor.postnl_2', 'shipments') %}
+            {% for shipment in state_attr('sensor.postnl_joris', 'shipments') + state_attr('sensor.postnl_ilse', 'shipments') %}
               {% if not shipment['status']['isDelivered'] %}
                {% set ns.shipments=ns.shipments+1 %}
               {% endif %}
@@ -262,11 +269,16 @@ sensor:
           friendly_name: "PostNL Shipment Details"
           {% raw %}
           value_template: >-
-            {% if states("sensor.postnl") | int + states("sensor.postnl_2") | int > 0 %}
+            {% if states("sensor.postnl_joris") | int + states("sensor.postnl_ilse") | int > 0 %}
               <ol>
-              {%- for shipment in state_attr('sensor.postnl', 'shipments') + state_attr('sensor.postnl_2', 'shipments') %}
+              {%- for shipment in state_attr('sensor.postnl_joris', 'shipments') %}
                 {%- if not shipment['status']['isDelivered'] %}
-                <li>[{{ "Joris" if shipment in state_attr('sensor.postnl_2', 'shipments') else "Ilse" }}] {{ as_timestamp(shipment['status']['enroute']['timeframe']['from']) | timestamp_custom('%a %d %b %Y, %H:%M-')}}{{ as_timestamp(shipment['status']['enroute']['timeframe']['to']) | timestamp_custom('%H:%M')}} {{ shipment['title'] }}</li>
+                <li>[Joris] {{ as_timestamp(shipment['status']['enroute']['timeframe']['from']) | timestamp_custom('%a %d %b %Y, %H:%M-')}}{{ as_timestamp(shipment['status']['enroute']['timeframe']['to']) | timestamp_custom('%H:%M')}} {{ shipment['title'] }}</li>
+                {%- endif %}
+              {%- endfor %}
+              {%- for shipment in state_attr('sensor.postnl_ilse', 'shipments') %}
+                {%- if not shipment['status']['isDelivered'] %}
+                <li>[Ilse] {{ as_timestamp(shipment['status']['enroute']['timeframe']['from']) | timestamp_custom('%a %d %b %Y, %H:%M-')}}{{ as_timestamp(shipment['status']['enroute']['timeframe']['to']) | timestamp_custom('%H:%M')}} {{ shipment['title'] }}</li>
                 {%- endif %}
               {%- endfor %}
               </ol>
@@ -343,6 +355,7 @@ nest:
 emulated_hue:
   host_ip: "{{casa_ip}}"
   advertise_ip: "{{casa_ip}}"
+  listen_port: 80
   expose_by_default: false
   entities:
     # Lights

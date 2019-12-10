@@ -98,10 +98,10 @@
         option: Christmas
     input_select.camera_preset:
         option: Home
-    # switch.christmas_tree:
-    #     state: on
-    # switch.christmas_ambience_office:
-    #     state: on
+    switch.christmas_tree:
+        state: on
+    switch.christmas_ambience_office:
+        state: on
 
 - name: Relaxing
   entities:

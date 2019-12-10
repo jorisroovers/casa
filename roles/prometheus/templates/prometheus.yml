@@ -50,6 +50,16 @@ scrape_configs:
         labels:
           src: controller
 
+  - job_name: 'Homeassistant metrics'
+    scrape_interval: 60s
+    metrics_path: /api/prometheus
+
+    # Homeassistant Long-Lived Access Token
+    bearer_token: "{{homeassistant_api_access_tokens.local_integrations}}"
+
+    static_configs:
+      - targets: ['{{casa_ip}}:{{homeassistant_port}}']
+
   # Disabled: this caused all sort of issues with docker (still experimental)
   # - job_name: 'Docker Exporter'
   #   static_configs:

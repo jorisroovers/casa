@@ -54,8 +54,8 @@
   initial_state: True
   trigger:
     platform: state
-    entity_id: device_tracker.tv_livingroom
-    to: "home"
+    entity_id: binary_sensor.tv_livingroom_active
+    to: "on"
   action:
     - service: input_select.select_option
       data:
@@ -66,8 +66,8 @@
   initial_state: True
   trigger:
     platform: state
-    entity_id: device_tracker.tv_livingroom
-    to: "not_home"
+    entity_id: binary_sensor.tv_livingroom_active
+    to: "off"
   condition:
    - condition: and
      conditions:

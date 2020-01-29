@@ -36,7 +36,9 @@ $(document).ready(function () {
         // (fallback = Hallway)
         $("#default-house-mode .value").bind('DOMSubtreeModified', function (e) {
             let houseMode = $("#default-house-mode .value").html().toLowerCase();
+            console.log("House MODE", houseMode);
             if (["dag", "avond"].indexOf(houseMode) >= 0) {
+                console.log("Auto nav to dashboard screen", houseMode);
                 let returnURI = getUrlParameter("returnURI");
                 if (returnURI) {
                     navigate(returnURI);
@@ -98,10 +100,12 @@ $(document).ready(function () {
 
     function autoLockScreen() {
         let houseMode = $("#default-house-mode .value");
+        console.log("House MODE", houseMode);
         if (houseMode.length) {
             houseMode = houseMode.html().toLowerCase();
             // if houseMode is set to away or sleeping and we're not already on the Lockscreen -> navigate to lockscreen
             if ((houseMode == "weg" || houseMode == "slapen") && (window.location.pathname.indexOf("LockScreen") < 0)) {
+                console.log("Auto nav to lock screen", houseMode);
                 window.location.href = "/LockScreen?skin=casa&returnURI=" + window.location.pathname;
             }
         }

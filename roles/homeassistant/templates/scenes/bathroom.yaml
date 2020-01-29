@@ -21,8 +21,7 @@
 
 - name: BathroomLeave
   entities:
-    input_select.bathroom_music:
-        option: "Bathroom NoMusic"
+    input_select.bathroom_music: "Bathroom NoMusic"
     light.bathroom_group:
         state: off
     switch.bathroom_mirror_light:
@@ -30,5 +29,4 @@
 
 - name: RelaxingShower
   entities:
-    input_select.bathroom_music:
-        option: "Bathroom Relaxing"
+    input_select.bathroom_music: "Bathroom Relaxing"

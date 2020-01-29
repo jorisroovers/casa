@@ -728,6 +728,15 @@ bedroom_temperature:
     unit_style: "color: #f1c40f"
     sub_entity: climate.hm_cc_rt_dn_oeq2416597.temperature
 
+bedroom_hannah_temperature:
+    title: Slaapkamer Hannah
+    widget_type: sensor
+    precision: 1
+    entity: climate.oeq2642717.current_temperature
+    value_style: "font-size: 375%; color: #f1c40f"
+    unit_style: "color: #f1c40f"
+    sub_entity: climate.oeq2642717.temperature
+
 bedroom_heater:
     widget_type: input_boolean
     title: Slaapkamer verwarming
@@ -789,6 +798,14 @@ kitchen_light:
     entity: light.kitchen
     icon_style_active: "color: #e8e178;"
 
+kitchen_light_on_off:
+    widget_type: switch
+    title: Keuken
+    entity: light.kitchen
+    icon_on: mdi-ceiling-light
+    icon_off: mdi-ceiling-light
+    icon_style_active: "color: #e8e178;"
+
 woonkamer_tv_light:
     widget_type: light
     title: Woonkamer TV
@@ -807,6 +824,14 @@ light_dinner_table:
     title: Eet tafel
     level_down_style: "font-size: 140%"
     level_up_style: "font-size: 140%"
+    icon_style_active: "color: #e8e178;"
+
+light_dinner_table_on_off:
+    widget_type: switch
+    title: Eet tafel
+    entity: light.dining_table
+    icon_on: mdi-ceiling-light
+    icon_off: mdi-ceiling-light
     icon_style_active: "color: #e8e178;"
 
 light_living_ambience:
@@ -849,6 +874,12 @@ bathroom_mirror_light:
     widget_type: switch
     title: Bathroom Mirror
     entity: switch.bathroom_mirror_light
+    icon_style_active: "color: #e8e178;"
+
+pantry_light:
+    widget_type: light
+    title: Bijkeuken
+    entity: light.led_panel_bijkeuken
     icon_style_active: "color: #e8e178;"
 
 # light_laundry_room:

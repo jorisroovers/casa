@@ -10,6 +10,11 @@
     - homeassistant/reload_core_config
     - automation/reload
     - group/reload
+    - input_boolean/reload
+    - input_select/reload
+    - script/reload
+    - scene/reload
+    - person/reload
   # notify: restart_homeassistant
   ignore_errors: yes
 

@@ -67,6 +67,7 @@ device_tracker:
     # Newline required here so ansible doesn't mess up the indentation after 'endfor'
   - platform: ping
     track_new_devices: yes
+    count: 3
     interval_seconds: 5
     consider_home: 7
     hosts:
@@ -298,6 +299,18 @@ binary_sensor:
   - platform: workday
     country: NL
     workdays: [mon, tue, wed, thu, fri]
+    # After upgrading to homeassistant 0.103.x, device_tracker.mbpcisco started flapping, so switched to
+    # binary_sensor.ping
+  - platform: ping
+    host: "{{mbpcisco_host}}"
+    name: mbpcisco_active
+    scan_interval: 5
+  # After upgrading to homeassistant 0.103.x, device_tracker.tv_livingroom started flapping, so switched to
+  # binary_sensor.ping
+  - platform: ping
+    host: "{{tv_livingroom_host}}"
+    name: tv_livingroom_active
+    scan_interval: 5
   - platform: template
     sensors:
       joris_is_workday:
@@ -310,7 +323,7 @@ binary_sensor:
       joris_working:
         friendly_name: "Joris working"
         {% raw %}
-        value_template: "{{ (states('device_tracker.mbpcisco') == 'home') and (is_state('binary_sensor.joris_is_workday', 'on')) }}"
+        value_template: "{{ (states('binary_sensor.mbpcisco_active') == 'on') and (is_state('binary_sensor.joris_is_workday', 'on')) }}"
         {% endraw %}
 
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'

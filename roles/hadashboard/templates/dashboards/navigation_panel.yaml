@@ -39,9 +39,15 @@ upstairs:
     icon_inactive: mdi-stairs
     dashboard: Upstairs
 
+other:
+    widget_type: navigate
+    title: Andere
+    icon_inactive: mdi-dots-horizontal
+    dashboard: Other
+
 reload:
     widget_type: reload
     title: Reload
 
 layout:
-  - home_nav(1x1), media_nav(1x1), security_nav(1x1), hallway_nav(1x1), upstairs(1x1), reload(1x1)
+  - home_nav(1x1), media_nav(1x1), security_nav(1x1), hallway_nav(1x1), upstairs(1x1), other(1x1), reload(1x1)

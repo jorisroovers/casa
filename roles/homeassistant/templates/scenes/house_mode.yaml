@@ -9,26 +9,20 @@
         state: off
     group.lights_downstairs_automatic:
         state: off
-    input_select.downstairs_music:
-        option: NoMusic
-    input_select.bathroom_music:
-        option: Bathroom NoMusic
-    input_select.camera_preset:
-        option: All On
+    input_select.downstairs_music: NoMusic
+    input_select.bathroom_music: "Bathroom NoMusic"
+    input_select.camera_preset: "All On"
     input_boolean.cooking:
         state: off
-    input_select.living_preset:
-        option: NoPreset
+    input_select.living_preset: NoPreset
 
 - name: Day
   entities:
-    input_select.camera_preset:
-        option: Home
+    input_select.camera_preset: Home
 
 - name: Evening
   entities:
-    input_select.camera_preset:
-        option: Home
+    input_select.camera_preset: Home
     group.lights_outside:
         state: on
     light.living_ambience_lamp_1:
@@ -55,13 +49,9 @@
         state: off
     group.lights_upstairs:
         state: off
-    input_select.downstairs_music:
-        option: NoMusic
-    input_select.bathroom_music:
-        option: Bathroom NoMusic
+    input_select.downstairs_music: NoMusic
+    input_select.bathroom_music: "Bathroom NoMusic"
     input_boolean.cooking:
         state: off
-    input_select.camera_preset:
-        option: All On
-    input_select.living_preset:
-        option: NoPreset
+    input_select.camera_preset: "All On"
+    input_select.living_preset: NoPreset

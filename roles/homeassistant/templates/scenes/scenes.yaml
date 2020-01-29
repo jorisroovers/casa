@@ -1,29 +1,5 @@
 
 ################################################################################
-# Cooking                                                                      #
-################################################################################
-
-- name: Cooking
-  entities:
-    light.living_room:
-        state: off
-    light.kitchen:
-        state: on
-    input_select.camera_preset:
-        option: Home
-    input_boolean.cooking:
-        state: on
-
-- name: StopCooking
-  entities:
-    light.living_room:
-        state: off
-    light.kitchen:
-        state: off
-    input_boolean.cooking:
-        state: off
-
-################################################################################
 # Mornings                                                                     #
 ################################################################################
 - name: StartWeekDay
@@ -37,21 +13,17 @@
         state: off
     light.kitchen:
         state: on
-    input_select.bathroom_music:
-        option: "Bathroom NoMusic"
-    input_select.downstairs_music:
-        option: Pop
+    input_select.bathroom_music: "Bathroom NoMusic"
+    input_select.downstairs_music: Pop
     switch.desk_lamp:
         state: on
-    input_select.camera_preset:
-        option: Home
+    input_select.camera_preset: Home
     light.bathroom_group:
         state: off
 
 - name: BathroomMorningWeekDay
   entities:
-    input_select.bathroom_music:
-        option: Bathroom Morning
+    input_select.bathroom_music: "Bathroom Morning"
     light.bathroom_group:
         state: on
         kelvin: 3000
@@ -91,34 +63,4 @@
         kelvin: 2200
         brightness_pct: 20
 
-################################################################################
-# Working                                                                      #
-################################################################################
 
-- name: StartWorkingMorning
-  entities:
-    input_select.downstairs_music:
-        option: NoMusic
-    light.kitchen:
-        state: off
-    light.office:
-        state: on
-        kelvin: 3500
-    light.woonkamer_tv:
-        state: off
-    light.tv_staanlamp:
-        state: off
-
-- name: Working
-  entities:
-    light.office:
-        state: on
-    switch.desk_lamp:
-        state: on
-    input_select.camera_preset:
-        option: Home
-
-- name: NotWorking
-  entities:
-    switch.desk_lamp:
-        state: off

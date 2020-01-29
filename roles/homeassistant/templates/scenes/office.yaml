@@ -8,3 +8,33 @@
         state: on
         kelvin: 2000
         brightness_pct: 75
+
+################################################################################
+# Working                                                                      #
+################################################################################
+
+- name: StartWorkingMorning
+  entities:
+    input_select.downstairs_music: NoMusic
+    light.kitchen:
+        state: off
+    light.office:
+        state: on
+        kelvin: 3500
+    light.woonkamer_tv:
+        state: off
+    light.tv_staanlamp:
+        state: off
+
+- name: Working
+  entities:
+    light.office:
+        state: on
+    switch.desk_lamp:
+        state: on
+    input_select.camera_preset: Home
+
+- name: NotWorking
+  entities:
+    switch.desk_lamp:
+        state: off

@@ -36,6 +36,7 @@
     - dashboards/Security_1.dash
     - dashboards/Security_2.dash
     - dashboards/Monitoring.dash
+    - dashboards/Other.dash
     - dashboards/LockScreen.dash
     - dashboards/navigation_panel.yaml
     - dashboards/Phone_Home.dash
@@ -111,4 +112,4 @@
     name: casa-container
   vars:
     alias_shorthand: "ad"
-    container_name: "{{appdaemon_docker_image}}"
+    container_name: "appdaemon"

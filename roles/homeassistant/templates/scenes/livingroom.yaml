@@ -14,10 +14,8 @@
         brightness_pct: 20
     light.living_room:
         state: off
-    input_select.downstairs_music:
-        option: NoMusic
-    input_select.camera_preset:
-        option: Home
+    input_select.downstairs_music: NoMusic
+    input_select.camera_preset: Home
 
 - name: StopWatchingTV
   entities:
@@ -25,8 +23,7 @@
         state: off
     light.tv_staanlamp:
         state: off
-    input_select.living_preset:
-        option: NoPreset
+    input_select.living_preset: NoPreset
 
 - name: Breakfast
   entities:
@@ -44,10 +41,8 @@
         state: off
     light.office:
         state: off
-    input_select.downstairs_music:
-        option: Breakfast
-    input_select.camera_preset:
-        option: Home
+    input_select.downstairs_music: Breakfast
+    input_select.camera_preset: Home
 
 - name: Dinner
   entities:
@@ -61,11 +56,10 @@
         state: on
     light.office:
         state: off
-    input_select.downstairs_music:
-        option: Dinner With Friends
-    input_select.camera_preset:
-        option: Home
+    input_select.downstairs_music: "Dinner With Friends"
+    input_select.camera_preset: Home
     media_player.living_room:
+        state: playing
         volume_level: 0.05
 
 - name: Romance
@@ -81,10 +75,8 @@
         state: off
     light.living_room:
         state: off
-    input_select.downstairs_music:
-        option: Romance
-    input_select.camera_preset:
-        option: Home
+    input_select.downstairs_music: Romance
+    input_select.camera_preset: Home
 
 - name: Christmas
   entities:
@@ -94,10 +86,8 @@
         brightness_pct: 20
     light.living_room:
         state: off
-    input_select.downstairs_music:
-        option: Christmas
-    input_select.camera_preset:
-        option: Home
+    input_select.downstairs_music: Christmas
+    input_select.camera_preset: Home
     switch.christmas_tree:
         state: on
     switch.christmas_ambience_office:
@@ -116,10 +106,8 @@
         state: off
     light.living_room:
         state: off
-    input_select.downstairs_music:
-        option: Relaxing
-    input_select.camera_preset:
-        option: Home
+    input_select.downstairs_music: Relaxing
+    input_select.camera_preset: Home
 
 - name: Reading
   entities:
@@ -130,8 +118,7 @@
         state: off
     light.kitchen:
         state: off
-    input_select.camera_preset:
-        option: Home
+    input_select.camera_preset: Home
 
 - name: NoPreset
   entities:

@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=%i
-{% for key, value in service_environment.iteritems() %}
+{% for key, value in service_environment.items() %}
 Environment={{key}}={{value}}
 {% endfor %}
 WorkingDirectory={{service_working_dir}}

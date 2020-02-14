@@ -60,7 +60,7 @@
     - {"user": "root", "command": "/bin/systemctl restart {{sonos_http_api_service}}.service"}
 
 - name: Create webhook service
-  include_role:
+  import_role:
     name: systemd_service
   vars:
     service_shorthand: "{{webhook_service_name}}"

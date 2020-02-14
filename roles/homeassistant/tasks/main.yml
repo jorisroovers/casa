@@ -113,7 +113,7 @@
   become: yes
 
 - name: Install casa-container for homeassistant (aliases only for now)
-  include_role:
+  import_role:
     name: casa-container
   vars:
     alias_shorthand: "ha"

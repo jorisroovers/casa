@@ -1,5 +1,5 @@
 - name: "Installing datasource {{datasource_name}}"
-  include_tasks: install_grafana_datasource.yml
+  import_tasks: install_grafana_datasource.yml
   vars:
     datasource_type: "influxdb"
     datasource_url: "https://{{influxdb_bind_ip}}:{{influxdb_port}}"

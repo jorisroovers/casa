@@ -1,5 +1,5 @@
 - name: Creating deconz casa-service
-  include_role:
+  import_role:
     name: casa-service
   vars:
     service_name: "deconz"

@@ -77,7 +77,7 @@
   become: yes
 
 - name: Install backup script
-  include_role:
+  import_role:
     name: backup_script
   vars:
     backup_type: "influxdb"

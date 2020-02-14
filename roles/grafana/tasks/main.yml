@@ -49,7 +49,7 @@
     port: "{{grafana_port}}"
 
 - name: "Installing homeassistant datasource"
-  include_tasks: install_influxdb_datasource.yml
+  import_tasks: install_influxdb_datasource.yml
   vars:
     datasource_name: "homeassistant"
     datasource_user: "{{influxdb_grafana_user}}"
@@ -59,7 +59,7 @@
     - grafana-datasources
 
 - name: "Installing prometheus-influxdb datasource"
-  include_tasks: install_influxdb_datasource.yml
+  import_tasks: install_influxdb_datasource.yml
   vars:
     datasource_name: "prometheus-influxdb"
     datasource_user: "{{influxdb_prometheus_user}}"
@@ -69,7 +69,7 @@
     - grafana-datasources
 
 - name: "Installing prometheus-influxdb datasource"
-  include_tasks: install_prometheus_datasource.yml
+  import_tasks: install_prometheus_datasource.yml
   vars:
     datasource_name: "prometheus-direct"
     datasource_user: ""
@@ -81,13 +81,13 @@
 # Important: Dashboard import needs to happen through the same tool
 # Just importing an exported dashboard through grafana UI won't work!
 - name: "Installing Grafana backup tool"
-  include_tasks: install_grafana_backup_tool.yml
+  import_tasks: install_grafana_backup_tool.yml
   tags:
     - grafana-backup
     - backups
 
 - name: "Restoring dashboards from latest backup"
-  include_tasks: restore_dashboards.yml
+  import_tasks: restore_dashboards.yml
   when: grafana_restore_backup
   tags:
     - grafana-restore-backup

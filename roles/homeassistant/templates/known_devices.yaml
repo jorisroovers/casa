@@ -1,6 +1,6 @@
 {% for device_name, device_values in known_devices.items() %}
 {{device_name}}:
-  {% for key, value in device_values.iteritems() %}
+  {% for key, value in device_values.items() %}
   {{key}}: {{value}}
   {% endfor %}
 {# The following blank line is required for the whitespacing to line up well so we spit up valid yaml  #}

@@ -1,5 +1,5 @@
 - name: Creating tv-api casa-service
-  include_role:
+  import_role:
     name: casa-service
   vars:
     service_name: "tv-api"
@@ -61,7 +61,7 @@
     - restart_tv_api
 
 - name: Create tv-api service
-  include_role:
+  import_role:
     name: systemd_service
   vars:
     service_shorthand: "tv-api"

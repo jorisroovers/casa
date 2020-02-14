@@ -79,7 +79,7 @@
   file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}} recurse=yes
   become: yes
 
-# - include_tasks: genericweather_widget.yml
+# - import_tasks: genericweather_widget.yml
 
 - name: "Add iptable rule for HADashboard"
   iptables: chain=INPUT protocol=tcp destination_port={{appdaemon_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
@@ -108,7 +108,7 @@
     - hadash-container
 
 - name: Install casa-container for homeassistant (aliases only for now)
-  include_role:
+  import_role:
     name: casa-container
   vars:
     alias_shorthand: "ad"

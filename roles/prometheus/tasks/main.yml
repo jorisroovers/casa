@@ -60,7 +60,7 @@
     - prometheus-container
 
 - name: Install casa-container for prometheus (aliases only for now)
-  include_role:
+  import_role:
     name: casa-container
   vars:
     alias_shorthand: "prom"
@@ -85,7 +85,7 @@
     - alertmanager-container
 
 - name: Install casa-container for prometheus (aliases only for now)
-  include_role:
+  import_role:
     name: casa-container
   vars:
     alias_shorthand: "alertmanager"
@@ -110,7 +110,7 @@
     - blackbox-exporter-container
 
 - name: Install casa-container for prometheus (aliases only for now)
-  include_role:
+  import_role:
     name: casa-container
   vars:
     alias_shorthand: "be"

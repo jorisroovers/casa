@@ -202,7 +202,7 @@ TODO: Need to spend a bit more time on documenting this.
 
 **Ok, the title of this section is a lie. Like I've mentioned at the start of this README, I don't really expect this playbook to work for anyone but me. But if you ARE me, here's how you actually run this against your target hosts :-).**
 
-Note: I'm currently using Ansible 2.4.2 and am using some Ansible 2.4 specific features in the playbooks, so that's the version of Ansible you'll need.
+Note: I'm currently using Ansible 2.9.4. The playbooks are not compatible with older Ansible versions.
 
 ## PROD
 

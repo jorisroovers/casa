@@ -1,5 +1,5 @@
 homeassistant:
-{% for key, value in homeassistant_general_config.iteritems() %}
+{% for key, value in homeassistant_general_config.items() %}
   {{key}}: {{value}}
 {% endfor %}
   auth_providers:
@@ -71,7 +71,7 @@ device_tracker:
     interval_seconds: 5
     consider_home: 7
     hosts:
-{% for key, value in device_tracker_ping.iteritems() %}
+{% for key, value in device_tracker_ping.items() %}
       {{key}}: {{value}}
 {% endfor %}
 

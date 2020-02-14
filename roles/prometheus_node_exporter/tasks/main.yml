@@ -1,6 +1,6 @@
 ---
 - name: Creating node_exporter casa-service
-  include_role:
+  import_role:
     name: casa-service
   vars:
     service_name: "node_exporter"

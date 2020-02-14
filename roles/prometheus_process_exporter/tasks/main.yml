@@ -1,6 +1,6 @@
 ---
 - name: Creating process-exporter casa-service
-  include_role:
+  import_role:
     name: casa-service
   vars:
     service_name: "process-exporter"
@@ -32,7 +32,7 @@
     - process-exporter-container
 
 - name: Install casa-container for process-exporter (aliases only for now)
-  include_role:
+  import_role:
     name: casa-container
   vars:
     alias_shorthand: "pe"

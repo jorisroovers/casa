@@ -96,14 +96,6 @@ groups:
       labels:
         severity: page
 
-- name: InfluxDB
-  rules:
-    - alert: influxdb.systemd
-      expr: "node_systemd_unit_state{name=~'{{influxdb_service}}(.*)', state='active'} == 0"
-      for: 30s
-      labels:
-        severity: page
-
 - name: High CPU usage
   rules:
     - alert: node.load15

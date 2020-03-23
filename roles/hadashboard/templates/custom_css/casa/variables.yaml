@@ -44,7 +44,7 @@ head_includes:
 
 body_includes:
  - <script src="/custom_css/casa/scripts.js"></script>
- - <link rel="stylesheet" type="text/css" href="/custom_css/casa/css/fa-pro.min.css">
+ - <link rel="stylesheet" type="text/css" href="/custom_css/casa/css/all.min.css"> # font-awesome Pro v5.12.1
 
 #
 # Styles

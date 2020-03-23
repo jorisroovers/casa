@@ -1,21 +1,6 @@
 global:
   scrape_interval: 15s
 
-# Export to influxDB
-# remote_write:
-#   - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/write?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
-#     tls_config:
-#       key_file: /config/influx.pem
-#       cert_file: /config/influx.cert
-#       insecure_skip_verify: yes # don't verify server
-
-# remote_read:
-#   - url: "https://{{casa_ip}}:{{influxdb_port}}/api/v1/prom/read?db={{influxdb_prometheus_db | urlencode}}&u={{influxdb_prometheus_user | urlencode}}&p={{influxdb_prometheus_password | urlencode}}"
-#     tls_config:
-#       key_file: /config/influx.pem
-#       cert_file: /config/influx.cert
-#       insecure_skip_verify: yes # don't verify server
-
 rule_files:
   - /config/prometheus-alerts.yml
 alerting:

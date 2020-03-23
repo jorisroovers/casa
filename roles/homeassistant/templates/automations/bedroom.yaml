@@ -1,3 +1,7 @@
+################################################################################
+# Bedroom heating                                                              #
+################################################################################
+
 - alias: Start heating in bedroom when switching on switch
   initial_state: True
   trigger:
@@ -38,6 +42,27 @@
         message: |
               Stopped heating bedroom
 
+# - alias: Switch off heater when heat reaches 19 degrees
+#   initial_state: True
+#   trigger:
+#     - platform: numeric_state
+#       entity_id: climate.hm_cc_rt_dn_oeq2416597
+#       value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
+#       above: 19
+#   condition:
+#     - condition: state
+#       entity_id: "input_boolean.heat_bedroom"
+#       state: "on"
+#   action:
+#     - service: notify.slack
+#       data:
+#         message: |
+#               Bedroom temp heated above 19 degrees - turning off the heat
+#     - service: input_boolean.turn_off
+#       data:
+#         entity_id: input_boolean.heat_bedroom
+
+
 - alias: Switch off heater when heat reaches 19 degrees
   initial_state: True
   trigger:
@@ -72,3 +97,12 @@
       data:
         message: |
               Bedroom heating was changed to 'auto' mode, set back to 'manual' mode.
+
+
+################################################################################
+# Window Opener                                                                #
+################################################################################
+
+
+# - wait_template: "{% raw %}{{ is_state('binary_sensor.entrance', 'on') }}{% endraw %}"
+#   timeout: '00:01:00'

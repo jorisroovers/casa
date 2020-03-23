@@ -21,6 +21,9 @@ def parse_args():
 def list_running_hosts():
     cmd = "vagrant status --machine-readable"
     status = subprocess.check_output(cmd.split()).rstrip()
+    # Decode output in Python 3: See https://stackoverflow.com/a/24638593/381010
+    if (sys.version_info.major == 3): 
+        status = status.decode(sys.stdout.encoding)
     hosts = []
     for line in status.split('\n'):
         (_, host, key, value) = line.split(',', 3)
@@ -33,12 +36,16 @@ def get_host_details(host):
     cmd = "vagrant ssh-config {}".format(host)
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
     config = paramiko.SSHConfig()
-    config.parse(p.stdout)
+    stdout = p.stdout
+    if (sys.version_info.major == 3): 
+        stdout = p.stdout.read().decode(sys.stdout.encoding).split('\n')
+    config.parse(stdout)
     c = config.lookup(host)
     return {'ansible_ssh_host': c['hostname'],
             'ansible_ssh_port': c['port'],
             'ansible_ssh_user': c['user'],
-            'ansible_ssh_private_key_file': c['identityfile'][0]}
+            'ansible_ssh_private_key_file': c['identityfile'][0],
+            'ansible_ssh_common_args':'-o StrictHostKeyChecking=no' }
 
 
 def main():

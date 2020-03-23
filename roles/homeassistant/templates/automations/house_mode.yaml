@@ -54,6 +54,54 @@
       data_template:
         entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
 
+
+################################################################################
+# House Mode Automations                                                       #
+################################################################################
+
+- alias: Automations when setting house to Evening
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Evening"
+  action:
+    - service: script.close_bedroom_window
+
+- alias: Automations when setting house to Sleeping
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Sleeping"
+  action:
+    - service: shell_command.samsungtv_send_key
+      data_template:
+        key: "KEY_POWEROFF"
+    - service: script.tts_say
+      data_template:
+        entity_id: media_player.living_room
+        message: "Locking down the house. Good Night!"
+
+
+- alias: Automations when setting house to Away
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Away"
+  action:
+    - service: shell_command.samsungtv_send_key
+      data_template:
+        key: "KEY_POWEROFF"
+    - service: script.tts_say
+      data_template:
+        entity_id: media_player.living_room
+        message: "Locking down the house. Have a good trip!"
+    - service: script.close_bedroom_window
+
+################################################################################
+
 - alias: Automatically Turn on come home evening scene when arriving home after sunset
   initial_state: True
   trigger:

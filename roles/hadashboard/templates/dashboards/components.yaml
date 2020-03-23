@@ -716,7 +716,7 @@ roofcam_camera:
     refresh: {{camera_widget_refresh_rate}}
 
 ########################################
-# Upstairs                             #
+# Bedroom                              #
 ########################################
 
 bedroom_temperature:
@@ -728,6 +728,32 @@ bedroom_temperature:
     unit_style: "color: #f1c40f"
     sub_entity: climate.hm_cc_rt_dn_oeq2416597.temperature
 
+bedroom_heater:
+    widget_type: input_boolean
+    title: Slaapkamer verwarming
+    entity: input_boolean.heat_bedroom
+    icon_on: mdi-radiator
+    icon_off: mdi-radiator
+    icon_style_active: "color: #ef5353;"
+
+open_bedroom_window:
+    widget_type: script
+    title: "Open Bedroom Window"
+    entity: "script.open_bedroom_window"
+    icon_on: fa-window-frame-open
+    icon_off: fa-window-frame-open
+
+close_bedroom_window:
+    widget_type: script
+    title: "Close Bedroom Window"
+    entity: "script.close_bedroom_window"
+    icon_on: fa-window-frame
+    icon_off: fa-window-frame
+
+########################################
+# Bedroom Hannah                       #
+########################################
+
 bedroom_hannah_temperature:
     title: Slaapkamer Hannah
     widget_type: sensor
@@ -736,14 +762,6 @@ bedroom_hannah_temperature:
     value_style: "font-size: 375%; color: #f1c40f"
     unit_style: "color: #f1c40f"
     sub_entity: climate.oeq2642717.temperature
-
-bedroom_heater:
-    widget_type: input_boolean
-    title: Slaapkamer verwarming
-    entity: input_boolean.heat_bedroom
-    icon_on: mdi-radiator
-    icon_off: mdi-radiator
-    icon_style_active: "color: #ef5353;"
 
 ####################################
 # Lights                           #

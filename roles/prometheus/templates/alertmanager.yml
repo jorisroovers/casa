@@ -19,7 +19,7 @@ route:
 receivers:
   - name: "slack-receiver"
     slack_configs:
-      - channel: "{{slack_default_channel}}"
+      - channel: "{{slack_monitoring_channel}}"
         username: "{{slack_username}}"
-        api_url: "{{slack_home_room_webhook}}"
+        api_url: "{{slack_monitoring_channel_webhook}}"
         text: "Placeholder text"

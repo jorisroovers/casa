@@ -18,7 +18,7 @@ def setup_logging():
     formatter = logging.Formatter("%(asctime)s %(levelname)s: %(name)s %(message)s", "%Y-%m-%d %H:%M:%S")
     handler.setFormatter(formatter)
     root_log.addHandler(handler)
-    # root_log.setLevel(logging.ERROR)
+    root_log.setLevel(logging.INFO)
 
 setup_logging()
 LOG = logging.getLogger("afvalwijzer")
@@ -57,7 +57,7 @@ now = datetime.datetime.now()
 
 if os.path.isfile(CACHE_FILE):
     use_cache = True
-    LOG.info("Found cached file", CACHE_FILE)
+    LOG.info("Found cached file %s", CACHE_FILE)
     st = os.stat(CACHE_FILE)
     time_delta = int(now.timestamp() - st.st_mtime)
     LOG.info("Cache age is {0} secs (max age = {1})".format(time_delta, CACHE_MAX_AGE_SEC))
@@ -97,9 +97,12 @@ for item in soup.find_all("a", class_="wasteInfoIcon"):
     p_items = item.find_all("p")
     if len(p_items) > 0:
         trash_type = p_items[0]['class'][0]
-        date_nl = p_items[0].find(text=True, recursive=False).strip()
+        LOG.debug("Trash Type %s", trash_type)
+        date_nl_span = p_items[0].find("span", recursive=False)
+        date_nl = date_nl_span.find(text=True, recursive=False).strip()
+        LOG.debug("Date NL %s", date_nl)
         date_nl_parts = date_nl.split(" ")
-        # Set pick-up time at 8AM in the morning
+        # Set pick-up time at 11AM in the morning
         parsed_date = datetime.datetime(now.year, MONTHS[date_nl_parts[2]], int(date_nl_parts[1]), 11, 00)
         trash_pickups.append((parsed_date, trash_type))
 

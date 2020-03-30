@@ -19,6 +19,12 @@
 - name: Day
   entities:
     input_select.camera_preset: Home
+    group.lights_outside:
+        state: off
+    light.office_ambience_lamp_1:
+        state: off
+    switch.christmas_tree:
+        state: off
 
 - name: Evening
   entities:

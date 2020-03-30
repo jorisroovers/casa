@@ -17,12 +17,16 @@
     input_select.downstairs_music: NoMusic
     input_select.camera_preset: Home
 
-- name: StopWatchingTV
+- name: StopWatchingTVDay
   entities:
     light.woonkamer_tv:
         state: off
     light.tv_staanlamp:
         state: off
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVEvening
+  entities:
     input_select.living_preset: NoPreset
 
 - name: Breakfast

@@ -2,6 +2,13 @@
 # Office                                                                       #
 ################################################################################
 
+- name: OfficeDay
+  entities:
+    light.office:
+        state: on
+        kelvin: 3500
+        brightness_pct: 100
+
 - name: OfficeEvening
   entities:
     light.office:

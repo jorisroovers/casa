@@ -4,7 +4,6 @@
 
 lights_downstairs:
   name: "Downstairs lights"
-  view: no
   entities:
    - light.woonkamer_tv
    - light.tv_staanlamp
@@ -18,21 +17,18 @@ lights_downstairs:
 
 lights_downstairs_automatic:
   name: "Automatically controlled downstairs lights"
-  view: no
   entities:
     - light.living_ambience_lamp_1
     - light.office_ambience_lamp_1
 
 lights_outside:
   name: "Lights outside"
-  view: no
   entities:
     - light.lamp_voordeur_1
     - light.garden
 
 lights_upstairs:
   name: "Lights Upstairs"
-  view: no
   entities:
     - light.bathroom_group
     - light.nachttafel_ilse
@@ -44,13 +40,11 @@ lights_upstairs:
 # Used as part of sanity testing to ignore certain entities that are unavailable that are expected to be so sometimes.
 unavailable_allowed:
   name: Unavailable allowed
-  view: no
   entities: # []
     - light.living_ambience_lamp_1
 
 lights_christmas:
   name: "Christmas lights"
-  view: no
   entities:
     - switch.christmas_tree
     - switch.christmas_ambience_office

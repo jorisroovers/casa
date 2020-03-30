@@ -1,0 +1,25 @@
+################################################################################
+# TV                                                                           #
+################################################################################
+- alias: Automatically set LivingPreset to Watching TV when turning on the TV
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.tv_livingroom_active
+    to: "on"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_preset
+        option: "Watching TV"
+
+- alias: Automatically set LivingPreset to StopWatchingTV when turning off the TV before sunset
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.tv_livingroom_active
+    to: "off"
+  action:
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{% raw %}scene.StopWatchingTV{{ states('input_select.house_mode')}}{% endraw %}"

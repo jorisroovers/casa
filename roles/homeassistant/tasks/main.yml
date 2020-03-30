@@ -16,18 +16,21 @@
     - "{{homeassistant_dir}}/automations"
     - "{{homeassistant_dir}}/scenes"
     - "{{homeassistant_dir}}/inputs"
+    - "{{homeassistant_dir}}/sensors"
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
     - automations/automations.yaml
-    - automations/hallway.yaml
     - automations/house_mode.yaml
+    - automations/livingroom.yaml
+    - automations/hallway.yaml
     - automations/bathroom.yaml
     - automations/bedroom.yaml
     - automations/laundryroom.yaml
     - automations/office.yaml
     - automations/kitchen.yaml
+    - automations/pantry.yaml
   notify:
     - reload_homeassistant_automations
     # - restart_homeassistant
@@ -55,10 +58,12 @@
    - scenes/bathroom.yaml
    - scenes/livingroom.yaml
    - scenes/laundryroom.yaml
+   - scenes/pantry.yaml
    - scenes/house_mode.yaml
    - scenes/demo.yaml
    - inputs/boolean.yaml
    - inputs/select.yaml
+   - sensors/binary.yaml
    - scripts.yaml
 #   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
    - phue.conf # No longer neccessary?

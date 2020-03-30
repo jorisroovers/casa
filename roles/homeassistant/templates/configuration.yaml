@@ -81,13 +81,6 @@ sun:
 # Enable iOS support
 # ios:
 
-weblink:
-  entities:
-    - name: Sonos HTTP API
-      url: http://{{casa_ip}}:{{sonos_http_api_port}}/
-    - name: HADashboard
-      url: {{appdaemon_dash_url}}
-
 media_player:
   - platform: samsungtv
     host: {{samsungtv_host}}
@@ -97,11 +90,6 @@ media_player:
     host: {{tv_livingroom_host}}
     port: 8001
     name: tv_livingroom
-  # Apparently Hass' spotify component doesn't recognize sonos devices :(
-  # https://community.home-assistant.io/t/spotify-does-not-find-sonos-players-in-source/16245
-  - platform: spotify
-    client_id: {{spotify_client_id}}
-    client_secret: {{spotify_client_secret}}
 
 # There's issues with AppleTV that cause the TV to turn on randomly. Disabling it for now.
 # - https://community.home-assistant.io/t/apple-tv-apple-tv-failed-to-login/11694/53
@@ -189,6 +177,7 @@ sensor:
     - platform: buienradar
       monitored_conditions:
         - symbol
+        - conditiondetailed
         - humidity
         - temperature
         - windspeed
@@ -295,71 +284,7 @@ sensor:
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
 
-binary_sensor:
-  - platform: workday
-    country: NL
-    workdays: [mon, tue, wed, thu, fri]
-    # After upgrading to homeassistant 0.103.x, device_tracker.mbpcisco started flapping, so switched to
-    # binary_sensor.ping
-  - platform: ping
-    host: "{{mbpcisco_host}}"
-    name: mbpcisco_active
-    scan_interval: 5
-  # After upgrading to homeassistant 0.103.x, device_tracker.tv_livingroom started flapping, so switched to
-  # binary_sensor.ping
-  - platform: ping
-    host: "{{tv_livingroom_host}}"
-    name: tv_livingroom_active
-    scan_interval: 5
-  - platform: template
-    sensors:
-      joris_is_workday:
-        friendly_name: "Joris is workday"
-        {% raw %}
-        value_template: "{{ is_state('binary_sensor.workday_sensor', 'on') and is_state('input_boolean.joris_pto', 'off') }}"
-        {% endraw %}
-
-      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-      joris_working:
-        friendly_name: "Joris working"
-        {% raw %}
-        value_template: "{{ (states('binary_sensor.mbpcisco_active') == 'on') and (is_state('binary_sensor.joris_is_workday', 'on')) }}"
-        {% endraw %}
-
-      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-      washing_machine:
-        friendly_name: "Washing Machine"
-        {% raw %}
-        value_template: "{{ states.switch.washing_machine.attributes.current_power_w | float > 2 }}"
-        {% endraw %}
-
-      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-      dryer:
-        friendly_name: "Dryer"
-        {% raw %}
-        value_template: "{{ states.switch.dryer.attributes.current_power_w | float > 2 }}"
-        {% endraw %}
-
-      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-      housekeeping:
-        # Housekeeping on Monday and Fridays
-        friendly_name: "Housekeeping"
-        entity_id: sensor.time
-        value_template: >-
-          {% raw %}{{ ((now().isoweekday() == 1) and (now().hour >= 12 and now().hour < 16))
-              or ((now().isoweekday() == 5) and (now().hour >= 12 and now().hour < 14)) }}{% endraw %}
-
-      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-      is_evening:
-        friendly_name: "Is Evening"
-        entity_id: sensor.time
-
-        # Evening: hour before next sunset OR if  next sunset > midnight (i.e. next sunset is taking place next day)
-        value_template: >-
-          {% raw %}{{ ( as_timestamp(states.sun.sun.attributes.next_setting) > as_timestamp(states.sun.sun.attributes.next_midnight) ) or
-                 ( as_timestamp(now()) > (as_timestamp(states.sun.sun.attributes.next_setting) - (0.75*3600)) ) }}{% endraw %}
-
-        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+binary_sensor: !include sensors/binary.yaml
 
 nest:
     client_id: {{nest_client_id}}

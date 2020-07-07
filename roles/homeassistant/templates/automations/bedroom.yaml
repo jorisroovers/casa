@@ -1,6 +1,6 @@
-################################################################################
-# Bedroom heating                                                              #
-################################################################################
+########################################################################################################################
+# Bedroom heating                                                                                                      #
+########################################################################################################################
 
 - alias: Start heating in bedroom when switching on switch
   initial_state: True
@@ -83,26 +83,49 @@
       data:
         entity_id: input_boolean.heat_bedroom
 
+
 - alias: Automatically bedroom temperature operation mode to manual
   initial_state: True
   trigger:
     - platform: template
-      value_template: "{% raw %}{{ states.climate.hm_cc_rt_dn_oeq2416597.attributes.operation_mode == 'auto' }}{% endraw %}"
+      value_template: "{% raw %}{{ states.climate.hm_cc_rt_dn_oeq2416597.attributes.mode | lower == 'auto' }}{% endraw %}"
   action:
-    - service: climate.set_operation_mode
+    - service: climate.set_hvac_mode
       data:
         entity_id: "climate.hm_cc_rt_dn_oeq2416597"
-        operation_mode: "manual"
+        # hvac_mode:heat ==> manual on HomeMatic
+        hvac_mode: heat
     - service: notify.slack
       data:
         message: |
               Bedroom heating was changed to 'auto' mode, set back to 'manual' mode.
 
+########################################################################################################################
+# Window Opener                                                                                                        #
+########################################################################################################################
 
-################################################################################
-# Window Opener                                                                #
-################################################################################
+- alias: Automatically close bedroom window 30 min before sunrise
+  initial_state: True
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "-00:45:00"
+  action:
+    - service: script.close_bedroom_window
 
+- alias: Automatically close bedroom window when it gets too windy
+  initial_state: True
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.br_wind_speed
+    above: 25
+    for:
+      minutes: 20
+    action:
+      - service: notify.slack
+        data:
+          message: |
+                {% raw %}[Bedroom] Pretty windy right now ({{ states('sensor.br_wind_speed') }} kph){% endraw %}
 
 # - wait_template: "{% raw %}{{ is_state('binary_sensor.entrance', 'on') }}{% endraw %}"
 #   timeout: '00:01:00'

@@ -25,7 +25,7 @@
 - name: Adding NodeJS 10 package source
   shell: "curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -"
   become: yes
-  when: node_version|failed
+  when: node_version is failed
 
 - name: Only run "apt update_cache=yes" if we last did so more than 3600 seconds ago
   apt: update_cache=yes cache_valid_time=3600

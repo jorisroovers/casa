@@ -62,4 +62,4 @@ layout:
     - spacer(2x1), pincode_number_1(1x1), pincode_number_2(1x1), pincode_number_3(1x1)
     - spacer(2x1), pincode_number_4(1x1), pincode_number_5(1x1), pincode_number_6(1x1)
     - spacer(2x1), pincode_number_7(1x1), pincode_number_8(1x1), pincode_number_9(1x1)
-    - spacer(2x1), pincode_clear_button(1x1), pincode_number_0(1x1), pincode_unlock_button(1x1)
+    - spacer(2x1), pincode_clear_button(1x1), pincode_number_0(1x1), pincode_unlock_button(1x1), spacer(2x1), reload(1x1)

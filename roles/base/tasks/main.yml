@@ -56,7 +56,8 @@
 - name: "Installing pip"
   shell: >
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py;
-    python get-pip.py
+    python get-pip.py;
+    python3 get-pip.py
   args:
     chdir: "/tmp"
   become: yes
@@ -90,7 +91,7 @@
     creates: "{{ansible_env.HOME}}/.fzf/bin/fzf"
 
 - name: "Installing more utilities (python)"
-  pip: name={{item}} state=present
+  pip: name={{item}} state=present executable=pip3
   with_items:
     - httpie
   become: yes

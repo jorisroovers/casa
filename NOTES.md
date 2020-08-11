@@ -285,5 +285,3 @@ Checks to convert:
 - Roofcam alive
 - Roofcam water detector
 - Sonos Error
-
-

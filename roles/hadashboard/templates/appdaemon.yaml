@@ -1,17 +1,10 @@
 appdaemon:
-#  logfile: STDOUT
-#  errorfile: STDERR
-#  logsize: 100000
-#  log_generations: 3
+  time_zone: {{homeassistant_general_config.time_zone}}
+  latitude: {{homeassistant_general_config.latitude}}
+  longitude: {{homeassistant_general_config.longitude}}
+  elevation: {{homeassistant_general_config.elevation}}
   disable_apps: 1  # Free up some memory and CPU by disabling the apps part, we only need HADashboard
   threads: 10
-#  cert_path: <path/to/root/CA/cert>
-#  cert_verify: True
-#  time_zone: <time zone>
-#  api_port: 5000
-#  api_key: 
-#  api_ssl_certificate: <path/to/root/CA/cert>
-#  api_ssl_key: <path/to/root/CA/key>
   plugins:
     HASS:
       type: hass
@@ -19,4 +12,8 @@ appdaemon:
       token: {{homeassistant_api_access_tokens.local_integrations}}
 
 hadashboard:
-  dash_url: {{appdaemon_dash_url}}
+
+http:
+    url: {{appdaemon_dash_url}}
+
+admin:

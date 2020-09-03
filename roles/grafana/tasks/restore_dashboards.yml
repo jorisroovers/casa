@@ -5,7 +5,7 @@
     url_password: "{{grafana_backups_api_token}}"
     force_basic_auth: yes
   register: api_token_check_response
-  failed_when: api_token_check_response.status_code != 200
+  failed_when: api_token_check_response.status != 200
 
 - name: "Determining filename of latest grafana backup"
   shell: "ls {{backups_external_copy_path}}/$(ls {{backups_external_copy_path}}/ | tail -n 1)/grafana*"

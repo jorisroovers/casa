@@ -396,18 +396,14 @@ sleep:
 # Presence                           #
 ######################################
 
+
 tv_presence:
-    widget_type: device_tracker
+    widget_type: binary_sensor
     title: TV
-    device: samsungtv
+    entity: binary_sensor.tv_livingroom_active
     icon_on: mdi-power
     icon_off: mdi-power
-    state_map:
-      "home": "On"
-      "not_home": "Off"
-    post_service_active: # Doesn't work :(
-        service: script/turn_on
-        entity_id: script.turn_off_tv
+    state_text: 1
 
 ps4_presence:
     widget_type: binary_sensor
@@ -688,31 +684,42 @@ bathroom_temperature:
 front_garden_camera:
     widget_type: camera
     title: Front Garden
-    entity_picture: {{nest_cam_entity_pictures.front_garden}}
+    entity: camera.front_garden
+    base_url: http://{{casa_ip}}:{{homeassistant_port}}
     refresh: {{camera_widget_refresh_rate}}
 
 back_garden_camera:
     widget_type: camera
     title: Back Garden
-    entity_picture: {{nest_cam_entity_pictures.back_garden}}
+    base_url: http://{{casa_ip}}:{{homeassistant_port}}
+    entity: camera.backyard
     refresh: {{camera_widget_refresh_rate}}
 
 diepvries_camera:
     widget_type: camera
     title: Diepvries
-    entity_picture: {{nest_cam_entity_pictures.diepvries}}
+    base_url: http://{{casa_ip}}:{{homeassistant_port}}
+    entity: camera.diepvries
     refresh: {{camera_widget_refresh_rate}}
 
 hallway_camera:
     widget_type: camera
     title: Hallway
-    entity_picture: {{nest_cam_entity_pictures.hallway}}
+    base_url: http://{{casa_ip}}:{{homeassistant_port}}
+    entity: camera.hallway
+    refresh: {{camera_widget_refresh_rate}}
+
+office_camera:
+    widget_type: camera
+    title: Office
+    base_url: http://{{casa_ip}}:{{homeassistant_port}}
+    entity: camera.office
     refresh: {{camera_widget_refresh_rate}}
 
 roofcam_camera:
     widget_type: camera
     title: Roofcam
-    entity_picture: {{roofcam_entity_picture}}
+    entity: camera.roofcam
     refresh: {{camera_widget_refresh_rate}}
 
 ########################################

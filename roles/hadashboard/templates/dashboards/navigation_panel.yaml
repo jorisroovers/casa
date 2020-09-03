@@ -19,7 +19,7 @@ media_nav:
 security_nav:
     widget_type: navigate
     title: Beveiliging
-    icon_inactive: mdi-security-home
+    icon_inactive: mdi-shield-home
     dashboard: Security_1
     args:
       timeout: {{navigation_timeout}}

@@ -37,7 +37,7 @@ use dummy defaults.
 # Screenshots
 
 ## Main Control interface
-This interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html) (with some customizations) and displayed on 3 wall-mounted iPad minis around the house. This is our primary way of interacting with the system. Under-the-hood this is just a webpage served from the main server and the iPads are just showing those as standalone webapps (=no browser chrome showing) with displays set to always-on. The first iPad I mounted has been continuously running for over 18 months without issues.
+This interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html) (with some customizations) and displayed on 3 wall-mounted iPad minis around the house. This is our primary way of interacting with the system. Under-the-hood this is just a webpage served from the main server and the iPads are just showing those as standalone webapps (=no browser chrome showing) with displays set to always-on. The first iPad I mounted has been continuously running for over 3 years without issues.
 
 ### Home
 ![HADashboard Home](docs/images/AppDaemon-Home.png)
@@ -65,13 +65,13 @@ This interface is more optimized for mobile (this one needs a few bugfixes).
 ## Homeassistant
 
 In the background, [homeassistant](https://www.home-assistant.io/) is actually doing all the heavy lifting. While Homeassistant comes with its own UI, I only use it during development or troubleshooting. The main reason is that the interface is just not as user-friendly as the appdaemon dashboards for permanently wall-mounted tablets (in which big buttons are the way to go).
- With the introduction of [lovelace](https://www.home-assistant.io/lovelace/) more recently, the flexibilty to define your own UI has vastly improved, but from what I've seen and read I still find my existing appdaemon dashboard more appealing. In addition, it would be a considerable amount of effort for me to port all my customizations over to lovelace. One day maybe?
+With the introduction of [lovelace](https://www.home-assistant.io/lovelace/) more recently, the flexibility to define your own UI has vastly improved, but from what I've seen and read I still find my existing appdaemon dashboard more appealing. In addition, it would be a considerable amount of effort for me to port all my customizations over to lovelace. One day maybe?
 
 ### Homeassistant Default interface
 ![Homeasisstant Home](docs/images/HomeAssistant-Home.png)
 
 ## Grafana
-I use [Grafana](https://grafana.com/) to display metrics from Homeassistant, InfluxDB and Prometheus.
+I use [Grafana](https://grafana.com/) to display metrics from Homeassistant and Prometheus.
 
 ### Server health
 ![Grafana Server Health](docs/images/Grafana-Overview.png)
@@ -81,7 +81,7 @@ I use [Grafana](https://grafana.com/) to display metrics from Homeassistant, Inf
 
 ## Prometheus
 
-I use [Prometheus](https://prometheus.io/) with [Node Exporter](https://github.com/prometheus/node_exporter), [Process Exporter](https://github.com/ncabatoff/process-exporter), [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) and [Alert Manager](https://prometheus.io/docs/alerting/alertmanager/) to do monitor and alerting of my whole setup.
+I use [Prometheus](https://prometheus.io/) with [Node Exporter](https://github.com/prometheus/node_exporter), [Process Exporter](https://github.com/ncabatoff/process-exporter), [Blackbox Exporter](https://github.com/prometheus/blackbox_exporter) and [Alert Manager](https://prometheus.io/docs/alerting/alertmanager/) to do monitor and alerting of my whole setup.
 
 ### Prometheus Alerts
 ![Prometheus Alerts](docs/images/Prometheus-Alerts.png)
@@ -95,7 +95,7 @@ Here's a list of home-automation gear I currently have around my house:
 
 | Hardware                                                                        | Notes                                   |
 | ------------------------------------------------------------------------------- | ------------------- |
-| [Sonos play 5, play 1, play base](https://www.sonos.com/en/shop/)               | Internet controllable quality speakers  |
+| [Sonos play 5, play 1, play base, move](https://www.sonos.com/en/shop/)               | Internet controllable quality speakers  |
 | [Philips Hue](https://www2.meethue.com/en-us)                                   | Light bulbs, switches            |
 | [Ikea Tradfri](https://www.ikea.com/us/en/catalog/products/20411562/)                                                                    | Light bulbs, switches, movement sensors |
 | [Nest Cam](https://nest.com/cameras/)                                           | Security monitoring (also remotely). Own various models. |
@@ -104,14 +104,16 @@ Here's a list of home-automation gear I currently have around my house:
 | [HomeMatic HM-CC-RT-DN](https://www.eq-3.com/products/homematic/heating-and-climate-control/homematic-wireless-radiator-thermostat.html#bestell_info)                         | Smart Radiator valves. Allows me to control temperature for radiators upstairs where I have no separate thermostat and heating circuit. |
 | [Nest Protect smoke detectors](https://nest.com/smoke-co-alarm/overview/)      | Smart Smoke detectors  |
 | [TP link HS100 and HS110 Power Switches](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-plug-energy-monitoring-hs110)                                          | Washing Machine and Dryer power monitoring (to detect whether they're running or not) |
-| [Samsung SmartTV UE48H6200AW](https://www.samsung.com/nl/support/model/UE48H6200AWXXN/)                                                     | Our main TV - couple years old but has some basic smartTV features.  |
-| [Wemos D1](https://wiki.wemos.cc/products:d1:d1)                                | A simple custom-build sensor using a cheap Arduino compatible board and an ultrasonic sensor to measure the current height of my standing desk. This allows me to track how much time I've been standing during the day. |
+| [Samsung SmartTV QE55Q70R](https://www.samsung.com/nl/tvs/qled-4k-q70r/QE55Q70RALXXN)                                                     | Our main TV  |
 | [Aeotec Zwave Stick Gen5](https://aeotec.com/z-wave-usb-stick)                   | Simple [Z-wave](https://www.z-wave.com/) controller in USB-stick form factor |
 | [Aeotec ZW100 MultiSensor](https://aeotec.com/z-wave-sensor)                     | Multi-sensor. Used to detect movement, temperature and humidity in bathroom |
 | [iPad mini (Gen 2, Gen 4)](https://www.apple.com/lae/ipad-mini/)                                                        | Wall Mounted control panels             |
 | [Raspberry Pi](https://www.raspberrypi.org/) + [DSMR](https://www.home-assistant.io/components/dsmr/)           | Raspberry Pi connected to smart energy meter for energy monitoring.  |
 | [Amazon Echo dot](https://www.amazon.com/All-new-Echo-Dot-3rd-Gen/dp/B0792KTHKJ)              | Integrated with home-assistant using the [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) component - this allows for alexa integration without exposing the stack to the internet. |
-
+| [Wemos D1](https://wiki.wemos.cc/products:d1:d1)                                | A simple custom-build sensor using a cheap Arduino compatible board and an ultrasonic sensor to measure the current height of my standing desk. This allows me to track how much time I've been standing during the day. |
+| [Custom Window Opener](https://github.com/jorisroovers/window-opener)                                | A custom-build motorized widget to open our bedroom window. I wrote a [lengthy blog-post](https://jorisroovers.com/posts/window-opener) about how I build it. |
+| [Dooya Smart Curtain](http://www.dooya.com/solve_en.php?id=37&nid=48)                                | **In Progress* Smart curtains |
+ 
 
 Other gear I have that is currently not (yet) integrated in the setup:
 
@@ -121,6 +123,12 @@ Other gear I have that is currently not (yet) integrated in the setup:
 | [Elgato Eve Window sensor](https://www.evehome.com/en/eve-door-window)          | HomeKit only. Not currently using. |
 | [Elgato Eve Power plug](https://www.evehome.com/en/eve-energy)                  | Homekit only. Reset wifi every night at 4AM to deal with linksys router firmware issue. Blue-tooth based. Ability to power cycle network gear even when whole network is down. |
 | [Chromecast](https://store.google.com/product/chromecast)                       | We usually use our AppleTV(s) instead. |
+| [Google Nest Home](https://store.google.com/product/google_nest_mini)           | We use our Echo Dot instead  |
+| [Sonoff Basic R2](https://sonoff.tech/product/wifi-diy-smart-switches/basicr2)  | Wifi-enabled ESP8266 based remote relay  |
+| [Shelly 1](https://shelly.cloud/products/shelly-1-smart-home-automation-relay/) | Wifi-enabled ESP8266 based remote relay  |
+| [Deconz Conbee 2](https://phoscon.de/en/conbee) | Universal Zigbee gateway (can replace IKEA/Hue hubs), had some challenges getting this to work and haven't spend more time  |
+
+
 
 ## Software
 
@@ -140,8 +148,9 @@ Other gear I have that is currently not (yet) integrated in the setup:
 | [node-sonos-http-api](https://github.com/jishi/node-sonos-http-api)             | HTTP API bridge for Sonos speakers. Fills some gaps in sonos features that HomeAssistant doesn't support.    |
 | [Selenium](https://www.seleniumhq.org/)   | UI testing framework used as part of my sanity tests. Primarily used to periodically test that all dashboards are still loading correctly (if they're not, that's often an indicator of a bigger underlying issue). |
 | [Slack](https://slack.com/)               | Used for sending notifications when certain events occur around the house.     |
-| [SamTV](https://github.com/McKael/samtv) | Great little CLI tool I use to control my somewhat older Samsung SmartTV that isn't supported by homeassistant itself. |
+| [OpenWRT](https://openwrt.org/)               | Main AP/Router software. Not immediately related to home-automation but important supporting system. |
 | [Ser2net](http://ser2net.sourceforge.net/) | Simple way to expose a serial port to the network. I use this to expose a serial stream coming from a Raspberry PI connected to my smart electricity meter to homeassistant.   |
+| [SamTV](https://github.com/McKael/samtv) | **No longer used** Great little CLI tool I use to control my somewhat older Samsung SmartTV that isn't supported by homeassistant itself. No longer using it since we upgraded our TV to a newer model that is supported by homeassistant. |
 | [Monit](https://mmonit.com/monit/) | **No longer used**. When I started out, I used Monit for simple monitoring but I quickly required more elaborate monitoring capabilities. |
 | [Sensu](https://sensu.io/) | **No longer used**. I migrated from Monit to Sensu for monitoring but over time that ended up consuming way too much CPU and memory which tended to slow my whole stack down. Currently on Prometheus. |
 | [InfluxDB](https://docs.influxdata.com/influxdb)     | **No longer used** Time series database used to persistently store sensor and monitoring data. Stopped using it because Prometheus is already providing everything I needed and InfluxDB was adding too much overhead, contributing to high CPU utilization.  |
@@ -159,44 +168,35 @@ On many occasions there's been a need to write custom scripts to enhance functio
 | [Desk-height](https://github.com/jorisroovers/arduino-playground/blob/master/personal/deskheight/main/) | Simple Arduino-based sensor to determine the current height of my standing desk using an ultrasonic sensor mounted underneath it. This info is then send over to my home server which does some simple processing in logstash and home-assistant to determine whether the desk is up or down. This is then used to calculate and show standing time statistics in grafana. |
 | [Backups](https://github.com/jorisroovers/casa/tree/master/roles/backups) | Set of scripts that do periodic backups of some personal data and copy the resulting tarballs over to a Samba/CIFS network share. Each backup script also has an accompanying monitoring script that periodically verifies whether the last backup was successful. |
 
-## Home-assistant Details
+## Home-assistant details
 
-Here's a little more detail on the different home-assistant integrations that are being used.
-
-TODO: Need to spend a bit more time on documenting this.
+Here's some more detail on some of the different home-assistant integrations that are being used. The actual [configuration.yaml file](roles/homeassistant/templates/configuration.yaml) is the ultimate reference here, as the table below isn't exhaustive or kept up-to-date very well.
 
  Component                                                                        | Description         |
 | ------------------------------------------------------------------------------- | ------------------- |
-| [System Health](https://www.home-assistant.io/components/system_health/) | Collection of basic system information |
-| HTTP API | Exposing via  |
-| Logger | |
-| InfluxDB | |
-| [Notify  - Slack](https://www.home-assistant.io/components/slack/) | Notifications to slack on events. |
-| Device Tracker - Nmap  | |
-| Device Tracker - Ping | |
-| Sun | |
-| Media Player - SamsungTV | |
-| Media Player - Spotify | |
+| [System Health](https://www.home-assistant.io/components/system_health/) | Expose Homeassistant system health via API |
+| [Logger](https://www.home-assistant.io/integrations/logger/) | Configuration of home-assistant logging behavior |
+| [Notify  - Slack](https://www.home-assistant.io/components/slack/) | Notifications to Slack on events |
+| [Sun](https://www.home-assistant.io/integrations/sun) | Sun-based automation |
+| [SSDP](https://www.home-assistant.io/integrations/ssdp) | Auto-discovery for samsung smart TV  |
+| [Light Group](https://www.home-assistant.io/components/light.group/) | Combining multiple lights into groups |
+| [Sensor - System monitor](https://www.home-assistant.io/integrations/systemmonitor/) | System monitoring (CPU, memory, etc) |
+| [Sensor - Buienradar](https://www.home-assistant.io/components/sensor.buienradar/) | Local (Dutch) weather reporting and events |
+| [Sensor - DSMR](https://www.home-assistant.io/components/dsmr/) | Energy monitoring using the Dutch DSMR energy monitoring protocol |
+| [Sensor - Commandline](https://www.home-assistant.io/integrations/command_line/) | Creating sensors from commandline output |
+| [Sensor - Template](https://www.home-assistant.io/integrations/template/) | Transforming sensor data into formats that can be more easily be used in automations |
+| [Binary Sensor - Workday](https://www.home-assistant.io/integrations/workday/) | Work vs. non-work day (weekend, holidays) influences automation  |
+| [Binary Sensor - Template](https://www.home-assistant.io/integrations/binary_sensor.template/) | Transforming sensor data into binary formats that can be more easily be used in automations  |
+| [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) | Integration between Alexa and home-assistant |
+| [Shell Command](https://www.home-assistant.io/integrations/shell_command/) | Running shell commands as part of automation |
+| [Input Select](https://www.home-assistant.io/integrations/input_select/) | Selecting house and room modes, changing state will triggers scenes and automations. |
+| [Input Boolean](https://www.home-assistant.io/integrations/input_boolean/) | Basic on-off switches that influence or trigger automation.  |
+| [Amazon Polly](https://www.home-assistant.io/components/amazon_polly/) | AWS Text-to-Speech engine. Allows the house to talk back (e.g. "Good Night!"). Cool? Yes. Nerdy? For sure. |
 | [Hue](https://www.home-assistant.io/components/hue/) | Device Control: Philips Hue |
 | [Tradfri](https://www.home-assistant.io/components/tradfri/) | Device Control: Ikea Tradfri Lights |
 | [HomeMatic](https://www.home-assistant.io/components/homematic/) | Device Control: HomeMatic devices |
-| [Light Group](https://www.home-assistant.io/components/light.group/) | Combining multiple lights into groups |
-| Sensor - System monitor | |
-| [Sensor - Buienradar](https://www.home-assistant.io/components/sensor.buienradar/) | Local weather reporting and events |
-| [Sensor - PostNL](https://www.home-assistant.io/components/postnl/) | Mail and package delivery notifications |
-| [Sensor - DSMR](https://www.home-assistant.io/components/dsmr/) | Energy monitoring using the Dutch DSMR energy monitoring protocol |
-| Sensor - Commandline | |
-| Sensor - Template | |
-| Binary Sensor - Workday | |
-| Binary Sensor - Template | |
+| [Zwave](https://www.home-assistant.io/integrations/zwave/) |  Device Control: Zwave |
 | [Nest](https://www.home-assistant.io/components/nest/) | Device Control: Nest |
-| DeConz | TODO |
-| [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) | Integration between Alexa and home-assistant |
-| Zwave | |
-| Shell Command | |
-| Input Select | |
-| Input Boolean | |
-| [Amazon Polly](https://www.home-assistant.io/components/amazon_polly/) | AWS Text-to-Speech engine. Allows the house to talk back (e.g. "Good Night!"). Cool? Yes. Nerdy? For sure. |
 
 
 # Getting Started

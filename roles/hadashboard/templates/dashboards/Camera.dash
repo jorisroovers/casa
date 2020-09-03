@@ -6,7 +6,8 @@ columns: 8
 camera:
     widget_type: camera
     title: {{item.value.title}}
-    entity_picture: {{item.value.entity_picture}}
+    base_url: http://{{casa_ip}}:{{homeassistant_port}}
+    entity: camera.{{item.key}}
     refresh: {{camera_widget_refresh_rate}}
 
 back_button:

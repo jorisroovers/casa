@@ -48,25 +48,25 @@
     host: "{{grafana_bind_ip}}"
     port: "{{grafana_port}}"
 
-- name: "Installing homeassistant datasource"
-  import_tasks: install_influxdb_datasource.yml
-  vars:
-    datasource_name: "homeassistant"
-    datasource_user: "{{influxdb_grafana_user}}"
-    datasource_password: "{{influxdb_grafana_password}}"
-    datasource_database: "{{influxdb_homeassistant_db}}"
-  tags:
-    - grafana-datasources
+# - name: "Installing homeassistant datasource"
+#   import_tasks: install_influxdb_datasource.yml
+#   vars:
+#     datasource_name: "homeassistant"
+#     datasource_user: "{{influxdb_grafana_user}}"
+#     datasource_password: "{{influxdb_grafana_password}}"
+#     datasource_database: "{{influxdb_homeassistant_db}}"
+#   tags:
+#     - grafana-datasources
 
-- name: "Installing prometheus-influxdb datasource"
-  import_tasks: install_influxdb_datasource.yml
-  vars:
-    datasource_name: "prometheus-influxdb"
-    datasource_user: "{{influxdb_prometheus_user}}"
-    datasource_password: "{{influxdb_prometheus_password}}"
-    datasource_database: "{{influxdb_prometheus_db}}"
-  tags:
-    - grafana-datasources
+# - name: "Installing prometheus-influxdb datasource"
+#   import_tasks: install_influxdb_datasource.yml
+#   vars:
+#     datasource_name: "prometheus-influxdb"
+#     datasource_user: "{{influxdb_prometheus_user}}"
+#     datasource_password: "{{influxdb_prometheus_password}}"
+#     datasource_database: "{{influxdb_prometheus_db}}"
+#   tags:
+#     - grafana-datasources
 
 - name: "Installing prometheus-influxdb datasource"
   import_tasks: install_prometheus_datasource.yml
@@ -88,6 +88,6 @@
 
 - name: "Restoring dashboards from latest backup"
   import_tasks: restore_dashboards.yml
-  when: grafana_restore_backup
+  when: grafana_restore_backup|bool
   tags:
     - grafana-restore-backup

@@ -120,9 +120,9 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.StartWorkingMorning"
-    - service: shell_command.samsungtv_send_key
+    - service: media_player.turn_off
       data_template:
-        key: "KEY_POWEROFF"
+        entity_id: media_player.samsungtv_livingroom
 
 ########################################################################################################################
 # Send message on nest-presence set to home or away                                                                    #

@@ -121,11 +121,11 @@
     above: 25
     for:
       minutes: 20
-    action:
-      - service: notify.slack
-        data:
-          message: |
-                {% raw %}[Bedroom] Pretty windy right now ({{ states('sensor.br_wind_speed') }} kph){% endraw %}
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              {% raw %}[Bedroom] Pretty windy right now ({{ states('sensor.br_wind_speed') }} kph){% endraw %}
 
 # - wait_template: "{% raw %}{{ is_state('binary_sensor.entrance', 'on') }}{% endraw %}"
 #   timeout: '00:01:00'

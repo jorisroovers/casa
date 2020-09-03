@@ -57,12 +57,9 @@ $(document).ready(function () {
             // on correct pincode, set house mode to home
             if (pinCode == "{{hadash_pincode}}") {
                 $("#default-pincode-label .state_text").html("<span class='correct-pin'>Correct pin. Loading...</span>");
-                $.post("/call_service", {
-                    "service": "input_select/select_option",
-                    "entity_id": "input_select.house_mode",
-                    "option": "Auto",
-                    "namespace": "default"
-                });
+                window.dashstream.stream.call_service("input_select/select_option" /*service */, "default" /* namespace */, 
+                                                     {"entity_id": "input_select.house_mode", "option": "Auto"} /* args */, 
+                                                     function(){ /* callback */})
             } else {
                 $("#default-pincode-label .state_text").html("<span class='incorrect-pin'>Incorrect pin</span>");
                 pinCodeElement.html("");

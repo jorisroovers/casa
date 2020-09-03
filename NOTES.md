@@ -67,7 +67,7 @@ Backup restoration:
 # 1. Get token from http://casa:3001/org/apikeys
 # 2. Update grafana_backups_api_token in casa-data
 # 3. Run this:
-ansible-playbook -i ~/repos/casa-data/inventory/mbp-server home.yml --tags backups,grafana-restore-backup -e "recreate_containers=no grafana_restore_backup=yes"
+ansible-playbook -i ~/repos/casa-data/inventory/prod home.yml --tags backups,grafana-restore-backup -e "recreate_containers=no grafana_restore_backup=true"
 ```
 Note that the exported json files (with extension .dashboard) can not just be imported through the grafana UI, you need
 to use the same grafana-backup-tool to do the restore, like so:
@@ -78,7 +78,7 @@ cd /tmp; git clone https://github.com/ysde/grafana-backup-tool.git
 # 2. Update grafana_backups_api_token in casa-data
 export GRAFANA_URL="http://casa:3001"; export GRAFANA_TOKEN="$(vault-get grafana_backups_api_token)";
 python grafana-backup-tool/createDashboard.py ~/Downloads/dashboards/Overview.dashboard
-ansible-playbook -i ~/repos/casa-data/inventory/mbp-server home.yml --tags backups
+ansible-playbook -i ~/repos/casa-data/inventory/prod home.yml --tags backups
 ```
 
 # Miscellaneous notes

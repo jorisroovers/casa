@@ -9,7 +9,7 @@
     - { role: samba-client, tags: ['samba', 'cifs', 'smb']}
     # - { role: webhook, tags: ['webhook']}
     # - { role: influxdb, tags: ['influxdb', 'influx']}
-    - { role: grafana, tags: ['grafana']} # depends-on: influxdb
+    - { role: grafana, tags: ['grafana']}
     - { role: prometheus, tags: ['prometheus', 'prom']}
     - { role: prometheus_node_exporter, tags: ['node_exporter']}
     - { role: prometheus_process_exporter, tags: ['process_exporter', 'process-exporter']}

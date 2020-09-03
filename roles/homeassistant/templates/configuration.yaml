@@ -81,34 +81,6 @@ sun:
 # Enable iOS support
 # ios:
 
-media_player:
-  - platform: samsungtv
-    host: {{samsungtv_host}}
-    port: 8001
-    name: tv_bedroom
-  - platform: samsungtv
-    host: {{tv_livingroom_host}}
-    port: 8001
-    name: tv_livingroom
-
-# There's issues with AppleTV that cause the TV to turn on randomly. Disabling it for now.
-# - https://community.home-assistant.io/t/apple-tv-apple-tv-failed-to-login/11694/53
-# - https://github.com/home-assistant/home-assistant/issues/6777
-# apple_tv:
-#   - name: Apple TV
-#     host: {{atv_host}}
-#     login_id: {{atv_login_id}}
-#     start_off: false
-#    credentials: CREDENTIALS
-
-hue:
-  bridges:
-    - host: {{phue_ip}}
-      filename: phue.conf
-      allow_unreachable: true
-      allow_hue_groups: true
-
-
 tradfri:
   host: {{tradfri_ip}}
   # allow_tradfri_groups: true # Doesn't seem to work anymore?, use light groups below
@@ -157,12 +129,6 @@ light:
       - light.hal_lamp_2
       - light.hal_lamp_3
 
-panel_iframe:
-  roofcam:
-    title: 'roofcam'
-    url: 'http://{{casa_ip}}:{{roofcam_port}}'
-    icon: 'mdi:camcorder'
-
 sensor:
     - platform: systemmonitor
       resources:
@@ -182,12 +148,6 @@ sensor:
         - temperature
         - windspeed
         - pressure
-{% for account in postnl_accounts %}
-    - platform: postnl
-      username: "{{ account['username'] }}"
-      password: "{{ account.password }}"
-      name: "{{ account.name }}"
-{% endfor %}
     - platform: dsmr
       host: "{{groups["energy_tracker"][0]}}"
       port: "{{ser2net_public_port}}"
@@ -239,48 +199,6 @@ sensor:
             <div><span class="plastic">PLASTIC</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_plastic", "pickup_date") }}</span></div>
             <div><span class="paper">PAPER</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_papier", "pickup_date") }}</span></div>
           {% endraw %}
-
-        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-        postnl_enroute:
-          friendly_name: "postnl enroute"
-          {% raw %}
-          value_template: >-
-            {% set ns = namespace(shipments=0) %}
-            {% for shipment in state_attr('sensor.postnl_joris', 'shipments') + state_attr('sensor.postnl_ilse', 'shipments') %}
-              {% if not shipment['status']['isDelivered'] %}
-               {% set ns.shipments=ns.shipments+1 %}
-              {% endif %}
-            {% endfor %}
-            {{ ns.shipments }}
-          {% endraw %}
-
-        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-        postnl_details:
-          friendly_name: "PostNL Shipment Details"
-          {% raw %}
-          value_template: >-
-            {% if states("sensor.postnl_joris") | int + states("sensor.postnl_ilse") | int > 0 %}
-              <ol>
-              {%- for shipment in state_attr('sensor.postnl_joris', 'shipments') %}
-                {%- if not shipment['status']['isDelivered'] %}
-                <li>[Joris] {{ as_timestamp(shipment['status']['enroute']['timeframe']['from']) | timestamp_custom('%a %d %b %Y, %H:%M-')}}{{ as_timestamp(shipment['status']['enroute']['timeframe']['to']) | timestamp_custom('%H:%M')}} {{ shipment['title'] }}</li>
-                {%- endif %}
-              {%- endfor %}
-              {%- for shipment in state_attr('sensor.postnl_ilse', 'shipments') %}
-                {%- if not shipment['status']['isDelivered'] %}
-                <li>[Ilse] {{ as_timestamp(shipment['status']['enroute']['timeframe']['from']) | timestamp_custom('%a %d %b %Y, %H:%M-')}}{{ as_timestamp(shipment['status']['enroute']['timeframe']['to']) | timestamp_custom('%H:%M')}} {{ shipment['title'] }}</li>
-                {%- endif %}
-              {%- endfor %}
-              </ol>
-            {% else %}
-            No packages en route
-            {% endif %}
-          {% endraw %}
-
-        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-        weekday:
-          friendly_name: "Weekday"
-          value_template: "{% raw %}{{ as_timestamp(now()) | timestamp_custom('%A') }}{% endraw %}"
 
         # Newline required here so ansible doesn't mess up the indentation after 'endraw'
 
@@ -350,7 +268,6 @@ shell_command:
     play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
     play_sonos_preset: 'curl "{{sonos_http_api_url_base}}/preset/{% raw %}{{preset}}{% endraw %}"'
     restart_sonos: '/usr/bin/sudo /bin/systemctl restart {{sonos_http_api_service}}'
-    samsungtv_send_key: '/usr/bin/samtvcli --server {{samsungtv_host}} --session-id 1 --session-key {{samsungtv_session_key}} key {% raw %}{{key}}{% endraw %}'
 
 rest_command:
   start_morning_tv:
@@ -362,6 +279,9 @@ rest_command:
 input_select: !include inputs/select.yaml
 
 input_boolean: !include inputs/boolean.yaml
+
+# Enable Simple Service Discovery Protocol (for detecting Samsung Smart TV)
+ssdp:
 
 # Enable config editor
 config:

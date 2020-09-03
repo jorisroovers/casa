@@ -75,9 +75,8 @@
       entity_id: input_select.house_mode
       to: "Sleeping"
   action:
-    - service: shell_command.samsungtv_send_key
-      data_template:
-        key: "KEY_POWEROFF"
+    - service: media_player.turn_off
+      entity_id: media_player.samsungtv_livingroom
     - service: script.tts_say
       data_template:
         entity_id: media_player.living_room
@@ -91,9 +90,8 @@
       entity_id: input_select.house_mode
       to: "Away"
   action:
-    - service: shell_command.samsungtv_send_key
-      data_template:
-        key: "KEY_POWEROFF"
+    - service: media_player.turn_off
+      entity_id: media_player.samsungtv_livingroom
     - service: script.tts_say
       data_template:
         entity_id: media_player.living_room

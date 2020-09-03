@@ -2,15 +2,15 @@ prometheus_dir: /opt/prometheus
 prometheus_user: prometheus
 prometheus_group: "{{prometheus_user}}"
 
-prometheus_docker_image: "prom/prometheus:v2.11.1"
+prometheus_docker_image: "prom/prometheus:v2.20.1"
 prometheus_port: 9090
 prometheus_host: "{{casa_ip}}"
 
-alertmanager_docker_image: "prom/alertmanager:v0.16.2"
+alertmanager_docker_image: "prom/alertmanager:v0.21.0"
 alertmanager_port: 9093
 alertmanager_host: "{{casa_ip}}"
 
-blackbox_exporter_docker_image: "prom/blackbox-exporter:v0.14.0"
+blackbox_exporter_docker_image: "prom/blackbox-exporter:v0.17.0"
 blackbox_exporter_port: 9115
 blackbox_exporter_host: "{{casa_ip}}"
 

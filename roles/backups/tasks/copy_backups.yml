@@ -8,7 +8,7 @@
             owner={{backups_user}} group={{backups_group}} mode=u+x
 
 - name: Install copy-backups check
-  import_role:
+  include_role:
     name: backup_check
   vars:
     backup_type: "copy-backups"

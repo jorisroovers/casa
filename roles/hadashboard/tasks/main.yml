@@ -108,7 +108,7 @@
     - hadash-container
 
 - name: Install casa-container for homeassistant (aliases only for now)
-  import_role:
+  include_role:
     name: casa-container
   vars:
     alias_shorthand: "ad"

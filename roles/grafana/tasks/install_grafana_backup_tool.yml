@@ -14,7 +14,7 @@
   pip: name=requests virtualenv="{{grafana_backups_venv}}" version=2.11.1
 
 - name: Install backup script
-  import_role:
+  include_role:
     name: backup_script
   vars:
     backup_type: "grafana"

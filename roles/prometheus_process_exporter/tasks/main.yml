@@ -32,7 +32,7 @@
     - process-exporter-container
 
 - name: Install casa-container for process-exporter (aliases only for now)
-  import_role:
+  include_role:
     name: casa-container
   vars:
     alias_shorthand: "pe"

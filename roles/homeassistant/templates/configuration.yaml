@@ -283,6 +283,9 @@ input_boolean: !include inputs/boolean.yaml
 # Enable Simple Service Discovery Protocol (for detecting Samsung Smart TV)
 ssdp:
 
+samsungtv:
+  - host: "{{tv_livingroom_host}}"
+
 # Enable config editor
 config:
 

@@ -72,7 +72,7 @@
   tags: [iptables, iptable]
 
 - name: Install casa-container for node-sonos-http-api (aliases only for now)
-  import_role:
+  include_role:
     name: casa-container
   vars:
     alias_shorthand: "sonos"

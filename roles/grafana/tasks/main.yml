@@ -68,7 +68,7 @@
 #   tags:
 #     - grafana-datasources
 
-- name: "Installing prometheus-influxdb datasource"
+- name: "Installing prometheus-direct datasource"
   import_tasks: install_prometheus_datasource.yml
   vars:
     datasource_name: "prometheus-direct"

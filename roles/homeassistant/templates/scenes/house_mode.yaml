@@ -15,6 +15,8 @@
     input_boolean.cooking:
         state: off
     input_select.living_preset: NoPreset
+    switch.front_door_curtain_relay1:
+        state: on
 
 - name: Day
   entities:
@@ -25,6 +27,8 @@
         state: off
     switch.christmas_tree:
         state: off
+    switch.front_door_curtain_relay2:
+        state: on
 
 - name: Evening
   entities:

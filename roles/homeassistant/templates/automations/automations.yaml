@@ -74,8 +74,8 @@
         entity_id: input_select.house_mode
         state: "Sleeping"
   action:
-    - service: rest_command.start_morning_tv
-    - delay: 00:00:05    # Wait a bit, so TV can turn on fully before we attempt to play music
+    # - service: rest_command.start_morning_tv
+    # - delay: 00:00:05    # Wait a bit, so TV can turn on fully before we attempt to play music
     - service: scene.turn_on
       data:
         entity_id: "scene.StartWeekDay"

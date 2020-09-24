@@ -20,6 +20,8 @@
     input_select.camera_preset: Home
     light.bathroom_group:
         state: off
+    switch.front_door_curtain_relay2:
+        state: on
 
 - name: BathroomMorningWeekDay
   entities:

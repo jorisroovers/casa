@@ -1,0 +1,76 @@
+substitutions:
+  deviceid: !secret deviceid
+  devicename: !secret devicename
+
+esphome:
+  name: ${deviceid}
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: !secret wifi_static_ip
+    gateway: !secret wifi_gateway
+    subnet: !secret wifi_subnet
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret wifi_fallback_ap_ssid
+    password: !secret wifi_fallback_ap_password
+
+api:
+
+logger:
+
+ota:
+
+switch:
+  - platform: gpio
+    id: ${deviceid}_relay_1
+    name: ${devicename} Relay1
+    pin: GPIO15
+    icon: "mdi:electric-switch"
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+      then:
+        - delay: 6s
+        - switch.turn_off: ${deviceid}_relay_1
+  - platform: gpio
+    id: ${deviceid}_relay_2
+    name: ${devicename} Relay2
+    pin: GPIO4
+    icon: "mdi:electric-switch"
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+      then:
+        - delay: 6s
+        - switch.turn_off: ${deviceid}_relay_2
+    
+# This exposes the Switching inputs as binary_sensors
+# It also ties the binary sensors to the relays: switching the relays on and off with the buttons
+# Note that this isn't default behavior, you have to program this yourself!
+binary_sensor:
+  - platform: gpio
+    id: ${deviceid}_switch_1
+    name: ${devicename} Switch1
+    pin:
+      number: GPIO13
+    on_press:
+      then:
+        - switch.turn_on: ${deviceid}_relay_1
+    on_release:
+      then:
+        - switch.turn_off: ${deviceid}_relay_1
+  - platform: gpio
+    id: ${deviceid}_switch_2
+    name: ${devicename} Switch2
+    pin:
+      number: GPIO5
+    on_press:
+      then:
+        - switch.turn_on: ${deviceid}_relay_2
+    on_release:
+      then:
+        - switch.turn_off: ${deviceid}_relay_2

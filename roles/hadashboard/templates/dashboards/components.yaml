@@ -678,6 +678,25 @@ bathroom_temperature:
     unit_style: "color: #f1c40f"
 
 ####################################
+# Hallway                          #
+####################################
+
+hallway_curtain_close:
+    widget_type: switch
+    title: Hallway Curtain Close
+    entity: switch.front_door_curtain_relay1
+    icon_on: fa-booth-curtain
+    icon_off: fa-booth-curtain
+
+hallway_curtain_open:
+    widget_type: switch
+    title: Hallway Curtain Open
+    entity: switch.front_door_curtain_relay2
+    icon_on: fa-booth-curtain
+    icon_off: fa-booth-curtain
+
+
+####################################
 # Cameras                          #
 ####################################
 

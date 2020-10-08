@@ -1,0 +1,12 @@
+{{octoprint_user}}:
+    active: true
+    apikey: null
+    groups:
+    - admins
+    - users
+    password: "{{octoprint_password}}"
+    permissions: []
+    roles:
+    - user
+    - admin
+    settings: {}

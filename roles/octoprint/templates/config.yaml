@@ -1,0 +1,90 @@
+accessControl:
+    salt: "{{octoprint_accesscontrol_salt}}"
+api:
+    key: "{{octoprint_api_key}}"
+plugins:
+    announcements:
+        _config_version: 1
+        channels:
+            _blog:
+                read_until: {{ansible_date_time.epoch}}
+            _important:
+                read_until: {{ansible_date_time.epoch}}
+            _octopi:
+                read_until: {{ansible_date_time.epoch}}
+            _plugins:
+                read_until: {{ansible_date_time.epoch}}
+            _releases:
+                read_until: {{ansible_date_time.epoch}}
+    consolidatedtabs:
+        full_width: true
+        panel_positions:
+            tab_plugin_prettygcode_panel:
+                left: 1222
+                top: -1222.875
+            temp_panel:
+                left: 622
+                top: -701.75
+        panel_sizes:
+            tab_plugin_prettygcode_panel:
+                height: 1025
+                width: 671
+            temp_panel:
+                height: 490
+                width: 568
+        tab_order:
+        -   id: control_link
+            name: Control
+            selector: '#control'
+        -   id: temp_link
+            name: Temperature
+            selector: '#temp'
+        -   id: tab_plugin_prettygcode_link
+            name: PrettyGCode
+            selector: '#tab_plugin_prettygcode'
+    cura:
+        cura_engine: /usr/local/bin/cura_engine
+    discovery:
+        publicPort: 80
+        upnpUuid: "{{octoprint_plugins_discovery_upnpuuid}}"
+    errortracking:
+        unique_id: "{{octoprint_plugins_errortracking_unique_id}}"
+    gcodeviewer:
+        _config_version: 1
+    softwareupdate:
+        _config_version: 8
+    tracking:
+        enabled: false
+        unique_id: "{{octoprint_plugins_tracking_unique_id}}"
+    virtual_printer:
+        _config_version: 1
+printerProfiles:
+    default: _default
+server:
+    commands:
+        serverRestartCommand: sudo service octoprint restart
+        systemRestartCommand: sudo shutdown -r now
+        systemShutdownCommand: sudo shutdown -h now
+    firstRun: false
+    onlineCheck:
+        enabled: true
+    pluginBlacklist:
+        enabled: true
+    secretKey: "{{octoprint_server_secretkey}}"
+    seenWizards:
+        corewizard: 3
+        tracking: null
+temperature:
+    profiles:
+    -   bed: 100
+        chamber: null
+        extruder: 210
+        name: ABS
+    -   bed: 60
+        chamber: null
+        extruder: 180
+        name: PLA
+webcam:
+    ffmpeg: /usr/bin/ffmpeg
+    snapshot: http://127.0.0.1:8080/?action=snapshot
+    stream: /webcam/?action=stream

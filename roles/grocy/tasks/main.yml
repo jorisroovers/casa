@@ -1,0 +1,47 @@
+---
+- name: Creating grocy casa-service
+  import_role:
+    name: casa-service
+  vars:
+    service_name: "grocy"
+  become: yes
+
+# This container takes a very long time to actually start (~15min)
+# This is known issue: https://github.com/linuxserver/docker-grocy/issues/21
+# Root cause: 'chown' operation is extremely slow:
+# https://github.com/linuxserver/docker-grocy/blob/master/root/etc/cont-init.d/50-config#L22
+
+- name: Starting grocy docker container
+  docker_container:
+    name: "{{grocy_container_name}}"
+    image: "{{grocy_container_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{grocy_dir}}/:/config"
+    labels:
+      group: grocy
+    ports:
+      - "{{grocy_port}}:80"
+    # network_mode: host
+    recreate: "{{recreate_containers}}"
+    ulimits:
+      - "nofile:1024"
+    env:
+        PUID: "1000"
+        PGID: "1000"
+        TZ: "{{grocy_timezone}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - grocy-container
+
+- name: Install backup script
+  import_role:
+    name: backup_script
+  vars:
+    backup_type: "grocy"
+    script_content: "cp -R {{grocy_dir}} $DIRECTORY/"
+    backup_min_size: "{{ 10 * 1024 }}"
+  tags:
+    - grocy-backup
+    - backups

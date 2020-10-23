@@ -128,23 +128,23 @@
 # Send message on nest-presence set to home or away                                                                    #
 ########################################################################################################################
 
-- id: auto_away_nest_presence
-  alias: 'Send message when away from home'
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.home_away
-      from: 'off'
-      to: 'on'
-  action:
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.house_mode
-        option: Away
-    - service: notify.slack
-      data:
-        message: |
-              [Nest] You're gone from home! Set home automatically to away.
+# - id: auto_away_nest_presence
+#   alias: 'Send message when away from home'
+#   initial_state: True
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.home_away
+#       from: 'off'
+#       to: 'on'
+#   action:
+#     - service: input_select.select_option
+#       data:
+#         entity_id: input_select.house_mode
+#         option: Away
+#     - service: notify.slack
+#       data:
+#         message: |
+#               [Nest] You're gone from home! Set home automatically to away.
 
 - id: auto_home_nest_presence
   alias: 'Send message when coming home'

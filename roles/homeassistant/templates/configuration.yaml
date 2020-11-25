@@ -54,6 +54,9 @@ notify:
 # Allows you to issue voice commands from the frontend
 conversation:
 
+lovelace:
+  mode: yaml
+
 device_tracker:
   - platform: nmap_tracker
     hosts: {{nmap_tracker_hosts}}
@@ -256,14 +259,6 @@ tts:
 
 zwave:
   usb_path: "{{zwave_gateway_device_container}}"
-
-{#
-  1. Use %raw to insert braces into the lines below without ansible replacing them.
-  2. FYI that in shell_command can't combine variables with actual shells (so using >> and | won't work)
-     This is to ensure we're not just executing arbitrary shell commands based on user input.
-     See https://github.com/home-assistant/home-assistant/blob/3ee4d1060fdbe067c19f7d4ce4777a7eb9dbb412/
-     homeassistant/components/shell_command.py#L59-L65
-#}
 
 rest_command:
   start_morning_tv:

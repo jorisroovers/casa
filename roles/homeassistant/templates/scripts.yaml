@@ -1,48 +1,45 @@
 turn_off_tv:
   sequence:
     - service: media_player.turn_off
-      data_template:
+      data:
         entity_id: media_player.samsungtv_livingroom
 
 goodnight: # Used by emulated hue
   sequence:
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.house_mode
         option: "Sleeping"
 
 leave: # Used by emulated hue
   sequence:
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.house_mode
         option: "Away"
 
 comehome: # Used by emulated hue
   sequence:
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.house_mode
         option: "Auto"
 
 play_artist:
   sequence:
-    - service: shell_command.play_sonos_preset
-      data_template:
-        preset: "{% raw %}{{ states('input_select.music_artist_select') | lower | replace(' ', '_')}}{% endraw %}"
-    # - service: notify.slack
-    #   data:
-    #     message: |
-    #           Playing "{% raw %}{{ states('input_select.music_artist_select') | lower | replace(' ', '_')}}{% endraw %}"
+    - service: media_player.select_source
+      data:  
+        entity_id: "media_player.living_room"
+        source: "{% raw %}{{ states('input_select.music_artist_select') }}{% endraw %}"
 
 tts_say:
   sequence:
     - service: media_player.volume_set
-      data_template:
+      data:
         entity_id: "{% raw %}{{entity_id}}{% endraw %}"
         volume_level: "0.4"
     - service: tts.amazon_polly_say
-      data_template:
+      data:
         entity_id: "{% raw %}{{entity_id}}{% endraw %}"
         message: "{% raw %}{{message}}{% endraw %}"
     - service: media_player.volume_set
@@ -53,7 +50,7 @@ tts_say:
 demo:
   sequence:
     - service: script.tts_say
-      data_template:
+      data:
         entity_id: media_player.living_room
         message: "Let's give a demo of the house!"
     - service: rest_command.start_morning_tv
@@ -66,7 +63,7 @@ demo:
         entity_id: "scene.Demo2"
     - service: script.turn_off_tv
     - service: script.tts_say
-      data_template:
+      data:
         entity_id: media_player.living_room
         message: "That was the demo, hope you enjoyed it!"
 

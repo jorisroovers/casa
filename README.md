@@ -29,7 +29,7 @@ use dummy defaults.
 (mostly in the user-facing parts).
 - I try to keep my setup completely disconnected from the Internet for security and privacy reasons. There are some exceptions (like some Nest devices I use), but those connect outward to the internet themselves - it's not possible to directly connect to any device from the Internet as everything runs in a private network.
 - I'm constantly thinking of new things I can improve my setup and have a long list of TODO items I keep outside of this repository (this makes it easier to jot them down while not in front of a computer). Some bigger things that are a bit tricky (or expensive) but that I want to eventually get to are: automated sliding curtains ([in-progress](projects/curtain-opener/README.md)), ~~automated window opening~~ (✅[done](https://jorisroovers.com/posts/window-opener)), automated doorlocks.
-- I have no idea how much time I've spend getting to this point, but I'm fairly certain it's a couple of hundreds of hours at least. Spread over about 2 years.
+- I have no idea how much time I've spend getting to this point, but I'm fairly certain it's a couple of hundreds of hours at least. Spread over about 4 years.
 - I've never done a calculation of how much the current setup has cost me, but I'd roughly guess it's about ~3000 EUR. Note that it also highly depends on how you calculate things. Do you account for a (smart) TV? What about smart audio speakers? An old laptop that you had still lying around that you use as a server? Light bulbs you needed to buy anyways but you bought smartbulbs instead? etc.
 - When I first started using home-assistant in 2016, things were in a very different state than they are today. What this means is that I'd probably do things a bit differently if I'd start afresh today. So if you're looking at some code/config and wondering why I'm not using some out-of-the-box feature of home-assistant, changes are it didn't exist when I started out and I haven't come around to upgrading.
 - If you're new to home-automation and want to do something similar to this, I recommend getting a [Raspberry Pi](https://www.raspberrypi.org/products/) (get the latest model with the most compute power) and installing [HomeAssistant](https://www.home-assistant.io/) on it. Then get yourself a set of [Philips Hue](https://www2.meethue.com/en-us) or [Ikea Tradfri](https://www.ikea.com/us/en/catalog/products/20411562/) smart light bulbs and start playing!
@@ -40,7 +40,20 @@ use dummy defaults.
 This interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html) (with some customizations) and displayed on wall-mounted iPad minis around the house. This is our primary way of interacting with the system. Under-the-hood this is just a webpage served from the main server and the iPads are just showing those as standalone webapps (=no browser chrome showing) with displays set to always-on. The first iPad I mounted has been continuously running for over 3 years without issues.
 
 ### Home
-![HADashboard Home](docs/images/AppDaemon-Home.png)
+<table>
+  <tr>
+    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+  </tr>
+  <tr>
+    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+  </tr>
+</table>
+
+
 
 ### Media
 ![HADashboard Media](docs/images/AppDaemon-Media.png)

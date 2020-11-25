@@ -11,15 +11,15 @@ house_mode:
 music_artist_select:
   name: Artist
   options:
-    - Alabama Shakes
-    - Bruce Springsteen
-    - Bruno Mars
-    - Celine Dion
-    - Coldplay
-    - James Morrison
-    - Kensington
-    - Kinky Boots
-    - Marco Borsato
+    - This Is Alabama Shakes
+    - This Is Bruce Springsteen
+    - This Is Bruno Mars
+    - This Is Celine Dion
+    - This Is Coldplay
+    - This Is James Morrison
+    - This Is Kensington
+    - "Kinky Boots (Original Broadway Cast Recording)"
+    - This Is Marco Borsato
   icon: mdi:music
 living_preset:
   name: Living Scene

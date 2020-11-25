@@ -1,140 +1,11 @@
 title: Home
+resources:
+  - url: /local/plugins/card-mod/card-mod.js?v=1
+    type: module
 views:
   - path: default_view
     title: Home
     badges:
-      - entity: binary_sensor.joris_is_workday
-      - entity: binary_sensor.joris_working
-      - entity: binary_sensor.washing_machine
-      - entity: binary_sensor.dryer
-      - entity: binary_sensor.housekeeping
-      - entity: binary_sensor.is_evening
-      - entity: binary_sensor.workday_sensor
-      - entity: binary_sensor.hm_cc_rt_dn_oeq2416597_lowbat
-      - entity: binary_sensor.hm_cc_rt_dn_oeq2642717_lowbat
-      - entity: binary_sensor.dev_bedroom_window_open_button
-      - entity: binary_sensor.dev_bedroom_window_close_button
-      - entity: binary_sensor.bedroom_window_open_button_2
-      - entity: binary_sensor.bedroom_window_close_button_2
-      - entity: binary_sensor.front_door_curtain_switch1
-      - entity: binary_sensor.front_door_curtain_switch2
-      - entity: binary_sensor.sonoff_basic_button
-      - entity: binary_sensor.switch_shelly_1
-      - entity: binary_sensor.ps4_presence
-      - entity: binary_sensor.backups
-      - entity: binary_sensor.elk_logstash_systemd
-      - entity: binary_sensor.google_http
-      - entity: binary_sensor.mbpcisco_active
-      - entity: binary_sensor.grafana_http
-      - entity: binary_sensor.tv_livingroom_active
-      - entity: binary_sensor.node_load15
-      - entity: binary_sensor.hadash_http
-      - entity: binary_sensor.homeassistant_http
-      - entity: binary_sensor.hue_hub
-      - entity: binary_sensor.tradfri_hub
-      - entity: binary_sensor.homematic_hub
-      - entity: binary_sensor.node_exporter_controller_up
-      - entity: binary_sensor.node_exporter_energy_tracker_up
-      - entity: binary_sensor.energy_tracker_ser2net
-      - entity: binary_sensor.node_exporter_tv_controller_up
-      - entity: binary_sensor.tests_sanity_status
-      - entity: binary_sensor.sonos_http_api_systemd
-      - entity: binary_sensor.home_away
-      - entity: binary_sensor.living_room_thermostat_online
-      - entity: binary_sensor.sonos_http_api_http
-      - entity: binary_sensor.living_room_thermostat_fan
-      - entity: binary_sensor.living_room_thermostat_is_using_emergency_heat
-      - entity: binary_sensor.living_room_thermostat_is_locked
-      - entity: binary_sensor.prometheus_aggregate
-      - entity: binary_sensor.living_room_thermostat_has_leaf
-      - entity: binary_sensor.living_room_nest_protect_online
-      - entity: binary_sensor.upstairs_nest_protect_online
-      - entity: binary_sensor.kids_room_nest_protect_online
-      - entity: binary_sensor.hallway_camera_online
-      - entity: binary_sensor.hallway_camera_motion_detected
-      - entity: binary_sensor.hallway_camera_sound_detected
-      - entity: binary_sensor.hallway_camera_person_detected
-      - entity: binary_sensor.backyard_camera_online
-      - entity: binary_sensor.backyard_camera_motion_detected
-      - entity: binary_sensor.backyard_camera_sound_detected
-      - entity: binary_sensor.backyard_camera_person_detected
-      - entity: binary_sensor.front_garden_camera_online
-      - entity: binary_sensor.front_garden_camera_motion_detected
-      - entity: binary_sensor.front_garden_camera_sound_detected
-      - entity: binary_sensor.front_garden_camera_person_detected
-      - entity: binary_sensor.diepvries_camera_online
-      - entity: binary_sensor.diepvries_camera_motion_detected
-      - entity: binary_sensor.diepvries_camera_sound_detected
-      - entity: binary_sensor.diepvries_camera_person_detected
-      - entity: binary_sensor.diepvries_camera_frontdoor_activity
-      - entity: binary_sensor.office_camera_online
-      - entity: binary_sensor.office_camera_motion_detected
-      - entity: binary_sensor.office_camera_sound_detected
-      - entity: binary_sensor.office_camera_person_detected
-      - entity: binary_sensor.aeotec_zw100_multisensor_6_sensor
-      - entity: sensor.br_symbol
-      - entity: sensor.br_detailed_condition
-      - entity: sensor.br_humidity
-      - entity: sensor.br_temperature
-      - entity: sensor.br_wind_speed
-      - entity: sensor.br_pressure
-      - entity: sensor.time
-      - entity: sensor.date
-      - entity: sensor.date_time
-      - entity: sensor.desk_state
-      - entity: sensor.br_symbol_highres
-      - entity: sensor.afvalwijzer_details
-      - entity: sensor.memory_free
-      - entity: sensor.disk_use_percent
-      - entity: sensor.memory_use_percent
-      - entity: sensor.load_1m
-      - entity: sensor.load_5m
-      - entity: sensor.load_15m
-      - entity: sensor.processor_use_percent
-      - entity: sensor.bedroom_switch_battery_level
-      - entity: sensor.hue_dimmer_switch_1_battery_level
-      - entity: sensor.home_eta
-      - entity: sensor.living_room_thermostat_humidity
-      - entity: sensor.living_room_thermostat_operation_mode
-      - entity: sensor.living_room_thermostat_hvac_state
-      - entity: sensor.living_room_thermostat_temperature
-      - entity: sensor.living_room_thermostat_target
-      - entity: sensor.living_room_nest_protect_co_status
-      - entity: sensor.living_room_nest_protect_smoke_status
-      - entity: sensor.living_room_nest_protect_battery_health
-      - entity: sensor.living_room_nest_protect_color_status
-      - entity: sensor.prom2hass
-      - entity: sensor.upstairs_nest_protect_co_status
-      - entity: sensor.upstairs_nest_protect_smoke_status
-      - entity: sensor.upstairs_nest_protect_battery_health
-      - entity: sensor.upstairs_nest_protect_color_status
-      - entity: sensor.kids_room_nest_protect_co_status
-      - entity: sensor.kids_room_nest_protect_smoke_status
-      - entity: sensor.kids_room_nest_protect_battery_health
-      - entity: sensor.kids_room_nest_protect_color_status
-      - entity: sensor.home_security_state
-      - entity: sensor.motion_sensor_wc_downstairs
-      - entity: sensor.tradfri_motion_sensor
-      - entity: sensor.bijkeuken_motion_sensor
-      - entity: sensor.tradfri_remote_control_3
-      - entity: sensor.laundry_room_motion_sensor
-      - entity: sensor.tradfri_remote_control_2_2
-      - entity: sensor.aeotec_zw100_multisensor_6_temperature
-      - entity: sensor.aeotec_zw100_multisensor_6_luminance
-      - entity: sensor.aeotec_zw100_multisensor_6_relative_humidity
-      - entity: sensor.aeotec_zw100_multisensor_6_ultraviolet
-      - entity: sensor.aeotec_zw100_multisensor_6_sourcenodeid
-      - entity: sensor.aeotec_zw100_multisensor_6_burglar
-      - entity: sensor.aeotec_zw100_multisensor_6_alarm_type
-      - entity: sensor.aeotec_zw100_multisensor_6_alarm_level
-      - entity: sensor.br_temperature_1d
-      - entity: sensor.br_rain_1d
-      - entity: sensor.br_rainchance_1d
-      - entity: sensor.br_temperature_2d
-      - entity: sensor.br_temperature_3d
-      - entity: sensor.tradfri_remote_control_2
-      - entity: sensor.aeotec_zw100_multisensor_6_battery_level
-      - entity: sensor.rijtijd_werk_ilse
       - entity: sensor.afvalwijzer_next_pickup
       - entity: sensor.afvalwijzer_next_pickup_plastic
       - entity: sensor.afvalwijzer_next_pickup_gft
@@ -344,17 +215,9 @@ views:
           - zwave.aeotec_zw090_zstick_gen5_eu
           - zwave.aeotec_zw100_multisensor_6
         title: Z-Wave
-  - title: test
-    path: test
-    panel: true
-    badges: []
-    cards:
-      - type: button
-        tap_action:
-          action: toggle
-        entity: light.woonkamer_tv
-  - title: TEST2
-    path: test2
+  - title: NEW
+    path: new
+    panel: false
     badges: []
     cards:
       - type: vertical-stack
@@ -376,6 +239,35 @@ views:
         camera_image: camera.hallway
       - type: entity
         entity: input_select.house_mode
+        icon: ' '
+      - type: grid
+        cards:
+          - type: button
+            tap_action:
+              action: toggle
+            name: Dag
+            icon: 'mdi:lock-open'
+          - type: button
+            tap_action:
+              action: toggle
+            name: Avond
+            icon: 'mdi:weather-sunset'
+          - type: button
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              service_data:
+                entity_id: input_select.house_mode
+                option: Sleeping
+            name: Slapen
+            icon: 'mdi:sleep'
+            entity: input_select.house_mode
+            show_state: false
+          - type: button
+            tap_action:
+              action: toggle
+            name: Weg
+            icon: 'mdi:lock'
       - type: button
         tap_action:
           action: call-service
@@ -399,4 +291,9 @@ views:
             action: none
       - type: entities
         entities:
-          - input_select.house_mode
+          - entity: sensor.br_humidity
+          - entity: sensor.br_temperature
+      - type: glance
+        entities:
+          - entity: sensor.br_humidity
+          - entity: sensor.br_temperature

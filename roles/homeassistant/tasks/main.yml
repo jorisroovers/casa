@@ -17,6 +17,12 @@
     - "{{homeassistant_dir}}/scenes"
     - "{{homeassistant_dir}}/inputs"
     - "{{homeassistant_dir}}/sensors"
+    - "{{homeassistant_dir}}/www/plugins"
+
+- name: Cloning lovelace-card-mod from github
+  git: repo=https://github.com/thomasloven/lovelace-card-mod dest={{homeassistant_dir}}/www/plugins/card-mod version=2.0.3
+  become: yes
+
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -51,6 +57,7 @@
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
    - configuration.yaml
+   - ui-lovelace.yaml
    - groups.yaml
    - scenes/scenes.yaml
    - scenes/office.yaml
@@ -65,11 +72,9 @@
    - inputs/select.yaml
    - sensors/binary.yaml
    - scripts.yaml
-#   - nest.conf # Nest token needs to be refreshed every so often, installing an invalid one messes up HA
    - phue.conf # No longer neccessary?
   notify:
     - reload_homeassistant_config
-    # - restart_homeassistant
   tags:
     - hass-config
   become: yes

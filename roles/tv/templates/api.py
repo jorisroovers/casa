@@ -43,7 +43,7 @@ def show_url(url: hug.types.text):
     run_command("echo 'as' | cec-client RPI -s -d 1", shell=True)
 
     # Show chromium-browser for user pi (doesn't work for other users right now)
-    run_command("sudo -u pi chromium-browser --aggressive-cache-discard --start-fullscreen --app {0}".format(url),
+    run_command("sudo -u pi chromium-browser --aggressive-cache-discard --kiosk --app {0}".format(url),
                 env={"DISPLAY": ":0.0"}, shell=True, background=True)
 
     sys.stdout.flush()  # Make sure print/stdout commands show up in systemd logs

@@ -18,7 +18,7 @@ For side sliding curtains however there seem to be way less off-the-shelf produc
 
 ## Dooya Curtain Rails
 
-I used the [Dooya 52S (45W)](https://nl.aliexpress.com/item/33009907003.html) motor with the [compatible curtain rails](https://nl.aliexpress.com/item/33045597780.html).
+I used the [Dooya 52S (45W)](https://aliexpress.com/item/33009907003.html) motor with the [compatible curtain rails](https://aliexpress.com/item/33045597780.html).
 
 ## Shelly 2.5
 
@@ -46,10 +46,11 @@ Shelly 2.5 pinout or UART:
 - Shelly-TXD -> FTDI-RX (IMPORTANT: Shelly2.5 TX is connected to RX on FTDI!)
 - Shelly-3.3V -> FTDI VCC (VERY IMPORTANT: make sure to set the voltage jumper correctly on the FTDI is set to 3.3v
   otherwise you risk frying the Shelly)
+- Shelly-RST -> Leave Open (not connected to FTDI)
 - Shelly-GPIO0 -> FTDI GND
 - Shelly-GND -> FTDI GND
 
-IMPORTANT: **BOTH** `GPIO0` and `GND` on the Shelly need to be connected to GND on FTDI to get the SHelly into flash mode, just doing one of them won't work
+IMPORTANT: **BOTH** `GPIO0` and `GND` on the Shelly need to be connected to GND on FTDI to get the Shelly into flash mode, just doing one of them won't work.
 
 ### Wiring
 

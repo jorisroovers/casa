@@ -70,10 +70,6 @@ scrape_configs:
         labels:
           name: homeassistant.http
       - targets:
-          - http://{{casa_ip}}:{{sonos_http_api_port}}/zones
-        labels:
-          name: sonos-http-api.http
-      - targets:
           - http://{{casa_ip}}:{{grafana_port}}
         labels:
           name: grafana.http

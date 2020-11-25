@@ -1,19 +1,4 @@
 groups:
-- name: sonos-api
-  rules:
-    - alert: sonos-http-api.systemd
-      expr: "node_systemd_unit_state{name=~'{{sonos_http_api_service}}(.*)', state='active'} == 0"
-      for: 30s
-      labels:
-        severity: page
-      annotations:
-        summary: "sonos API down"
-    - alert: sonos-http-api.http
-      expr: "probe_success{name='sonos-http-api.http'} == 0"
-      for: 30s
-      labels:
-        severity: page
-
 - name: ELK
   rules:
     - alert: elk-logstash.systemd

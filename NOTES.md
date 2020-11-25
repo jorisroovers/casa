@@ -268,14 +268,17 @@ curl -s "http://192.168.1.121:5005/TV%20Room/state" | jq
 # Tests
 
 ```bash
-source activate .venv36 # conda env
+cd tests  # important to be inside the tests directory!
+
+virtualenv .venv
+pip install -r test-requirements.txt
+
+source activate .venv # conda env
 cd tests  # important to be inside the tests directory!
 pytest -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')" tests/
 
 # sanity only
 pytest -m sanity -rw -s --hadashboard-url http://$HASS_IP:5050 --homeassistant-url http://$HASS_IP:8123 --homeassistant-token "$(vault-get 'local_integrations')" tests/
-
-
 ```
 
 # Prometheus

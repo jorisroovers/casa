@@ -102,6 +102,9 @@ $(document).ready(function () {
             houseMode = houseMode.html().toLowerCase();
             // if houseMode is set to away or sleeping and we're not already on the Lockscreen -> navigate to lockscreen
             if ((houseMode == "weg" || houseMode == "slapen") && (window.location.pathname.indexOf("LockScreen") < 0)) {
+                if (getUrlParameter("bypass") == "1"){
+                    return;
+                }
                 console.log("Auto nav to lock screen", houseMode);
                 window.location.href = "/LockScreen?skin=casa&returnURI=" + window.location.pathname;
             }

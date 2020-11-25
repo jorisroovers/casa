@@ -181,20 +181,6 @@ smoke_alarm_upstairs:
     icon_on: mdi-smoke-detector
     icon_off: mdi-smoke-detector
 
-script_restart_homeassistant:
-    widget_type: script
-    title: "Restart Homeassistant"
-    entity: "script.restart_homeassistant"
-    icon_on: fa-sync
-    icon_off: fa-sync
-
-script_restart_sonos:
-    widget_type: script
-    title: "Restart Sonos"
-    entity: "script.restart_sonos"
-    icon_on: fa-sync
-    icon_off: fa-sync
-
 ############################################
 # Sensors                                  #
 ############################################
@@ -431,11 +417,11 @@ music_party:
     icon_off: mdi-guitar-electric
     icon_style_active: "color: #993399"
     entity: input_select.downstairs_music
-    mode: "Party"
+    mode: "Throwback Party"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Party"
+        option: "Throwback Party"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -448,11 +434,11 @@ music_pop:
     icon_off: mdi-microphone-variant
     icon_style_active: "color: #ff9900"
     entity: input_select.downstairs_music
-    mode: "Pop"
+    mode: "Today's Top Hits"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Pop"
+        option: "Today's Top Hits"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -465,11 +451,11 @@ music_romance:
     icon_off: mdi-heart
     icon_style_active: "color: #cc0000"
     entity: input_select.downstairs_music
-    mode: "Romance"
+    mode: "Jazzy Romance"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Romance"
+        option: "Jazzy Romance"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -482,11 +468,11 @@ music_lounge:
     icon_off: mdi-piano
     icon_style_active: "color: ##c1fffd"
     entity: input_select.downstairs_music
-    mode: "Lounge"
+    mode: "Lounge - Soft House"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Lounge"
+        option: "Lounge - Soft House"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -499,11 +485,11 @@ music_christmas:
     icon_off: fa-tree-christmas
     icon_style_active: "color: #1b5e20"
     entity: input_select.downstairs_music
-    mode: "Christmas"
+    mode: "Christmas Is Coming"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Christmas"
+        option: "Christmas Is Coming"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -516,11 +502,11 @@ music_coffee_bar:
     icon_off: fa-coffee
     icon_style_active: "color: #993333"
     entity: input_select.downstairs_music
-    mode: "Coffee Bar"
+    mode: "'t Koffiehuis"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Coffee Bar"
+        option: "'t Koffiehuis"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -533,11 +519,11 @@ music_relaxing:
     icon_off: mdi-sofa
     icon_style_active: "color: #add8ec"
     entity: input_select.downstairs_music
-    mode: "Relaxing"
+    mode: "Relax & Unwind"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Relaxing"
+        option: "Relax & Unwind"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -550,11 +536,11 @@ music_breakfast:
     icon_off: mdi-food-croissant
     icon_style_active: "color: #DEB887"
     entity: input_select.downstairs_music
-    mode: "Breakfast"
+    mode: "'t Koffiehuis"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Breakfast"
+        option: "'t Koffiehuis"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -567,11 +553,45 @@ music_disney:
     icon_off: fa-music
     icon_style_active: "color: #e8e178"
     entity: input_select.downstairs_music
-    mode: "Disney"
+    mode: "Disney Greatest Hits"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
-        option: "Disney"
+        option: "Disney Greatest Hits"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_bumba:
+    widget_type: mode
+    title: Bumba 
+    icon_on: mdi-balloon
+    icon_off: mdi-balloon
+    icon_style_active: "color: #e8e178"
+    entity: input_select.downstairs_music
+    mode: "Bumba En Zijn Vrienden"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Bumba En Zijn Vrienden"
+    post_service_inactive:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: NoMusic
+
+music_juf_roos:
+    widget_type: mode
+    title: Juf Roos
+    icon_on: mdi-party-popper
+    icon_off: mdi-party-popper
+    icon_style_active: "color: #e8e178"
+    entity: input_select.downstairs_music
+    mode: "Juf Roos - Kinderliedjes deel 1"
+    post_service_active:
+        service: input_select/select_option
+        entity_id: input_select.downstairs_music
+        option: "Juf Roos - Kinderliedjes deel 1"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.downstairs_music
@@ -625,11 +645,11 @@ bathroom_music_morning:
     icon_off: mdi-weather-sunset-up
     icon_style_active: "color: #e8e178"
     entity: input_select.bathroom_music
-    mode: "Bathroom Morning"
+    mode: "Morning Motivation"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.bathroom_music
-        option: "Bathroom Morning"
+        option: "Morning Motivation"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.bathroom_music
@@ -642,11 +662,11 @@ bathroom_music_relax:
     icon_off: fa-bath
     icon_style_active: "color: #add8ec"
     entity: input_select.bathroom_music
-    mode: "Bathroom Relaxing"
+    mode: "Relax & Unwind"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.bathroom_music
-        option: "Bathroom Relaxing"
+        option: "Relax & Unwind"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.bathroom_music
@@ -659,11 +679,11 @@ bathroom_music_happy:
     icon_off: fa-smile
     icon_style_active: "color: #FFD700;"
     entity: input_select.bathroom_music
-    mode: "Bathroom Happy"
+    mode: "Happy Hits!"
     post_service_active:
         service: input_select/select_option
         entity_id: input_select.bathroom_music
-        option: "Bathroom Happy"
+        option: "Happy Hits!"
     post_service_inactive:
         service: input_select/select_option
         entity_id: input_select.bathroom_music

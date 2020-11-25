@@ -9,7 +9,7 @@
     entity_id: input_boolean.cooking
   action:
     - service: scene.turn_on
-      data_template:
+      data:
         entity_id: "{% raw %}{{ 'scene.Cooking' if is_state('input_boolean.cooking', 'on') else 'scene.StopCooking'}}{% endraw %}"
     # When TV is off and no other music is playing => Play some music
     - condition: state

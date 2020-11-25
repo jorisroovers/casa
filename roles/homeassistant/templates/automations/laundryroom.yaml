@@ -9,5 +9,5 @@
 #       to: "on"
 #   action:
 #     - service: scene.turn_on
-#       data_template:
+#       data:
 #         entity_id: "{% raw %}scene.Laundryroom{{ states('input_select.house_mode')}}{% endraw %}"

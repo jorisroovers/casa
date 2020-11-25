@@ -1,0 +1,9 @@
+# - name: Adding Dockerfile
+#   template: src=Dockerfile dest="{{sonos_http_api_dir}}/Dockerfile"
+
+# - name: Build node-sonos-http-api container
+#   docker_image:
+#     path: "{{sonos_http_api_dir}}"
+#     name: "{{sonos_http_api_image_name}}"
+#     force: yes
+#   become: yes

@@ -16,7 +16,7 @@
       state: 'on'
   action:
     - service: scene.turn_on
-      data_template:
+      data:
         entity_id: "{% raw %}scene.Office{{ states('input_select.house_mode')}}{% endraw %}"
 
 - alias: Turn off Office Desk light when turning off office light

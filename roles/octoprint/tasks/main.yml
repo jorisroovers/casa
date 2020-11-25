@@ -1,3 +1,8 @@
+# Octopi plugins in use (might need to automate installation):
+# - Consolidated Tabs 
+# - Octopod plugin
+# - PrettyGCode
+
 - name: "Configuring octopi"
   template: src={{item.filename}} dest="{{octoprint_dir}}/{{item.filename}}" mode="{{item.mode}}" group=pi owner=pi
   with_items:

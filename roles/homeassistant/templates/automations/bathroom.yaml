@@ -19,7 +19,7 @@
           state: 'Evening'
   action:
     - service: scene.turn_on
-      data_template:
+      data:
         entity_id: "{% raw %}scene.BathroomEnter{{ states('input_select.house_mode')}}{% endraw %}"
 
 - alias: Bathroom Turn On lights
@@ -30,16 +30,16 @@
       to: "on"
   action:
     - service: scene.turn_on
-      data_template:
+      data:
         entity_id: "{% raw %}scene.BathroomEnter{{ states('input_select.house_mode')}}{% endraw %}"
 
 - alias: Bathroom Exit
   initial_state: True
   trigger:
-    - platform: state
-      entity_id: media_player.bathroom
-      from: "playing"
-      to: "paused"
+    # - platform: state
+    #   entity_id: media_player.bathroom
+    #   from: "playing"
+    #   to: "paused"
     - platform: state
       entity_id: light.bathroom_group
       to: "off"
@@ -52,27 +52,40 @@
 # Bathroom Music                                                                                                       #
 ########################################################################################################################
 
-- alias: Play bathroom sonos preset for music input select
+- alias: Play Bathroom sonos preset for music input select
   initial_state: True
   trigger:
     platform: state
     entity_id: input_select.bathroom_music
   action:
-    - service: shell_command.play_sonos_preset
-      data_template:
-        preset: "{% raw %}{{ states('input_select.bathroom_music') | lower | replace(' ', '_')}}{% endraw %}"
+   - choose:
+      - conditions:
+          - condition: state
+            entity_id: "input_select.bathroom_music"
+            state: "Bathroom NoMusic"
+        sequence:
+          - service: media_player.media_stop
+            data:  
+              entity_id: "media_player.bathroom"
+     default:
+      - service: media_player.select_source
+        data:  
+          entity_id: "media_player.bathroom"
+          source: "{% raw %}{{ states('input_select.bathroom_music') }}{% endraw %}"
 
-- alias: Bathroom - Set InputSelect to NoMusic when music is paused
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: media_player.bathroom
-      to: "paused"
-  action:
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.bathroom_music
-        option: "Bathroom NoMusic"
+
+
+# - alias: Bathroom - Set InputSelect to NoMusic when music is paused
+#   initial_state: True
+#   trigger:
+#     - platform: state
+#       entity_id: media_player.bathroom
+#       to: "paused"
+#   action:
+#     - service: input_select.select_option
+#       data:
+#         entity_id: input_select.bathroom_music
+#         option: "Bathroom NoMusic"
 
 - alias: Music on afternoon shower during weekday
   initial_state: True

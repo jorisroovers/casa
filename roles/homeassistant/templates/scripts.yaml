@@ -1,11 +1,3 @@
-restart_homeassistant:
-  sequence:
-    - service: homeassistant.restart
-
-restart_sonos:
-  sequence:
-    - service: shell_command.restart_sonos
-
 turn_off_tv:
   sequence:
     - service: media_player.turn_off
@@ -32,44 +24,6 @@ comehome: # Used by emulated hue
       data_template:
         entity_id: input_select.house_mode
         option: "Auto"
-
-################################################################################
-# Bedroom                                                                      #
-################################################################################
-
-close_bedroom_window:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.bedroom_window_close_relay
-    # - wait_template: "{% raw %}{{ is_state('binary_sensor.bedroom_window_window_status', 'on') }}{% endraw %}"
-    #   timeout: '00:00:10'
-    - delay: 00:00:10
-    - service: switch.turn_off
-      data:
-        entity_id: switch.bedroom_window_close_relay
-    - service: notify.slack
-      data:
-        message: |
-              [Bedroom] Window Closed
-
-open_bedroom_window:
-  sequence:
-    # Only open the window when it's currently closed
-    # - condition: state
-    #   entity_id: binary_sensor.bedroom_window_window_status
-    #   state: 'off'
-    - service: switch.turn_on
-      data:
-        entity_id: switch.bedroom_window_open_relay
-    - delay: 00:00:02
-    - service: switch.turn_off
-      data:
-        entity_id: switch.bedroom_window_open_relay
-    - service: notify.slack
-      data:
-        message: |
-              [Bedroom] Window Opened
 
 play_artist:
   sequence:
@@ -115,3 +69,42 @@ demo:
       data_template:
         entity_id: media_player.living_room
         message: "That was the demo, hope you enjoyed it!"
+
+
+################################################################################
+# Bedroom                                                                      #
+################################################################################
+
+close_bedroom_window:
+  sequence:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.bedroom_window_close_relay
+    # - wait_template: "{% raw %}{{ is_state('binary_sensor.bedroom_window_window_status', 'on') }}{% endraw %}"
+    #   timeout: '00:00:10'
+    - delay: 00:00:10
+    - service: switch.turn_off
+      data:
+        entity_id: switch.bedroom_window_close_relay
+    - service: notify.slack
+      data:
+        message: |
+              [Bedroom] Window Closed
+
+open_bedroom_window:
+  sequence:
+    # Only open the window when it's currently closed
+    # - condition: state
+    #   entity_id: binary_sensor.bedroom_window_window_status
+    #   state: 'off'
+    - service: switch.turn_on
+      data:
+        entity_id: switch.bedroom_window_open_relay
+    - delay: 00:00:02
+    - service: switch.turn_off
+      data:
+        entity_id: switch.bedroom_window_open_relay
+    - service: notify.slack
+      data:
+        message: |
+              [Bedroom] Window Opened

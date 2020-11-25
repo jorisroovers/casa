@@ -9,7 +9,7 @@
     to: "Auto"
   action:
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.house_mode
         option: |
           {% raw %}
@@ -32,7 +32,7 @@
       value_template: "{% raw %}{{ states.input_select.house_mode.state != 'Sleeping' }}{% endraw %}" # Don't put house in Evening mode when we're already Sleeping (useful in the summer when then sun goes down late)
   action:
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.house_mode
         option: "Evening"
     - service: notify.slack
@@ -47,11 +47,11 @@
     entity_id: input_select.house_mode
   action:
     - service: scene.turn_on
-      data_template:
+      data:
         entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
     - delay: 00:00:25    # Wait a bit, then try again, in case there was a light that didn't turn off
     - service: scene.turn_on
-      data_template:
+      data:
         entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
 
 
@@ -78,7 +78,7 @@
     - service: media_player.turn_off
       entity_id: media_player.samsungtv_livingroom
     - service: script.tts_say
-      data_template:
+      data:
         entity_id: media_player.living_room
         message: "Locking down the house. Good Night!"
 
@@ -93,7 +93,7 @@
     - service: media_player.turn_off
       entity_id: media_player.samsungtv_livingroom
     - service: script.tts_say
-      data_template:
+      data:
         entity_id: media_player.living_room
         message: "Locking down the house. Have a good trip!"
     - service: script.close_bedroom_window
@@ -143,6 +143,6 @@
     #     message: |
     #           Good Morning, enjoy your day!
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.house_mode
         option: "Day"

@@ -50,5 +50,5 @@ layout:
     - package_delivery(1x1), package_delivery_details(7x1), spacer(1x1), weather_radar(5x4)
     - trash_pickup(1x1), trash_details(3x1)
     - humidity(1x1), spacer(2x2)
-    - joris_working(1x1)
-    - washing_machine_status(1x1), dryer_status(1x1), sonos(2x2),  rijtijd_ilse(1x1)
+    - joris_working(1x1), spacer(1x1), sonos(2x2)
+    - washing_machine_status(1x1), dryer_status(1x1), rijtijd_ilse(1x1)

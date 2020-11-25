@@ -16,13 +16,13 @@
     entity_id: input_select.living_preset
   action:
     - service: scene.turn_on
-      data_template:
+      data:
         entity_id: "{% raw %}scene.{{ states('input_select.living_preset') | lower | replace(' ', '_')}}{% endraw %}"
 
     # When disabling music, keep the current house mode (as this automation might be triggered by a change in
     # house mode). When enabling music, set house mode to Auto.
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.house_mode
         option: |
           {% raw %}
@@ -43,9 +43,24 @@
     platform: state
     entity_id: input_select.downstairs_music
   action:
-    - service: shell_command.play_sonos_preset
-      data_template:
-        preset: "{% raw %}{{ states('input_select.downstairs_music') | lower | replace(' ', '_')}}{% endraw %}"
+   - choose:
+      - conditions:
+          - condition: state
+            entity_id: "input_select.downstairs_music"
+            state: "NoMusic"
+        sequence:
+          - service: media_player.media_stop
+            data:  
+              entity_id: "media_player.living_room"
+     default:
+      - service: sonos.join
+        data:
+          entity_id: "media_player.tv_room, media_player.move"
+          master: media_player.living_room
+      - service: media_player.select_source
+        data:  
+          entity_id: "media_player.living_room"
+          source: "{% raw %}{{ states('input_select.downstairs_music') }}{% endraw %}"
 
 ########################################################################################################################
 # Mornings                                                                                                             #
@@ -74,8 +89,8 @@
         entity_id: input_select.house_mode
         state: "Sleeping"
   action:
-    # - service: rest_command.start_morning_tv
-    # - delay: 00:00:05    # Wait a bit, so TV can turn on fully before we attempt to play music
+    - service: rest_command.start_morning_tv
+    - delay: 00:00:05    # Wait a bit, so TV can turn on fully before we attempt to play music
     - service: scene.turn_on
       data:
         entity_id: "scene.StartWeekDay"
@@ -121,7 +136,7 @@
       data:
         entity_id: "scene.StartWorkingMorning"
     - service: media_player.turn_off
-      data_template:
+      data:
         entity_id: media_player.samsungtv_livingroom
 
 ########################################################################################################################
@@ -207,7 +222,7 @@
     entity_id: binary_sensor.joris_working
   action:
       - service: scene.turn_on
-        data_template:
+        data:
           entity_id: "{% raw %}{{ 'scene.Working' if is_state('binary_sensor.joris_working', 'on') else 'scene.NotWorking'}}{% endraw %}"
 
 ########################################################################################################################
@@ -252,20 +267,16 @@
   action:
     - service: camera.turn_off
       data:
-        entity_id: camera.diepvries
-    - service: camera.turn_off
-      data:
-        entity_id: camera.office
+        entity_id: 
+          - camera.diepvries
+          - camera.office
     - service: camera.turn_on
       data:
-        entity_id: camera.hallway
-    - service: camera.turn_on
-      data:
-        entity_id: camera.front_garden
-    - service: camera.turn_on
-      data:
-        entity_id: camera.backyard
-
+        entity_id: 
+          - camera.hallway
+          - camera.front_garden
+          - camera.backyard
+   
 - alias: Camera Preset All On Automation
   initial_state: True
   trigger:
@@ -275,19 +286,12 @@
   action:
     - service: camera.turn_on
       data:
-        entity_id: camera.diepvries
-    - service: camera.turn_on
-      data:
-        entity_id: camera.office
-    - service: camera.turn_on
-      data:
-        entity_id: camera.hallway
-    - service: camera.turn_on
-      data:
-        entity_id: camera.front_garden
-    - service: camera.turn_on
-      data:
-        entity_id: camera.backyard
+        entity_id: 
+          - camera.diepvries
+          - camera.office
+          - camera.hallway
+          - camera.front_garden
+          - camera.backyard
     - service: notify.slack
       data:
         message: |

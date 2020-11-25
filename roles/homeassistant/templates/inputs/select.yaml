@@ -36,26 +36,27 @@ downstairs_music:
   # initial: NoMusic
   icon: mdi:music
   options:
-    - Breakfast
-    - Party
-    - Pop
-    - Lounge
-    - Romance
-    - Christmas
-    - Coffee Bar
-    - Relaxing
-    - Disney
-    - Dinner With Friends
-    - Reading # Reading doesn't have associated music in sonos (nor does it stop the music)
+    - "'t Koffiehuis"
+    - Throwback Party
+    - Today's Top Hits
+    - Lounge - Soft House
+    - Jazzy Romance
+    - Christmas Is Coming
+    - Your Favorite Coffeehouse
+    - "Relax & Unwind"
+    - Disney Greatest Hits
+    - Dinner with Friends
+    - Bumba En Zijn Vrienden
+    - Juf Roos - Kinderliedjes deel 1
     - NoMusic
 bathroom_music:
   name: Bathroom Music
   icon: mdi:music
   # initial: Bathroom NoMusic
   options:
-    - Bathroom Relaxing
-    - Bathroom Happy
-    - Bathroom Morning
+    - Morning Motivation
+    - "Happy Hits!"
+    - Relax & Unwind
     - Bathroom NoMusic
 camera_preset:
   name: Camera Preset

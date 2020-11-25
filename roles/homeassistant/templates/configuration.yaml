@@ -3,13 +3,13 @@ homeassistant:
   {{key}}: {{value}}
 {% endfor %}
   auth_providers:
-    - type: homeassistant
     - type: trusted_networks
       allow_bypass_login: true
       trusted_networks:
 {% for network in homeassistant_http.trusted_networks %}
         - {{network}}
 {% endfor %}
+    - type: homeassistant
 
 # Discover some devices automatically
 # discovery:
@@ -78,8 +78,9 @@ device_tracker:
 # Track the sun
 sun:
 
-# Enable iOS support
-# ios:
+# Enable Mobile (and Mac) app
+mobile_app:
+
 
 tradfri:
   host: {{tradfri_ip}}
@@ -264,14 +265,9 @@ zwave:
      homeassistant/components/shell_command.py#L59-L65
 #}
 
-shell_command:
-    play_sonos_favorite: 'curl "{{sonos_http_api_url_base}}/{% raw %}{{room}}/favorite/{{favorite}}{% endraw %}"'
-    play_sonos_preset: 'curl "{{sonos_http_api_url_base}}/preset/{% raw %}{{preset}}{% endraw %}"'
-    restart_sonos: '/usr/bin/sudo /bin/systemctl restart {{sonos_http_api_service}}'
-
 rest_command:
   start_morning_tv:
-    url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{appdaemon_port}}/TV_Morning?skin=casa"
+    url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{homeassistant_port}}/lovelace/default_view"
     method: GET
     username: "{{tv_api_username}}"
     password: "{{tv_api_password}}"

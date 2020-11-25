@@ -3,6 +3,9 @@
 ########################################################################################################################
 # Gather all the inputs we need
 
+: ${WIFI_SSID:?"WIFI_SSID env variable must be set"}
+: ${WIFI_PSK:?"WIFI_PSK env variable must be set"}
+
 # Pick Raspbian or Raspbian lite
 PS3='Which Raspbian version? '
 options=("raspbian_latest" "raspbian_lite_latest")
@@ -12,14 +15,6 @@ select opt in "${options[@]}"; do
         break
     fi
 done
-
-echo "WIFI SSID: "
-WIFI_SSID=""
-read WIFI_SSID
-
-echo "WIFI PASSWORD: "
-WIFI_PSK=""
-read WIFI_PSK
 
 ########################################################################################################################
 # Downloading raspberry image

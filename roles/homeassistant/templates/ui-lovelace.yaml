@@ -290,6 +290,10 @@ views:
           hold_action:
             action: none
       - type: entities
+        style: |
+          ha-card {
+            color: red;
+          }
         entities:
           - entity: sensor.br_humidity
           - entity: sensor.br_temperature

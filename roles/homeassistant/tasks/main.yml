@@ -28,6 +28,7 @@
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
   with_items:
     - automations/automations.yaml
+    - automations/morning_routine.yaml
     - automations/house_mode.yaml
     - automations/livingroom.yaml
     - automations/hallway.yaml
@@ -58,6 +59,7 @@
   with_items:
    - configuration.yaml
    - ui-lovelace.yaml
+   - emulated_hue.yaml
    - groups.yaml
    - scenes/scenes.yaml
    - scenes/office.yaml
@@ -71,6 +73,7 @@
    - inputs/boolean.yaml
    - inputs/select.yaml
    - sensors/binary.yaml
+   - sensors/sensor.yaml
    - scripts.yaml
    - phue.conf # No longer neccessary?
   notify:

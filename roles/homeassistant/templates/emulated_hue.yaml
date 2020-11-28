@@ -1,0 +1,38 @@
+host_ip: "{{casa_ip}}"
+advertise_ip: "{{casa_ip}}"
+listen_port: 80
+expose_by_default: false
+entities:
+  # Lights
+  light.kitchen:
+    name: "Kitchen"
+    hidden: false
+  light.office:
+    name: "Office"
+    hidden: false
+  light.living_room:
+    name: "Living Room"
+    hidden: false
+  light.dining_table:
+    name: "Dinner Table"
+    hidden: false
+  light.woonkamer_tv:
+    name: "TV lights"
+    hidden: false
+  # Scripts
+  script.turn_off_tv:
+    name: "Turn Off TV"
+    hidden: false
+  script.goodnight:
+    name: "Good Night"
+    hidden: false
+  script.leave:
+    name: "Leave"
+    hidden: false
+  # Scenes
+  scene.breakfast:
+    name: "Breakfast"
+    hidden: false
+  scene.dinner:
+    name: "Dinner"
+    hidden: false

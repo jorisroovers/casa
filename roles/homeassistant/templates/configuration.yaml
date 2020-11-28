@@ -16,6 +16,28 @@ homeassistant:
 
 system_health:
 
+# View all events in a logbook
+logbook:
+
+# Enables the frontend
+frontend:
+
+# Enables lovelace
+lovelace:
+  mode: yaml
+
+# Enable config editor
+config:
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+# Track the sun
+sun:
+
+# Enable Mobile (and Mac) app
+mobile_app:
+
 logger:
   default: info
   logs:
@@ -25,15 +47,9 @@ logger:
     # homeassistant.components.http: warn
     # homeassistant.components.automation: debug
 
-# View all events in a logbook
-logbook:
-
-# Enables the frontend
-frontend:
-
 # The 'history' component is the history tab in the homeassitant UI. This tends to be very slow. We use
 # prometheus+grafana instead for historic data, so we can disable this.
-# history:
+history:
 
 prometheus:
   namespace: homeassistant
@@ -51,11 +67,6 @@ notify:
     default_channel: "{{slack_default_channel}}"
     username: "{{slack_username}}"
 
-# Allows you to issue voice commands from the frontend
-conversation:
-
-lovelace:
-  mode: yaml
 
 device_tracker:
   - platform: nmap_tracker
@@ -77,12 +88,6 @@ device_tracker:
 {% for key, value in device_tracker_ping.items() %}
       {{key}}: {{value}}
 {% endfor %}
-
-# Track the sun
-sun:
-
-# Enable Mobile (and Mac) app
-mobile_app:
 
 
 tradfri:
@@ -133,124 +138,12 @@ light:
       - light.hal_lamp_2
       - light.hal_lamp_3
 
-sensor:
-    - platform: systemmonitor
-      resources:
-         - type: memory_free
-         - type: disk_use_percent
-           arg: /
-         - type: memory_use_percent
-         - type: load_1m
-         - type: load_5m
-         - type: load_15m
-         - type: processor_use
-    - platform: buienradar
-      monitored_conditions:
-        - symbol
-        - conditiondetailed
-        - humidity
-        - temperature
-        - windspeed
-        - pressure
-    - platform: dsmr
-      host: "{{groups["energy_tracker"][0]}}"
-      port: "{{ser2net_public_port}}"
-      dsmr_version: 4
-    - platform: google_travel_time
-      api_key: {{google_travel_time_api_key}}
-      origin: {{google_travel_time_origin}}
-      destination: {{google_travel_time_destination}}
-      name: {{google_travel_time_name}}
-    - platform: time_date
-      display_options:
-        - "time"
-        - "date"
-        - "date_time"
-    - platform: command_line
-      name: "prom2hass"
-      command: python /config/prom2hass.py
-      scan_interval: 20
-      # Let's set the sensor to always be 1, otherwise hass will try to capture the much more verbose output
-      # of prom2hass which it doesn't allow since sensor states can only be 255 characters.
-      value_template: "1"
-    - platform: template
-      sensors:
-        desk_state:
-          friendly_name: "Desk"
-          {% raw %}
-          value_template: >-
-            {% if states('sensor.deskheight')|float  < 75 %}
-              down
-            {% else %}
-              up
-            {% endif %}
-          {% endraw %}
-
-        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-        br_symbol_highres:
-          friendly_name: "br Symbol highres"
-          {% raw %}
-          value_template: "{{ states('sensor.br_symbol') }}"
-          entity_picture_template: "{{ states.sensor.br_symbol.attributes.entity_picture | replace('30x30', '300x300') }}"
-          {% endraw %}
-
-        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-        afvalwijzer_details:
-          friendly_name: "afvalwijzer details"
-          {% raw %}
-          value_template: >-
-            <div><span class="gft">GFT</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_gft", "pickup_date") }}</span></div>
-            <div><span class="plastic">PLASTIC</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_plastic", "pickup_date") }}</span></div>
-            <div><span class="paper">PAPER</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_papier", "pickup_date") }}</span></div>
-          {% endraw %}
-
-        # Newline required here so ansible doesn't mess up the indentation after 'endraw'
-
-binary_sensor: !include sensors/binary.yaml
 
 nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
 
-emulated_hue:
-  host_ip: "{{casa_ip}}"
-  advertise_ip: "{{casa_ip}}"
-  listen_port: 80
-  expose_by_default: false
-  entities:
-    # Lights
-    light.kitchen:
-      name: "Kitchen"
-      hidden: false
-    light.office:
-      name: "Office"
-      hidden: false
-    light.living_room:
-      name: "Living Room"
-      hidden: false
-    light.dining_table:
-      name: "Dinner Table"
-      hidden: false
-    light.woonkamer_tv:
-      name: "TV lights"
-      hidden: false
-    # Scripts
-    script.turn_off_tv:
-      name: "Turn Off TV"
-      hidden: false
-    script.goodnight:
-      name: "Good Night"
-      hidden: false
-    script.leave:
-      name: "Leave"
-      hidden: false
-    # Scenes
-    scene.breakfast:
-      name: "Breakfast"
-      hidden: false
-    scene.dinner:
-      name: "Dinner"
-      hidden: false
+emulated_hue: !include emulated_hue.yaml
 
 tts:
   - platform: amazon_polly
@@ -263,13 +156,10 @@ zwave:
 rest_command:
   start_morning_tv:
     url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{homeassistant_port}}/lovelace/default_view"
-    method: GET
     username: "{{tv_api_username}}"
     password: "{{tv_api_password}}"
 
-input_select: !include inputs/select.yaml
 
-input_boolean: !include inputs/boolean.yaml
 
 # Enable Simple Service Discovery Protocol (for detecting Samsung Smart TV)
 ssdp:
@@ -277,13 +167,11 @@ ssdp:
 samsungtv:
   - host: "{{tv_livingroom_host}}"
 
-# Enable config editor
-config:
-
+sensor: !include sensors/sensor.yaml
+binary_sensor: !include sensors/binary.yaml
+input_select: !include inputs/select.yaml
+input_boolean: !include inputs/boolean.yaml
 script: !include scripts.yaml
-
 group: !include groups.yaml
-
 scene: !include_dir_merge_list scenes/
-
 automation: !include_dir_merge_list automations/

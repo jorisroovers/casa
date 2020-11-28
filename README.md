@@ -1,6 +1,6 @@
 # casa
-Set of [Ansible](https://www.ansible.com/) playbooks that I use to maintain my [homeassistant](home-assistant.io)-based home automation stack.
-This repository also contains playbooks for a bunch of auxillary systems that are part of my setup such as [prometheus](https://prometheus.io/), [grafana](https://grafana.com/), [ELK](https://www.elastic.co/elk-stack), [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) and some others (see  below).
+Home-automation stack based on [homeassistant](home-assistant.io), orchestrated through [Ansible](https://www.ansible.com/).
+This repository also contains ansible playbooks for a bunch of auxillary systems that are part of my setup such as [prometheus](https://prometheus.io/), [grafana](https://grafana.com/), [ELK](https://www.elastic.co/elk-stack), [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) and some others (see  below).
 
 To get an idea of some of the automations I'm using, I recommend reading my blogpost: [My Favorite Home Automations](https://jorisroovers.com/posts/my-favorite-home-automations)
 
@@ -12,92 +12,102 @@ more as a reference/demo rather than a plug-and-play solution.**
 ![HADashboard Home](docs/images/AppDaemon-Home.png)
 
 # Table of Contents
-- [General Notes](#General-Notes)
-- [Screenshots](#Screenshots)
-- [Setup Details](#Setup-Details)
-  - [Hardware](#Hardware)
-  - [Software](#Software)
-  - [Home-assistant Details](#Home-assistant-Details)
-- [Getting Started](#Getting-Started)
+- [casa](#casa)
+- [Table of Contents](#table-of-contents)
+- [General Notes](#general-notes)
+- [Interface Screenshots](#interface-screenshots)
+    - [Home](#home)
+- [Monitoring](#monitoring)
+- [Setup Details](#setup-details)
+  - [Hardware](#hardware)
+  - [Software](#software)
+  - [Home-assistant details](#home-assistant-details)
+- [Future Work](#future-work)
+- [Getting Started](#getting-started)
+  - [PROD](#prod)
+  - [DEV](#dev)
 
 # General Notes
 
 - You might see some references to ```casa-data```: this is a private repo I maintain that contains the actual
 data (encrypted) relevant to my home (usernames, passwords, secrets, IP addresses, etc). The roles and playbooks in this repo all
 use dummy defaults.
-- Since my family's mother tongue is Dutch, you'll see some Dutch language used here and there
-(mostly in the user-facing parts).
-- I try to keep my setup completely disconnected from the Internet for security and privacy reasons. There are some exceptions (like some Nest devices I use), but those connect outward to the internet themselves - it's not possible to directly connect to any device from the Internet as everything runs in a private network.
-- I'm constantly thinking of new things I can improve my setup and have a long list of TODO items I keep outside of this repository (this makes it easier to jot them down while not in front of a computer). Some bigger things that are a bit tricky (or expensive) but that I want to eventually get to are: automated sliding curtains ([in-progress](projects/curtain-opener/README.md)), ~~automated window opening~~ (✅[done](https://jorisroovers.com/posts/window-opener)), automated doorlocks.
+- Since my family's mother tongue is Dutch, you'll see some Dutch language used here and there (mostly in the user-facing parts).
+- I keep my setup disconnected from the Internet for security and privacy reasons. There are some exceptions (like some Nest devices I use), but those connect outward to the internet themselves - it's not possible to directly connect to any device from the Internet as everything runs in a private network.
 - I have no idea how much time I've spend getting to this point, but I'm fairly certain it's a couple of hundreds of hours at least. Spread over about 4 years.
 - I've never done a calculation of how much the current setup has cost me, but I'd roughly guess it's about ~3000 EUR. Note that it also highly depends on how you calculate things. Do you account for a (smart) TV? What about smart audio speakers? An old laptop that you had still lying around that you use as a server? Light bulbs you needed to buy anyways but you bought smartbulbs instead? etc.
-- When I first started using home-assistant in 2016, things were in a very different state than they are today. What this means is that I'd probably do things a bit differently if I'd start afresh today. So if you're looking at some code/config and wondering why I'm not using some out-of-the-box feature of home-assistant, changes are it didn't exist when I started out and I haven't come around to upgrading.
+- When I first started using home-assistant in 2016, things were in a very different state than they are today. This means I'd probably do things a bit differently if I'd start afresh today. So if you're looking at some code/config and wondering why I'm not using some out-of-the-box feature of home-assistant, changes are it didn't exist when I started out and I haven't come around to upgrading.
 - If you're new to home-automation and want to do something similar to this, I recommend getting a [Raspberry Pi](https://www.raspberrypi.org/products/) (get the latest model with the most compute power) and installing [HomeAssistant](https://www.home-assistant.io/) on it. Then get yourself a set of [Philips Hue](https://www2.meethue.com/en-us) or [Ikea Tradfri](https://www.ikea.com/us/en/catalog/products/20411562/) smart light bulbs and start playing!
 
-# Screenshots
+# Interface Screenshots
 
-## Main Control interface
-This interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html) (with some customizations) and displayed on wall-mounted iPad minis around the house. This is our primary way of interacting with the system. Under-the-hood this is just a webpage served from the main server and the iPads are just showing those as standalone webapps (=no browser chrome showing) with displays set to always-on. The first iPad I mounted has been continuously running for over 3 years without issues.
+The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html) (with some customizations) and displayed on wall-mounted iPad minis around the house. This is our primary way of interacting with the system. Under-the-hood this is just a webpage served from the main server and the iPads are just showing those as standalone webapps (=no browser chrome showing) with displays set to always-on. The first iPad I mounted has been continuously running for over 3 years without issues.
+
+In the background, [homeassistant](https://www.home-assistant.io/) is doing all the heavy lifting. While Homeassistant comes with its own UI, I only use it during development or troubleshooting. With the introduction of [lovelace](https://www.home-assistant.io/lovelace/) more recently, the flexibility to define your own UI has vastly improved though, and I'm evaluating whether to replace the appdaemon interface with lovelace.
 
 ### Home
 <table>
   <tr>
-    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
-    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
-    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+    <td>
+      <img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png">
+      Homescreen
+    </td>
+    <td>
+      <img alt="HADashboard Media" src="docs/images/AppDaemon-Media.png">
+      Media Controls
+    </td>
+    <td>
+      <img alt="HADashboard Security" src="docs/images/AppDaemon-Security.png">
+      Security
+    </td>
   </tr>
   <tr>
-    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
-    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
-    <td><img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><td>
+    <td>
+      <img alt="HADashboard Hallway" src="docs/images/AppDaemon-Hallway.png">
+      Hallway
+    </td>
+    <td>
+      <img alt="HADashboard Upstairs" src="docs/images/AppDaemon-Upstairs.png">
+      Upstairs
+    </td>
+    <td>
+      <img alt="HADashboard Monitoring" src="docs/images/AppDaemon-Monitoring.png">
+      Monitoring
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img alt="HADashboard Phone" src="docs/images/AppDaemon-Phone.png">
+      Smartphone interface
+    </td>
+    <td>
+      <img alt="Homeassistant default" src="docs/images/HomeAssistant-Home.png">
+      Home-assistant default interface
+    </td>
+    <td>
+        <img alt="Grafana server health" src="docs/images/Grafana-Overview.png">
+        Grafana Server Health stats
+    </td>
+  </tr>
+   <tr>
+    <td>
+        <img alt="Grafana House Stats" src="docs/images/Grafana-Stats.png">
+        Grafana House Stats
+    </td>
+    <td>
+        <img alt="Homeassistant default" src="docs/images/Prometheus-Alerts.png">
+        Prometheus Alerts
+    </td>
+    <td>
+    </td>
   </tr>
 </table>
 
+# Monitoring
 
-
-### Media
-![HADashboard Media](docs/images/AppDaemon-Media.png)
-
-### Security
-![HADashboard Media](docs/images/AppDaemon-Security.png)
-
-### Hallway
-![HADashboard Media](docs/images/AppDaemon-Hallway.png)
-
-### Upstairs
-![HADashboard Media](docs/images/AppDaemon-Upstairs.png)
-
-### Monitoring
-![HADashboard Media](docs/images/AppDaemon-Monitoring.png)
-
-### Phone
-This interface is more optimized for mobile (this one needs a few bugfixes).
-
-![HADashboard Phone](docs/images/AppDaemon-Phone.png)
-
-## Homeassistant
-
-In the background, [homeassistant](https://www.home-assistant.io/) is actually doing all the heavy lifting. While Homeassistant comes with its own UI, I only use it during development or troubleshooting. The main reason is that the interface is just not as user-friendly as the appdaemon dashboards for permanently wall-mounted tablets (in which big buttons are the way to go).
-With the introduction of [lovelace](https://www.home-assistant.io/lovelace/) more recently, the flexibility to define your own UI has vastly improved, but from what I've seen and read I still find my existing appdaemon dashboard more appealing. In addition, it would be a considerable amount of effort for me to port all my customizations over to lovelace. One day maybe?
-
-### Homeassistant Default interface
-![Homeasisstant Home](docs/images/HomeAssistant-Home.png)
-
-## Grafana
 I use [Grafana](https://grafana.com/) to display metrics from Homeassistant and Prometheus.
 
-### Server health
-![Grafana Server Health](docs/images/Grafana-Overview.png)
-
-### House Statistics
-![Grafana Stats](docs/images/Grafana-Stats.png)
-
-## Prometheus
-
 I use [Prometheus](https://prometheus.io/) with [Node Exporter](https://github.com/prometheus/node_exporter), [Process Exporter](https://github.com/ncabatoff/process-exporter), [Blackbox Exporter](https://github.com/prometheus/blackbox_exporter) and [Alert Manager](https://prometheus.io/docs/alerting/alertmanager/) to do monitor and alerting of my whole setup.
-
-### Prometheus Alerts
-![Prometheus Alerts](docs/images/Prometheus-Alerts.png)
 
 # Setup Details
 ## Hardware
@@ -211,6 +221,19 @@ Here's some more detail on some of the different home-assistant integrations tha
 | [Zwave](https://www.home-assistant.io/integrations/zwave/) |  Device Control: Zwave |
 | [Nest](https://www.home-assistant.io/components/nest/) | Device Control: Nest |
 
+
+# Future Work
+There's always more to automate!
+
+- Siding curtains ([in-progress](projects/curtain-opener/README.md))
+- ~~Automated window opening~~ (✅[done](https://jorisroovers.com/posts/window-opener))
+- Window blinds (in addition to curtains, maybe?)
+- Doorlocks
+- Doorbell
+- Sense Infuser? 
+- Garden irrigation
+- Improved presence detection
+- Improved voice commands
 
 # Getting Started
 

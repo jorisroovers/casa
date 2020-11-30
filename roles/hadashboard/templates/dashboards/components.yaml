@@ -400,7 +400,7 @@ ps4_presence:
     state_text: 1
 
 #######################################################################
-# DOWNSTAIRS MUSIC                                                    #
+# Downstairs Music                                                    #
 #######################################################################
 
 sonos:
@@ -715,6 +715,24 @@ hallway_curtain_open:
     icon_on: fa-booth-curtain
     icon_off: fa-booth-curtain
 
+
+####################################
+# Office                           #
+####################################
+
+office_curtain_right_close:
+    widget_type: switch
+    title: Office Curtain Right Close
+    entity: switch.office_curtain_right_relay2
+    icon_on: fa-booth-curtain
+    icon_off: fa-booth-curtain
+
+office_curtain_right_open:
+    widget_type: switch
+    title: Office Curtain Right Open
+    entity: switch.office_curtain_right_relay1
+    icon_on: fa-booth-curtain
+    icon_off: fa-booth-curtain
 
 ####################################
 # Cameras                          #

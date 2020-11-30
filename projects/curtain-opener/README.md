@@ -75,6 +75,9 @@ virtualenv .venv && source .venv/bin/activate
 pip install esphome
 
 esphome curtain-opener.yaml run
+
+# Set curtain opener duration to 8s (default = 6s)
+esphome -s duration 8s curtain-opener.yaml run
 ```
 
 ### Enclosure

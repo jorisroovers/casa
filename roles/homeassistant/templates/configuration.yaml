@@ -67,29 +67,6 @@ notify:
     default_channel: "{{slack_default_channel}}"
     username: "{{slack_username}}"
 
-
-device_tracker:
-  - platform: nmap_tracker
-    hosts: {{nmap_tracker_hosts}}
-    track_new_devices: no
-    consider_home: 1200
-    interval_seconds: 5
-    exclude:
-{% for excluded_target in nmap_exclude %}
-      - {{excluded_target}}
-{% endfor %}
-    # Newline required here so ansible doesn't mess up the indentation after 'endfor'
-  - platform: ping
-    track_new_devices: yes
-    count: 3
-    interval_seconds: 5
-    consider_home: 7
-    hosts:
-{% for key, value in device_tracker_ping.items() %}
-      {{key}}: {{value}}
-{% endfor %}
-
-
 tradfri:
   host: {{tradfri_ip}}
   # allow_tradfri_groups: true # Doesn't seem to work anymore?, use light groups below
@@ -107,38 +84,6 @@ homematic:
       username: "{{homematic_controller_username}}"
       password: "{{homematic_controller_password}}"
 
-# Creating own groups so we can control all lights at once, working around
-# this and other issues:
-# https://github.com/home-assistant/home-assistant/issues/9801
-light:
-  - platform: group
-    name: bathroom_group
-    entities:
-      - light.bathroom_left_back
-      - light.bathroom_left_front
-      - light.bathroom_right_back
-      - light.bathroom_right_front
-      - light.bathroom_shower
-  - platform: group
-    name: Office
-    entities:
-      - light.office_lamp_1
-      - light.office_lamp_2
-      - light.office_lamp_3
-  - platform: group
-    name: Dining Table
-    entities:
-      - light.eetkamer_lamp_1
-      - light.eetkamer_lamp_2
-      - light.eetkamer_lamp_3
-  - platform: group
-    name: Hallway
-    entities:
-      - light.hal_lamp_1
-      - light.hal_lamp_2
-      - light.hal_lamp_3
-
-
 nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
@@ -153,13 +98,21 @@ tts:
 zwave:
   usb_path: "{{zwave_gateway_device_container}}"
 
-rest_command:
-  start_morning_tv:
-    url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{homeassistant_port}}/lovelace/default_view"
-    username: "{{tv_api_username}}"
-    password: "{{tv_api_password}}"
-
-
+cover:
+  - platform: template
+    covers:
+      office_right_curtain:
+        device_class: curtain
+        friendly_name: "Office Right Curtain"
+        value_template: optimistic
+        open_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.office_curtain_right_relay2
+        close_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.office_curtain_right_relay1
 
 # Enable Simple Service Discovery Protocol (for detecting Samsung Smart TV)
 ssdp:
@@ -167,11 +120,14 @@ ssdp:
 samsungtv:
   - host: "{{tv_livingroom_host}}"
 
+device_tracker: device_trackers.yaml
 sensor: !include sensors/sensor.yaml
 binary_sensor: !include sensors/binary.yaml
 input_select: !include inputs/select.yaml
 input_boolean: !include inputs/boolean.yaml
 script: !include scripts.yaml
+rest_command: !include rest_commands.yaml
+light: !include lights.yaml
 group: !include groups.yaml
 scene: !include_dir_merge_list scenes/
 automation: !include_dir_merge_list automations/

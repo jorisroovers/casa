@@ -1,0 +1,19 @@
+- platform: nmap_tracker
+  hosts: {{nmap_tracker_hosts}}
+  track_new_devices: no
+  consider_home: 1200
+  interval_seconds: 5
+  exclude:
+{% for excluded_target in nmap_exclude %}
+    - {{excluded_target}}
+{% endfor %}
+  # Newline required here so ansible doesn't mess up the indentation after 'endfor'
+- platform: ping
+  track_new_devices: yes
+  count: 3
+  interval_seconds: 5
+  consider_home: 7
+  hosts:
+{% for key, value in device_tracker_ping.items() %}
+    {{key}}: {{value}}
+{% endfor %}

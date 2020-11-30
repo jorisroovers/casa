@@ -1,0 +1,4 @@
+start_morning_tv:
+  url: "http://{{groups["tv_controller"][0]}}:8000/show_url?url=http://{{casa_ip}}:{{homeassistant_port}}/lovelace/default_view"
+  username: "{{tv_api_username}}"
+  password: "{{tv_api_password}}"

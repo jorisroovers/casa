@@ -73,20 +73,6 @@
           entity_id: "media_player.bathroom"
           source: "{% raw %}{{ states('input_select.bathroom_music') }}{% endraw %}"
 
-
-
-# - alias: Bathroom - Set InputSelect to NoMusic when music is paused
-#   initial_state: True
-#   trigger:
-#     - platform: state
-#       entity_id: media_player.bathroom
-#       to: "paused"
-#   action:
-#     - service: input_select.select_option
-#       data:
-#         entity_id: input_select.bathroom_music
-#         option: "Bathroom NoMusic"
-
 - alias: Music on afternoon shower during weekday
   initial_state: True
   trigger:

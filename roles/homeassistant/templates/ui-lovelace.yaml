@@ -215,6 +215,20 @@ views:
           - zwave.aeotec_zw090_zstick_gen5_eu
           - zwave.aeotec_zw100_multisensor_6
         title: Z-Wave
+  - title: TV Dashboard
+    path: tv-dashboard
+    panel: false
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: thermostat
+            entity: climate.living_room
+          - type: light
+            entity: light.woonkamer_tv
+          - type: iframe
+            url: "{{buienradar_gadget_url}}"
+            aspect_ratio: 75%
   - title: NEW
     path: new
     panel: false

@@ -1,0 +1,29 @@
+# Creating own groups so we can control all lights at once, working around
+# this and other issues:
+# https://github.com/home-assistant/home-assistant/issues/9801
+- platform: group
+  name: bathroom_group
+  entities:
+    - light.bathroom_left_back
+    - light.bathroom_left_front
+    - light.bathroom_right_back
+    - light.bathroom_right_front
+    - light.bathroom_shower
+- platform: group
+  name: Office
+  entities:
+    - light.office_lamp_1
+    - light.office_lamp_2
+    - light.office_lamp_3
+- platform: group
+  name: Dining Table
+  entities:
+    - light.eetkamer_lamp_1
+    - light.eetkamer_lamp_2
+    - light.eetkamer_lamp_3
+- platform: group
+  name: Hallway
+  entities:
+    - light.hal_lamp_1
+    - light.hal_lamp_2
+    - light.hal_lamp_3

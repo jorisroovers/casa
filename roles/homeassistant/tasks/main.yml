@@ -18,11 +18,18 @@
     - "{{homeassistant_dir}}/inputs"
     - "{{homeassistant_dir}}/sensors"
     - "{{homeassistant_dir}}/www/plugins"
+    - "{{homeassistant_dir}}/www/plugins/banner-card"
+
 
 - name: Cloning lovelace-card-mod from github
   git: repo=https://github.com/thomasloven/lovelace-card-mod dest={{homeassistant_dir}}/www/plugins/card-mod version=2.0.3
   become: yes
 
+- name: Download banner-card lovelace mod
+  get_url:
+    url: https://github.com/nervetattoo/banner-card/releases/download/0.12.0/banner-card.js
+    dest: "{{homeassistant_dir}}/www/plugins/banner-card/"
+  become: yes
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -60,7 +67,9 @@
    - configuration.yaml
    - ui-lovelace.yaml
    - emulated_hue.yaml
+   - device_trackers.yaml
    - groups.yaml
+   - lights.yaml
    - scenes/scenes.yaml
    - scenes/office.yaml
    - scenes/hallway.yaml
@@ -75,6 +84,7 @@
    - sensors/binary.yaml
    - sensors/sensor.yaml
    - scripts.yaml
+   - rest_commands.yaml
    - phue.conf # No longer neccessary?
   notify:
     - reload_homeassistant_config

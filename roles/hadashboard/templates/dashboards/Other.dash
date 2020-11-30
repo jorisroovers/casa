@@ -8,7 +8,7 @@ columns: 8
 # Note: every row needs to be present in the layout, even if empty
 layout:
     - light_dinner_table(1x1), kitchen_light(1x1), pantry_light(1x1)
-    - spacer(8x1)
+    - office_curtain_right_open(1x1), office_curtain_right_close(1x1)
     - spacer(8x1)
     - spacer(8x1)
     - spacer(8x1)

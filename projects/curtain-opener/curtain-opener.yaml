@@ -1,6 +1,7 @@
 substitutions:
   deviceid: !secret deviceid
   devicename: !secret devicename
+  duration: 6s # Time it takes to completely open or close a window
 
 esphome:
   name: ${deviceid}
@@ -35,7 +36,7 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       then:
-        - delay: 6s
+        - delay: ${duration}
         - switch.turn_off: ${deviceid}_relay_1
   - platform: gpio
     id: ${deviceid}_relay_2
@@ -45,7 +46,7 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       then:
-        - delay: 6s
+        - delay: ${duration}
         - switch.turn_off: ${deviceid}_relay_2
     
 # This exposes the Switching inputs as binary_sensors

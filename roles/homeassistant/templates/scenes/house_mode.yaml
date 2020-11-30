@@ -17,6 +17,8 @@
     input_select.living_preset: NoPreset
     switch.front_door_curtain_relay1:
         state: on
+    switch.front_door_curtain_relay2:
+        state: on
 
 - name: Day
   entities:
@@ -28,6 +30,8 @@
     switch.christmas_tree:
         state: off
     switch.front_door_curtain_relay2:
+        state: on
+    switch.office_curtain_right_relay1:
         state: on
 
 - name: Evening
@@ -48,6 +52,8 @@
     switch.christmas_tree:
         state: on
     switch.christmas_ambience_office:
+        state: on
+    switch.office_curtain_right_relay2:
         state: on
 
 

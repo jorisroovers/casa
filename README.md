@@ -21,6 +21,7 @@ more as a reference/demo rather than a plug-and-play solution.**
 - [Details](#details)
   - [Hubs](#hubs)
   - [Climate](#climate)
+  - [Windows/Curtains](#windowscurtains)
   - [Lights](#lights)
   - [Switches](#switches)
   - [Voice Control](#voice-control)
@@ -112,33 +113,48 @@ In the background, [homeassistant](https://www.home-assistant.io/) is doing all 
 
 | Device                      | Homeassistant                                       | Notes 
 | ----------------------------|---------------------------------------------------- | ------------------- |                                  
-| [Philips Hue Hub v2](https://www2.meethue.com/en-us) |  [Philips Hue](https://www.home-assistant.io/components/hue/) | Light bulbs, switches            |
-| [Ikea Tradfri](https://www.ikea.com/us/en/catalog/products/20411562/)        | [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/) | Light bulbs, switches, movement sensors |
-| [HomeMatic HmIP-CCU3](https://www.eq-3.com/products/homematic/control-units-and-gateways/-473.html) | [HomeMatic](https://www.home-assistant.io/integrations/homematic)  | HomeMatic control unit  |
+| [Philips Hue Hub v2](https://www2.meethue.com/en-us) |  [Philips Hue](https://www.home-assistant.io/components/hue/) | Used to control all Philips Hue Light bulbs, switches            |
+| [Ikea Trådfri](https://www.ikea.com/us/en/catalog/products/20411562/)        | [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/) | Use the control all IKEA Trådfri light bulbs, switches, movement sensors |
+| [HomeMatic HmIP-CCU3](https://www.eq-3.com/products/homematic/control-units-and-gateways/-473.html) | [HomeMatic](https://www.home-assistant.io/integrations/homematic)  | HomeMatic control unit, used for smart radiator valves  |
 | [Aeotec Zwave Stick Gen5](https://aeotec.com/z-wave-usb-stick)       |    [Zwave](https://www.home-assistant.io/integrations/zwave/)         | Simple [Z-wave](https://www.z-wave.com/) controller in USB-stick form factor |
 ## Climate
 
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- | 
+| [Nest Thermostat](https://nest.com/thermostats/)      | [Nest](https://www.home-assistant.io/components/nest/)                           | Smart climate control                         |
 | [HomeMatic HM-CC-RT-DN](https://www.eq-3.com/products/homematic/heating-and-climate-control/homematic-wireless-radiator-thermostat.html#bestell_info)  | [HomeMatic](https://www.home-assistant.io/integrations/homematic)   | Smart Radiator valves. Allows me to control temperature for radiators upstairs where I have no separate thermostat and heating circuit. |  
-| [Nest Thermostat](https://nest.com/thermostats/)      | [Nest](https://www.home-assistant.io/components/nest/)                           | Climate control                         |
+
+
+## Windows/Curtains
+
+| Device                      | Homeassistant                                       | Notes   
+| ----------------------------|---------------------------------------------------- | ------------------- | 
+| [Custom Window Opener](https://github.com/jorisroovers/window-opener)   | [ESPHome](https://www.home-assistant.io/integrations/esphome/)           | A custom-build motorized widget to open our bedroom window. I wrote a [lengthy blog-post](https://jorisroovers.com/posts/window-opener) about how I build it. |
+| [Dooya Smart Curtain](http://www.dooya.com/solve_en.php?id=37&nid=48)   | [ESPHome](https://www.home-assistant.io/integrations/esphome/)| Custom solution for smart curtains. [Detailed Write-up](projects/curtain-opener/README.md)  |
 
 ## Lights
 
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- |
-| [Philips Hue](https://www2.meethue.com/en-us)       | [Philips Hue](https://www.home-assistant.io/components/hue/)                             | Light bulbs, switches            |
-| [Ikea Tradfri](https://www.ikea.com/us/en/catalog/products/20411562/) |  [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/)                        | Light bulbs, switches, movement sensors |
+| Hue color bulb       | [Philips Hue](https://www.home-assistant.io/components/hue/)                             | Color light bulbs            |
+| Hue ambience bulb       | [Philips Hue](https://www.home-assistant.io/components/hue/)                             | Ambience bulbs (=white spectrum only)            |
+| Hue ambience spot       | [Philips Hue](https://www.home-assistant.io/components/hue/)                             | Spot ambience lights, GU10 sockets used in Kitchen            |
+| Hue dimmer switch       | [Philips Hue](https://www.home-assistant.io/components/hue/)                             | Dimmer switch for nightstand lamps         |
+| Trådfri ambience bulb |  [Ikea Trådfri](https://www.home-assistant.io/integrations/tradfri/)                        | Movement sensors |
+| Trådfri ambience spot |  [Ikea Trådfri](https://www.home-assistant.io/integrations/tradfri/)                        | 
+| Trådfri LED panel |  [Ikea Trådfri](https://www.home-assistant.io/integrations/tradfri/)                        | Smart LED panel |
+| Trådfri motion sensor |  [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/)                        | Motion sensors, used to automatically control lights in hallway, pantry, toilet |
+| Trådfri remote control |  [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/)                        | Remote control, used to manually control lights |
 
 ## Switches
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- |    
-| [TP link HS100 and HS110 Smart Plugs](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-plug-energy-monitoring-hs110)    | [TP-Link](https://www.home-assistant.io/integrations/tplink/)                                      | Washing Machine and Dryer power monitoring (to detect whether they're running or not). Automatic power switching of some devices. |
-
+| [TPLink HS100)](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-wifi-plug-hs100)    | [TP-Link](https://www.home-assistant.io/integrations/tplink/)                                      | Automatic power switching of some devices: office standing lamp, bathroom mirror, christmas tree, etc. [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown) |
+| [TPLink HS110)](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-plug-energy-monitoring-hs110)    | [TP-Link](https://www.home-assistant.io/integrations/tplink/)                                      | Washing Machine and Dryer power monitoring (to detect whether they're running or not). [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown) |
 ## Voice Control
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- |    
-| [Amazon Echo dot](https://www.amazon.com/All-new-Echo-Dot-3rd-Gen/dp/B0792KTHKJ)              | [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) | Allows for alexa integration without exposing the stack to the internet. |
+| [Amazon Echo dot (v2, v3)](https://www.amazon.com/All-new-Echo-Dot-3rd-Gen/dp/B0792KTHKJ)              | [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) | Allows for alexa integration without exposing the stack to the internet. |
 | None | [Amazon Polly](https://www.home-assistant.io/components/amazon_polly/) | AWS Text-to-Speech engine. Allows the house to talk back (e.g. "Good Night!"). Cool? Yes. Nerdy? For sure. |
 
 ## Security
@@ -161,7 +177,8 @@ In the background, [homeassistant](https://www.home-assistant.io/) is doing all 
 | ----------------------------|---------------------------------------------------- | ------------------- |   
 | [Samsung SmartTV QE55Q70R](https://www.samsung.com/nl/tvs/qled-4k-q70r/QE55Q70RALXXN)  | [SamsungTV](https://www.home-assistant.io/integrations/samsungtv)                                                    | Our main TV  |
 | [Sonos play 5, play 1, play base, move](https://www.sonos.com/en/shop/)   | [Sonos](https://www.home-assistant.io/integrations/sonos)            | Internet controllable quality speakers  |
-
+| [AppleTV 4K](https://www.apple.com/lae/tv/)                                        | [AppleTV](https://www.home-assistant.io/integrations/apple_tv) |  There are some issues with the Home-assistant AppleTV integration ([pyatv](https://github.com/postlund/pyatv) in particular) thta will cause connected TVs to turn on semi-randomly that prevent me from properly integrating this. |
+| [AppleTV](https://www.apple.com/lae/tv/)      | [AppleTV](https://www.home-assistant.io/integrations/apple_tv)                                    | Attached to non-4K TV |
 ## Other Hardware
 
 | Device                                                                        | Notes                                   |
@@ -170,8 +187,6 @@ In the background, [homeassistant](https://www.home-assistant.io/) is doing all 
 | [iPad mini (Gen 2, Gen 4)](https://www.apple.com/lae/ipad-mini/)                                                        | Wall Mounted control panels             |
 | [Raspberry Pi](https://www.raspberrypi.org/) + [DSMR](https://www.home-assistant.io/components/dsmr/)           | Raspberry Pi connected to smart energy meter for energy monitoring.  |
 | [Wemos D1](https://wiki.wemos.cc/products:d1:d1)                                | A simple custom-build sensor using a cheap Arduino compatible board and an ultrasonic sensor to measure the current height of my standing desk. This allows me to track how much time I've been standing during the day. |
-| [Custom Window Opener](https://github.com/jorisroovers/window-opener)                                | A custom-build motorized widget to open our bedroom window. I wrote a [lengthy blog-post](https://jorisroovers.com/posts/window-opener) about how I build it. |
-| [Dooya Smart Curtain](http://www.dooya.com/solve_en.php?id=37&nid=48)                                | **In Progress** Smart curtains |
 | [Quooker](https://www.quooker.co.uk/) | Boiling water tap. Not a smart device, but still a very time-saving way to boil water for tea or cooking  |
  
 
@@ -211,7 +226,6 @@ Other gear I have that is currently not (yet) integrated in the setup:
 ## Retired Hardware
 | Hardware                                                                        | Notes         |
 | ------------------------------------------------------------------------------- | ------------------- |
-| [AppleTV](https://www.apple.com/lae/tv/)                                        | There are some issues with [pyatv](https://github.com/postlund/pyatv) turning on the TV randomly that prevent me from properly integrating this |
 | [Elgato Eve Window sensor](https://www.evehome.com/en/eve-door-window)          | HomeKit only. Not currently using. |
 | [Elgato Eve Power plug](https://www.evehome.com/en/eve-energy)                  | Homekit only. Reset wifi every night at 4AM to deal with linksys router firmware issue. Blue-tooth based. Ability to power cycle network gear even when whole network is down. |
 | [Chromecast](https://store.google.com/product/chromecast)                       | We usually use our AppleTV(s) instead. |

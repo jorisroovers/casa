@@ -65,3 +65,11 @@ camera_preset:
   options:
     - All On
     - Home
+holiday_season:
+  name: Holiday Season
+  # initial: Home
+  options:
+    - None
+    - Christmas
+    - Halloween
+    - Easter

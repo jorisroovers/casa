@@ -1,0 +1,39 @@
+---
+- name: Creating homeassistant directories
+  file: path="{{item}}" state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
+  become: yes
+  with_items:
+    - "{{homeassistant_plugins_dir}}"
+    - "{{homeassistant_plugins_dir}}/banner-card"
+    - "{{homeassistant_plugins_dir}}/weather-card"
+    - "{{homeassistant_plugins_dir}}/weather-card/icons"
+
+
+- name: Cloning lovelace-card-mod from github
+  git: repo=https://github.com/thomasloven/lovelace-card-mod dest={{homeassistant_plugins_dir}}/card-mod version=2.0.3
+  become: yes
+
+- name: Download banner-card lovelace mod
+  get_url:
+    url: https://github.com/nervetattoo/banner-card/releases/download/0.12.0/banner-card.js
+    dest: "{{homeassistant_plugins_dir}}/banner-card/"
+  become: yes
+
+- name: Download weather-card lovelace mod
+  get_url:
+    url: https://raw.githubusercontent.com/bramkragten/weather-card/v1.2.0/dist/weather-card.js
+    dest: "{{homeassistant_dir}}/www/plugins/weather-card/"
+  become: yes
+
+- name: Download weather-card icons
+  get_url:
+    url: https://www.amcharts.com/dl/svg-weather-icons/
+    dest: "{{homeassistant_plugins_dir}}/weather-card/icons"
+  become: yes
+
+- name: Unzip weather icons
+  unarchive:
+    src: "{{homeassistant_plugins_dir}}/weather-card/icons/amcharts_weather_icons_1.0.0.zip"
+    dest: "{{homeassistant_plugins_dir}}/weather-card/icons"
+    remote_src: yes
+  become: yes

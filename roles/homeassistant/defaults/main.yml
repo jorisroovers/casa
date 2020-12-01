@@ -1,4 +1,6 @@
 homeassistant_dir: "/opt/homeassistant"
+homeassistant_plugins_dir: "/opt/homeassistant/www/plugins"
+
 homeassistant_bind_ip: 0.0.0.0
 homeassistant_port: 8123
 homeassistant_version: 0.118.4 # 0.114.4 # 0.104.3 # 0.95.4

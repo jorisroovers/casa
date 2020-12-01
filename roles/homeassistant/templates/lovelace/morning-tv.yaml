@@ -1,0 +1,73 @@
+title: Morning TV
+path: morning-tv
+panel: yes
+badges:
+  - entity: binary_sensor.living_room_nest_protect_online
+  - entity: binary_sensor.upstairs_nest_protect_online
+cards:
+- type: horizontal-stack
+  cards:
+    - type: vertical-stack
+      cards:
+        - type: markdown
+          style: |
+            ha-card {
+              font-size: 300%;
+            }
+          content: |
+            {% raw %}{{ now().strftime("%A %d %B %Y %H:%M") }}{% endraw %}
+        - type: media-control
+          entity: media_player.living_room
+        - type: entities
+          entities:
+            - sensor.afvalwijzer_next_pickup_papier
+            - sensor.afvalwijzer_next_pickup_plastic
+            - sensor.afvalwijzer_next_pickup_gft
+        - type: custom:weather-card
+          entity: weather.br_unknown_station
+          icons: "/local/plugins/weather-card/icons/"
+    - type: vertical-stack
+      cards:
+        - type: thermostat
+          entity: climate.living_room
+        - type: iframe
+          url: "{{buienradar_gadget_url}}"
+          aspect_ratio: 75%
+    - type: vertical-stack
+      cards:  
+        - type: media-control
+          entity: media_player.living_room
+        - type: picture-entity
+          title: Hallway Camera
+          entity: camera.hallway
+          camera_image: camera.hallway
+        - type: picture-entity
+          entity: camera.backyard
+          title: Backyard Camera
+          camera_image: camera.backyard
+        - type: picture-entity
+          entity: camera.front_garden
+          title: Front Garden Camera
+          camera_image: camera.front_garden
+        - type: sensor
+          entity: sensor.rijtijd_werk_ilse
+          unit: min
+          title: Driving Time Work Ilse
+
+
+# trash_pickup:
+    # title: Afval
+    # widget_type: sensor
+    # entity: sensor.afvalwijzer_next_pickup
+    # container_style: "font-size: 150% !important; text-transform: uppercase;"
+    # sub_entity: sensor.afvalwijzer_next_pickup.pickup_date
+
+# TODO
+# - weather with new weather widget
+# - Trash indicators
+# - Monitors
+# - Calendar?
+# - Birthdays
+# - Cameras
+# - News Headlines
+# - Server stats?

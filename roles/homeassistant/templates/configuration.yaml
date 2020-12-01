@@ -35,6 +35,9 @@ conversation:
 # Track the sun
 sun:
 
+# Enable history tab
+history:
+
 # Enable Mobile (and Mac) app
 mobile_app:
 
@@ -47,9 +50,6 @@ logger:
     # homeassistant.components.http: warn
     # homeassistant.components.automation: debug
 
-# The 'history' component is the history tab in the homeassitant UI. This tends to be very slow. We use
-# prometheus+grafana instead for historic data, so we can disable this.
-history:
 
 prometheus:
   namespace: homeassistant
@@ -88,7 +88,11 @@ nest:
     client_id: {{nest_client_id}}
     client_secret: {{nest_client_secret}}
 
-emulated_hue: !include emulated_hue.yaml
+# Weather: location is determined by the latitude and longitude defined in the homeassistant section
+weather:
+  - platform: buienradar
+    name: home
+    forecast: true
 
 tts:
   - platform: amazon_polly
@@ -120,7 +124,8 @@ ssdp:
 samsungtv:
   - host: "{{tv_livingroom_host}}"
 
-device_tracker: device_trackers.yaml
+emulated_hue: !include emulated_hue.yaml
+device_tracker: !include device_trackers.yaml
 sensor: !include sensors/sensor.yaml
 binary_sensor: !include sensors/binary.yaml
 input_select: !include inputs/select.yaml

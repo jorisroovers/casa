@@ -1,0 +1,85 @@
+title: PLAYGROUND
+path: playground
+panel: false
+badges: []
+cards:
+  - type: vertical-stack
+    cards:
+      - type: thermostat
+        entity: climate.living_room
+      - type: light
+        entity: light.woonkamer_tv
+  - type: vertical-stack
+    cards:
+      - type: media-control
+        entity: media_player.living_room
+      - type: picture-glance
+        title: Hallway Camera
+        camera_image: camera.hallway
+        entities:
+          - binary_sensor.joris_is_workday
+          - binary_sensor.joris_working
+  - type: entity
+    entity: input_select.house_mode
+    icon: ' '
+  - type: grid
+    cards:
+      - type: button
+        tap_action:
+          action: toggle
+        name: Dag
+        icon: 'mdi:lock-open'
+      - type: button
+        tap_action:
+          action: toggle
+        name: Avond
+        icon: 'mdi:weather-sunset'
+      - type: button
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.house_mode
+            option: Sleeping
+        name: Slapen
+        icon: 'mdi:sleep'
+        entity: input_select.house_mode
+        show_state: false
+      - type: button
+        tap_action:
+          action: toggle
+        name: Weg
+        icon: 'mdi:lock'
+  - type: button
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+    entity: light.woonkamer_tv
+    hold_action:
+      action: none
+    icon: 'mdi:lightbulb'
+    show_icon: true
+    show_state: false
+    name: Dag
+  - type: entities
+    entities:
+      - scene.watching_tv
+    header:
+      type: picture
+      image: 'https://www.home-assistant.io/images/merchandise/shirt-frontpage.png'
+      tap_action:
+        action: none
+      hold_action:
+        action: none
+  - type: entities
+    style: |
+      ha-card {
+        color: red;
+      }
+    entities:
+      - entity: sensor.br_humidity
+      - entity: sensor.br_temperature
+  - type: glance
+    entities:
+      - entity: sensor.br_humidity
+      - entity: sensor.br_temperature

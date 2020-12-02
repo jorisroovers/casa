@@ -13,34 +13,52 @@ cards:
           style: |
             ha-card {
               font-size: 300%;
+              line-height: 250%;
+              font-weight: bold;
             }
           content: |
             {% raw %}{{ now().strftime("%A %d %B %Y %H:%M") }}{% endraw %}
-        - type: media-control
-          entity: media_player.living_room
+          
         - type: entities
+          title: Trash Pickup
           entities:
-            - sensor.afvalwijzer_next_pickup_papier
+            - entity: sensor.afvalwijzer_next_pickup_papier
+              name: Papier
+              icon: mdi:trash-can
+              attribute: pickup_date
             - sensor.afvalwijzer_next_pickup_plastic
             - sensor.afvalwijzer_next_pickup_gft
         - type: custom:weather-card
           entity: weather.br_unknown_station
-          icons: "/local/plugins/weather-card/icons/"
-    - type: vertical-stack
-      cards:
-        - type: thermostat
-          entity: climate.living_room
+          icons: "/local/plugins/weather-card/icons/animated/"
         - type: iframe
           url: "{{buienradar_gadget_url}}"
-          aspect_ratio: 75%
+          # aspect_ratio: 75%
+
+        - type: sensor
+          entity: sensor.rijtijd_werk_ilse
+          unit: min
+          title: Driving Time Work Ilse
     - type: vertical-stack
-      cards:  
+      cards:
         - type: media-control
           entity: media_player.living_room
+        - type: calendar
+          initial_view: listWeek
+          entities:
+            - calendar.birthdays
+            - calendar.family
+    - type: vertical-stack
+      cards:  
         - type: picture-entity
           title: Hallway Camera
           entity: camera.hallway
           camera_image: camera.hallway
+          style: |
+            ha-card img {
+              blur(15px);
+            }
+          
         - type: picture-entity
           entity: camera.backyard
           title: Backyard Camera
@@ -49,10 +67,6 @@ cards:
           entity: camera.front_garden
           title: Front Garden Camera
           camera_image: camera.front_garden
-        - type: sensor
-          entity: sensor.rijtijd_werk_ilse
-          unit: min
-          title: Driving Time Work Ilse
 
 
 # trash_pickup:

@@ -94,6 +94,11 @@ weather:
     name: home
     forecast: true
 
+# Used for Google Calendar integration
+google:
+  client_id: "{{google_client_id}}"
+  client_secret: "{{google_client_secret}}"
+
 tts:
   - platform: amazon_polly
     aws_access_key_id: "{{aws_polly_access_key_id}}"

@@ -83,3 +83,9 @@ cards:
     entities:
       - entity: sensor.br_humidity
       - entity: sensor.br_temperature
+  - type: button
+    name: Show Morning TV
+    show_state: false
+    tap_action:
+      action: call-service
+      service: rest_command.start_morning_tv

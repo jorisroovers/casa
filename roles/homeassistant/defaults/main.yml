@@ -62,6 +62,9 @@ google_travel_time_origin: "Google Travel Time Origin"
 google_travel_time_destination: "Google Travel Time Destination"
 google_travel_time_name: "Google Travel Time Name"
 
+google_client_id: foo
+google_client_secret: bar
+
 # Notifications
 pushbullet_api_key: "abc123"
 slack_api_key: "abc123"

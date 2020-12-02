@@ -1,17 +1,17 @@
 # casa
 Home-automation stack based on [homeassistant](home-assistant.io), orchestrated through [Ansible](https://www.ansible.com/).
-This repository also contains ansible playbooks for a bunch of auxillary systems that are part of my setup such as [prometheus](https://prometheus.io/), [grafana](https://grafana.com/), [ELK](https://www.elastic.co/elk-stack), [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) and some others (see  below).
+This repository also contains ansible playbooks for auxillary systems such as [prometheus](https://prometheus.io/), [grafana](https://grafana.com/), [ELK](https://www.elastic.co/elk-stack), [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) and more.
 
-To get an idea of some of the automations I'm using, I recommend reading my blogpost: [My Favorite Home Automations](https://jorisroovers.com/posts/my-favorite-home-automations)
+Related Material: 
+- Blogpost: [My Favorite Home Automations](https://jorisroovers.com/posts/my-favorite-home-automations)
+- Details on Morning Routine
 
-**I maintain this purely for fun (favoring speed and exploration over quality and documentation) and really only with my own use-cases
-in mind, so use at your own risk! I don't expect the actual code to work for anyone but me, so please consider this as
-more as a reference/demo rather than a plug-and-play solution.**
+**I maintain this purely for fun (favoring speed and exploration over quality and documentation). Consider this a reference/demo rather than a re-usable solution**
 
 **Currently doing some maintenance on this README**
 
-*Screenshot of main dashboard running on wall-mounted iPads*
-![HADashboard Home](docs/images/AppDaemon-Home.png)
+*Main dashboard running on wall-mounted iPad*
+![HADashboard Home](docs/images/iPad-Wallmount.jpg)
 
 # Menu
 - [casa](#casa)
@@ -149,8 +149,8 @@ In the background, [homeassistant](https://www.home-assistant.io/) is doing all 
 ## Switches
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- |    
-| [TPLink HS100)](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-wifi-plug-hs100)    | [TP-Link](https://www.home-assistant.io/integrations/tplink/)                                      | Automatic power switching of some devices: office standing lamp, bathroom mirror, christmas tree, etc. [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown) |
-| [TPLink HS110)](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-plug-energy-monitoring-hs110)    | [TP-Link](https://www.home-assistant.io/integrations/tplink/)                                      | Washing Machine and Dryer power monitoring (to detect whether they're running or not). [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown) |
+| [TPLink HS100](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-wifi-plug-hs100)    | [TP-Link](https://www.home-assistant.io/integrations/tplink/)                                      | Automatic power switching of some devices: office standing lamp, bathroom mirror, christmas tree, etc. [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown) |
+| [TPLink HS110](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-plug-energy-monitoring-hs110)    | [TP-Link](https://www.home-assistant.io/integrations/tplink/)                                      | Washing Machine and Dryer power monitoring (to detect whether they're running or not). [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown) |
 ## Voice Control
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- |    
@@ -160,7 +160,9 @@ In the background, [homeassistant](https://www.home-assistant.io/) is doing all 
 ## Security
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- |   
-| [Nest Cam](https://nest.com/cameras/)                                           | [Nest](https://www.home-assistant.io/components/nest/) | Security monitoring (also remotely). Own various models. | 
+| [Nest Cam Indoor](https://nest.com/cameras/)                                           | [Nest](https://www.home-assistant.io/components/nest/) | Intelligent security camera (allows remote access remotely). I'm grandfathered into the *Legacy Works With Nest API* program. I'd probably not buy Nest Cams if I'd be starting today, instead opting for  something with better local API access. | 
+| [Nest Cam IQ Indoor](https://nest.com/cameras/)                                           | [Nest](https://www.home-assistant.io/components/nest/) | 1080p video monitoring with 4K sensor (for digital zooming). | 
+| [Nest Cam Outdoor](https://nest.com/cameras/)                                           | [Nest](https://www.home-assistant.io/components/nest/) | Garden monitoring | 
 | [Nest Protect smoke detectors](https://nest.com/smoke-co-alarm/overview/) | [Nest](https://www.home-assistant.io/components/nest/)     | Smart Smoke detectors  |
 
 ## Sensors
@@ -170,24 +172,28 @@ In the background, [homeassistant](https://www.home-assistant.io/) is doing all 
 | Raspberry Pi + [Serial-to-USB cable](https://www.sossolutions.nl/slimme-meter-kabel) | [Sensor - DSMR](https://www.home-assistant.io/components/dsmr/) | Energy monitoring using the Dutch DSMR energy monitoring protocol |
 | [Desk-height](https://github.com/jorisroovers/casa/tree/master/projects/deskheight/main) | NA | Simple Arduino-based sensor to determine the current height of my standing desk using an ultrasonic sensor mounted underneath it. This info is then send over to my home server which does some simple processing in logstash and home-assistant to determine whether the desk is up or down. This is then used to calculate and show standing time statistics in grafana. |
 
-
 ## Media
 
 | Device                      | Homeassistant                                       | Notes   
 | ----------------------------|---------------------------------------------------- | ------------------- |   
 | [Samsung SmartTV QE55Q70R](https://www.samsung.com/nl/tvs/qled-4k-q70r/QE55Q70RALXXN)  | [SamsungTV](https://www.home-assistant.io/integrations/samsungtv)                                                    | Our main TV  |
-| [Sonos play 5, play 1, play base, move](https://www.sonos.com/en/shop/)   | [Sonos](https://www.home-assistant.io/integrations/sonos)            | Internet controllable quality speakers  |
+| [Samsung SmartTV UE48H6200AW](https://www.samsung.com/nl/support/model/UE48H6200AWXXN/)  | [SamTV](https://github.com/McKael/samtv) + [shell_command](https://www.home-assistant.io/integrations/shell_command/)       | Older Smart TV that isn't supported by home-assistant out-of-the-box. I've used[SamTV](https://github.com/McKael/samtv) to control it in the past.    |
+| Sonos play 5, Gen 1   | [Sonos](https://www.home-assistant.io/integrations/sonos)            | Main Living Room smart speaker. Older model  |
+| Sonos Play 1   | [Sonos](https://www.home-assistant.io/integrations/sonos)            | Bathroom smart speaker  |
+| [Sonos One](https://www.sonos.com/en/shop/one.html)   | [Sonos](https://www.home-assistant.io/integrations/sonos)            | TV Surround smart speakers - back units  |
+| Sonos Play Base   | [Sonos](https://www.home-assistant.io/integrations/sonos)            | Internet controllable quality speakers | TV Surround smart speakers - front unit
+| [Sonos Move](https://www.sonos.com/en/shop/move.html)   | [Sonos](https://www.home-assistant.io/integrations/sonos)            | Portable smart speaker, usually docked in the Office but used in the garden during the summer  |
 | [AppleTV 4K](https://www.apple.com/lae/tv/)                                        | [AppleTV](https://www.home-assistant.io/integrations/apple_tv) |  There are some issues with the Home-assistant AppleTV integration ([pyatv](https://github.com/postlund/pyatv) in particular) thta will cause connected TVs to turn on semi-randomly that prevent me from properly integrating this. |
 | [AppleTV](https://www.apple.com/lae/tv/)      | [AppleTV](https://www.home-assistant.io/integrations/apple_tv)                                    | Attached to non-4K TV |
 ## Other Hardware
 
 | Device                                                                        | Notes                                   |
 | ------------------------------------------------------------------------------- | ------------------- |
-[2011 Macbook Pro](https://support.apple.com/kb/SP619?locale=en_US) | Old laptop (2.7GHz dual-core i7, 8GB RAM) used for hosting the whole stack. While the machine can easily handle the load, I expect that at some point I'll replace it with something that is more suited for running 24x7 - I have some concerns about fire safety with the Macbook's built-in battery.  |
+[2011 Macbook Pro](https://support.apple.com/kb/SP619?locale=en_US) | Old laptop (2.7GHz dual-core i7, 8GB RAM) used for hosting the whole stack. While the machine can easily handle the load and has been running almost continuously for 4 years, I expect that at some point I'll replace it with something that is more suited for running 24x7 - I have some concerns about fire safety with the Macbook's built-in battery.  |
 | [iPad mini (Gen 2, Gen 4)](https://www.apple.com/lae/ipad-mini/)                                                        | Wall Mounted control panels             |
 | [Raspberry Pi](https://www.raspberrypi.org/) + [DSMR](https://www.home-assistant.io/components/dsmr/)           | Raspberry Pi connected to smart energy meter for energy monitoring.  |
 | [Wemos D1](https://wiki.wemos.cc/products:d1:d1)                                | A simple custom-build sensor using a cheap Arduino compatible board and an ultrasonic sensor to measure the current height of my standing desk. This allows me to track how much time I've been standing during the day. |
-| [Quooker](https://www.quooker.co.uk/) | Boiling water tap. Not a smart device, but still a very time-saving way to boil water for tea or cooking  |
+| [Quooker](https://www.quooker.co.uk/) | Boiling water tap. Not a smart device, but still a very time-saving way to boil water for tea or cooking.  |
  
 
 
@@ -238,7 +244,6 @@ Other gear I have that is currently not (yet) integrated in the setup:
 | Software                                                                        | Notes         |
 | ------------------------------------------------------------------------------- | ------------------- |
 | [node-sonos-http-api](https://github.com/jishi/node-sonos-http-api)             | HTTP API bridge for Sonos speakers. Filled some gaps in sonos features that HomeAssistant didn't support in the past.    |
-| [SamTV](https://github.com/McKael/samtv) | Great little CLI tool I used to control my somewhat older Samsung SmartTV that isn't supported by homeassistant itself. No longer using it since we upgraded our TV to a newer model that is supported by homeassistant. |
 | [Monit](https://mmonit.com/monit/) | When I started out, I used Monit for simple monitoring but I quickly required more elaborate monitoring capabilities. |
 | [Sensu](https://sensu.io/) |  I migrated from Monit to Sensu for monitoring but over time that ended up consuming way too much CPU and memory which tended to slow my whole stack down. Currently on Prometheus. |
 | [InfluxDB](https://docs.influxdata.com/influxdb)     | Time series database used to persistently store sensor and monitoring data. Stopped using it because Prometheus is already providing everything I needed and InfluxDB was adding too much overhead, contributing to high CPU utilization.  |

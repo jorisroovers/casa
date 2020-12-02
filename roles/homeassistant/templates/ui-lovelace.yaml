@@ -218,4 +218,5 @@ views:
           - zwave.aeotec_zw100_multisensor_6
         title: Z-Wave
   - !include lovelace/morning-tv.yaml
+  - !include lovelace/demo.yaml
   - !include lovelace/playground.yaml

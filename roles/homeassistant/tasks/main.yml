@@ -62,6 +62,7 @@
    - lights.yaml
    - ui-lovelace.yaml
    - lovelace/morning-tv.yaml
+   - lovelace/demo.yaml
    - lovelace/playground.yaml
    - scenes/scenes.yaml
    - scenes/office.yaml

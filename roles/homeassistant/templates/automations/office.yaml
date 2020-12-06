@@ -40,3 +40,33 @@
     - service: light.turn_on
       data:
         entity_id: light.office
+
+- alias: Open office curtains
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: 'Day'
+    - platform: time
+      at: "09:00:00"
+  conditions:
+    - condition: time
+      after: '08:59:00'
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.office_curtain_right_relay1
+
+- alias: Close office curtains
+  initial_state: True
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "01:00:00"
+    - platform: state
+      entity_id: input_select.house_mode
+      to: 'Sleeping'
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.office_curtain_right_relay2

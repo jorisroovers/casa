@@ -17,7 +17,7 @@
     input_select.living_preset: NoPreset
     switch.front_door_curtain_relay1:
         state: on
-    switch.front_door_curtain_relay2:
+    switch.office_curtain_right_relay2:
         state: on
 
 - name: Day
@@ -31,8 +31,8 @@
         state: off
     switch.front_door_curtain_relay2:
         state: on
-    switch.office_curtain_right_relay1:
-        state: on
+    # switch.office_curtain_right_relay1:
+    #     state: on
 
 - name: Evening
   entities:

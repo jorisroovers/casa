@@ -79,7 +79,7 @@
         state: off
     light.living_room:
         state: off
-    input_select.downstairs_music: Romance
+    input_select.downstairs_music: Jazzy Romance
     input_select.camera_preset: Home
 
 - name: Christmas
@@ -90,7 +90,7 @@
         brightness_pct: 20
     light.living_room:
         state: off
-    input_select.downstairs_music: Christmas
+    input_select.downstairs_music: Christmas Is Coming
     input_select.camera_preset: Home
     switch.christmas_tree:
         state: on

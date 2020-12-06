@@ -28,12 +28,18 @@ cards:
               attribute: pickup_date
             - sensor.afvalwijzer_next_pickup_plastic
             - sensor.afvalwijzer_next_pickup_gft
+        - type: entity
+          title: Test
+          entity: sensor.afvalwijzer_next_pickup_papier
+          name: Papier
+          icon: mdi:trash-can
+          attribute: pickup_date
         - type: custom:weather-card
           entity: weather.br_unknown_station
           icons: "/local/plugins/weather-card/icons/animated/"
         - type: iframe
           url: "{{buienradar_gadget_url}}"
-          # aspect_ratio: 75%
+          aspect_ratio: 75%
 
         - type: sensor
           entity: sensor.rijtijd_werk_ilse
@@ -41,8 +47,6 @@ cards:
           title: Driving Time Work Ilse
     - type: vertical-stack
       cards:
-        - type: media-control
-          entity: media_player.living_room
         - type: calendar
           initial_view: listWeek
           entities:

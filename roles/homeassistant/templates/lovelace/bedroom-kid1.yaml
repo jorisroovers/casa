@@ -1,0 +1,6 @@
+title: Bedroom Kid
+path: bedroom-kid
+cards:
+  - type: thermostat
+    title: Thermostat
+    entity:  climate.oeq2642717

@@ -1,0 +1,23 @@
+title: Office
+path: office
+cards:
+  - type: light
+    name: Office Lights
+    entity: light.office
+  - type: light
+    name: Office Ambience
+    entity: light.office_ambience_lamp_1
+  - type: button
+    name: Office Desk Lamp
+    entity: switch.desk_lamp
+  - type: button
+    name: Christmas Ambience
+    entity: switch.christmas_ambience_office
+  - type: media-control
+    entity: media_player.move
+  - type: button
+    name: Open Office Curtain
+    entity: switch.office_curtain_right_relay1
+  - type: button
+    name: Close Office Curtain
+    entity: switch.office_curtain_right_relay2

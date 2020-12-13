@@ -1,6 +1,6 @@
-################################################################################
-# Office                                                                       #
-################################################################################
+########################################################################################################################
+# Office                                                                                                               #
+########################################################################################################################
 
 - alias: Auto-change office scene based on house-mode when office in use
   initial_state: True
@@ -41,6 +41,7 @@
       data:
         entity_id: light.office
 
+# Open curtains at 9AM when awake, or whenever we get up after 9AM
 - alias: Open office curtains
   initial_state: True
   trigger:
@@ -49,9 +50,14 @@
       to: 'Day'
     - platform: time
       at: "09:00:00"
-  conditions:
-    - condition: time
-      after: '08:59:00'
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          after: '08:59:00'
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Day"
   action:
     - service: switch.turn_on
       data:

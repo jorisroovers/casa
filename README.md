@@ -9,13 +9,10 @@ Blogposts and write-ups:
 - Blogpost: [My Favorite Home Automations](https://jorisroovers.com/posts/my-favorite-home-automations)
 - Blogpost: [Window Opener project](https://jorisroovers.com/posts/window-opener)
 
-
-**Currently doing some maintenance on this README**
-
-*Main dashboard running on wall-mounted iPad*
+*Main dashboard running on wall-mounted iPad (using [AppDaemon HADashboard](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html))*
 ![HADashboard Home](docs/images/iPad-Wallmount.jpg)
 
-# Details
+# Menu
 [Screenshots](#screenshots) |
 [Hubs](#hubs) | 
 [Climate](#climate) |
@@ -30,7 +27,10 @@ Blogposts and write-ups:
 [Software Integrations](#software-integrations) | 
 [Supporting Software](#supporting-software) | 
 [Retired](#retired)
-## Screenshots
+[General Notes](#general-notes)
+[Future Notes](#future-work)
+
+# Screenshots
 
 The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html) (with some customizations) and displayed on wall-mounted iPad minis around the house (the first iPad has been continuously running for over 3 years without issues).
 
@@ -42,7 +42,7 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
       <img alt="HADashboard Home" src="docs/images/AppDaemon-Home.png"><br>
       Homescreen
     </td>
-    <td height="130">
+    <td>
       <img alt="HADashboard Media" src="docs/images/AppDaemon-Media.png"><br>
       Media Controls
     </td>
@@ -56,7 +56,7 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
       <img alt="HADashboard Hallway" src="docs/images/AppDaemon-Hallway.png"><br>
       Hallway
     </td>
-    <td height="130">
+    <td>
       <img alt="HADashboard Upstairs" src="docs/images/AppDaemon-Upstairs.png"><br>
       Upstairs
     </td>
@@ -70,30 +70,32 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
       <img alt="HADashboard Phone" src="docs/images/AppDaemon-Phone.png"><br>
       Smartphone interface
     </td>
-    <td >
-      <img alt="Homeassistant default" src="docs/images/HomeAssistant-Home.png"><br>
-      Home-assistant default interface
+    <td>
+      <img alt="Homeassistant default" src="docs/images/HomeAssistant-Home.jpeg"><br>
+      Home-assistant Lovelace dashboard (very WIP)
     </td>
     <td>
+      <img alt="Homeassistant TV Morning" src="docs/images/HomeAssistant-TV-Morning.jpeg"><br>
+      Morning TV dashboard
+    </td>
+  </tr>
+  <tr>
+     <td>
         <img alt="Grafana server health" src="docs/images/Grafana-Overview.png"><br>
         Grafana Server Health stats
     </td>
-  </tr>
-   <tr>
     <td>
         <img alt="Grafana House Stats" src="docs/images/Grafana-Stats.png"><br>
         Grafana House Stats
     </td>
-    <td height="130">
+    <td>
         <img alt="Homeassistant default" src="docs/images/Prometheus-Alerts.png"><br>
         Prometheus Alerts
-    </td>
-    <td>
     </td>
   </tr>
 </table>
 
-## Hubs
+# Hubs
 
 | Device                                                                                              | Homeassistant                                                       | Notes                                                                        |
 | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -101,7 +103,7 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
 | [Ikea Trådfri](https://www.ikea.com/us/en/catalog/products/20411562/)                               | [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/) | Use the control all IKEA Trådfri light bulbs, switches, movement sensors     |
 | [HomeMatic HmIP-CCU3](https://www.eq-3.com/products/homematic/control-units-and-gateways/-473.html) | [HomeMatic](https://www.home-assistant.io/integrations/homematic)   | HomeMatic control unit, used for smart radiator valves                       |
 | [Aeotec Zwave Stick Gen5](https://aeotec.com/z-wave-usb-stick)                                      | [Zwave](https://www.home-assistant.io/integrations/zwave/)          | Simple [Z-wave](https://www.z-wave.com/) controller in USB-stick form factor |
-## Climate
+# Climate
 
 | Device                                                                                                                                                | Homeassistant                                                     | Notes                                                                                                                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -109,14 +111,14 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
 | [HomeMatic HM-CC-RT-DN](https://www.eq-3.com/products/homematic/heating-and-climate-control/homematic-wireless-radiator-thermostat.html#bestell_info) | [HomeMatic](https://www.home-assistant.io/integrations/homematic) | Smart Radiator valves. Allows me to control temperature for radiators upstairs where I have no separate thermostat and heating circuit. |
 
 
-## Windows/Curtains
+# Windows/Curtains
 
 | Device                                                                | Homeassistant                                                  | Notes                                                                                                                                                         |
 | --------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Custom Window Opener](https://github.com/jorisroovers/window-opener) | [ESPHome](https://www.home-assistant.io/integrations/esphome/) | A custom-build motorized widget to open our bedroom window. I wrote a [lengthy blog-post](https://jorisroovers.com/posts/window-opener) about how I build it. |
 | [Dooya Smart Curtain](http://www.dooya.com/solve_en.php?id=37&nid=48) | [ESPHome](https://www.home-assistant.io/integrations/esphome/) | Custom solution for smart curtains. [Detailed Write-up](projects/curtain-opener/README.md)                                                                    |
 
-## Lights
+# Lights
 
 | Device                 | Homeassistant                                                       | Notes                                                                           |
 | ---------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
@@ -130,20 +132,20 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
 | Trådfri motion sensor  | [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/) | Motion sensors, used to automatically control lights in hallway, pantry, toilet |
 | Trådfri remote control | [Ikea Tradfri](https://www.home-assistant.io/integrations/tradfri/) | Remote control, used to manually control lights                                 |
 
-## Switches
+# Switches
 | Device                                                                                                    | Homeassistant                                                 | Notes                                                                                                                                                                                                   |
 | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [TPLink HS100](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-wifi-plug-hs100)              | [TP-Link](https://www.home-assistant.io/integrations/tplink/) | Automatic power switching of some devices: office standing lamp, bathroom mirror, christmas tree, etc. [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown)  |
 | [TPLink HS110](https://www.kasasmart.com/us/products/smart-plugs/kasa-smart-plug-energy-monitoring-hs110) | [TP-Link](https://www.home-assistant.io/integrations/tplink/) | Washing Machine and Dryer power monitoring (to detect whether they're running or not). [I do NOT recommend using TPLink smartplugs](https://alerts.home-assistant.io/#tplink.markdown)                  |
 | [Elgato Eve Power plug](https://www.evehome.com/en/eve-energy)                                            | NA - Apple Homekit only                                       | Bluetooth smart plugs used to hard reset wifi routers every night at 4AM. I've found this solves many stability issues. Also really useful to power cycle network gear even when whole network is down. |
 
-## Voice Control
+# Voice Control
 | Device                                                                                    | Homeassistant                                                          | Notes                                                                                                      |
 | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | [Amazon Echo dot (v2, v3)](https://www.amazon.com/All-new-Echo-Dot-3rd-Gen/dp/B0792KTHKJ) | [Emulated Hue](https://www.home-assistant.io/components/emulated_hue/) | Allows for alexa integration without exposing the stack to the internet.                                   |
 | Amazon Polly                                                                              | [Amazon Polly](https://www.home-assistant.io/components/amazon_polly/) | AWS Text-to-Speech engine. Allows the house to talk back (e.g. "Good Night!"). Cool? Yes. Nerdy? For sure. |
 
-## Security
+# Security
 | Device                                                                    | Homeassistant                                          | Notes                                                                                                                                                                                                                                              |
 | ------------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Nest Cam Indoor](https://nest.com/cameras/)                              | [Nest](https://www.home-assistant.io/components/nest/) | Intelligent security camera (allows remote access remotely). I'm grandfathered into the *Legacy Works With Nest API* program. I'd probably not buy Nest Cams if I'd be starting today, instead opting for  something with better local API access. |
@@ -151,14 +153,14 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
 | [Nest Cam Outdoor](https://nest.com/cameras/)                             | [Nest](https://www.home-assistant.io/components/nest/) | Garden monitoring                                                                                                                                                                                                                                  |
 | [Nest Protect smoke detectors](https://nest.com/smoke-co-alarm/overview/) | [Nest](https://www.home-assistant.io/components/nest/) | Smart Smoke detectors                                                                                                                                                                                                                              |
 
-## Sensors
+# Sensors
 | Device                                                                                                                                                  | Homeassistant                                                   | Notes                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Aeotec ZW100 MultiSensor](https://aeotec.com/z-wave-sensor)                                                                                            | [Zwave](https://www.home-assistant.io/integrations/zwave/)      | Multi-sensor. Used to detect movement, temperature and humidity in bathroom                                                                                                                                                                                                                                                                                                |
 | [Raspberry Pi 3B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) + [Serial-to-USB cable](https://www.sossolutions.nl/slimme-meter-kabel) | [Sensor - DSMR](https://www.home-assistant.io/components/dsmr/) | Energy monitoring using the Dutch DSMR energy monitoring protocol                                                                                                                                                                                                                                                                                                          |
 | [Desk-height](https://github.com/jorisroovers/casa/tree/master/projects/deskheight/main)                                                                | NA                                                              | Simple Arduino-based sensor to determine the current height of my standing desk using an ultrasonic sensor mounted underneath it. This info is then send over to my home server which does some simple processing in logstash and home-assistant to determine whether the desk is up or down. This is then used to calculate and show standing time statistics in grafana. |
 
-## Media
+# Media
 
 | Device                                                                                  | Homeassistant                                                                                                         | Notes                                                                                                                                                                                                                               |
 | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -182,7 +184,7 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
 | [Raspberry Pi](https://www.raspberrypi.org/)                           | Own a few different models used for various purposes.                                                                                                                                                                                                                                                                                                                          |
 | [Quooker](https://www.quooker.co.uk/)                                  | Boiling water tap. Not a smart device, but still a very time-saving way to boil water for tea or cooking.                                                                                                                                                                                                                                                                      |
 | [AnyCubic i3 Mega S](https://anycubic.com/products/anycubic-i3-mega-s) | 3D printer. Currently not integrated with home-assistant (although should be easy via [OctoPrint](https://www.home-assistant.io/integrations/octoprint/)).                                                                                                                                                                                                                     |
-## Software Integrations
+# Software Integrations
 | Software                                                                                                  | Homeassistant                                                                                                                                                         | Notes                                                                                                                                                                                                             |
 | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Homeassistant Mobile App (iOS)](https://apps.apple.com/us/app/home-assistant/id1099568401)               | [Mobile App](https://www.home-assistant.io/integrations/mobile_app/)                                                                                                  | Mobile application for home-assistant.                                                                                                                                                                            |
@@ -195,7 +197,7 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
 | [Afvalwijzer.nl](roles/homeassistant-sensors/templates/afvalwijzer/afvalwijzer.py)                        | [HTTP (REST API) Sensor](https://www.home-assistant.io/integrations/http/#sensor)                                                                                     | Simple script to determine when the next trash pick date is (exposed as sensors in homeassistant). Scrapes the Dutch [mijnafvalwijzer.nl](https://www.mijnafvalwijzer.nl/) once every 24 hours to determine this. |
 | System Monitoring                                                                                         | [System monitor](https://www.home-assistant.io/integrations/systemmonitor/)                                                                                           | System monitoring (CPU, memory, etc)                                                                                                                                                                              |
 | Work Day                                                                                                  | [Workday](https://www.home-assistant.io/integrations/workday/)                                                                                                        | Determine whether any given day is a working day or not (weekend, holidays) based on location.                                                                                                                    |
-## Supporting Software
+# Supporting Software
 
 | Software                                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -218,17 +220,18 @@ The main interface is build in [appdaemon](https://appdaemon.readthedocs.io/en/l
 | [Backups](https://github.com/jorisroovers/casa/tree/master/roles/backups)       | Set of scripts that do periodic backups of some personal data and copy the resulting tarballs over to a Samba/CIFS network share. Each backup script also has an accompanying monitoring script that periodically verifies whether the last backup was successful.                                                                                                                               |
 # Retired
 
-Other gear I have that is currently not (yet) integrated in the setup:
+Other gear is no longer integrated in the setup.
 
 ## Retired Hardware
-| Hardware                                                                        | Notes                                                                                                                      |
-| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [Elgato Eve Window sensor](https://www.evehome.com/en/eve-door-window)          | HomeKit only. Not currently using.                                                                                         |
-| [Chromecast](https://store.google.com/product/chromecast)                       | We usually use our AppleTV(s) instead.                                                                                     |
-| [Google Nest Home](https://store.google.com/product/google_nest_mini)           | We use our Echo Dot instead                                                                                                |
-| [Sonoff Basic R2](https://sonoff.tech/product/wifi-diy-smart-switches/basicr2)  | Wifi-enabled ESP8266 based remote relay                                                                                    |
-| [Shelly 1](https://shelly.cloud/products/shelly-1-smart-home-automation-relay/) | Wifi-enabled ESP8266 based remote relay                                                                                    |
-| [Deconz Conbee 2](https://phoscon.de/en/conbee)                                 | Universal Zigbee gateway (can replace IKEA/Hue hubs), had some challenges getting this to work and haven't spend more time |
+| Hardware                                                                          | Notes                                                                                                                      |
+| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [Elgato Eve Window sensor](https://www.evehome.com/en/eve-door-window)            | HomeKit only. Not currently using.                                                                                         |
+| [Chromecast](https://store.google.com/product/chromecast)                         | We usually use our AppleTV(s) instead.                                                                                     |
+| [Google Nest Home](https://store.google.com/product/google_nest_mini)             | We use our Echo Dot instead                                                                                                |
+| [Sonoff Basic R2](https://sonoff.tech/product/wifi-diy-smart-switches/basicr2)    | Wifi-enabled ESP8266 based remote relay                                                                                    |
+| [Shelly 1](https://shelly.cloud/products/shelly-1-smart-home-automation-relay/)   | Wifi-enabled ESP8266 based remote relay                                                                                    |
+| [Deconz Conbee 2](https://phoscon.de/en/conbee)                                   | Universal Zigbee gateway (can replace IKEA/Hue hubs), had some challenges getting this to work and haven't spend more time |
+| [Hue Tap Switch](https://www.philips-hue.com/en-us/p/hue-tap-switch/046677473365) | Battery-free Philips Hue Switch.                                                                                           |
 
 ## Retired Software
 | Software                                                            | Notes                                                                                                                                                                                                                                     |
@@ -238,6 +241,18 @@ Other gear I have that is currently not (yet) integrated in the setup:
 | [Sensu](https://sensu.io/)                                          | I migrated from Monit to Sensu for monitoring but over time that ended up consuming way too much CPU and memory which tended to slow my whole stack down. Currently on Prometheus.                                                        |
 | [InfluxDB](https://docs.influxdata.com/influxdb)                    | Time series database used to persistently store sensor and monitoring data. Stopped using it because Prometheus is already providing everything I needed and InfluxDB was adding too much overhead, contributing to high CPU utilization. |
 | [ELK](https://www.elastic.co/elk-stack)                             | Log Aggregation, Search Indexing, web dashboard. Didn't use it a lot and uninstalled it because it required too much memory and CPU for my liking.                                                                                        |
+
+# General Notes
+
+- You might see some references to ```casa-data```: this is a private repo I maintain that contains the actual
+data (encrypted) relevant to my home (usernames, passwords, secrets, IP addresses, etc). The roles and playbooks in this repo all
+use dummy defaults.
+- Since my family's mother tongue is Dutch, you'll see some Dutch language used here and there (mostly in the user-facing parts).
+- I keep my setup disconnected from the Internet for security and privacy reasons. There are some exceptions (like some Nest devices I use), but those connect outward to the internet themselves - it's not possible to directly connect to any device from the Internet as everything runs in a private network.
+- I have no idea how much time I've spend getting to this point, but I'm fairly certain it's a couple of hundreds of hours at least. Spread over about 4 years.
+- I've never done a calculation of how much the current setup has cost me, but I'd roughly guess it's about ~3000 EUR. Note that it also highly depends on how you calculate things. Do you account for a (smart) TV? What about smart audio speakers? An old laptop that you had still lying around that you use as a server? Light bulbs you needed to buy anyways but you bought smartbulbs instead? etc.
+- When I first started using home-assistant in 2016, things were in a very different state than they are today. This means I'd probably do things a bit differently if I'd start afresh today. So if you're looking at some code/config and wondering why I'm not using some out-of-the-box feature of home-assistant, changes are it didn't exist when I started out and I haven't come around to upgrading.
+- If you're new to home-automation and want to do something similar to this, I recommend getting a [Raspberry Pi](https://www.raspberrypi.org/products/) (get the latest model with the most compute power) and installing [HomeAssistant](https://www.home-assistant.io/) on it. Then get yourself a set of [Philips Hue](https://www2.meethue.com/en-us) or [Ikea Tradfri](https://www.ikea.com/us/en/catalog/products/20411562/) smart light bulbs and start playing!
 
 # Future Work
 There's always more to automate!
@@ -254,19 +269,6 @@ There's always more to automate!
 - Upgrade network gear
 - Replace macbook server with something more suited (although it works well...)
 - Only use zwave/zigbee (no WiFi) to interact with sensors
-
-# General Notes
-
-- You might see some references to ```casa-data```: this is a private repo I maintain that contains the actual
-data (encrypted) relevant to my home (usernames, passwords, secrets, IP addresses, etc). The roles and playbooks in this repo all
-use dummy defaults.
-- Since my family's mother tongue is Dutch, you'll see some Dutch language used here and there (mostly in the user-facing parts).
-- I keep my setup disconnected from the Internet for security and privacy reasons. There are some exceptions (like some Nest devices I use), but those connect outward to the internet themselves - it's not possible to directly connect to any device from the Internet as everything runs in a private network.
-- I have no idea how much time I've spend getting to this point, but I'm fairly certain it's a couple of hundreds of hours at least. Spread over about 4 years.
-- I've never done a calculation of how much the current setup has cost me, but I'd roughly guess it's about ~3000 EUR. Note that it also highly depends on how you calculate things. Do you account for a (smart) TV? What about smart audio speakers? An old laptop that you had still lying around that you use as a server? Light bulbs you needed to buy anyways but you bought smartbulbs instead? etc.
-- When I first started using home-assistant in 2016, things were in a very different state than they are today. This means I'd probably do things a bit differently if I'd start afresh today. So if you're looking at some code/config and wondering why I'm not using some out-of-the-box feature of home-assistant, changes are it didn't exist when I started out and I haven't come around to upgrading.
-- If you're new to home-automation and want to do something similar to this, I recommend getting a [Raspberry Pi](https://www.raspberrypi.org/products/) (get the latest model with the most compute power) and installing [HomeAssistant](https://www.home-assistant.io/) on it. Then get yourself a set of [Philips Hue](https://www2.meethue.com/en-us) or [Ikea Tradfri](https://www.ikea.com/us/en/catalog/products/20411562/) smart light bulbs and start playing!
-
 # Getting Started
 
 **Ok, the title of this section is a lie. Like I've mentioned at the start of this README, I don't really expect this playbook to work for anyone but me. But if you ARE me, here's how you actually run this against your target hosts :-).**

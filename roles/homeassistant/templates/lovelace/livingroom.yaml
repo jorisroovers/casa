@@ -1,0 +1,33 @@
+title: Living Room
+path: livingroom
+cards:
+  - type: light
+    name: Living Room
+    entity: light.living_room
+  - type: light
+    name: TV Lights
+    entity: light.woonkamer_tv
+  - type: light
+    name: TV Ambience
+    entity: light.tv_staanlamp
+  - type: light
+    name: Dinner Table
+    entity: light.dining_table
+  - type: 'custom:button-card'
+    entity: switch.christmas_tree
+    icon: mdi:pine-tree
+    color: auto
+    color_type: card
+    tap_action:
+      action: toggle
+    name: Christmas Tree
+    styles:
+      card:
+        - font-size: 12px
+        - font-weight: bold
+  - type: media-control
+    entity: media_player.living_room
+  - type: media-control
+    entity: media_player.samsungtv_livingroom
+  - type: thermostat
+    entity: climate.living_room

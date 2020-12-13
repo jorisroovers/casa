@@ -5,33 +5,6 @@
 # If you shut Home Assistant down before it finishes starting, the automation will be stored as being off,
 # and your automations will be disabled at the next startup.
 #
-########################################################################################################################
-# Living Preset                                                                                                        #
-########################################################################################################################
-
-- alias: Automatically set scene for Living Preset
-  initial_state: True
-  trigger:
-    platform: state
-    entity_id: input_select.living_preset
-  action:
-    - service: scene.turn_on
-      data:
-        entity_id: "{% raw %}scene.{{ states('input_select.living_preset') | lower | replace(' ', '_')}}{% endraw %}"
-
-    # When disabling music, keep the current house mode (as this automation might be triggered by a change in
-    # house mode). When enabling music, set house mode to Auto.
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.house_mode
-        option: |
-          {% raw %}
-          {% if is_state('input_select.living_preset', 'NoPreset') %}
-            {{ states('input_select.house_mode') }}
-          {% else %}
-            Auto
-          {% endif %}
-          {% endraw %}
 
 ########################################################################################################################
 # Music input to sonos preset                                                                                          #
@@ -61,6 +34,13 @@
         data:  
           entity_id: "media_player.living_room"
           source: "{% raw %}{{ states('input_select.downstairs_music') }}{% endraw %}"
+      - service: media_player.volume_set
+        data:  
+          volume_level: 0.07
+          entity_id:
+            - media_player.living_room
+            - media_player.tv_room
+            - media_player.move
 
 ########################################################################################################################
 # Send message on nest-presence set to home or away                                                                    #
@@ -147,35 +127,6 @@
       - service: scene.turn_on
         data:
           entity_id: "{% raw %}{{ 'scene.Working' if is_state('binary_sensor.joris_working', 'on') else 'scene.NotWorking'}}{% endraw %}"
-
-########################################################################################################################
-# Washing Machine/Dryer                                                                                                #
-########################################################################################################################
-
-- alias: Send notification on Washing Machine done
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.washing_machine
-      to: 'off'
-  action:
-    - service: notify.slack
-      data:
-        message: |
-              Washing machine done!
-
-- alias: Send notification on Dryer done
-  initial_state: True
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.dryer
-      to: 'off'
-  action:
-    - service: notify.slack
-      data:
-        message: |
-              Dryer done!
-
 
 ########################################################################################################################
 # Camera                                                                                                               #

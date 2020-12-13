@@ -5,7 +5,7 @@
   entities:
     group.lights_outside:
         state: off
-    group.lights_downstairs:
+    group.e:
         state: off
     group.lights_downstairs_automatic:
         state: off
@@ -27,10 +27,12 @@
         state: off
     light.office_ambience_lamp_1:
         state: off
-    switch.christmas_tree:
-        state: off
     switch.front_door_curtain_relay2:
         state: on
+    # switch.christmas_tree:
+    #     state: off
+    # switch.christmas_ambience_office:
+    #     state: off
     # switch.office_curtain_right_relay1:
     #     state: on
 
@@ -53,8 +55,8 @@
         state: on
     switch.christmas_ambience_office:
         state: on
-    switch.office_curtain_right_relay2:
-        state: on
+    # switch.office_curtain_right_relay2:
+    #     state: on
 
 
 # When away, don't turn off lights_downstairs_automatic or group.lights_outside

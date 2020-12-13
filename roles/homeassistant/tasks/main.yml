@@ -21,6 +21,30 @@
 
 - name: "Lovelace Customizations"
   import_tasks: lovelace_mods.yml
+  tags:
+    - lovelace
+
+- name: "Configuring lovelace"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+  with_items:
+   - ui-lovelace.yaml
+   - lovelace/morning-tv.yaml
+   - lovelace/demo.yaml
+   - lovelace/playground.yaml
+   - lovelace/office.yaml
+   - lovelace/security.yaml
+   - lovelace/bathroom.yaml
+   - lovelace/livingroom.yaml
+   - lovelace/bedroom.yaml
+   - lovelace/bedroom-kid1.yaml
+   - lovelace/kitchen.yaml
+   - lovelace/hallway.yaml
+  notify:
+    - reload_homeassistant_config
+  tags:
+    - hass-config
+    - lovelace
+  become: yes
 
 - name: "Configuring homeassistant automations"
   template: src={{item}} dest={{homeassistant_dir}}/{{item}}
@@ -60,10 +84,6 @@
    - device_trackers.yaml
    - groups.yaml
    - lights.yaml
-   - ui-lovelace.yaml
-   - lovelace/morning-tv.yaml
-   - lovelace/demo.yaml
-   - lovelace/playground.yaml
    - scenes/scenes.yaml
    - scenes/office.yaml
    - scenes/hallway.yaml

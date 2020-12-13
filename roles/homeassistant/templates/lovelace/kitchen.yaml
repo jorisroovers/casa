@@ -1,0 +1,6 @@
+title: Kitchen
+path: kitchen
+cards:
+  - type: light
+    name: Kitchen
+    entity: light.kitchen

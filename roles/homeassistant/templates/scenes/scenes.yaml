@@ -14,7 +14,7 @@
     light.kitchen:
         state: on
     input_select.bathroom_music: "Bathroom NoMusic"
-    input_select.downstairs_music: Pop
+    input_select.downstairs_music: "Today's Top Hits"
     switch.desk_lamp:
         state: on
     input_select.camera_preset: Home
@@ -23,15 +23,6 @@
     switch.front_door_curtain_relay2:
         state: on
 
-- name: BathroomMorningWeekDay
-  entities:
-    input_select.bathroom_music: "Bathroom Morning"
-    light.bathroom_group:
-        state: on
-        kelvin: 3000
-        brightness_pct: 100
-    switch.bathroom_mirror_light:
-        state: on
 
 ################################################################################
 # Evenings                                                                     #

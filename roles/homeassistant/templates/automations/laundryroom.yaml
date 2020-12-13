@@ -1,6 +1,6 @@
-################################################################################
-# Laundry Room                                                                 #
-################################################################################
+########################################################################################################################
+# Laundry Room                                                                                                         #
+########################################################################################################################
 # - alias: Laundry Room Time of Day
 #   initial_state: True
 #   trigger:
@@ -11,3 +11,31 @@
 #     - service: scene.turn_on
 #       data:
 #         entity_id: "{% raw %}scene.Laundryroom{{ states('input_select.house_mode')}}{% endraw %}"
+
+########################################################################################################################
+# Washing Machine/Dryer                                                                                                #
+########################################################################################################################
+
+- alias: Send notification on Washing Machine done
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.washing_machine
+      to: 'off'
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Washing machine done!
+
+- alias: Send notification on Dryer done
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.dryer
+      to: 'off'
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Dryer done!

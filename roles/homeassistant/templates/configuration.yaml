@@ -107,22 +107,6 @@ tts:
 zwave:
   usb_path: "{{zwave_gateway_device_container}}"
 
-cover:
-  - platform: template
-    covers:
-      office_right_curtain:
-        device_class: curtain
-        friendly_name: "Office Right Curtain"
-        value_template: optimistic
-        open_cover:
-          service: switch.turn_on
-          data:
-            entity_id: switch.office_curtain_right_relay2
-        close_cover:
-          service: switch.turn_on
-          data:
-            entity_id: switch.office_curtain_right_relay1
-
 # Enable Simple Service Discovery Protocol (for detecting Samsung Smart TV)
 ssdp:
 

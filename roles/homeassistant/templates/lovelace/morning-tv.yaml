@@ -1,9 +1,6 @@
 title: Morning TV
 path: morning-tv
 panel: yes
-badges:
-  - entity: binary_sensor.living_room_nest_protect_online
-  - entity: binary_sensor.upstairs_nest_protect_online
 cards:
 - type: horizontal-stack
   cards:
@@ -17,23 +14,9 @@ cards:
               font-weight: bold;
             }
           content: |
-            {% raw %}{{ now().strftime("%A %d %B %Y %H:%M") }}{% endraw %}
+            {% raw %}{{ now().strftime("%a %d %b %Y %H:%M") }}{% endraw %}
           
-        - type: entities
-          title: Trash Pickup
-          entities:
-            - entity: sensor.afvalwijzer_next_pickup_papier
-              name: Papier
-              icon: mdi:trash-can
-              attribute: pickup_date
-            - sensor.afvalwijzer_next_pickup_plastic
-            - sensor.afvalwijzer_next_pickup_gft
-        - type: entity
-          title: Test
-          entity: sensor.afvalwijzer_next_pickup_papier
-          name: Papier
-          icon: mdi:trash-can
-          attribute: pickup_date
+      
         - type: custom:weather-card
           entity: weather.br_unknown_station
           icons: "/local/plugins/weather-card/icons/animated/"
@@ -47,7 +30,35 @@ cards:
           title: Driving Time Work Ilse
     - type: vertical-stack
       cards:
+        - type: entities
+          title: Trash Pickup
+          entities:
+            - entity: sensor.afvalwijzer_next_pickup_papier
+              type: custom:multiple-entity-row
+              name: Papier
+              show_state: false
+              secondary_info: last-changed
+              entities:
+                - attribute: pickup_date
+                  name: Next Pickup Date
+            - entity: sensor.afvalwijzer_next_pickup_plastic
+              type: custom:multiple-entity-row
+              name: Plastic
+              show_state: false
+              secondary_info: last-changed
+              entities:
+                - attribute: pickup_date
+                  name: Next Pickup Date
+            - entity: sensor.afvalwijzer_next_pickup_gft
+              type: custom:multiple-entity-row
+              name: GFT
+              show_state: false
+              secondary_info: last-changed
+              entities:
+                - attribute: pickup_date
+                  name: Next Pickup Date
         - type: calendar
+          title: Calendar
           initial_view: listWeek
           entities:
             - calendar.birthdays
@@ -62,7 +73,6 @@ cards:
             ha-card img {
               blur(15px);
             }
-          
         - type: picture-entity
           entity: camera.backyard
           title: Backyard Camera

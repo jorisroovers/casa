@@ -1,14 +1,26 @@
-# I don't use a lot of lovelace (yet). 
+# I don't use a lot of lovelace (yet).
 # Our primary interaction with home-assistant is through wall-mounted iPad minis showing an AppDaemon HADAshboard.
 # See roles/hadashboard for details
 title: Home
 resources:
   - url: /local/plugins/card-mod/card-mod.js?v=1
     type: module
-  - url: /local/plugins/weather-card/weather-card.js
+  - url: /local/plugins/weather-card/weather-card.js?v=1
+    type: module
+  - url: /local/plugins/multiple-entity-row/multiple-entity-row.js?v=1
+    type: module
+  - url: /local/plugins/button-card/button-card.js?v=1
     type: module
 views:
+  - !include lovelace/livingroom.yaml
+  - !include lovelace/office.yaml
+  - !include lovelace/security.yaml
+  - !include lovelace/bathroom.yaml
+  - !include lovelace/bedroom.yaml
+  - !include lovelace/bedroom-kid1.yaml
   - !include lovelace/morning-tv.yaml
+  - !include lovelace/kitchen.yaml
+  - !include lovelace/hallway.yaml
   - !include lovelace/demo.yaml
   - !include lovelace/playground.yaml
   - path: default_view

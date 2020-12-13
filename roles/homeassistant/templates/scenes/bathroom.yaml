@@ -27,6 +27,16 @@
     switch.bathroom_mirror_light:
         state: off
 
+- name: BathroomMorningWeekDay
+  entities:
+    input_select.bathroom_music: "Morning Motivation"
+    light.bathroom_group:
+        state: on
+        kelvin: 3000
+        brightness_pct: 100
+    switch.bathroom_mirror_light:
+        state: on
+
 - name: RelaxingShower
   entities:
-    input_select.bathroom_music: "Bathroom Relaxing"
+    input_select.bathroom_music: "Relax & Unwind"

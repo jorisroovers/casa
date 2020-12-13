@@ -1,0 +1,13 @@
+---
+- name: Creating lovelace mod directory
+  file: path="{{item}}" state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
+  become: yes
+  with_items:
+    - "{{homeassistant_plugins_dir}}"
+    - "{{homeassistant_plugins_dir}}/{{lovelace_mod_name}}"
+
+- name: Download {{lovelace_mod_name}} lovelace mod
+  get_url:
+    url: "{{lovelace_mod_url}}"
+    dest: "{{homeassistant_plugins_dir}}/{{lovelace_mod_name}}"
+  become: yes

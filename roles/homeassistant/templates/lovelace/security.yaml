@@ -1,0 +1,23 @@
+title: Security
+path: security
+cards:
+  - type: picture-entity
+    title: Hallway Camera
+    entity: camera.hallway
+    camera_image: camera.hallway
+  - type: picture-entity
+    entity: camera.backyard
+    title: Backyard Camera
+    camera_image: camera.backyard
+  - type: picture-entity
+    title: Front Garden Camera
+    entity: camera.front_garden
+    camera_image: camera.front_garden
+  - type: picture-entity
+    title: Office Camera
+    entity: camera.office
+    camera_image: camera.office
+  - type: picture-entity
+    title: Diepvries Camera
+    entity: camera.diepvries
+    camera_image: camera.diepvries

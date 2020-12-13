@@ -2,6 +2,7 @@
 
 Below you can find pointers to all integrations, software and hardware mentioned from my conference talk **Creating the Ultimate Morning Routine**, that was presented at the home-assistant conference on 13 December 2020.
 
+- [Slide Deck: Creating the Ultimate Morning Routine](/docs/Creating%20the%20Ultimate%20Morning%20Routine%20-%20Joris%20Roovers.pdf)
 - General
   - [`morning_routine.yaml`](roles/homeassistant/templates/automations/morning_routine.yaml) contains a good chunk of the relevant automations, others are spread around in other files in the [`automations`](roles/homeassistant/templates/automations/) directory.
 - Bedroom

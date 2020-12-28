@@ -10,3 +10,6 @@ ilse_pto:
 heat_bedroom:
   name: Heat Bedroom
   initial: off
+heat_bedroom_hannah:
+  name: Heat Bedroom Hannah
+  initial: off

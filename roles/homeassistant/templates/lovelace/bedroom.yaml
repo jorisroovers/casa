@@ -16,3 +16,6 @@ cards:
   - type: thermostat
     title: Thermostat
     entity: climate.hm_cc_rt_dn_oeq2416597
+  - type: button
+    name: Heating Bedroom
+    entity: input_boolean.heat_bedroom

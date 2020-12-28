@@ -822,10 +822,10 @@ bedroom_hannah_temperature:
     title: Slaapkamer Hannah
     widget_type: sensor
     precision: 1
-    entity: climate.oeq2642717.current_temperature
+    entity: climate.bedroom_hannah.current_temperature
     value_style: "font-size: 375%; color: #f1c40f"
     unit_style: "color: #f1c40f"
-    sub_entity: climate.oeq2642717.temperature
+    sub_entity: climate.bedroom_hannah.temperature
 
 ####################################
 # Lights                           #

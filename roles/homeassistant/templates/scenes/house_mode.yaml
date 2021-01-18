@@ -5,7 +5,7 @@
   entities:
     group.lights_outside:
         state: off
-    group.e:
+    group.lights_downstairs:
         state: off
     group.lights_downstairs_automatic:
         state: off

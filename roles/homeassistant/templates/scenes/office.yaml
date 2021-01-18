@@ -17,6 +17,24 @@
         brightness_pct: 75
 
 ################################################################################
+# Curtains                                                                     #
+################################################################################
+
+- name: OfficeCurtainsOpen
+  entities:
+    switch.office_curtain_right_relay1:
+      state: on
+    switch.office_curtain_left_relay2:
+      state: on
+
+- name: OfficeCurtainsClosed
+  entities:
+    switch.office_curtain_right_relay2:
+      state: on
+    switch.office_curtain_left_relay1:
+      state: on
+
+################################################################################
 # Working                                                                      #
 ################################################################################
 
@@ -45,3 +63,4 @@
   entities:
     switch.desk_lamp:
         state: off
+

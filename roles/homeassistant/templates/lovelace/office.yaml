@@ -16,8 +16,28 @@ cards:
   - type: media-control
     entity: media_player.move
   - type: button
-    name: Open Office Curtain
+    name: Open Office Curtain Right
     entity: switch.office_curtain_right_relay1
   - type: button
-    name: Close Office Curtain
+    name: Close Office Curtain Right
     entity: switch.office_curtain_right_relay2
+  - type: button
+    name: Open Office Curtain Left
+    entity: switch.office_curtain_left_relay2
+  - type: button
+    name: Close Office Curtain Left
+    entity: switch.office_curtain_left_relay1
+  - type: button
+    name: Open Office Curtains
+    tap_action:
+      action: call-service
+      service: scene.turn_on
+      service_data:
+        entity_id: scene.OfficeCurtainsOpen
+  - type: button
+    name: Close Office Curtains
+    tap_action:
+      action: call-service
+      service: scene.turn_on
+      service_data:
+        entity_id: scene.OfficeCurtainsClosed

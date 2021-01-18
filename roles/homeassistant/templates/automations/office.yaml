@@ -75,4 +75,6 @@
   action:
     - service: switch.turn_on
       data:
-        entity_id: switch.office_curtain_right_relay2
+        entity_id: 
+        - switch.office_curtain_right_relay2
+        - switch.office_curtain_left_relay1

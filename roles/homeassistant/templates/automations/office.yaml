@@ -41,6 +41,10 @@
       data:
         entity_id: light.office
 
+########################################################################################################################
+# Office Curtains                                                                                                      #
+########################################################################################################################
+
 # Open curtains at 9AM when awake, or whenever we get up after 9AM
 - alias: Open office curtains
   initial_state: True
@@ -59,9 +63,9 @@
           entity_id: input_select.house_mode
           state: "Day"
   action:
-    - service: switch.turn_on
+    - service: scene.turn_on
       data:
-        entity_id: switch.office_curtain_right_relay1
+        entity_id: scene.OfficeCurtainsOpen
 
 - alias: Close office curtains
   initial_state: True
@@ -73,8 +77,20 @@
       entity_id: input_select.house_mode
       to: 'Sleeping'
   action:
-    - service: switch.turn_on
+    - service: scene.turn_on
       data:
-        entity_id: 
-        - switch.office_curtain_right_relay2
-        - switch.office_curtain_left_relay1
+        entity_id: scene.OfficeCurtainsClosed
+
+########################################################################################################################
+# Office Computer                                                                                                      #
+########################################################################################################################
+
+- alias: Set Computer Scene according to binary sensor
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.joris_at_computer
+  action:
+      - service: scene.turn_on
+        data:
+          entity_id: "{% raw %}{{ 'scene.OfficeComputerOn' if is_state('binary_sensor.joris_at_computer', 'on') else 'scene.OfficeComputerOff'}}{% endraw %}"

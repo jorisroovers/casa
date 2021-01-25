@@ -22,12 +22,19 @@
       {% endraw %}
   
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+    joris_at_computer:
+      friendly_name: "Joris At Computer"
+      {% raw %}
+      value_template: "{{ (states('binary_sensor.mbpcisco_active') == 'on') }}"
+      {% endraw %}
+  
+      # Newline required here so ansible doesn't mess up the indentation after 'endraw'
     joris_working:
       friendly_name: "Joris working"
       {% raw %}
-      value_template: "{{ (states('binary_sensor.mbpcisco_active') == 'on') and (is_state('binary_sensor.joris_is_workday', 'on')) }}"
+      value_template: "{{ (states('binary_sensor.joris_at_computer') == 'on') and (is_state('binary_sensor.joris_is_workday', 'on')) }}"
       {% endraw %}
-  
+
       # Newline required here so ansible doesn't mess up the indentation after 'endraw'
     washing_machine:
       friendly_name: "Washing Machine"

@@ -1,5 +1,5 @@
 ################################################################################
-# Office                                                                       #
+# Office Time of Day                                                           #
 ################################################################################
 
 - name: OfficeDay
@@ -17,7 +17,7 @@
         brightness_pct: 75
 
 ################################################################################
-# Curtains                                                                     #
+# Office Curtains                                                              #
 ################################################################################
 
 - name: OfficeCurtainsOpen
@@ -35,6 +35,26 @@
       state: on
 
 ################################################################################
+# Office Computer                                                              #
+################################################################################
+
+- name: OfficeComputerOn
+  entities:
+    light.office:
+        state: on
+    switch.desk_lamp:
+        state: on
+    input_select.camera_preset: Home
+    # Close left curtain, leave right curtain as-is
+    switch.office_curtain_left_relay1:
+      state: on
+
+- name: OfficeComputerOff
+  entities:
+    switch.desk_lamp:
+        state: off
+
+################################################################################
 # Working                                                                      #
 ################################################################################
 
@@ -50,17 +70,3 @@
         state: off
     light.tv_staanlamp:
         state: off
-
-- name: Working
-  entities:
-    light.office:
-        state: on
-    switch.desk_lamp:
-        state: on
-    input_select.camera_preset: Home
-
-- name: NotWorking
-  entities:
-    switch.desk_lamp:
-        state: off
-

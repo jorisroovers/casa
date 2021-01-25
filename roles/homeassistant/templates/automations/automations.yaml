@@ -116,19 +116,6 @@
               Midnight. Turning off outdoor lights.
 
 ########################################################################################################################
-# Work                                                                                                                 #
-########################################################################################################################
-- alias: Set Working Scene according to binary sensor
-  initial_state: True
-  trigger:
-    platform: state
-    entity_id: binary_sensor.joris_working
-  action:
-      - service: scene.turn_on
-        data:
-          entity_id: "{% raw %}{{ 'scene.Working' if is_state('binary_sensor.joris_working', 'on') else 'scene.NotWorking'}}{% endraw %}"
-
-########################################################################################################################
 # Camera                                                                                                               #
 ########################################################################################################################
 

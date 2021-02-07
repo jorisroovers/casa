@@ -1,0 +1,9 @@
+title: Bedroom Kid2
+path: bedroom-kid2
+cards:
+  - type: thermostat
+    title: Thermostat
+    entity:  climate.bedroom_kid2
+  - type: button
+    name: Heating Bedroom Kid2
+    entity: input_boolean.heat_bedroom_kid2

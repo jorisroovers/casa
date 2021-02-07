@@ -787,10 +787,10 @@ bedroom_temperature:
     title: Slaapkamer
     widget_type: sensor
     precision: 1
-    entity: climate.hm_cc_rt_dn_oeq2416597.current_temperature
+    entity: climate.bedroom_master.current_temperature
     value_style: "font-size: 375%; color: #f1c40f"
     unit_style: "color: #f1c40f"
-    sub_entity: climate.hm_cc_rt_dn_oeq2416597.temperature
+    sub_entity: climate.bedroom_master.temperature
 
 bedroom_heater:
     widget_type: input_boolean
@@ -826,6 +826,14 @@ bedroom_hannah_temperature:
     value_style: "font-size: 375%; color: #f1c40f"
     unit_style: "color: #f1c40f"
     sub_entity: climate.bedroom_hannah.temperature
+
+bedroom_hannah_heater:
+    widget_type: input_boolean
+    title: Hannah verwarming
+    entity: input_boolean.heat_bedroom_hannah
+    icon_on: mdi-radiator
+    icon_off: mdi-radiator
+    icon_style_active: "color: #ef5353;"
 
 ####################################
 # Lights                           #

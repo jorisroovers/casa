@@ -37,6 +37,7 @@
    - lovelace/livingroom.yaml
    - lovelace/bedroom.yaml
    - lovelace/bedroom-hannah.yaml
+   - lovelace/bedroom-kid2.yaml
    - lovelace/kitchen.yaml
    - lovelace/hallway.yaml
   notify:
@@ -57,6 +58,7 @@
     - automations/bathroom.yaml
     - automations/bedroom.yaml
     - automations/bedroom_hannah.yaml
+    - automations/bedroom_kid2.yaml
     - automations/laundryroom.yaml
     - automations/office.yaml
     - automations/kitchen.yaml

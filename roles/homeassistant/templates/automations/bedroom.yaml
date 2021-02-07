@@ -15,7 +15,7 @@
         temperature: 26
     - service: climate.set_temperature
       data:
-        entity_id: "climate.hm_cc_rt_dn_oeq2416597"
+        entity_id: "climate.bedroom_master"
         temperature: 23
     - service: notify.slack
       data:
@@ -35,7 +35,7 @@
         temperature: 21
     - service: climate.set_temperature
       data:
-        entity_id: "climate.hm_cc_rt_dn_oeq2416597"
+        entity_id: "climate.bedroom_master"
         temperature: 6
     - service: notify.slack
       data:
@@ -46,7 +46,7 @@
 #   initial_state: True
 #   trigger:
 #     - platform: numeric_state
-#       entity_id: climate.hm_cc_rt_dn_oeq2416597
+#       entity_id: climate.bedroom_master
 #       value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
 #       above: 19
 #   condition:
@@ -67,7 +67,7 @@
   initial_state: True
   trigger:
     - platform: numeric_state
-      entity_id: climate.hm_cc_rt_dn_oeq2416597
+      entity_id: climate.bedroom_master
       value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
       above: 19
   condition:
@@ -88,11 +88,11 @@
   initial_state: True
   trigger:
     - platform: template
-      value_template: "{% raw %}{{ states.climate.hm_cc_rt_dn_oeq2416597.attributes.mode | lower == 'auto' }}{% endraw %}"
+      value_template: "{% raw %}{{ states.climate.bedroom_master.attributes.mode | lower == 'auto' }}{% endraw %}"
   action:
     - service: climate.set_hvac_mode
       data:
-        entity_id: "climate.hm_cc_rt_dn_oeq2416597"
+        entity_id: "climate.bedroom_master"
         # hvac_mode:heat ==> manual on HomeMatic
         hvac_mode: heat
     - service: notify.slack

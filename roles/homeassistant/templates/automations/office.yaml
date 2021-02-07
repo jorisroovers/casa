@@ -52,6 +52,9 @@
     - platform: state
       entity_id: input_select.house_mode
       to: 'Day'
+      from: 
+        - 'Sleeping'
+        - 'Away'
     - platform: time
       at: "09:00:00"
   condition:

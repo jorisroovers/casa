@@ -15,7 +15,7 @@ cards:
     entity: script.close_bedroom_window
   - type: thermostat
     title: Thermostat
-    entity: climate.hm_cc_rt_dn_oeq2416597
+    entity: climate.bedroom_master
   - type: button
     name: Heating Bedroom
     entity: input_boolean.heat_bedroom

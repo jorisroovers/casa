@@ -13,3 +13,6 @@ heat_bedroom:
 heat_bedroom_hannah:
   name: Heat Bedroom Hannah
   initial: off
+heat_bedroom_kid2:
+  name: Heat Bedroom Kid2
+  initial: off

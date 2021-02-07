@@ -18,6 +18,7 @@ views:
   - !include lovelace/bathroom.yaml
   - !include lovelace/bedroom.yaml
   - !include lovelace/bedroom-hannah.yaml
+  - !include lovelace/bedroom-kid2.yaml
   - !include lovelace/morning-tv.yaml
   - !include lovelace/kitchen.yaml
   - !include lovelace/hallway.yaml
@@ -86,8 +87,6 @@ views:
         entity: camera.hallway
       - type: picture-entity
         entity: camera.office
-      - type: thermostat
-        entity: climate.hm_cc_rt_dn_oeq2416597
       - type: thermostat
         entity: climate.bedroom_hannah
       - type: thermostat

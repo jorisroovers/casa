@@ -8,6 +8,7 @@ Blogposts and write-ups:
 - [Details of my conference talk *Creating the Ultimate Morning Routine* at the 2020 Home Assistant Conference](docs/Ultimate-Morning-Routine.md)
 - Blogpost: [My Favorite Home Automations](https://jorisroovers.com/posts/my-favorite-home-automations)
 - Blogpost: [Window Opener project](https://jorisroovers.com/posts/window-opener)
+- Details: [Curtain Opener project](projects/curtain-opener/README.md)
 
 *Main dashboard running on wall-mounted iPad (using [AppDaemon HADashboard](https://appdaemon.readthedocs.io/en/latest/DASHBOARD_CREATION.html))*
 ![HADashboard Home](docs/images/iPad-Wallmount.jpg)

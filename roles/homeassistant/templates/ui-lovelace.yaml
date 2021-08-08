@@ -21,6 +21,7 @@ views:
   - !include lovelace/bedroom-kid2.yaml
   - !include lovelace/morning-tv.yaml
   - !include lovelace/kitchen.yaml
+  - !include lovelace/sauna.yaml
   - !include lovelace/hallway.yaml
   - !include lovelace/demo.yaml
   - !include lovelace/playground.yaml

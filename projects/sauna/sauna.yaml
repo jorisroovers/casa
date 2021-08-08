@@ -1,0 +1,80 @@
+substitutions:
+  deviceid: sauna
+  devicename: Sauna
+
+esphome:
+  name: sauna
+  platform: ESP32
+  board: esp32dev
+  platformio_options: 
+    platform: espressif32
+    board: az-delivery-devkit-v4
+    board_build.mcu: esp32
+    board_build.f_cpu: 240000000L
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: !secret wifi_static_ip
+    gateway: !secret wifi_gateway
+    subnet: !secret wifi_subnet
+
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+
+# Enable OTA updates
+ota:
+  password: !secret ota_password
+
+logger:
+
+i2c:
+  sda: 21
+  scl: 22
+  # scan: True
+  # id: bus_a
+
+switch:
+  - platform: gpio
+    id: ${deviceid}_front_heater
+    name: ${devicename} Front Heater
+    pin:
+      number: 25
+      inverted: True
+
+  - platform: gpio
+    id: ${deviceid}_leg_heater
+    name: ${devicename} Leg Heater
+    pin:
+      number: 26
+      inverted: True
+
+  # - platform: gpio
+  #   name: "relay 3"
+  #   pin:
+  #     number: 32
+  #     inverted: True
+
+  - platform: gpio
+    id: ${deviceid}_back_heater
+    name: ${devicename} Back Heater
+    pin:
+      number: 33
+      inverted: True
+
+sensor:
+  - platform: bme280
+    temperature:
+      id: ${deviceid}_temperature
+      name: "${devicename} Temperature"
+      oversampling: 16x
+    pressure:
+      id: ${deviceid}_pressure
+      name: "${devicename} Pressure"
+    humidity:
+      id: ${deviceid}_humidity
+      name: "${devicename} Humidity"
+    update_interval: 3s
+    address: 0x76

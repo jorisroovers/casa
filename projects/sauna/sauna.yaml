@@ -6,6 +6,8 @@ esphome:
   name: sauna
   platform: ESP32
   board: esp32dev
+  # Some custom options required for AZ Delivery board
+  # https://github.com/esphome/feature-requests/issues/609
   platformio_options: 
     platform: espressif32
     board: az-delivery-devkit-v4
@@ -24,7 +26,7 @@ wifi:
 api:
   password: !secret api_password
 
-# Enable OTA updates
+# Enable Over-The-Air updates
 ota:
   password: !secret ota_password
 
@@ -33,8 +35,6 @@ logger:
 i2c:
   sda: 21
   scl: 22
-  # scan: True
-  # id: bus_a
 
 switch:
   - platform: gpio
@@ -51,12 +51,6 @@ switch:
       number: 26
       inverted: True
 
-  # - platform: gpio
-  #   name: "relay 3"
-  #   pin:
-  #     number: 32
-  #     inverted: True
-
   - platform: gpio
     id: ${deviceid}_back_heater
     name: ${devicename} Back Heater
@@ -64,6 +58,7 @@ switch:
       number: 33
       inverted: True
 
+# https://esphome.io/components/sensor/bme280.html
 sensor:
   - platform: bme280
     temperature:

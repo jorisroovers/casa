@@ -84,21 +84,7 @@
         entity_id: input_boolean.heat_bedroom
 
 
-- alias: Automatically bedroom temperature operation mode to manual
-  initial_state: True
-  trigger:
-    - platform: template
-      value_template: "{% raw %}{{ states.climate.bedroom_master.attributes.mode | lower == 'auto' }}{% endraw %}"
-  action:
-    - service: climate.set_hvac_mode
-      data:
-        entity_id: "climate.bedroom_master"
-        # hvac_mode:heat ==> manual on HomeMatic
-        hvac_mode: heat
-    - service: notify.slack
-      data:
-        message: |
-              Bedroom heating was changed to 'auto' mode, set back to 'manual' mode.
+
 
 ########################################################################################################################
 # Window Opener                                                                                                        #

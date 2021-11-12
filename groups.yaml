@@ -1,0 +1,50 @@
+lights_downstairs:
+  name: "Downstairs lights"
+  entities:
+    - light.tv
+    - light.tv_ambience
+    - light.living_room
+    - light.dining_table
+    - light.kitchen
+    - light.office
+    - light.pantry
+    - switch.desk_lamp
+    - switch.christmas_tree
+    - switch.christmas_ambience_office
+
+lights_downstairs_automatic:
+  name: "Automatically controlled downstairs lights"
+  entities:
+    - light.tv_ambience
+    - light.office_ambience_lamp_1
+
+lights_upstairs:
+  name: "Lights Upstairs"
+  entities:
+    - light.bathroom
+    - light.nightstand_ilse
+    - light.nightstand_joris
+    - switch.bathroom_mirror_light
+    - light.landing
+    - light.dressing
+    # - light.laundry_room_lamp_1
+
+lights_outside:
+  name: "Lights outside"
+  entities:
+    - light.front_door_lamp_1
+    - light.garden
+
+lights_christmas:
+  name: "Christmas lights"
+  entities:
+    - switch.christmas_tree
+    - switch.christmas_ambience_office
+
+# Note: automation entity names are based on their 'alias', not on their 'id', this is confusing and can easily lead to
+# automation errors. Always good to check the entity names in Developer Tools
+automation_disable_housekeeping:
+  name: "Automations to disable during housekeeping"
+  entities:
+    - automation.music_on_afternoon_shower_during_weekday
+    - automation.bathroom_exit

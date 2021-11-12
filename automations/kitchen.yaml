@@ -1,0 +1,20 @@
+########################################################################################################################
+# Kitchen                                                                                                              #
+########################################################################################################################
+
+- alias: Kitchen Motion
+  id: kitchen_motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion
+      to: "off"
+      for: "00:03:00"
+  variables:
+    scene_entity_id: "{{ 'scene.KitchenEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.KitchenExit' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"

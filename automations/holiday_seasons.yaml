@@ -1,0 +1,37 @@
+########################################################################################################################
+# Holiday Seasons                                                                                                      #
+########################################################################################################################
+
+- alias: Automatically set holiday season based on date
+  id: holiday_season_auto_select
+  mode: single
+  variables:
+    today: "{{ now().strftime('%m-%d') }}"
+  trigger:
+    - platform: time_pattern
+      hours: "/1"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.holiday_season
+        option: |
+          {% if today == "10-31" %}
+            Halloween
+          {% elif today == "12-25" %}
+            Christmas
+          {% else %}
+            "None"
+          {% endif %}
+
+- alias: Set front-end and scenes when holiday seasons change
+  id: holiday_seasons_actions
+  mode: single
+  variables:
+    today: "{{ now().strftime('%m-%d') }}"
+  trigger:
+    - platform: time_pattern
+      hours: "/1"
+  action:
+    - service: frontend.set_theme
+      data:
+        name: "{{ states('input_select.holiday_season') }}-dark"

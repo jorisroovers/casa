@@ -1,0 +1,22 @@
+########################################################################################################################
+# Landing                                                                                                              #
+########################################################################################################################
+
+- name: LandingEnterDay
+  entities:
+    light.landing:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 100
+
+- name: LandingEnterEvening
+  entities:
+    light.landing_bedroom:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 5
+
+- name: LandingExit
+  entities:
+    light.landing:
+      state: "off"

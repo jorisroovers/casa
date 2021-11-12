@@ -1,0 +1,245 @@
+########################################################################################################################
+# Living Room                                                                                                          #
+########################################################################################################################
+
+- alias: Set scene for Living Preset
+  id: living_room_scene
+  trigger:
+    platform: state
+    entity_id: input_select.living_preset
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.{{ states('input_select.living_preset') | lower | replace(' ', '_')}}"
+
+    # When disabling music, keep the current house mode (as this automation might be triggered by a change in
+    # house mode). When enabling music, set house mode to Auto.
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: |
+          {% if is_state('input_select.living_preset', 'NoPreset') %}
+            {{ states('input_select.house_mode') }}
+          {% else %}
+            Auto
+          {% endif %}
+
+################################################################################
+# Motion                                                                       #
+################################################################################
+
+- alias: Living Room Motion
+  id: livingroom_motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.living_room_motion
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.living_room_motion
+      to: "off"
+      for: "00:03:00"
+  variables:
+    scene_entity_id: "{{ 'scene.LivingRoomEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.LivingRoomExit' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"
+
+################################################################################
+# TV                                                                           #
+################################################################################
+- alias: Set LivingPreset to Watching TV when turning on the TV
+  id: living_room_watching_tv
+  trigger:
+    platform: state
+    entity_id: media_player.tv_livingroom
+    to: "on"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_preset
+        option: "Watching TV"
+
+- alias: Set LivingPreset to StopWatchingTV when turning off the TV before sunset
+  id: living_room_stop_tv
+  trigger:
+    platform: state
+    entity_id: media_player.tv_livingroom
+    to: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.StopWatchingTV{{ states('input_select.house_mode')}}"
+
+################################################################################
+# Diaper Station                                                               #
+################################################################################
+
+- alias: Diaper Station Lights
+  id: diaper_station_lights
+  # mode: restart # As long as there is movement on the diaper station, keep restarting this automation
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.diaper_station_in_use
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.diaper_station_in_use
+      to: "off"
+      for: "00:00:10"
+  action:
+    - choose:
+        - conditions: "{{ trigger.to_state.state == 'on' }}"
+          sequence:
+            - service: scene.turn_on
+              data:
+                entity_id: scene.DiaperStationStart
+      default:
+        - service: scene.turn_on
+          data:
+            entity_id: scene.DiaperStationStop
+
+################################################################################
+# Dyson Air Purifier                                                           #
+################################################################################
+
+- alias: Notify when Dyson on manual mode after hour
+  id: dyson_switch_auto_mode
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: switch.pure_humidify_cool_auto_mode
+      to: "off"
+      for: "01:00:00"
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        title: Living Room
+        message: Dyson has been on manual mode for an hour. Setting it back to auto mode
+        data:
+          tag: dyson-manual
+    - service: switch.turn_on
+      data:
+        entity_id: switch.pure_humidify_cool_auto_mode
+    - delay: "00:01:00"
+    - service: notify.mobile_app_iphone
+      data:
+        message: clear_notification
+        data:
+          tag: dyson-manual
+
+- alias: Dyson Manual Mode
+  id: livingroom_dyson_manual_mode
+  trigger:
+    - platform: numeric_state
+      entity_id: air_quality.pure_humidify_cool_air_quality
+      attribute: volatile_organic_compounds
+      above: 50
+    - platform: numeric_state
+      entity_id: air_quality.pure_humidify_cool_air_quality
+      attribute: particulate_matter_2_5
+      above: 20
+    - platform: numeric_state
+      entity_id: air_quality.pure_humidify_cool_air_quality
+      attribute: particulate_matter_10
+      above: 20
+  condition:
+    - condition: state
+      entity_id: switch.pure_humidify_cool_auto_mode
+      state: "on"
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        title: Dyson
+        message: >
+          Low Air Quality, normally would switch to manual mode here
+          VOC: {{ state_attr("air_quality.pure_humidify_cool_air_quality","volatile_organic_compounds") }}
+          PPM2.5: {{ state_attr("air_quality.pure_humidify_cool_air_quality","particulate_matter_2_5") }}
+          PPM10: {{ state_attr("air_quality.pure_humidify_cool_air_quality","particulate_matter_10") }}
+        data:
+          tag: dyson-low-aqi
+
+################################################################################
+# Music                                                                        #
+################################################################################
+
+- alias: Play downstairs sonos preset for music input select
+  id: livingroom_music_preset
+  trigger:
+    platform: state
+    entity_id: input_select.downstairs_music
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: input_select.downstairs_music
+              state: "NoMusic"
+          sequence:
+            - service: media_player.media_stop
+              data:
+                entity_id: media_player.living_room
+      default:
+        - service: sonos.join
+          data:
+            entity_id: "media_player.tv_room, media_player.move"
+            master: media_player.living_room
+        - service: media_player.select_source
+          data:
+            entity_id: "media_player.living_room"
+            source: "{{ states('input_select.downstairs_music') }}"
+        - service: media_player.volume_set
+          data:
+            volume_level: 0.07
+            entity_id:
+              - media_player.living_room
+              - media_player.tv_room
+              - media_player.move
+
+################################################################################
+# Dining Table                                                                 #
+################################################################################
+
+- alias: Dining Table Switch
+  id: livingroom_diningtable_switch
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:12:4b:00:22:42:90:cd"
+        command: "toggle"
+  action:
+    - service: light.toggle
+      data:
+        entity_id: light.dining_table
+
+# During the day, when turning on the Dining Table lights while the TV is off, no music is playing and Joris isn't working
+# then turn on music
+- alias: Dining Table Music
+  id: livingroom_diningtable_music
+  trigger:
+    - platform: state
+      entity_id: light.dining_table
+      to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: media_player.tv_livingroom
+          state: "off"
+        - condition: state
+          entity_id:
+            - media_player.living_room
+            - media_player.bathroom
+          state: "paused"
+        - condition: state
+          entity_id: binary_sensor.joris_working
+          state: "off"
+        - condition: not
+          conditions:
+            - condition: state
+              entity_id: input_select.house_mode
+              state: "Sleeping"
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        title: Dining Table
+        message: Normally would play some music now :)

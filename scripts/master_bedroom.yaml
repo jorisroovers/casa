@@ -1,0 +1,25 @@
+########################################################################################################################
+# Master Bedroom                                                                                                       #
+########################################################################################################################
+
+close_bedroom_window:
+  alias: Close Bedroom Window
+  sequence:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.bedroom_window_close_relay
+    - delay: 00:00:10
+    - service: switch.turn_off
+      data:
+        entity_id: switch.bedroom_window_close_relay
+
+open_bedroom_window:
+  alias: Open Bedroom Window
+  sequence:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.bedroom_window_open_relay
+    - delay: 00:00:02
+    - service: switch.turn_off
+      data:
+        entity_id: switch.bedroom_window_open_relay

@@ -1,0 +1,68 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+zone:
+  - name: Home
+    latitude: !secret home_latitude
+    longitude: !secret home_longitude
+    radius: 75
+    icon: mdi:home
+
+group: !include groups.yaml
+# By "labelling" the 'automation' key, we can use it multiple times and import from different locations
+# This allows us to enable both handwritten and UI-generated automations
+automation manual: !include_dir_merge_list automations/
+automation ui: !include automations.yaml
+script: !include_dir_merge_named scripts/
+scene: !include_dir_merge_list scenes/
+light: !include lights.yaml
+cover: !include covers.yaml
+sensor: !include sensors/sensor.yaml
+binary_sensor: !include sensors/binary.yaml
+template: !include_dir_merge_list templates/
+
+# Non UI Integrations (need to be manually configured in here and required HA restart)
+
+# https://github.com/thomasloven/hass-browser_mod
+# Used for auto navigating wall-mounted ipads using HA automations
+# browser_mod:
+
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+homematic:
+  interfaces:
+    rf:
+      host: !secret homematic_host
+      resolvenames: json
+
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+  project_id: !secret nest_project_id
+  subscriber_id: !secret nest_subscription_id
+# NOT WORKING
+# dyson
+# Seems to have been broken for a while: https://github.com/home-assistant/core/issues/46400
+# Using https://github.com/shenxn/ha-dyson via HACS instead
+# dyson:
+#   username: !secret dyson_username
+#   password: !secret dyson_password
+#   language: !secret dyson_language
+
+# spotcast:
+#   sp_key: !secret spotcast_sp_key
+#   sp_dc: !secret spotcast_sp_dc
+
+homekit:
+  - filter:
+      include_entities:
+        - light.nightstand_joris

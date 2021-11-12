@@ -1,4 +1,6 @@
 # casa
+**This is the old README of this repository, kept here for reference.**
+
 Home-automation stack based on [homeassistant](home-assistant.io), orchestrated through [Ansible](https://www.ansible.com/).
 This repository also contains ansible playbooks for auxillary systems such as [Prometheus](https://prometheus.io/), [Grafana](https://grafana.com/), [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) and more.
 

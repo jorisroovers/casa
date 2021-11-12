@@ -1,0 +1,65 @@
+########################################################################################################################
+# Presence                                                                                                             #
+########################################################################################################################
+
+- alias: Joris leaving home
+  id: presence_joris_leaving_home
+  trigger:
+    - platform: zone
+      entity_id: person.joris
+      zone: zone.home
+      event: leave
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        message: clear_notification
+        data:
+          tag: joris-coming-home
+    - service: notify.mobile_app_iphone
+      data:
+        message: Joris left home detected!
+        data:
+          tag: joris-left-home
+
+- alias: Joris coming home
+  id: presence_joris_coming_home
+  trigger:
+    - platform: zone
+      entity_id: person.joris
+      zone: zone.home
+      event: enter
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        message: clear_notification
+        data:
+          tag: joris-left-home
+    - service: notify.mobile_app_iphone
+      data:
+        message: Joris coming home detected!
+        data:
+          tag: joris-coming-home
+
+- alias: Ilse coming home
+  id: presence_ilse_coming_home
+  trigger:
+    - platform: zone
+      entity_id: person.ilse
+      zone: zone.home
+      event: enter
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        message: Ilse coming home detected!
+
+- alias: Ilse leaving home
+  id: presence_ilse_leaving_home
+  trigger:
+    - platform: zone
+      entity_id: person.ilse
+      zone: zone.home
+      event: leave
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        message: Ilse leaving home detected!

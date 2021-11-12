@@ -1,0 +1,74 @@
+########################################################################################################################
+# Laundry Room                                                                                                         #
+########################################################################################################################
+
+################################################################################
+# Motion                                                                       #
+################################################################################
+
+- alias: Laundry Room Motion
+  id: laundryroom_motion_detected
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.laundry_room_motion
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.laundry_room_motion
+      to: "off"
+      for: "00:01:00"
+  variables:
+    scene_entity_id: "{{ 'scene.LaundryRoomEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.LaundryRoomExit' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"
+
+################################################################################
+# Laundry Status Notifications                                                 #
+################################################################################
+
+- alias: Laundry Notifications
+  id: laundryroom_laundry_notifications
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.washer_running
+        - binary_sensor.dryer_running
+  action:
+    # Clear any previous completion notifications for the Washer or Dryer
+    - service: notify.notify
+      data:
+        message: clear_notification
+        data:
+          tag: "laundry-{{ state_attr(trigger.entity_id, 'device') }}-finished"
+    - condition: template
+      value_template: "{{ trigger.to_state.state == 'off' }}"
+    - service: notify.notify
+      data:
+        title: Laundry Room
+        message: "{{ state_attr(trigger.entity_id, 'device') }} done!"
+        data:
+          tag: "laundry-{{ state_attr(trigger.entity_id, 'device') }}-finished"
+
+################################################################################
+# Laundry Leak Detection                                                       #
+################################################################################
+
+- alias: Laundry Leak Detection
+  id: laundryroom_leak_detection
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.laundry_leak_detected
+      to: "on"
+  action:
+    - service: notify.notify
+      data:
+        title: Laundry Room
+        message: Leak detected! Go check!
+        data:
+          push:
+            sound:
+              name: "default"
+              critical: 1
+              volume: 1.0

@@ -1,0 +1,29 @@
+########################################################################################################################
+# Kitchen                                                                                                              #
+########################################################################################################################
+
+- name: KitchenEnterDay
+  entities:
+    light.kitchen:
+      state: "on"
+      kelvin: 3500
+      brightness_pct: 100
+
+- name: KitchenEnterEvening
+  entities:
+    light.kitchen:
+      state: "on"
+      kelvin: 2000
+      brightness_pct: 75
+
+- name: KitchenEnterSleeping
+  entities:
+    light.kitchen:
+      state: "on"
+      kelvin: 2200
+      brightness_pct: 15
+
+- name: KitchenExit
+  entities:
+    light.kitchen:
+      state: "off"

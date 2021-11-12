@@ -1,0 +1,99 @@
+########################################################################################################################
+# Office Curtains                                                                                                      #
+########################################################################################################################
+
+- platform: template
+  covers:
+    office_curtain_left:
+      device_class: curtain
+      friendly_name: Office Curtain Left
+      optimistic: true # Force optimistic mode, i.e. open-close state is kept internally
+      open_cover:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.office_curtain_left_relay2
+      close_cover:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.office_curtain_left_relay1
+      stop_cover:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.office_curtain_left_relay1
+        - service: switch.turn_off
+          target:
+            entity_id: switch.office_curtain_left_relay2
+    office_curtain_right:
+      device_class: curtain
+      friendly_name: Office Curtain Right
+      optimistic: true # Force optimistic mode, i.e. open-close state is kept internally
+      open_cover:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.office_curtain_right_relay1
+      close_cover:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.office_curtain_right_relay2
+      stop_cover:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.office_curtain_right_relay1
+        - service: switch.turn_off
+          target:
+            entity_id: switch.office_curtain_right_relay2
+
+# There is something called cover_group, maybe use that instead?
+# https://www.home-assistant.io/integrations/cover.template/#multiple-covers
+- platform: group
+  name: Office Curtains
+  entities:
+    - cover.office_curtain_left
+    - cover.office_curtain_right
+
+########################################################################################################################
+# Hallway Curtains                                                                                                     #
+########################################################################################################################
+- platform: template
+  covers:
+    hallway_curtain:
+      device_class: curtain
+      friendly_name: Hallway Curtain
+      optimistic: true # Force optimistic mode, i.e. open-close state is kept internally
+      open_cover:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.front_door_curtain_relay2
+      close_cover:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.front_door_curtain_relay1
+      stop_cover:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.front_door_curtain_relay1
+        - service: switch.turn_off
+          target:
+            entity_id: switch.front_door_curtain_relay2
+
+########################################################################################################################
+# Bedroom Window                                                                                                       #
+########################################################################################################################
+
+- platform: template
+  covers:
+    master_bedroom_window:
+      device_class: window
+      friendly_name: Master Bedroom Window
+      value_template: "{{ is_state('binary_sensor.bedroom_window', 'on') }}"
+      open_cover:
+        - service: script.open_bedroom_window
+      close_cover:
+        - service: script.close_bedroom_window
+      stop_cover:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.bedroom_window_close_relay
+        - service: switch.turn_off
+          target:
+            entity_id: switch.bedroom_window_open_relay

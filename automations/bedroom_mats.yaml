@@ -1,0 +1,45 @@
+########################################################################################################################
+# Bedroom Mats                                                                                                         #
+########################################################################################################################
+
+################################################################################
+# Climate control                                                              #
+################################################################################
+
+- alias: Start heating in Mats' bedroom when switching on switch
+  id: bedroom_mats_start_heating
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_bedroom_mats
+      to: "on"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.living_room
+        temperature: 26
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.bedroom_mats
+        temperature: 23
+    - service: notify.mobile_app_iphone
+      data:
+        message: Started heating bedroom Mats
+
+- alias: Stop heating in bedroom Mats when switching off switch
+  id: bedroom_mats_stop_heating
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_bedroom_mats
+      to: "off"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.living_room
+        temperature: 21
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.bedroom_mats
+        temperature: 20
+    - service: notify.mobile_app_iphone
+      data:
+        message: Stopped heating bedroom Mats

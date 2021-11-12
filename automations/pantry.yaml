@@ -1,0 +1,37 @@
+########################################################################################################################
+# Pantry                                                                                                               #
+########################################################################################################################
+
+- alias: Pantry Motion
+  id: pantry_motion_detected
+  mode: single
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.pantry_motion_1
+        - binary_sensor.pantry_motion_2
+      to: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.PantryEnter{{ states('input_select.house_mode')}}"
+
+- alias: Pantry Exit
+  id: pantry_exit
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.pantry_motion_1
+        - binary_sensor.pantry_motion_2
+      to: "off"
+      for: "00:01:00"
+  condition: # Don't turn lights off unless there's no motion on either sensor
+    - condition: state
+      entity_id:
+        - binary_sensor.pantry_motion_1
+        - binary_sensor.pantry_motion_2
+      state: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.PantryExit"

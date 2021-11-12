@@ -1,0 +1,86 @@
+- name: Sleeping
+  entities:
+    group.lights_outside:
+      state: "off"
+    group.lights_downstairs:
+      state: "off"
+    group.lights_downstairs_automatic:
+      state: "off"
+    switch.front_door_curtain_relay1:
+      state: "on"
+    switch.front_door_curtain_relay2:
+      state: "off"
+    media_player.tv_livingroom:
+      state: "off"
+    remote.living_room:
+      state: "on"
+    media_player.apple_tv_living_room:
+      state: idle
+    cover.office_curtains:
+      state: "closed"
+    switch.ambience_lights_buffet:
+      state: "off"
+    switch.living_room_camera_switch:
+      state: "on"
+    switch.office_camera_switch:
+      state: "on"
+  icon: mdi:bed
+
+- name: Away
+  entities:
+    group.lights_outside:
+      state: "off"
+    group.lights_downstairs:
+      state: "off"
+    group.lights_downstairs_automatic:
+      state: "off"
+    media_player.tv_livingroom:
+      state: "off"
+    remote.living_room:
+      state: "on"
+    media_player.apple_tv_living_room:
+      state: idle
+    switch.ambience_lights_buffet:
+      state: "off"
+    switch.living_room_camera_switch:
+      state: "on"
+    switch.office_camera_switch:
+      state: "off"
+  icon: mdi:exit-run
+
+- name: Evening
+  entities:
+    # input_select.camera_preset: Home
+    group.lights_outside:
+      state: "on"
+    light.tv_ambience:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 10
+    light.office_ambience_lamp_1:
+      state: "on"
+      brightness_pct: 20
+      kelvin: 1500
+    switch.ambience_lights_buffet:
+      state: "on"
+    switch.living_room_camera_switch:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"
+    # switch.christmas_tree:
+    #   state: on
+    # switch.christmas_ambience_office:
+    #   state: on
+
+- name: Day
+  entities:
+    group.lights_outside:
+      state: "off"
+    light.office_ambience_lamp_1:
+      state: "off"
+    switch.front_door_curtain_relay2:
+      state: "on"
+    switch.living_room_camera_switch:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"

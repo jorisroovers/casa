@@ -1,0 +1,132 @@
+########################################################################################################################
+# General ESPHome config                                                                                               #
+########################################################################################################################
+substitutions:
+    dnsname: bedroom-window
+    deviceid: bedroom_window
+    devicename: Bedroom Window
+
+esphome:
+  name: ${dnsname}
+  platform: ESP8266
+  board: d1 # optional, only affects pin layout
+  # on boot: close both relays (so we don't have any shenanigans when power cycling)
+  on_boot:
+    then:
+      - switch.turn_off: ${deviceid}_open_relay
+      - switch.turn_off: ${deviceid}_close_relay
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: !secret window_opener_host
+    gateway: !secret wifi_gateway
+    subnet: !secret wifi_subnet
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret wifi_fallback_ap_ssid
+    password: !secret wifi_fallback_ap_password
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+  encryption: 
+    key: !secret api_encryption_key
+
+ota:
+  password: !secret ota_password
+
+########################################################################################################################
+# I/O                                                                                                                  #
+########################################################################################################################
+# Notes:
+# - The switching logic below contains some extra checks and actions to ensure (and double ensure) that both relays
+#   are never engaged at the same time, as this can cause a short-circuit in the linear actuator that opens the window.
+# - If homeassistant changes the relay states while a button is pressed, releasing the button will automatically cancel
+#   the signal coming from homeassistant. This is a good safety.
+
+# INPUTS: REED SENSOR & BUTTONS
+binary_sensor:
+#   - platform: gpio
+#     name: "$devicename Window Status"
+#     id: ${deviceid}_status
+#     pin: 4 # D2
+#     filters:
+#       - invert: # magnet detected => 'off' (window closed), no magnet => 'on' (window open)
+
+  - platform: gpio
+    name: "$devicename Open Button"
+    id: ${deviceid}_open_button
+    pin: 4 # D1
+    on_press:
+      then:
+        # turn off the other relay, but double check (=if) before turning on this one to ensure we don't turn them
+        # on at the same time.
+        - switch.turn_off: ${deviceid}_close_relay
+        - if:
+            condition:
+              switch.is_off: ${deviceid}_close_relay
+            then:
+              - switch.turn_on: ${deviceid}_open_relay
+   # on_release: turn both relays off, this is just an extra safety to avoid having both relays on at the same time.
+    on_release:
+      then:
+        - switch.turn_off: ${deviceid}_open_relay
+        - switch.turn_off: ${deviceid}_close_relay
+
+  - platform: gpio
+    name: "$devicename Close Button"
+    id: ${deviceid}_close_button
+    pin: 5 # D2
+    on_press:
+      then:
+        - switch.turn_off: ${deviceid}_open_relay
+        - if:
+            condition:
+              switch.is_off: ${deviceid}_open_relay
+            then:
+              - switch.turn_on: ${deviceid}_close_relay
+    on_release:
+      then:
+        - switch.turn_off: ${deviceid}_open_relay
+        - switch.turn_off: ${deviceid}_close_relay
+
+# OUTPUTS: RELAYS
+switch:
+  - platform: gpio
+    name: "$devicename Open Relay"
+    id: ${deviceid}_open_relay
+    pin: 12 # D6, D5=14
+    # if we turn on this relay, automatically turn off the other one.
+    # Required for when switching from home-assistant.
+    on_turn_on:
+      - then:
+          - switch.turn_off: ${deviceid}_close_relay
+
+  - platform: gpio
+    name: "$devicename Close Relay"
+    id: ${deviceid}_close_relay
+    pin: 13 # D7
+    on_turn_on:
+      - then:
+          - switch.turn_off: ${deviceid}_open_relay
+
+
+# TODO (important): Open switch that opens and stops after 2 seconds, so that 
+# switch:
+#   - platform: gpio
+#     name: "$devicename Open Window"
+#     id: ${deviceid}_open
+#     pin: 12 # D6, D5=14
+#     # if we turn on this relay, automatically turn off the other one.
+#     # Required for when switching from home-assistant.
+#     on_turn_on:
+#       - then:
+#           - switch.turn_off: ${deviceid}_close_relay

@@ -1,0 +1,38 @@
+- platform: time_date
+  display_options:
+    - "time"
+    - "date"
+    - "date_time"
+
+- platform: systemmonitor
+  resources:
+    - type: memory_free
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: load_1m
+    - type: load_5m
+    - type: load_15m
+    - type: processor_use
+
+- platform: uptime
+
+- platform: afvalinfo
+  resources:
+    - pbd
+    - gft
+    - papier
+    - trash_type_today
+    - trash_type_tomorrow
+  location: !secret afvalinfo_location
+  postcode: !secret afvalinfo_postcode
+  streetnumber: !secret afvalinfo_streetnumber
+
+- platform: history_stats
+  name: Sauna Session Duration
+  entity_id: switch.sauna_leg_heater
+  state: "on"
+  type: time
+  end: "{{ now() }}"
+  duration:
+    hours: 2

@@ -1,0 +1,102 @@
+- platform: group
+  name: Bathroom
+  entities:
+    - light.bathroom_lamp_1
+    - light.bathroom_lamp_2
+    - light.bathroom_lamp_3
+    - light.bathroom_lamp_4
+    - light.bathroom_shower_lamp_1
+
+- platform: group
+  name: Office
+  entities:
+    - light.office_lamp_1
+    - light.office_lamp_2
+    - light.office_lamp_3
+
+- platform: group
+  name: Dining Table
+  entities:
+    - light.dining_table_lamp_1
+    - light.dining_table_lamp_2
+    - light.dining_table_lamp_3
+
+- platform: group
+  name: Garden
+  entities:
+    - light.garden_lamp_1
+
+- platform: group
+  name: Hallway
+  entities:
+    - light.hallway_lamp_1
+    - light.hallway_lamp_2
+    - light.hallway_lamp_3
+
+- platform: group
+  name: Kitchen
+  entities:
+    - light.kitchen_lamp_1
+    - light.kitchen_lamp_2
+    - light.kitchen_lamp_3
+    - light.kitchen_lamp_4
+
+- platform: group
+  name: TV
+  entities:
+    - light.tv_lamp_1
+    - light.tv_lamp_2
+    - light.tv_lamp_3
+
+- platform: group
+  name: TV Ambience
+  entities:
+    - light.tv_ambience_lamp_1
+
+- platform: group
+  name: Living Room
+  entities:
+    - light.living_room_lamp_1
+    - light.living_room_lamp_2
+    - light.living_room_lamp_3
+
+- platform: group
+  name: Toilet
+  entities:
+    - light.toilet_lamp_1
+
+- platform: group
+  name: Laundry Room
+  entities:
+    - light.laundry_lamp_1
+
+- platform: group
+  name: Landing
+  entities:
+    - light.landing_lamp_1
+    - light.landing_lamp_2
+    - light.landing_lamp_3
+    - light.landing_lamp_4
+    - light.landing_lamp_5
+
+- platform: group
+  name: Landing Bedroom
+  entities:
+    - light.landing_lamp_1
+    - light.landing_lamp_2
+    - light.landing_lamp_3
+
+- platform: group
+  name: Landing Passage
+  entities:
+    - light.landing_lamp_4
+    - light.landing_lamp_5
+
+- platform: group
+  name: Dressing
+  entities:
+    - light.dressing_lamp_1
+    - light.dressing_lamp_2
+    - light.dressing_lamp_3
+    - light.dressing_lamp_4
+    - light.dressing_lamp_5

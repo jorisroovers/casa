@@ -1,0 +1,23 @@
+########################################################################################################################
+# Sauna                                                                                                                #
+########################################################################################################################
+
+# Interval the back heater on and off
+sauna_program_back_heater_interval:
+  sequence:
+    - service: switch.toggle
+      entity_id:
+        - switch.sauna_back_heater
+    - delay:
+        minutes: "{{ states('input_number.sauna_interval_length') | int }}"
+
+# Interval all heaters
+sauna_program_all_heater_interval:
+  sequence:
+    - service: switch.toggle
+      entity_id:
+        - switch.sauna_back_heater
+        - switch.sauna_front_heater
+        - switch.sauna_leg_heater
+    - delay:
+        minutes: "{{ states('input_number.sauna_interval_length') | int }}"

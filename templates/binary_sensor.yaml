@@ -1,0 +1,37 @@
+# Note: use is_state(...) instead of == to avoid sensors being 'unknown' during startup
+- binary_sensor:
+    - name: "Joris is workday"
+      state: "{{ is_state('binary_sensor.workday_sensor', 'on') and is_state('input_boolean.joris_pto', 'off') }}"
+
+    - name: "Joris At Computer"
+      state: "{{ is_state('binary_sensor.mbp_joris_active', 'on') }}"
+
+    - name: "Joris working"
+      state: "{{ is_state('binary_sensor.mbp_joris_active', 'on') and is_state('binary_sensor.joris_is_workday', 'on') }}"
+
+    - name: "Is Evening"
+      # Evening: hour before next sunset OR if  next sunset > midnight (i.e. next sunset is taking place next day)
+      state: >-
+        {{ ( as_timestamp(states.sun.sun.attributes.next_setting) > as_timestamp(states.sun.sun.attributes.next_midnight) ) or
+                ( as_timestamp(now()) > (as_timestamp(states.sun.sun.attributes.next_setting) - (0.75*3600)) ) }}
+
+    - name: "Housekeeping"
+      state: >-
+        {{ ((now().isoweekday() == 1) and (now().hour >= 12 and now().hour < 16))
+        or ((now().isoweekday() == 5) and (now().hour >= 12 and now().hour < 14)) }}
+
+    - name: "Washer Running"
+      state: "{{ states('sensor.washing_machine_electric_consumed_w')| int > 0 }}"
+      attributes:
+        device: "Washer"
+
+    - name: "Dryer Running"
+      state: "{{ states('sensor.dryer_electric_consumption_w')| int > 0 }}"
+      attributes:
+        device: "Dryer"
+
+    - name: "Outside Precipitation"
+      state: "{{ states('weather.buienradar') in ['rainy', 'pouring', 'lightning-rainy', 'lightning', 'hail', 'snowy', 'snowy-rainy'] }}"
+
+    - name: "Diaper Station In Use"
+      state: "{{ states('sensor.diaper_station_weight') | int  > 2 }}"

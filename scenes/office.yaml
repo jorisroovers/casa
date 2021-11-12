@@ -1,0 +1,74 @@
+########################################################################################################################
+# Office                                                                                                               #
+########################################################################################################################
+
+################################################################################
+# Office Time of Day                                                           #
+################################################################################
+
+- name: OfficeDay
+  entities:
+    light.office:
+      state: "on"
+      kelvin: 3500
+      brightness_pct: 100
+
+- name: OfficeEvening
+  entities:
+    light.office:
+      state: "on"
+      kelvin: 2000
+      brightness_pct: 75
+
+- name: OfficeSleeping
+  entities:
+    light.office_lamp_1:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 1
+    light.office_lamp_2:
+      state: "off"
+    light.office_lamp_3:
+      state: "off"
+
+- name: OfficeExit
+  entities:
+    light.office:
+      state: "off"
+
+################################################################################
+# Office Computer                                                              #
+################################################################################
+
+- name: OfficeComputerOn
+  entities:
+    light.office:
+      state: "on"
+    switch.desk_lamp:
+      state: "on"
+    input_select.camera_preset: Home
+    # Close left curtain, leave right curtain as-is
+    switch.office_curtain_left_relay1:
+      state: "on"
+
+- name: OfficeComputerOff
+  entities:
+    switch.desk_lamp:
+      state: "off"
+
+################################################################################
+# Working                                                                      #
+################################################################################
+
+- name: StartWorkingMorning
+  entities:
+    input_select.downstairs_music: NoMusic
+    light.kitchen:
+      state: "off"
+    light.office:
+      state: "on"
+      kelvin: 3500
+    light.tv:
+      state: "off"
+    light.tv_ambience:
+      state: "off"

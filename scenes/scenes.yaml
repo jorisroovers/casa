@@ -1,0 +1,50 @@
+################################################################################
+# Mornings                                                                     #
+################################################################################
+- name: StartWeekDay
+  entities:
+    group.lights_outside:
+      state: "off"
+    light.living_room:
+      state: "on"
+    light.office:
+      state: "on"
+      kelvin: 3500
+    light.nightstand_joris:
+      state: "off"
+    light.kitchen:
+      state: "on"
+    input_select.bathroom_music: "Bathroom NoMusic"
+    input_select.downstairs_music: "Today's Top Hits"
+    switch.desk_lamp:
+      state: "on"
+    light.bathroom:
+      state: "off"
+    cover.hallway_curtain:
+      state: open
+
+################################################################################
+# Evenings                                                                     #
+################################################################################
+
+- name: Midnight
+  entities:
+    group.lights_outside:
+      state: "off"
+
+- name: ComeHomeEvening
+  entities:
+    group.lights_outside:
+      state: "on"
+    light.living_ambience_lamp_1:
+      state: "on"
+      kelvin: 2200
+      brightness_pct: 20
+    light.tv:
+      state: "on"
+      kelvin: 2200
+      brightness_pct: 40
+    light.tv_ambience:
+      state: "on"
+      kelvin: 2200
+      brightness_pct: 20

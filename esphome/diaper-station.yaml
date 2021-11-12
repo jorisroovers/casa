@@ -1,0 +1,38 @@
+substitutions:
+  dnsname: diaper-station
+  deviceid: diaper_station
+  devicename: Diaper Station
+
+esphome:
+  name: ${dnsname}
+  platform: ESP32
+  board: wemos_d1_mini32
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+  encryption: 
+    key: !secret api_encryption_key
+
+# Enable Over-The-Air updates
+ota:
+  password: !secret ota_password
+
+logger:
+
+sensor:
+  - platform: hx711
+    id: ${deviceid}_weight
+    name: ${devicename} Weight
+    dout_pin: 21
+    clk_pin: 22
+    update_interval: 2s
+    filters:
+      - calibrate_linear:
+          - -76000 -> 0
+          - -74000 -> 1
+    unit_of_measurement: kg

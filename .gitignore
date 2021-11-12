@@ -1,6 +1,16 @@
 *.retry
 NOOBS*
 .venv*
-*-console.log
+*.log*
 .cache
 *.pyc
+secrets.yaml
+*.db
+google_calendars.yaml
+tts*
+themes*
+blueprints*
+custom_icons/
+custom_components/
+deps*
+www*

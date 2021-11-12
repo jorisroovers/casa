@@ -1,0 +1,176 @@
+########################################################################################################################
+# Living Room                                                                                                          #
+########################################################################################################################
+################################################################################
+# Diaper Station                                                               #
+################################################################################
+
+- name: DiaperStationStart
+  entities:
+    switch.diaper_station_light_on_off:
+      state: "on"
+
+- name: DiaperStationStop
+  entities:
+    switch.diaper_station_light_on_off:
+      state: "off"
+
+################################################################################
+# Motion                                                                       #
+################################################################################
+
+- name: LivingRoomEnterDay
+  entities:
+    light.living_room:
+      state: "on"
+      kelvin: 3500
+      brightness_pct: 100
+
+- name: LivingRoomEnterEvening
+  entities:
+    light.living_room:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 20
+
+- name: LivingRoomEnterSleeping
+  entities:
+    light.living_room_lamp_1:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 1
+    light.living_room_lamp_2:
+      state: "off"
+    light.living_room_lamp_3:
+      state: "off"
+
+- name: LivingRoomExit
+  entities:
+    light.living_room:
+      state: "off"
+
+################################################################################
+# Scenes                                                                       #
+################################################################################
+- name: Watching TV
+  entities:
+    light.tv:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 5
+    light.tv_ambience:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 20
+    light.living_room:
+      state: "off"
+    input_select.downstairs_music: NoMusic
+
+- name: StopWatchingTVDay
+  entities:
+    light.tv:
+      state: "off"
+    light.tv_ambience:
+      state: "off"
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVEvening
+  entities:
+    input_select.living_preset: NoPreset
+
+- name: Breakfast
+  entities:
+    light.tv:
+      state: "off"
+    light.tv_ambience:
+      state: "off"
+    light.garden:
+      state: "off"
+    light.living_room:
+      state: "off"
+    light.dining_table:
+      state: "on"
+    light.kitchen:
+      state: "off"
+    light.office:
+      state: "off"
+    input_select.downstairs_music: Breakfast
+
+- name: Dinner
+  entities:
+    light.tv:
+      state: "off"
+    light.tv_ambience:
+      state: "off"
+    light.living_room:
+      state: "off"
+    light.dining_table:
+      state: "on"
+    light.office:
+      state: "off"
+    input_select.downstairs_music: "Dinner With Friends"
+    media_player.living_room:
+      state: playing
+      volume_level: 0.05
+
+- name: Romance
+  entities:
+    light.tv:
+      state: "on"
+      brightness: 143
+    light.tv_ambience:
+      state: "on"
+      kelvin: 2200
+      brightness_pct: 20
+    light.office:
+      state: "off"
+    light.living_room:
+      state: "off"
+    input_select.downstairs_music: Jazzy Romance
+
+- name: Christmas
+  entities:
+    light.tv_ambience:
+      state: "on"
+      kelvin: 2200
+      brightness_pct: 20
+    light.living_room:
+      state: "off"
+    input_select.downstairs_music: Christmas Is Coming
+    input_select.camera_preset: Home
+    switch.christmas_tree:
+      state: "on"
+    switch.christmas_ambience_office:
+      state: "on"
+
+- name: Relaxing
+  entities:
+    light.tv:
+      state: "on"
+      brightness: 143
+    light.tv_ambience:
+      state: "on"
+      kelvin: 2200
+      brightness_pct: 20
+    light.office:
+      state: "off"
+    light.living_room:
+      state: "off"
+    input_select.downstairs_music: Relaxing
+
+- name: Reading
+  entities:
+    light.tv:
+      state: "on"
+      brightness: 255
+    light.living_room:
+      state: "off"
+    light.kitchen:
+      state: "off"
+
+- name: NoPreset
+  entities:
+    media_player.living_room:
+      state: paused
+    media_player.tv_room:
+      state: paused

@@ -1,0 +1,26 @@
+########################################################################################################################
+# Master Bedroom                                                                                                       #
+########################################################################################################################
+- name: MasterBedroomNightstandIlseOn
+  entities:
+    light.nightstand_ilse:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 20
+
+- name: MasterBedroomNightstandIlseOff
+  entities:
+    light.nightstand_ilse:
+      state: "off"
+
+- name: MasterBedroomNightstandJorisOn
+  entities:
+    light.nightstand_joris:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 20
+
+- name: MasterBedroomNightstandJorisOff
+  entities:
+    light.nightstand_joris:
+      state: "off"

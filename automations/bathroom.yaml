@@ -1,0 +1,138 @@
+########################################################################################################################
+# Bathroom                                                                                                             #
+########################################################################################################################
+
+################################################################################
+# Motion                                                                       #
+################################################################################
+
+- alias: Bathroom Motion Detection
+  id: bathroom_motion_detected
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bathroom_multisensor_motion
+      to: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomEnter{{ states('input_select.house_mode')}}"
+
+- alias: Bathroom Exit
+  id: bathroom_no_motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bathroom_multisensor_motion
+      to: "off"
+      for: "00:03:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.shower_water_present
+          state: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomExit"
+
+- alias: Set Bathroom scene when switching light
+  id: bathroom_scene
+  trigger:
+    - platform: state
+      entity_id: light.bathroom
+  action:
+    - alias: "Set correct scene"
+      choose:
+        - alias: "Lights turned on"
+          conditions: "{{ trigger.to_state.state == 'on' }}"
+          sequence:
+            - service: scene.turn_on
+              data:
+                entity_id: "scene.BathroomEnter{{ states('input_select.house_mode')}}"
+      default:
+        - service: scene.turn_on
+          data:
+            entity_id: scene.BathroomExit
+
+################################################################################
+# Bathroom Music                                                               #
+################################################################################
+
+- alias: Play Bathroom sonos preset for music input select
+  id: bathroom_music_scene
+  trigger:
+    platform: state
+    entity_id: input_select.bathroom_music
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: input_select.bathroom_music
+              state: "Bathroom NoMusic"
+          sequence:
+            - service: media_player.media_stop
+              data:
+                entity_id: media_player.bathroom
+      default:
+        - service: media_player.select_source
+          data:
+            entity_id: media_player.bathroom
+            source: "{{ states('input_select.bathroom_music') }}"
+
+- alias: Music on afternoon shower during weekday
+  id: bathroom_music_weekday_shower
+  trigger:
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.joris_working
+          state: "off"
+        - condition: time
+          after: "12:00:00"
+          before: "17:00:00"
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.RelaxingShower
+
+# - alias: Notify when detecting shower is on
+#   id: shower_on_detection
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.shower_water_present
+#       to:
+#         - "on"
+#         - "off"
+#   action:
+#     - service: notify.mobile_app_iphone
+#       data:
+#         title: Bathroom
+#         message: Shower state change ({{ states('binary_sensor.shower_water_present') }})
+
+################################################################################
+# Bathroom Light Switch                                                        #
+################################################################################
+
+- alias: Turn On/Off Bathroom lights when toggling switch
+  id: bathroom_light_switch
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:0b:57:ff:fe:e1:b0:6a"
+        command: "toggle"
+  action:
+    - service: light.toggle
+      data:
+        entity_id: light.bathroom

@@ -1,0 +1,207 @@
+########################################################################################################################
+# House Mode                                                                                                           #
+########################################################################################################################
+
+- alias: Set scene for House Mode
+  id: house_mode_scene
+  mode: restart
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}"
+    # - delay: 00:00:25 # Wait a bit, then try again, in case there was a light that didn't turn off
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}"
+
+- alias: Auto-determine house mode when set to 'Auto'
+  id: house_mode_autodetermine_from_auto
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    to: "Auto"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: |
+          {% if is_state('binary_sensor.is_evening', 'on') %}
+            Evening
+          {% else %}
+            Day
+          {% endif %}
+
+- alias: Set HouseMode to Evening in the evening
+  id: house_mode_evening
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.is_evening
+      to: "on"
+  condition:
+    - condition: template
+      value_template: "{{ not (is_state('input_select.house_mode', 'Sleeping') or is_state('input_select.house_mode', 'Away')) }}" # Don't put house in Evening mode when we're already Sleeping (useful in the summer when then sun goes down late)
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: "Evening"
+
+- alias: Set house_mode to home when turning on the office light in the morning
+  id: house_mode_auto_home_on_start_work
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.joris_working
+      to: "on"
+    - platform: state
+      entity_id: light.office
+      to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Sleeping"
+        - condition: time
+          after: "05:00:00"
+          before: "18:00:00"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: "Day"
+
+- alias: Ask for action on leaving home
+  id: house_mode_ask_leaving_home
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    to: Away
+  action:
+    - alias: "Set up variables for the actions"
+      variables:
+        action_open: "{{ 'OPEN_' ~ context.id }}"
+        action_close: "{{ 'CLOSE_' ~ context.id }}"
+    - service: notify.mobile_app_iphone
+      data:
+        message: Home set to Away. Close Curtains?
+        data:
+          actions:
+            - action: "{{ action_open }}"
+              title: Open
+            - action: "{{ action_close }}"
+              title: Close
+    - alias: "Wait for a response"
+      wait_for_trigger:
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "{{ action_open }}"
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "{{ action_close }}"
+    - alias: "Perform the action"
+      choose:
+        - conditions: "{{ wait.trigger.event.data.action == action_open }}"
+          sequence:
+            - service: cover.open_cover
+              target:
+                entity_id: cover.office_curtains
+        - conditions: "{{ wait.trigger.event.data.action == action_close }}"
+          sequence:
+            - service: cover.close_cover
+              target:
+                entity_id: cover.office_curtains
+
+- alias: Trigger Midnight Scene
+  id: house_mode_midnight
+  trigger:
+    - platform: time
+      at: "00:00:00"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.Midnight
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Sleeping"
+    - service: notify.mobile_app_iphone
+      data:
+        message: Midnight. Turning off outdoor lights.
+
+- alias: Set house_mode to Auto when joris coming home
+  id: house_mode_auto_coming_home
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_contact
+      to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Away"
+          for: "00:05:00"
+        - condition: state
+          entity_id: person.joris
+          state: "home"
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        title: Welcome Home
+        message: Joris coming home detected! Setting House Mode to Home
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: "Auto"
+
+################################################################################
+# Housekeeping                                                                 #
+################################################################################
+
+- alias: Disable certain automations during housekeeping
+  id: housekeeping_disable_automations
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.housekeeping
+  action:
+    - choose:
+        - conditions: "{{ trigger.to_state.state == 'on' }}"
+          sequence:
+            - service: automation.turn_off
+              data:
+                entity_id: group.automation_disable_housekeeping
+      default:
+        - service: automation.turn_on
+          data:
+            entity_id: group.automation_disable_housekeeping
+
+- alias: Auto enable Joris PTO based on calendar
+  id: joris_pto_auto_enable
+  mode: single
+  trigger:
+    - platform: time_pattern
+      hours: "/1"
+    - platform: state
+      entity_id: calendar.family
+      to: "on"
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: calendar.family
+              state: Joris PTO
+              attribute: message
+          sequence:
+            - service: input_boolean.turn_on
+              data:
+                entity_id: input_boolean.joris_pto
+      default:
+        - service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.joris_pto

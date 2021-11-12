@@ -1,0 +1,22 @@
+########################################################################################################################
+# Pantry                                                                                                               #
+########################################################################################################################
+
+- name: PantryEnterEvening
+  entities:
+    light.pantry:
+      color_mode: color_temp
+      color_temp: 454
+      state: "on"
+
+- name: PantryEnterDay
+  entities:
+    light.pantry:
+      color_mode: color_temp
+      color_temp: 250
+      state: "on"
+
+- name: PantryExit
+  entities:
+    light.pantry:
+      state: "off"

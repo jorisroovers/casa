@@ -1,0 +1,4 @@
+- sensor:
+    - name: "Living Room Temperature Rounded"
+      unit_of_measurement: "°C"
+      state: "{{ states('sensor.living_room_temperature')|round(1) }}"

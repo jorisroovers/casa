@@ -1,0 +1,13 @@
+########################################################################################################################
+# Maintenance                                                                                                          #
+########################################################################################################################
+# Nightly network power cycle happens at 4.00AM, we do a power cycle of some other things to ensure they're probably
+# reconnected to the network
+
+- alias: Restart Home Assistant at 4.45AM
+  id: maintenance_nightly_restart_homeassistant
+  trigger:
+    - platform: time
+      at: "04:45:00"
+  action:
+    - service: homeassistant.restart

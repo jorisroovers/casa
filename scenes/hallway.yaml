@@ -1,0 +1,33 @@
+########################################################################################################################
+# Hallway                                                                                                              #
+########################################################################################################################
+
+- name: HallwayEnterDay
+  entities:
+    light.hallway:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 100
+
+- name: HallwayEnterEvening
+  entities:
+    light.hallway:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 10
+
+- name: HallwayEnterSleeping
+  entities:
+    light.hallway_lamp_1:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 1
+    light.hallway_lamp_2:
+      state: "off"
+    light.hallway_lamp_3:
+      state: "off"
+
+- name: HallwayExit
+  entities:
+    light.hallway:
+      state: "off"

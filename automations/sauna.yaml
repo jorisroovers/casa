@@ -1,0 +1,42 @@
+########################################################################################################################
+# Sauna                                                                                                                #
+########################################################################################################################
+
+- alias: Sauna Program
+  id: sauna_program
+  mode: restart # Kill last program when selecting a new one
+  trigger:
+    platform: state
+    entity_id: input_select.sauna_program
+  action:
+    # When switching to 'None', the repeat below will just not run and immediately move on to the Stopped Sauna notification
+    # We could put in an extra check here to avoid the "Started Sauna Program - None" to show up for a few secs,
+    # but not really required as that message will pretty much immediately change to "Stopped Sauna"
+    - service: notify.mobile_app_iphone
+      data:
+        title: Sauna
+        message: "Started Sauna Program - {{ states('input_select.sauna_program') }}"
+        data:
+          tag: sauna-program-message
+    - repeat:
+        while:
+          - condition: not
+            conditions:
+              - condition: state
+                entity_id: input_select.sauna_program
+                state: "None"
+        sequence:
+          - service: "script.sauna_program_{{ states('input_select.sauna_program') | lower | replace(' ', '_')}}"
+    - service: notify.mobile_app_iphone
+      data:
+        title: Sauna
+        message: "Stopped Sauna Program"
+        data:
+          tag: sauna-program-message
+    - delay: "00:01:00"
+    - service: notify.mobile_app_iphone
+      data:
+        title: Sauna
+        message: clear_notification
+        data:
+          tag: sauna-program-message

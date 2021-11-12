@@ -1,0 +1,22 @@
+########################################################################################################################
+# Dressing                                                                                                             #
+########################################################################################################################
+
+- name: DressingEnterDay
+  entities:
+    light.dressing:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 100
+
+- name: DressingEnterEvening
+  entities:
+    light.dressing:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 1
+
+- name: DressingExit
+  entities:
+    light.dressing:
+      state: "off"

@@ -1,0 +1,185 @@
+########################################################################################################################
+# Office                                                                                                               #
+########################################################################################################################
+################################################################################
+# Motion                                                                       #
+################################################################################
+
+- alias: Office Exit
+  id: office_no_motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.office_motion
+      to: "off"
+      for: "00:03:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.joris_at_computer
+          state: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.OfficeExit"
+
+################################################################################
+# House Mode                                                                   #
+################################################################################
+
+- alias: Office House Mode
+  id: office_house_mode
+  description: "Set Office scene based on House Mode"
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+    - platform: state
+      entity_id: light.office
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: light.office
+      state: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.Office{{ states('input_select.house_mode')}}"
+
+- alias: Turn off Office Desk light when turning off office light
+  id: office_desk_lamp
+  trigger:
+    - platform: state
+      entity_id: light.office
+      to: "off"
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.desk_lamp
+
+- alias: Turn on Office light when turning on office desk light
+  id: office_light
+  trigger:
+    - platform: state
+      entity_id: switch.desk_lamp
+      to: "on"
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.office
+
+################################################################################
+# Office Curtains                                                              #
+################################################################################
+# Open curtains at 9AM when awake, or whenever we get up after 9AM
+- alias: Open office curtains
+  id: office_curtains_open
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Day"
+      from:
+        - "Sleeping"
+        - "Away"
+    - platform: time
+      at: "09:00:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          after: "08:59:00"
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Day"
+  action:
+    - service: cover.open_cover
+      data:
+        entity_id: cover.office_curtain_right
+    - condition: state
+      entity_id: binary_sensor.joris_at_computer
+      state: "off"
+    - service: cover.open_cover
+      data:
+        entity_id: cover.office_curtain_left
+
+- alias: Close Office curtains
+  id: office_curtains_close
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "01:00:00"
+  action:
+    - service: cover.close_cover
+      data:
+        entity_id: cover.office_curtains
+
+# Office Curtain - Quick buttons
+- alias: Office Curtain Quick button
+  id: office_curtain_left_quick_button
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:0d:6f:00:0f:d6:e2:b4"
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:0d:6f:00:10:9c:73:89"
+  variables:
+    curtain_entity_id: |
+      {% if trigger.event.data.device_ieee == "00:0d:6f:00:0f:d6:e2:b4" %}
+        cover.office_curtain_left
+      {% elif trigger.event.data.device_ieee == "00:0d:6f:00:10:9c:73:89" %}
+        cover.office_curtain_right
+      {% endif %}
+  action:
+    - choose:
+        - alias: "Close Curtain"
+          conditions: "{{ trigger.event.data.command == 'on' }}"
+          sequence:
+            - service: cover.close_cover
+              data:
+                entity_id: "{{ curtain_entity_id }}"
+        - alias: "Close Curtain"
+          conditions: "{{ trigger.event.data.command == 'off' }}"
+          sequence:
+            - service: cover.open_cover
+              data:
+                entity_id: "{{ curtain_entity_id }}"
+        - alias: "Stop Curtain"
+          conditions: "{{ trigger.event.data.command == 'move_to_color_temp' }}"
+          sequence:
+            - service: cover.stop_cover
+              data:
+                entity_id: "{{ curtain_entity_id }}"
+
+################################################################################
+# Office Computer                                                              #
+################################################################################
+
+- alias: Set Computer Scene according to binary sensor
+  id: office_computer_scene
+  trigger:
+    platform: state
+    entity_id: binary_sensor.joris_at_computer
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ 'scene.OfficeComputerOn' if is_state('binary_sensor.joris_at_computer', 'on') else 'scene.OfficeComputerOff'}}"
+
+################################################################################
+# Office Light Switch                                                          #
+################################################################################
+
+- alias: Turn On/Off Office lights when toggling switch
+  id: office_light_switch
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:0b:57:ff:fe:4f:ca:c4"
+        command: "toggle"
+  action:
+    - service: light.toggle
+      data:
+        entity_id: light.office

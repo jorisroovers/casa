@@ -1,0 +1,41 @@
+########################################################################################################################
+# Dressing                                                                                                             #
+########################################################################################################################
+
+################################################################################
+# Dressing Light Switch                                                        #
+################################################################################
+
+- alias: Dressing Light Switch
+  id: dressing_light_switch
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:15:8d:00:02:82:6d:6a"
+        command: "single" # Note this is 'single', not 'toggle' as with many other buttons
+  action:
+    - service: light.toggle
+      data:
+        entity_id: light.dressing
+
+################################################################################
+# Dressing Motion                                                              #
+################################################################################
+
+- alias: Dressing Motion
+  id: dressing_motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.dressing_motion
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.dressing_motion
+      to: "off"
+      for: "00:01:00"
+  variables:
+    scene_entity_id: "{{ 'scene.DressingEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.DressingExit' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"

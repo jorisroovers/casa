@@ -1,0 +1,253 @@
+########################################################################################################################
+# Master Bedroom                                                                                                       #
+########################################################################################################################
+
+################################################################################
+# Lights                                                                       #
+################################################################################
+
+- alias: Nightstand lights Ilse
+  id: master_bedroom_nightstand_ilse
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:15:8d:00:06:e3:ed:6f" # ilse
+        command: "single" # Note this is 'single', not 'toggle' as with many other buttons
+  variables:
+    scene_entity_id: "{{ 'scene.MasterBedroomNightstandIlseOn' if (is_state('light.nightstand_ilse', 'off')) else 'scene.MasterBedroomNightstandIlseOff' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"
+
+- alias: Nightstand lights Joris
+  id: master_bedroom_nightstand_joris
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:15:8d:00:07:53:c2:35" # joris
+        command: "single" # Note this is 'single', not 'toggle' as with many other buttons
+  variables:
+    scene_entity_id: "{{ 'scene.MasterBedroomNightstandJorisOn' if (is_state('light.nightstand_joris', 'off')) else 'scene.MasterBedroomNightstandJorisOff' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"
+
+################################################################################
+# Climate control                                                              #
+################################################################################
+
+- alias: Master Bedroom Heating
+  id: master_bedroom_heating
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_master_bedroom
+  variables:
+    target_temp_living_room: "{{ 26 if (trigger.to_state.state == 'on') else 21 }}"
+    target_master_bedroom: "{{ 23 if (trigger.to_state.state == 'on') else 6 }}"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.living_room
+        temperature: "{{target_temp_living_room}}"
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.master_bedroom
+        temperature: "{{target_master_bedroom}}"
+    - service: notify.mobile_app_iphone
+      data:
+        title: Master Bedroom
+        message: |
+          {% if (trigger.to_state.state == 'on') %}
+          Started heating
+          {% else %}
+          Stopped heating
+          {% endif %}
+        data:
+          tag: master-bedroom-heating
+
+- alias: Keep bedroom temperature operation mode set to manual
+  id: master_bedroom_temp_mode_manual
+  trigger:
+    - platform: template
+      value_template: "{{ states.climate.master_bedroom.attributes.mode | lower == 'auto' }}"
+  action:
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.master_bedroom
+        # hvac_mode:heat ==> manual on HomeMatic
+        hvac_mode: heat
+    - service: notify.mobile_app_iphone
+      data:
+        title: Master Bedroom
+        message: Radiator valve was changed to 'auto' mode, set back to 'manual' mode.
+        data:
+          tag: master-bedroom-radiator-valve-mode
+    - delay: "00:15:00"
+    - service: notify.mobile_app_iphone
+      data:
+        message: clear_notification
+        data:
+          tag: master-bedroom-radiator-valve-mode
+
+- alias: Auto-reset master bedroom target temperature
+  id: master_bedroom_target_temp
+  trigger:
+    - platform: numeric_state
+      entity_id: climate.master_bedroom
+      attribute: current_temperature
+      above: 15
+      for: "00:03:00"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.master_bedroom
+        temperature: 5
+    - service: notify.mobile_app_iphone
+      data:
+        title: Master Bedroom
+        message: Temperature was set to above 15C for 3 hours, reset to 5C
+        data:
+          tag: master-bedroom-target-temperature
+
+################################################################################
+# Window Opener                                                                #
+################################################################################
+
+- alias: Close bedroom window 30 min before sunrise (or at 5.30AM the latest)
+  id: master_bedroom_close_window_sunrise
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: "-00:45:00"
+    - platform: time # Close at 5.30AM latest so there's no noise from traffic
+      at: "05:30:00"
+  action:
+    - service: cover.close_cover
+      data:
+        entity_id: cover.master_bedroom_window
+
+- alias: Close bedroom window on bad weather
+  id: master_bedroom_close_window_windy
+  trigger:
+    - platform: numeric_state
+      id: wind
+      entity_id: weather.buienradar
+      attribute: wind_speed
+      above: 25
+      for:
+        minutes: 10
+    - platform: state
+      id: precipitation
+      entity_id: binary_sensor.outside_precipitation
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.bedroom_window
+      state: "on"
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        title: Master Bedroom
+        message: |
+          {{ trigger.id  }} Bad weather right now, closing bedroom window. ({{ state_attr('weather.buienradar', 'wind_speed') }} kph, outside_precipitation: {{ states('binary_sensor.outside_precipitation') }})
+    - service: cover.close_cover
+      data:
+        entity_id: cover.master_bedroom_window
+
+- id: master_bedroom_notify_open_window
+  alias: Notify on Open Bedroom Window
+  description: ""
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bedroom_window
+      to: "on"
+  condition: []
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        title: Master Bedroom
+        message: Window Opened!
+        data:
+          tag: master-bedroom-window-opened
+    - delay: "01:00:00"
+    - service: notify.mobile_app_iphone
+      data:
+        message: clear_notification
+        data:
+          tag: master-bedroom-window-opened
+
+# Close bedroom window when it's open and it gets too cold during daytime or evening.
+# wait for 30 min to ensure entire bedroom gets enough time to ventilate
+- alias: Close window when bedroom temperature drops below 16C for 30 min (unless sleeping)
+  id: master_bedroom_window_close_on_cold
+  mode: restart
+  trigger:
+    - platform: numeric_state
+      entity_id: climate.master_bedroom
+      attribute: current_temperature
+      below: 16
+      for: "00:30:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: template
+          value_template: "{{ states('input_select.house_mode') in ['Morning', 'Day', 'Evening'] }}"
+        - condition: state
+          entity_id: binary_sensor.bedroom_window
+          state: "on"
+  action:
+    - service: notify.mobile_app_iphone
+      data:
+        title: Master Bedroom
+        message: Temperature below 16C for 30 min, closing window
+    - service: cover.close_cover
+      data:
+        entity_id: cover.master_bedroom_window
+
+- alias: Open master bedroom at noon (when home)
+  id: master_bedroom_open_window
+  trigger:
+    - platform: time
+      at: "12:00:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.bedroom_window
+          state: "off"
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Day"
+        - condition: not
+          conditions:
+            - condition: state
+              entity_id: binary_sensor.outside_precipitation
+              state: "on"
+  action:
+    - service: cover.open_cover
+      data:
+        entity_id: cover.master_bedroom_window
+    - delay: "01:00:00"
+    - condition: state
+      entity_id: binary_sensor.bedroom_window
+      state: "on"
+    - service: notify.mobile_app_iphone
+      data:
+        title: Master Bedroom
+        message: Closing window after 1 hour
+        data:
+          tag: master-bedroom-open-window
+    - service: cover.close_cover
+      data:
+        entity_id: cover.master_bedroom_window
+    - delay: "00:10:00"
+    - service: notify.mobile_app_iphone
+      data:
+        message: clear_notification
+        data:
+          tag: master-bedroom-open-window

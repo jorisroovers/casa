@@ -1,0 +1,21 @@
+########################################################################################################################
+# Laundry Room                                                                                                         #
+########################################################################################################################
+
+- alias: Landing Motion
+  id: landing_motion_detected
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.landing_motion
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.landing_motion
+      to: "off"
+      for: "00:01:00"
+  variables:
+    scene_entity_id: "{{ 'scene.LandingEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.LandingExit' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"

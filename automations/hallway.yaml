@@ -1,0 +1,38 @@
+########################################################################################################################
+# Hallway                                                                                                              #
+########################################################################################################################
+- alias: Hallway Room Motion
+  id: hallway_motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.hallway_motion
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.hallway_motion
+      to: "off"
+      for: "00:01:00"
+  variables:
+    scene_entity_id: "{{ 'scene.HallwayEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.HallwayExit' }}"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{{ scene_entity_id }}"
+
+- alias: Notify when front door is open for longer than 5 min
+  id: hallway_front_door_notification
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_contact
+      to: "on"
+      for: "00:05:00"
+  action:
+    - service: notify.notify
+      data:
+        title: Hallway
+        message: Front Door left open!
+        data:
+          push:
+            sound:
+              name: "default"
+              critical: 1
+              volume: 1.0

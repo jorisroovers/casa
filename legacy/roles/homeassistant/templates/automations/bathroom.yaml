@@ -1,0 +1,103 @@
+########################################################################################################################
+# Bathroom                                                                                                             #
+########################################################################################################################
+
+- alias: Bathroom Auto Enter
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.aeotec_zw100_multisensor_6_sensor
+      to: "on"
+  condition:
+   - condition: or
+     conditions:
+        - condition: state
+          entity_id: input_select.house_mode
+          state: 'Day'
+        - condition: state
+          entity_id: input_select.house_mode
+          state: 'Evening'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.BathroomEnter{{ states('input_select.house_mode')}}{% endraw %}"
+
+- alias: Bathroom Turn On lights
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.BathroomEnter{{ states('input_select.house_mode')}}{% endraw %}"
+
+- alias: Bathroom Exit
+  initial_state: True
+  trigger:
+    # - platform: state
+    #   entity_id: media_player.bathroom
+    #   from: "playing"
+    #   to: "paused"
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomLeave"
+
+########################################################################################################################
+# Bathroom Music                                                                                                       #
+########################################################################################################################
+
+- alias: Play Bathroom sonos preset for music input select
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.bathroom_music
+  action:
+   - choose:
+      - conditions:
+          - condition: state
+            entity_id: "input_select.bathroom_music"
+            state: "Bathroom NoMusic"
+        sequence:
+          - service: media_player.media_stop
+            data:  
+              entity_id: "media_player.bathroom"
+     default:
+      - service: media_player.select_source
+        data:  
+          entity_id: "media_player.bathroom"
+          source: "{% raw %}{{ states('input_select.bathroom_music') }}{% endraw %}"
+
+- alias: Music on afternoon shower during weekday
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: "binary_sensor.housekeeping"
+          state: "off"
+        - condition: state
+          entity_id: "binary_sensor.joris_working"
+          state: "off"
+        - condition: time
+          after: '12:00:00'
+          before: '17:00:00'
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.RelaxingShower"

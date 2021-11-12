@@ -1,0 +1,55 @@
+---
+- name: Creating homeassistant directories
+  file: path="{{item}}" state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
+  become: yes
+  with_items:
+    - "{{homeassistant_plugins_dir}}"
+    - "{{homeassistant_plugins_dir}}/multiple-entity-row"
+    - "{{homeassistant_plugins_dir}}/card-mod"
+    - "{{homeassistant_plugins_dir}}/weather-card"
+    - "{{homeassistant_plugins_dir}}/weather-card/icons"
+
+# IMPORTANT: Don't forget to modify ui-lovelace.yaml to include the mod
+- name: "Installing banner-card mod"
+  import_tasks: install_lovelace_mod.yml
+  vars:
+    lovelace_mod_name: "banner-card"
+    lovelace_mod_url: "https://github.com/nervetattoo/banner-card/releases/download/0.12.0/banner-card.js"
+
+- name: "Installing multiple-entity-row mod"
+  import_tasks: install_lovelace_mod.yml
+  vars:
+    lovelace_mod_name: "multiple-entity-row"
+    lovelace_mod_url: "https://github.com/benct/lovelace-multiple-entity-row/releases/download/v4.1.1/multiple-entity-row.js"
+
+- name: "Installing weather-card mod"
+  import_tasks: install_lovelace_mod.yml
+  vars:
+    lovelace_mod_name: "weather-card"
+    lovelace_mod_url: "https://raw.githubusercontent.com/bramkragten/weather-card/v1.2.0/dist/weather-card.js"
+
+- name: "Installing button-card mod"
+  import_tasks: install_lovelace_mod.yml
+  vars:
+    lovelace_mod_name: "button-card"
+    lovelace_mod_url: "https://github.com/custom-cards/button-card/releases/download/3.4.0/button-card.js"
+ 
+# Mods that require special installation method
+
+- name: Cloning lovelace-card-mod from github
+  git: repo=https://github.com/thomasloven/lovelace-card-mod dest={{homeassistant_plugins_dir}}/card-mod version=2.0.3
+  become: yes
+
+- name: Download weather-card icons
+  get_url:
+    url: https://www.amcharts.com/dl/svg-weather-icons/
+    dest: "{{homeassistant_plugins_dir}}/weather-card/icons"
+  become: yes
+
+- name: Unzip weather icons
+  unarchive:
+    src: "{{homeassistant_plugins_dir}}/weather-card/icons/amcharts_weather_icons_1.0.0.zip"
+    dest: "{{homeassistant_plugins_dir}}/weather-card/icons"
+    remote_src: yes
+  become: yes
+

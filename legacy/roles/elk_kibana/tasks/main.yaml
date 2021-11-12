@@ -1,0 +1,27 @@
+---
+- name: "Pull kibana image"
+  docker_image:
+    name: "{{kibana_docker_image}}"
+  become: yes
+
+- name: Starting kibana docker container
+  docker_container:
+    name: kibana
+    image: "{{kibana_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    network_mode: host
+    env:
+      SERVER_NAME: casa-kibana
+      ELASTICSEARCH_URL: "http://{{kibana_elasticsearch_address}}:{{elasticsearch_api_port}}"
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - kibana-container
+
+- name: "Add iptable rule for kibana"
+  iptables: chain=INPUT protocol=tcp destination_port={{kibana_docker_http_port_external}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="Kibana"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]

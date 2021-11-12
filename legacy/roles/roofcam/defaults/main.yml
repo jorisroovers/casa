@@ -1,0 +1,11 @@
+roofcam_user: "{{ansible_ssh_user}}"
+roofcam_group: "{{roofcam_user}}"
+roofcam_service: "roofcam@{{roofcam_user}}"
+roofcam_host: 0.0.0.0
+roofcam_port: 1234
+roofcam_dir: /opt/roofcam
+roofcam_venv: "{{roofcam_dir}}/.venv"
+roofcam_git_sha: "4bc432e487d4809573bc37d421d5d5ec85a38b1c"
+
+
+snapshot_dir: "{{roofcam_dir}}/snapshots"

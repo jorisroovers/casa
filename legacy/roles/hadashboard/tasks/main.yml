@@ -1,0 +1,115 @@
+---
+- name: Creating appdaemon group
+  group: name="{{appdaemon_group}}" state=present system=yes
+  become: yes
+
+- name: Creating appdaemon user
+  user: name="{{appdaemon_user}}" comment="AppDaemon User" groups="{{appdaemon_group}},{{homeassistant_group}}"
+        home={{appdaemon_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating appdaemon directory
+  file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}}
+  become: yes
+
+# Strongly believe all the permissions are set correctly, I think there's some bug here. More details:
+# https://community.home-assistant.io/t/appdaemon-2-1-9-no-compiled-dir-error/27050/6
+- name: Precreating some subdirectories to deal with permission issues
+  file: path={{appdaemon_dir}}/{{item}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}}
+  with_items:
+    - compiled/css
+    - compiled/javascript
+    - dashboards
+    - custom_widgets
+    - custom_css/casa
+  become: yes
+
+- name: Configuring appdaemon
+  template: src={{item}} dest={{appdaemon_dir}}/{{item}} owner={{appdaemon_user}} group={{appdaemon_group}}
+  with_items:
+    - appdaemon.yaml
+    # - apps.yaml
+    - dashboards/Home.dash
+    - dashboards/Upstairs.dash
+    - dashboards/Hallway.dash
+    - dashboards/Media.dash
+    - dashboards/Security_1.dash
+    - dashboards/Security_2.dash
+    - dashboards/Monitoring.dash
+    - dashboards/Other.dash
+    - dashboards/LockScreen.dash
+    - dashboards/navigation_panel.yaml
+    - dashboards/Phone_Home.dash
+    - dashboards/Phone_Controls.dash
+    - dashboards/Phone_Security_1.dash
+    - dashboards/Phone_Security_2.dash
+    - dashboards/Phone_Monitoring.dash
+    - dashboards/Phone_More.dash
+    - dashboards/Phone_navigation_panel.yaml
+    - dashboards/TV_Morning.dash
+  become: yes
+  tags: [ hadash-dashboards ]
+
+- name: Generating Camera Dashboards
+  template: src=dashboards/Camera.dash dest="{{appdaemon_dir}}/dashboards/Camera_{{item.key}}.dash"
+            owner={{appdaemon_user}} group={{appdaemon_group}}
+  with_dict: "{{nest_cams}}"
+  become: yes
+  tags: [ hadash-dashboards ]
+
+- name: Installing custom skin
+  template: src={{item}} dest={{appdaemon_dir}}/{{item}} owner={{appdaemon_user}} group={{appdaemon_group}}
+  with_items:
+    - custom_css/casa/variables.yaml
+    - custom_css/casa/dashboard.css
+    - custom_css/casa/scripts.js
+  become: yes
+  tags: [ hadash-skins ]
+
+- name: Copying skin images
+  copy:
+    src: custom_css/casa/
+    dest: "{{appdaemon_dir}}/custom_css/casa"
+    owner: "{{appdaemon_user}}"
+    group: "{{appdaemon_group}}"
+  become: yes
+  tags: [ hadash-skins ]
+
+- name: "Ensure all files are owned by the appdaemon user"
+  file: path={{appdaemon_dir}} state=directory owner={{appdaemon_user}} group={{appdaemon_group}} recurse=yes
+  become: yes
+
+# - import_tasks: genericweather_widget.yml
+
+- name: "Add iptable rule for HADashboard"
+  iptables: chain=INPUT protocol=tcp destination_port={{appdaemon_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment=HADashboard
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+- name: Installing some convenience aliases
+  template: src=ad-aliases.sh dest=/etc/profile.d/ad-aliases.sh
+  become: yes
+
+- name: Starting appdaemon container
+  docker_container:
+    name: appdaemon
+    image: "{{appdaemon_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{appdaemon_dir}}/:/conf"
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - appdaemon-container
+    - hadash-container
+
+- name: Install casa-container for homeassistant (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "ad"
+    container_name: "appdaemon"

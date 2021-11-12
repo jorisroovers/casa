@@ -1,0 +1,126 @@
+global:
+  scrape_interval: 15s
+
+rule_files:
+  - /config/prometheus-alerts.yml
+alerting:
+  alertmanagers:
+   - static_configs:
+      - targets:
+        - "{{alertmanager_host}}:{{alertmanager_port}}"
+
+scrape_configs:
+  - job_name: 'Node Exporter'
+    static_configs:
+      - targets: ['{{casa_ip}}:{{node_exporter_port}}']
+        labels:
+          src: controller
+      - targets: ['{{groups["energy_tracker"][0]}}:{{node_exporter_port}}']
+        labels:
+          src: energy_tracker
+      - targets: ['{{groups["tv_controller"][0]}}:{{node_exporter_port}}']
+        labels:
+          src: tv_controller
+    metric_relabel_configs:
+      - source_labels: [name, interface, device]
+        regex: '.*veth.*'
+        action: drop
+      - source_labels: [name]
+        regex: '.*docker.*'
+        action: drop
+
+  - job_name: 'Process Exporters'
+    static_configs:
+      - targets: ['{{casa_ip}}:{{process_exporter_port}}']
+        labels:
+          src: controller
+
+  - job_name: 'Homeassistant metrics'
+    scrape_interval: 60s
+    metrics_path: /api/prometheus
+
+    # Homeassistant Long-Lived Access Token
+    bearer_token: "{{homeassistant_api_access_tokens.local_integrations}}"
+
+    static_configs:
+      - targets: ['{{casa_ip}}:{{homeassistant_port}}']
+
+  # Disabled: this caused all sort of issues with docker (still experimental)
+  # - job_name: 'Docker Exporter'
+  #   static_configs:
+  #     - targets: ['{{casa_ip}}:{{docker_prometheus_metrics_port}}']
+  #       labels:
+  #         src: controller
+
+  - job_name: 'HTTP Checks (Blackbox Exporter)'
+    metrics_path: /probe
+    params:
+      module: [http_200]
+    static_configs:
+      - targets:
+          - http://www.google.com
+        labels:
+          name: google.http
+      - targets:
+          -  http://{{casa_ip}}:{{appdaemon_port}}
+        labels:
+          name: hadash.http
+      - targets:
+          -  http://{{casa_ip}}:{{homeassistant_port}}
+        labels:
+          name: homeassistant.http
+      - targets:
+          - http://{{casa_ip}}:{{grafana_port}}
+        labels:
+          name: grafana.http
+    relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: '{{blackbox_exporter_host}}:{{blackbox_exporter_port}}'  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'ICMP Checks (Blackbox Exporter)'
+    metrics_path: /probe
+    params:
+      module: [ping]
+    static_configs:
+      - targets:
+          - "{{phue_ip}}"
+        labels:
+          name: hue.icmp
+      - targets:
+          - "{{tradfri_ip}}"
+        labels:
+          name: tradfri.icmp
+      - targets:
+          - "{{homematic_controller_ip}}"
+        labels:
+          name: homematic.icmp
+    relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: '{{blackbox_exporter_host}}:{{blackbox_exporter_port}}'  # The blackbox exporter's real hostname:port.
+
+  - job_name: 'TCP Checks (Blackbox Exporter)'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+          - '{{groups["energy_tracker"][0]}}:{{ser2net_public_port}}'
+        labels:
+          name: energy_tracker.ser2net
+    relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: '{{blackbox_exporter_host}}:{{blackbox_exporter_port}}'  # The blackbox exporter's real hostname:port.
+
+

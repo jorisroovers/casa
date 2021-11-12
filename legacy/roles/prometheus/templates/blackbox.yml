@@ -1,0 +1,15 @@
+modules:
+  ping:
+    prober: icmp
+    timeout: 3s
+    icmp:
+      preferred_ip_protocol: "ip4"
+  http_200:
+    prober: http
+    timeout: 3s
+    http:
+      method: GET
+      preferred_ip_protocol: "ip4"
+  tcp_connect:
+    prober: tcp
+    timeout: 5s

@@ -1,0 +1,21 @@
+title: Sauna
+path: sauna
+cards:
+  - type: button
+    icon: mdi:radiator
+    entity: switch.sauna_back_heater
+  - type: button
+    icon: mdi:radiator
+    entity: switch.sauna_front_heater
+  - type: button
+    icon: mdi:radiator
+    entity: switch.sauna_leg_heater
+  - type: history-graph
+    title: 'Temperature, Humidity, Pressure'
+    entities:
+      - sensor.sauna_temperature
+      - sensor.sauna_humidity
+      - sensor.sauna_pressure
+  - type: sensor
+    entity: sensor.sauna_temperature
+    name: Temperature

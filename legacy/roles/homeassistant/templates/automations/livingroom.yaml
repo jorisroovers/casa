@@ -1,0 +1,53 @@
+########################################################################################################################
+# Living Preset                                                                                                        #
+########################################################################################################################
+
+- alias: Automatically set scene for Living Preset
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.living_preset
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.{{ states('input_select.living_preset') | lower | replace(' ', '_')}}{% endraw %}"
+
+    # When disabling music, keep the current house mode (as this automation might be triggered by a change in
+    # house mode). When enabling music, set house mode to Auto.
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: |
+          {% raw %}
+          {% if is_state('input_select.living_preset', 'NoPreset') %}
+            {{ states('input_select.house_mode') }}
+          {% else %}
+            Auto
+          {% endif %}
+          {% endraw %}
+
+########################################################################################################################
+# TV                                                                                                                   #
+########################################################################################################################
+- alias: Automatically set LivingPreset to Watching TV when turning on the TV
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.tv_livingroom_active
+    to: "on"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_preset
+        option: "Watching TV"
+
+- alias: Automatically set LivingPreset to StopWatchingTV when turning off the TV before sunset
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.tv_livingroom_active
+    to: "off"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.StopWatchingTV{{ states('input_select.house_mode')}}{% endraw %}"

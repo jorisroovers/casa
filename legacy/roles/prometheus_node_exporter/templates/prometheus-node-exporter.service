@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus Node Exporter
+After=network.target
+
+[Service]
+Type=simple
+User={{node_exporter_user}}
+ExecStart={{node_exporter_dir}}/node_exporter --collector.filesystem.ignored-fs-types=cifs \
+                                              {% if node_exporter_collector_enable_systemd %}--collector.systemd {%endif%}
+                                              --no-collector.nfs \
+                                              --no-collector.netstat \
+                                              --collector.processes \
+                                              --collector.textfile.directory {{node_exporter_textfile_exports}}
+
+[Install]
+WantedBy=multi-user.target

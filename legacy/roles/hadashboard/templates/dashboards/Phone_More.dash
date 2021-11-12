@@ -1,0 +1,21 @@
+title: More
+widget_dimensions: [130, 130]
+widget_margins: [5, 5]
+columns: 3
+
+{% include "./templates/dashboards/components.yaml" %}
+
+security_nav:
+    widget_type: navigate
+    title: Security
+    icon_inactive: mdi-shield-home
+    url: /Phone_Security_1
+
+# Note: every row needs to be present in the layout, even if empty
+layout:
+    - sonos(3x2)
+    - spacer(3x1)
+    - relaxing(1x1), cooking(1x1)
+    - breakfast(1x1), watch_tv(1x1), reading(1x1)
+    - security_nav(1x1), reload(1x1)
+    - include: Phone_navigation_panel

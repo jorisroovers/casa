@@ -1,0 +1,26 @@
+- name: "Setting casa-service facts for {{service_name}}"
+  set_fact: "{{service_varname}}_dir={{directory}} {{service_varname}}_user={{user}} {{service_varname}}_group={{group}} {{service_varname}}_service={{service}}"
+
+  # "The variable name 'casa-tests_dir' is not valid. Variables must start with a letter or underscore character, and contain only letters, numbers and underscores."
+
+- name: "{{service_name}} facts"
+  debug:
+    var: "{{ item }}"
+  with_items:
+   - "{{service_varname}}_dir"
+   - "{{service_varname}}_user"
+   - "{{service_varname}}_group"
+   - "{{service_varname}}_service"
+
+- name: Creating {{service_name}} group
+  group: name="{{group}}" state=present system=yes
+  become: yes
+
+- name: Creating {{service_name}} user
+  user: name="{{user}}" comment="{{service_name}} User" group="{{group}}"
+        home={{directory}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating {{service_name}} directory
+  file: path={{directory}} state=directory owner={{user}} group={{group}}
+  become: yes

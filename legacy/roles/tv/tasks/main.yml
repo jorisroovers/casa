@@ -1,0 +1,77 @@
+- name: Creating tv-api casa-service
+  import_role:
+    name: casa-service
+  vars:
+    service_name: "tv-api"
+  become: yes
+
+- name: "Installing cec-utils"
+  apt: name={{item}} state=present
+  become: yes
+  with_items:
+    - cec-utils
+
+- name: Adding user to video group
+  user: name="{{item}}"
+        groups="{{video_group}}"
+        append=yes
+  become: yes
+  with_items:
+    - "{{video_user}}"
+    - "{{tv_api_user}}"
+
+- name: Disabling screen sleep (requires reboot)
+  ini_file:
+    path: /etc/lightdm/lightdm.conf
+    section: "Seat:*"
+    option: "xserver-command"
+    value: "X -s 0 -dpms"
+    backup: yes
+  become: yes
+
+- name: Modifying sudoers file so tv-api user can run chromium-browser commands
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{tv_api_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "pi", "command": "/usr/bin/chromium-browser"}
+    - {"user": "root", "command": "/usr/bin/pkill -f chromium"}
+
+- name: Creating tv-api virtualenv
+  command: virtualenv -p python3 {{tv_api_dir}}/.venv creates="{{tv_api_dir}}/.venv"
+  become: yes
+
+- name: "Installing hug"
+  pip: name=hug virtualenv="{{tv_api_dir}}/.venv" version=2.4.8
+  become: yes
+
+- name: "Adding api.py"
+  template: src=api.py dest={{tv_api_dir}}/api.py
+  become: yes
+  notify:
+    - restart_tv_api
+
+- name: "Ensure all files are owned by the tv-api user"
+  file: path={{tv_api_dir}} state=directory owner={{tv_api_user}} group={{tv_api_group}} recurse=yes
+  become: yes
+  notify:
+    - restart_tv_api
+
+- name: Create tv-api service
+  import_role:
+    name: systemd_service
+  vars:
+    service_shorthand: "tv-api"
+    service_name: "{{tv_api_service}}"
+    service_working_dir: "{{tv_api_dir}}"
+    service_exec_start: "{{tv_api_dir}}/.venv/bin/hug -f api.py"
+    service_environment:
+      USERNAME: "{{tv_api_username}}"
+      PASSWORD: "{{tv_api_password}}"
+  notify:
+    - daemon_reload
+    - restart_tv_api
+  tags: tv-api-service

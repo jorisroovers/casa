@@ -1,0 +1,85 @@
+homeassistant_dir: "/opt/homeassistant"
+homeassistant_plugins_dir: "/opt/homeassistant/www/plugins"
+
+homeassistant_bind_ip: 0.0.0.0
+homeassistant_port: 8123
+homeassistant_version: 2021.1.5
+homeassistant_user: "homeassistant"
+homeassistant_group: "homeassistant"
+homeassistant_service: "homeassistant@{{homeassistant_user}}"
+homeassistant_logfile: "{{homeassistant_dir}}/home-assistant.log"
+
+homeassistant_container_image: "homeassistant/home-assistant:{{homeassistant_version}}"
+homeassistant_container_name: "homeassistant"
+
+homeassistant_general_config:
+  name: MyHome
+  latitude: 52.3702
+  longitude: 4.8952
+  elevation: 1
+  unit_system: metric
+  time_zone: Europe/Amsterdam
+
+homeassistant_http:
+  trusted_networks:
+    - 10.0.0.0
+
+nest_client_id: "nest_client_id"
+nest_client_secret: "nest_client_secret"
+nest_access_token: "nest_access_token"
+
+nest_cams: {}
+
+phue_ip: 10.0.0.1
+phue_username: "phue_username"
+
+tradfri_ip: 10.0.0.4
+
+atv_host: 10.0.0.2
+atv_login_id: "atv_login_id"
+
+samsungtv_host: 10.0.0.3
+samsungtv_session_key: "abc123"
+
+tplink_switches:
+  myswitch: 10.0.0.6
+  anotherswitch: 10.0.0.7
+
+sonos_http_api_url_base: "http://10.0.0.4:5005"
+
+spotify_client_id: "spotify_client_id"
+spotify_client_secret: "spotify_client_secret"
+
+nmap_tracker_hosts: 10.0.0.0/24
+nmap_exclude:
+  - 10.0.0.1
+
+device_tracker_ping:
+  myhost: 10.0.0.5
+
+google_travel_time_api_key: "Google Travel Time API Key"
+google_travel_time_origin: "Google Travel Time Origin"
+google_travel_time_destination: "Google Travel Time Destination"
+google_travel_time_name: "Google Travel Time Name"
+
+google_client_id: foo
+google_client_secret: bar
+
+# Notifications
+pushbullet_api_key: "abc123"
+slack_api_key: "abc123"
+slack_default_channel: "#general"
+slack_username: "Joe"
+
+known_devices:
+  mydevice:
+    hide_if_away: false
+    icon:
+    mac: 12:34:56:78:9A:BC
+    name: MyDevice
+    picture:
+    track: true
+    vendor: MyVendor
+
+zwave_gateway_device_host: "/dev/usbmygateway"
+zwave_gateway_device_container: "/dev/usbmygateway"

@@ -1,0 +1,3 @@
+docker_prometheus_metrics_port: 9323
+docker_config_dir: "/etc/docker"
+docker_service: "docker"

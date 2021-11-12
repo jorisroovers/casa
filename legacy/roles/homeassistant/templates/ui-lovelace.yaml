@@ -1,0 +1,237 @@
+# I don't use a lot of lovelace (yet).
+# Our primary interaction with home-assistant is through wall-mounted iPad minis showing an AppDaemon HADAshboard.
+# See roles/hadashboard for details
+title: Home
+resources:
+  - url: /local/plugins/card-mod/card-mod.js?v=1
+    type: module
+  - url: /local/plugins/weather-card/weather-card.js?v=1
+    type: module
+  - url: /local/plugins/multiple-entity-row/multiple-entity-row.js?v=1
+    type: module
+  - url: /local/plugins/button-card/button-card.js?v=1
+    type: module
+views:
+  - !include lovelace/livingroom.yaml
+  - !include lovelace/office.yaml
+  - !include lovelace/security.yaml
+  - !include lovelace/bathroom.yaml
+  - !include lovelace/bedroom.yaml
+  - !include lovelace/bedroom-hannah.yaml
+  - !include lovelace/bedroom-kid2.yaml
+  - !include lovelace/morning-tv.yaml
+  - !include lovelace/kitchen.yaml
+  - !include lovelace/sauna.yaml
+  - !include lovelace/hallway.yaml
+  - !include lovelace/demo.yaml
+  - !include lovelace/playground.yaml
+  - path: default_view
+    title: Home
+    badges:
+      - entity: sensor.afvalwijzer_next_pickup
+      - entity: sensor.afvalwijzer_next_pickup_plastic
+      - entity: sensor.afvalwijzer_next_pickup_gft
+      - entity: sensor.afvalwijzer_next_pickup_papier
+      - entity: sun.sun
+    cards:
+      - type: entities
+        entities:
+          - light.woonkamer_tv
+          - light.tv_staanlamp
+          - light.living_room
+          - light.dining_table
+          - light.kitchen
+          - light.office
+          - switch.desk_lamp
+          - switch.christmas_tree
+          - switch.christmas_ambience_office
+        title: Downstairs lights
+        show_header_toggle: true
+      - type: entities
+        entities:
+          - light.living_ambience_lamp_1
+          - light.office_ambience_lamp_1
+        title: Automatically controlled downstairs lights
+        show_header_toggle: true
+      - type: entities
+        entities:
+          - light.lamp_voordeur_1
+          - light.garden
+        title: Lights outside
+        show_header_toggle: true
+      - type: entities
+        entities:
+          - light.bathroom_group
+          - light.nachttafel_ilse
+          - light.nachttafel_joris
+          - switch.bathroom_mirror_light
+        title: Lights Upstairs
+        show_header_toggle: true
+      - type: entities
+        entities:
+          - light.living_ambience_lamp_1
+        title: Unavailable allowed
+        show_header_toggle: true
+      - type: entities
+        entities:
+          - switch.christmas_tree
+          - switch.christmas_ambience_office
+        title: Christmas lights
+        show_header_toggle: true
+      - type: picture-entity
+        entity: camera.backyard
+      - type: picture-entity
+        entity: camera.diepvries
+      - type: picture-entity
+        entity: camera.front_garden
+      - type: picture-entity
+        entity: camera.hallway
+      - type: picture-entity
+        entity: camera.office
+      - type: thermostat
+        entity: climate.bedroom_hannah
+      - type: thermostat
+        entity: climate.living_room
+      - type: entities
+        entities:
+          - homematic.ccu2
+        title: Homematic
+      - type: entities
+        entities:
+          - input_boolean.cooking
+          - input_boolean.heat_bedroom
+          - input_boolean.ilse_pto
+          - input_boolean.joris_pto
+        title: Input Boolean
+      - type: entities
+        entities:
+          - input_select.music_artist_select
+          - input_select.bathroom_music
+          - input_select.camera_preset
+          - input_select.downstairs_music
+          - input_select.house_mode
+          - input_select.living_preset
+        title: Input Select
+      - type: entities
+        entities:
+          - light.tradfri_light_7e18755204400024_65588
+          - light.tradfri_light_7e18755204400024_65586
+          - light.bathroom_shower
+          - light.bathroom_left_back
+          - light.bathroom_left_front
+          - light.bathroom_right_back
+          - light.bathroom_right_front
+          - light.bedroom
+          - light.eetkamer_lamp_1
+          - light.eetkamer_lamp_2
+          - light.eetkamer_lamp_3
+          - light.garden_lamp_1
+          - light.hal_lamp_1
+          - light.hal_lamp_2
+          - light.hal_lamp_3
+          - light.hallway
+          - light.hue_color_lamp_1
+          - light.hue_color_lamp_2
+          - light.hue_color_lamp_3
+          - light.kitchen_lamp_1
+          - light.kitchen_lamp_2
+          - light.kitchen_lamp_3
+          - light.kitchen_lamp_4
+          - light.led_panel_bijkeuken
+          - light.living_room_1
+          - light.living_room_2
+          - light.living_room_3
+          - light.office_hue
+          - light.office_lamp_1
+          - light.office_lamp_2
+          - light.office_lamp_3
+          - light.shelly_1_light
+          - light.tradfri_light_7e18755204400024_65589
+          - light.wc_beneden_lamp_1
+          - light.bijkeuken_lamp_1
+          - light.bijkeuken_lamp_2
+          - light.bijkeuken_lamp_3
+          - light.laundry_room_lamp_1
+          - light.unused_lamp
+        title: Light
+      - type: media-control
+        entity: media_player.bathroom
+      - type: media-control
+        entity: media_player.living_room
+      - type: media-control
+        entity: media_player.move
+      - type: media-control
+        entity: media_player.samsungtv_livingroom
+      - type: media-control
+        entity: media_player.tv_room
+      - type: media-control
+        entity: media_player.slaapkamer
+      - type: entities
+        entities:
+          - scene.away
+          - scene.bathroomenterday
+          - scene.bathroomenterevening
+          - scene.bathroomleave
+          - scene.bathroommorningweekday
+          - scene.breakfast
+          - scene.christmas
+          - scene.comehomeevening
+          - scene.day
+          - scene.demo1
+          - scene.demo2
+          - scene.dinner
+          - scene.evening
+          - scene.hallwayday
+          - scene.hallwayevening
+          - scene.midnight
+          - scene.nopreset
+          - scene.notworking
+          - scene.officeday
+          - scene.officeevening
+          - scene.pantryday
+          - scene.pantryevening
+          - scene.reading
+          - scene.relaxing
+          - scene.relaxingshower
+          - scene.romance
+          - scene.sleeping
+          - scene.startweekday
+          - scene.startworkingmorning
+          - scene.stopwatchingtvday
+          - scene.stopwatchingtvevening
+          - scene.toiletday
+          - scene.toiletevening
+          - scene.watching_tv
+          - scene.working
+        title: Scenes
+      - type: entities
+        entities:
+          - script.close_bedroom_window
+          - script.comehome
+          - script.demo
+          - script.goodnight
+          - script.leave
+          - script.open_bedroom_window
+          - script.play_artist
+          - script.tts_say
+          - script.turn_off_tv
+        title: Scripts
+      - type: entities
+        entities:
+          - switch.bedroom_window_close_relay
+          - switch.bedroom_window_open_relay
+          - switch.dev_bedroom_window_close_relay
+          - switch.dev_bedroom_window_open_relay
+          - switch.front_door_curtain_relay1
+          - switch.front_door_curtain_relay2
+          - switch.shelly_relay
+          - switch.shelly_relay_new
+          - switch.sonoff_basic_relay
+          - switch.washing_machine
+          - switch.dryer
+        title: Switch
+      - type: entities
+        entities:
+          - zwave.aeotec_zw090_zstick_gen5_eu
+          - zwave.aeotec_zw100_multisensor_6
+        title: Z-Wave

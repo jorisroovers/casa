@@ -1,0 +1,72 @@
+################################################################################
+# Office Time of Day                                                           #
+################################################################################
+
+- name: OfficeDay
+  entities:
+    light.office:
+        state: on
+        kelvin: 3500
+        brightness_pct: 100
+
+- name: OfficeEvening
+  entities:
+    light.office:
+        state: on
+        kelvin: 2000
+        brightness_pct: 75
+
+################################################################################
+# Office Curtains                                                              #
+################################################################################
+
+- name: OfficeCurtainsOpen
+  entities:
+    switch.office_curtain_right_relay1:
+      state: on
+    switch.office_curtain_left_relay2:
+      state: on
+
+- name: OfficeCurtainsClosed
+  entities:
+    switch.office_curtain_right_relay2:
+      state: on
+    switch.office_curtain_left_relay1:
+      state: on
+
+################################################################################
+# Office Computer                                                              #
+################################################################################
+
+- name: OfficeComputerOn
+  entities:
+    light.office:
+        state: on
+    switch.desk_lamp:
+        state: on
+    input_select.camera_preset: Home
+    # Close left curtain, leave right curtain as-is
+    switch.office_curtain_left_relay1:
+      state: on
+
+- name: OfficeComputerOff
+  entities:
+    switch.desk_lamp:
+        state: off
+
+################################################################################
+# Working                                                                      #
+################################################################################
+
+- name: StartWorkingMorning
+  entities:
+    input_select.downstairs_music: NoMusic
+    light.kitchen:
+        state: off
+    light.office:
+        state: on
+        kelvin: 3500
+    light.woonkamer_tv:
+        state: off
+    light.tv_staanlamp:
+        state: off

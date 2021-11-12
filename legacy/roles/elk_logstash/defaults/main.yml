@@ -1,0 +1,17 @@
+
+logstash_api_bind: "0.0.0.0"
+logstash_api_port: 9600
+logstash_conf_dir: /etc/logstash
+logstash_pipeline_conf_dir: "{{logstash_conf_dir}}/conf.d"
+
+logstash_user: logstash
+logstash_group: "{{logstash_user}}"
+
+logstash_http_bind: "0.0.0.0"
+logstash_http_port: "9123"
+logstash_http_user: "myuser"
+logstash_http_password: "password"
+
+logstash_http_datastore: "/opt/logstash/datastore"
+
+logstash_service: "logstash"

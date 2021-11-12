@@ -1,0 +1,53 @@
+home_nav:
+    widget_type: navigate
+    title: Home
+    icon_inactive: fa-home
+    icon_active: fa-home
+    url: /Home
+
+media_nav:
+    widget_type: navigate
+    title: Media
+    icon_inactive: mdi-play-circle
+    dashboard: Media
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
+      # sticky:1 needed for timeout to still work after user has interacted with the page
+      sticky: 1
+
+security_nav:
+    widget_type: navigate
+    title: Beveiliging
+    icon_inactive: mdi-shield-home
+    dashboard: Security_1
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
+      # sticky:1 needed for timeout to still work after user has interacted with the page
+      sticky: 1
+
+hallway_nav:
+    widget_type: navigate
+    title: Hal
+    icon_inactive: mdi-door-closed
+    dashboard: Hallway
+
+upstairs:
+    widget_type: navigate
+    title: Boven
+    icon_inactive: mdi-stairs
+    dashboard: Upstairs
+
+other:
+    widget_type: navigate
+    title: Andere
+    icon_inactive: mdi-dots-horizontal
+    dashboard: Other
+
+reload:
+    widget_type: reload
+    title: Reload
+
+layout:
+  - home_nav(1x1), media_nav(1x1), security_nav(1x1), hallway_nav(1x1), upstairs(1x1), other(1x1), reload(1x1)

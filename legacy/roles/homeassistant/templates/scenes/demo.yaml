@@ -1,0 +1,36 @@
+################################################################################
+# Demo                                                                         #
+################################################################################
+
+- name: Demo1
+  entities:
+    light.woonkamer_tv:
+        state: on
+        effect: colorloop
+    light.dining_table:
+        state: on
+        kelvin: 4000
+        brightness_pct: 100
+    light.office:
+        state: on
+    light.living_room:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+
+- name: Demo2
+  entities:
+    light.woonkamer_tv:
+        state: off
+    light.dining_table:
+        state: off
+    light.office:
+        state: off
+    light.living_room:
+        state: off
+    light.tv_staanlamp:
+        state: off

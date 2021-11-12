@@ -1,0 +1,75 @@
+################################################################################
+# House Scenes                                                                 #
+################################################################################
+- name: Sleeping
+  entities:
+    group.lights_outside:
+        state: off
+    group.lights_downstairs:
+        state: off
+    group.lights_downstairs_automatic:
+        state: off
+    input_select.downstairs_music: NoMusic
+    input_select.bathroom_music: "Bathroom NoMusic"
+    input_select.camera_preset: "All On"
+    input_boolean.cooking:
+        state: off
+    input_select.living_preset: NoPreset
+    switch.front_door_curtain_relay1:
+        state: on
+    switch.office_curtain_right_relay2:
+        state: on
+
+- name: Day
+  entities:
+    input_select.camera_preset: Home
+    group.lights_outside:
+        state: off
+    light.office_ambience_lamp_1:
+        state: off
+    switch.front_door_curtain_relay2:
+        state: on
+    # switch.christmas_tree:
+    #     state: off
+    # switch.christmas_ambience_office:
+    #     state: off
+    # switch.office_curtain_right_relay1:
+    #     state: on
+
+- name: Evening
+  entities:
+    input_select.camera_preset: Home
+    group.lights_outside:
+        state: on
+    light.living_ambience_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+        # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
+        # and not kantoor_sfeer_verlichting
+    light.office_ambience_lamp_1:
+        state: on
+        kelvin: 2000
+        brightness_pct: 75
+    switch.christmas_tree:
+        state: on
+    switch.christmas_ambience_office:
+        state: on
+    # switch.office_curtain_right_relay2:
+    #     state: on
+
+
+# When away, don't turn off lights_downstairs_automatic or group.lights_outside
+# These are controlled automatically for security reasons
+- name: Away
+  entities:
+    group.lights_downstairs:
+        state: off
+    group.lights_upstairs:
+        state: off
+    input_select.downstairs_music: NoMusic
+    input_select.bathroom_music: "Bathroom NoMusic"
+    input_boolean.cooking:
+        state: off
+    input_select.camera_preset: "All On"
+    input_select.living_preset: NoPreset

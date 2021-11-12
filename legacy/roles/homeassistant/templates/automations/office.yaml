@@ -1,0 +1,99 @@
+########################################################################################################################
+# Office                                                                                                               #
+########################################################################################################################
+
+- alias: Auto-change office scene based on house-mode when office in use
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+    - platform: state
+      entity_id: light.office
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: light.office
+      state: 'on'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.Office{{ states('input_select.house_mode')}}{% endraw %}"
+
+- alias: Turn off Office Desk light when turning off office light
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: light.office
+      to: 'off'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.desk_lamp
+
+- alias: Turn on Office light when turning on office desk light
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: switch.desk_lamp
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.office
+
+########################################################################################################################
+# Office Curtains                                                                                                      #
+########################################################################################################################
+
+# Open curtains at 9AM when awake, or whenever we get up after 9AM
+- alias: Open office curtains
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: 'Day'
+      from: 
+        - 'Sleeping'
+        - 'Away'
+    - platform: time
+      at: "09:00:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          after: '08:59:00'
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Day"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.OfficeCurtainsOpen
+
+- alias: Close office curtains
+  initial_state: True
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "01:00:00"
+    - platform: state
+      entity_id: input_select.house_mode
+      to: 'Sleeping'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.OfficeCurtainsClosed
+
+########################################################################################################################
+# Office Computer                                                                                                      #
+########################################################################################################################
+
+- alias: Set Computer Scene according to binary sensor
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.joris_at_computer
+  action:
+      - service: scene.turn_on
+        data:
+          entity_id: "{% raw %}{{ 'scene.OfficeComputerOn' if is_state('binary_sensor.joris_at_computer', 'on') else 'scene.OfficeComputerOff'}}{% endraw %}"

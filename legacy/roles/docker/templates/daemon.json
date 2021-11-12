@@ -1,0 +1,4 @@
+{
+    "metrics-addr" : "0.0.0.0:{{docker_prometheus_metrics_port}}",
+    "experimental" : true
+}

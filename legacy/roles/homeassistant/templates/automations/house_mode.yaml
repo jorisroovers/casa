@@ -1,0 +1,151 @@
+########################################################################################################################
+# House Mode                                                                                                           #
+########################################################################################################################
+
+- alias: Auto-determine house mode when set to 'Auto'
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    to: "Auto"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: |
+          {% raw %}
+          {% if is_state('binary_sensor.is_evening', 'on') %}
+            Evening
+          {% else %}
+            Day
+          {% endif %}
+          {% endraw %}
+
+- id: auto_evening_mode
+  alias: 'Automatically set HouseMode to Evening in the evening'
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.is_evening
+      to: "on"
+  condition:
+    - condition: template
+      value_template: "{% raw %}{{ states.input_select.house_mode.state != 'Sleeping' }}{% endraw %}" # Don't put house in Evening mode when we're already Sleeping (useful in the summer when then sun goes down late)
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: "Evening"
+    - service: notify.slack
+      data:
+        message: |
+              Sun is about to set - set house mode to Evening.
+
+- alias: Automatically set scene for House Mode
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
+    - delay: 00:00:25    # Wait a bit, then try again, in case there was a light that didn't turn off
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}{% endraw %}"
+
+
+########################################################################################################################
+# House Mode Automations                                                                                               #
+########################################################################################################################
+
+- alias: Automations when setting house to Evening
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Evening"
+  action:
+    - service: script.close_bedroom_window
+
+- alias: Automations when setting house to Sleeping
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Sleeping"
+  action:
+    - service: rest_command.gusto_navigate
+    - service: media_player.turn_off
+      entity_id: media_player.samsungtv_livingroom
+    - service: script.tts_say
+      data:
+        entity_id: media_player.living_room
+        message: "Locking down the house. Good Night!"
+
+
+- alias: Automations when setting house to Away
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Away"
+  action:
+    - service: rest_command.gusto_navigate
+    - service: media_player.turn_off
+      entity_id: media_player.samsungtv_livingroom
+    - service: script.tts_say
+      data:
+        entity_id: media_player.living_room
+        message: "Locking down the house. Have a good trip!"
+    - service: script.close_bedroom_window
+
+########################################################################################################################
+
+- alias: Automatically Turn on come home evening scene when arriving home after sunset
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.house_mode
+    from: "Auto"
+    to: "Evening"
+  condition:
+   - condition: or
+     conditions:
+       - condition: sun
+         after: sunset
+       - condition: sun   # Only do this after midnight when it's not morning yet
+         before: sunrise
+  action:
+    - service: scene.turn_on
+      entity_id: scene.ComeHomeEvening
+
+- id: auto_home_on_start_work
+  alias: 'Automatically set house_mode to home when turning on the office light in the morning'
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.joris_working
+      to: 'on'
+    - platform: state
+      entity_id: light.office
+      to: 'on'
+  condition:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.house_mode
+        state: 'Sleeping'
+      - condition: time
+        after: '05:00:00'
+        before: '18:00:00'
+  action:
+    # - service: notify.slack
+    #   data:
+    #     message: |
+    #           Good Morning, enjoy your day!
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: "Day"

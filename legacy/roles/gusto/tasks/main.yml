@@ -1,0 +1,54 @@
+---
+- name: Creating gusto casa-service
+  import_role:
+    name: casa-service
+  vars:
+    service_name: "gusto"
+  become: yes
+
+- name: Cloning gusto from github
+  git: repo=https://github.com/jorisroovers/gusto dest="{{gusto_dir}}" version="{{gusto_version}}" force=yes
+  become: yes
+  become_user: "{{gusto_user}}"
+
+- name: Build gusto container
+  docker_image:
+    path: "{{gusto_dir}}"
+    name: "gusto"
+    force: yes
+  become: yes
+
+- name: Starting gusto docker container
+  docker_container:
+    name: "gusto"
+    image: "gusto"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{gusto_dir}}/gusto-prod.db:/data/gusto-prod.db"
+      - "{{gusto_dir}}/config:/config"
+    labels:
+      group: gusto
+    ports:
+      - "{{gusto_port}}:80"
+    recreate: "{{recreate_containers}}"
+    env:
+        MODULE_NAME: "gusto.web"
+        GUSTO_RECIPES: "/config/Meal-Planning.csv"
+        GUSTO_DATABASE_URL: "sqlite:////data/gusto-prod.db"
+        GUNICORN_CMD_ARGS: "--log-config /config/logconfig.ini"
+        WEB_CONCURRENCY: "1"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - gusto-container
+
+- name: Install backup script
+  import_role:
+    name: backup_script
+  vars:
+    backup_type: "gusto"
+    script_content: "cp -R {{gusto_dir}}/gusto-prod.db $DIRECTORY/"
+    backup_min_size: "{{ 10 * 1024 }}"
+  tags:
+    - gusto-backup
+    - backups

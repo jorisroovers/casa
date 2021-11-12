@@ -1,0 +1,17 @@
+{
+    "players": [{
+            "roomName": "Living Room",
+            "volume": 7
+        },
+        {
+            "roomName": "TV Room",
+            "volume": 7
+        }
+    ],
+    "playMode": {
+        "shuffle": true,
+        "repeat": "all"
+    },
+    "pauseOthers": false,
+    "favorite": "{{item.favorite}}"
+}

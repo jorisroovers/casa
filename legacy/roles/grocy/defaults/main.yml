@@ -1,0 +1,4 @@
+grocy_container_name: "grocy"
+grocy_container_image: "linuxserver/grocy:version-v2.7.1"
+grocy_timezone: "timezone"
+grocy_port: 9283

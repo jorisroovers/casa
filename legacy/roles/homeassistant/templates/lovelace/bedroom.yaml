@@ -1,0 +1,21 @@
+title: Bedroom
+path: bedroom
+cards:
+  - type: light
+    name: Nightstand Joris
+    entity: light.nachttafel_joris
+  - type: light
+    name: Nightstand Ilse
+    entity: light.nachttafel_ilse
+  - type: button
+    name: Open Window
+    entity: script.open_bedroom_window
+  - type: button
+    name: Close Window
+    entity: script.close_bedroom_window
+  - type: thermostat
+    title: Thermostat
+    entity: climate.bedroom_master
+  - type: button
+    name: Heating Bedroom
+    entity: input_boolean.heat_bedroom

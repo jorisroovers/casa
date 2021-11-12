@@ -1,0 +1,12 @@
+- name: "[{{backup_type}} backup check] Creating backup monitoring (check) script"
+  template: src="backup-check.sh" dest="{{backup_monitoring_script}}"
+            owner={{backups_user}} group={{backups_group}} mode=u=rwx,o=rx
+
+- name: "[{{backup_type}} prometheus exporter] Creating prometheus monitoring exporter script"
+  template: src="backup-prometheus-exports.sh" dest="{{backup_prometheus_script}}"
+            owner={{backups_user}} group={{backups_group}} mode=u=rwx,o=rx
+
+# Run exporter every 1 min
+- name: "Adding cronjob for prometheus-exports script"
+  cron: name="Periodic {{backup_type}} backup prometheus exporter" minute="*/1" job="{{backup_prometheus_script}}"
+        user={{backups_user}}

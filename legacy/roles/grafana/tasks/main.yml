@@ -1,0 +1,93 @@
+---
+- name: Creating grafana group
+  group: name="{{grafana_group}}" state=present system=yes
+  become: yes
+
+- name: Creating grafana user
+  user: name="{{grafana_user}}" comment="Homeassistant User" group="{{grafana_group}}" uid="{{grafana_uid}}"
+        home={{grafana_conf_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating grafana conf directory
+  file: path={{grafana_conf_dir}} state=directory owner={{grafana_user}} group={{grafana_group}}
+  become: yes
+
+- name: Configuring grafana
+  template: src=grafana.ini dest={{grafana_conf_dir}}/grafana.ini owner={{grafana_user}} group={{grafana_group}}
+  become: yes
+
+- name: Starting grafana docker container
+  docker_container:
+    name: grafana
+    image: "{{grafana_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{grafana_conf_dir}}/:/etc/grafana"
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+    env:
+        GF_INSTALL_PLUGINS: "grafana-piechart-panel,natel-discrete-panel,flant-statusmap-panel"
+  become: yes
+  tags:
+    - grafana-container
+
+- name: "Add iptable rule for grafana"
+  iptables: chain=INPUT protocol=tcp destination_port={{grafana_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment=Grafana
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+- name: Installing some convenience aliases
+  template: src=grafana-aliases.sh dest=/etc/profile.d/grafana-aliases.sh
+  become: yes
+
+- name: Wait for grafana to come online
+  wait_for:
+    host: "{{grafana_bind_ip}}"
+    port: "{{grafana_port}}"
+
+# - name: "Installing homeassistant datasource"
+#   import_tasks: install_influxdb_datasource.yml
+#   vars:
+#     datasource_name: "homeassistant"
+#     datasource_user: "{{influxdb_grafana_user}}"
+#     datasource_password: "{{influxdb_grafana_password}}"
+#     datasource_database: "{{influxdb_homeassistant_db}}"
+#   tags:
+#     - grafana-datasources
+
+# - name: "Installing prometheus-influxdb datasource"
+#   import_tasks: install_influxdb_datasource.yml
+#   vars:
+#     datasource_name: "prometheus-influxdb"
+#     datasource_user: "{{influxdb_prometheus_user}}"
+#     datasource_password: "{{influxdb_prometheus_password}}"
+#     datasource_database: "{{influxdb_prometheus_db}}"
+#   tags:
+#     - grafana-datasources
+
+- name: "Installing prometheus-direct datasource"
+  import_tasks: install_prometheus_datasource.yml
+  vars:
+    datasource_name: "prometheus-direct"
+    datasource_user: ""
+    datasource_password: ""
+    datasource_database: ""
+  tags:
+    - grafana-datasources
+
+# Important: Dashboard import needs to happen through the same tool
+# Just importing an exported dashboard through grafana UI won't work!
+- name: "Installing Grafana backup tool"
+  import_tasks: install_grafana_backup_tool.yml
+  tags:
+    - grafana-backup
+    - backups
+
+- name: "Restoring dashboards from latest backup"
+  import_tasks: restore_dashboards.yml
+  when: grafana_restore_backup|bool
+  tags:
+    - grafana-restore-backup

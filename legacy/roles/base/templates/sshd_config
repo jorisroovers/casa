@@ -1,0 +1,9 @@
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+UsePAM no
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# Allow sftp (=required for ansible)
+Subsystem sftp  /usr/lib/openssh/sftp-server

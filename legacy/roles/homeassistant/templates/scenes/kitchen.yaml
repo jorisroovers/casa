@@ -1,0 +1,22 @@
+################################################################################
+# Cooking                                                                      #
+################################################################################
+
+- name: Cooking
+  entities:
+    light.living_room:
+        state: off
+    light.kitchen:
+        state: on
+    input_select.camera_preset: Home
+    input_boolean.cooking:
+        state: on
+
+- name: StopCooking
+  entities:
+    light.living_room:
+        state: off
+    light.kitchen:
+        state: off
+    input_boolean.cooking:
+        state: off

@@ -1,0 +1,127 @@
+homeassistant:
+{% for key, value in homeassistant_general_config.items() %}
+  {{key}}: {{value}}
+{% endfor %}
+  auth_providers:
+    - type: trusted_networks
+      allow_bypass_login: true
+      trusted_networks:
+{% for network in homeassistant_http.trusted_networks %}
+        - {{network}}
+{% endfor %}
+    - type: homeassistant
+
+# Discover some devices automatically
+# discovery:
+
+system_health:
+
+# View all events in a logbook
+logbook:
+
+# Enables the frontend
+frontend:
+
+# Enables lovelace
+lovelace:
+  mode: yaml
+
+# Enable config editor
+config:
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+# Track the sun
+sun:
+
+# Enable history tab
+history:
+
+# Enable Mobile (and Mac) app
+mobile_app:
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.device_tracker: error
+    homeassistant.components.device_tracker.nmap_tracker: error
+    # homeassistant.components.device_tracker.ping: warn
+    # homeassistant.components.http: warn
+    # homeassistant.components.automation: debug
+
+
+prometheus:
+  namespace: homeassistant
+
+notify:
+  # Hass only works with legacy slack tokens
+  # https://api.slack.com/custom-integrations/legacy-tokens
+  # Slack's advantage over pushbullet is the ability to format messages and more customizable notification preferences
+  # Note that username needs to be set to a different user than the one logged in to a device (e.g. phone)
+  # for notifications to show up (messages from one-self do not generate notifications)
+  # If username is not specified below, then messages will come from one-self (and hence no notifications)
+  - name: slack
+    platform: slack
+    api_key: "{{slack_api_key}}"
+    default_channel: "{{slack_default_channel}}"
+    username: "{{slack_username}}"
+
+tradfri:
+  host: {{tradfri_ip}}
+  # allow_tradfri_groups: true # Doesn't seem to work anymore?, use light groups below
+
+homematic:
+  interfaces:
+    rf:
+      host: "{{homematic_controller_ip}}"
+      resolvenames: json
+      username: "{{homematic_controller_username}}"
+      password: "{{homematic_controller_password}}"
+  hosts:
+    ccu2:
+      host: "{{homematic_controller_ip}}"
+      username: "{{homematic_controller_username}}"
+      password: "{{homematic_controller_password}}"
+
+nest:
+    client_id: {{nest_client_id}}
+    client_secret: {{nest_client_secret}}
+
+# Weather: location is determined by the latitude and longitude defined in the homeassistant section
+weather:
+  - platform: buienradar
+    name: home
+    forecast: true
+
+# Used for Google Calendar integration
+google:
+  client_id: "{{google_client_id}}"
+  client_secret: "{{google_client_secret}}"
+
+tts:
+  - platform: amazon_polly
+    aws_access_key_id: "{{aws_polly_access_key_id}}"
+    aws_secret_access_key: "{{aws_polly_secret_access_key}}"
+
+zwave:
+  usb_path: "{{zwave_gateway_device_container}}"
+
+# Enable Simple Service Discovery Protocol (for detecting Samsung Smart TV)
+ssdp:
+
+samsungtv:
+  - host: "{{tv_livingroom_host}}"
+
+emulated_hue: !include emulated_hue.yaml
+device_tracker: !include device_trackers.yaml
+sensor: !include sensors/sensor.yaml
+binary_sensor: !include sensors/binary.yaml
+input_select: !include inputs/select.yaml
+input_boolean: !include inputs/boolean.yaml
+script: !include scripts.yaml
+rest_command: !include rest_commands.yaml
+light: !include lights.yaml
+group: !include groups.yaml
+scene: !include_dir_merge_list scenes/
+automation: !include_dir_merge_list automations/

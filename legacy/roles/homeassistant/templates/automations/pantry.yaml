@@ -1,0 +1,20 @@
+########################################################################################################################
+# Pantry                                                                                                               #
+########################################################################################################################
+
+- alias: Auto-change pantry scene based on house-mode
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_select.house_mode
+    - platform: state
+      entity_id: light.led_panel_bijkeuken
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: light.led_panel_bijkeuken
+      state: 'on'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "{% raw %}scene.Pantry{{ states('input_select.house_mode')}}{% endraw %}"

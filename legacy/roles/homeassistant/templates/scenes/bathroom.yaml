@@ -1,0 +1,42 @@
+################################################################################
+# Bathroom                                                                     #
+################################################################################
+- name: BathroomEnterEvening
+  entities:
+    light.bathroom_group:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    switch.bathroom_mirror_light:
+        state: on
+
+- name: BathroomEnterDay
+  entities:
+    light.bathroom_group:
+        state: on
+        kelvin: 2500
+        brightness_pct: 75
+    switch.bathroom_mirror_light:
+        state: on
+
+- name: BathroomLeave
+  entities:
+    input_select.bathroom_music: "Bathroom NoMusic"
+    light.bathroom_group:
+        state: off
+    switch.bathroom_mirror_light:
+        state: off
+
+- name: BathroomMorningWeekDay
+  entities:
+    input_select.bathroom_music: "Morning Motivation"
+    light.bathroom_group:
+        state: on
+        kelvin: 3000
+        brightness_pct: 100
+    switch.bathroom_mirror_light:
+        state: on
+
+- name: RelaxingShower
+  entities:
+    input_select.bathroom_music: "Relax & Unwind"

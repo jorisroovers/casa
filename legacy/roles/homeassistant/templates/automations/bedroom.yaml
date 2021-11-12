@@ -1,0 +1,117 @@
+########################################################################################################################
+# Bedroom heating                                                                                                      #
+########################################################################################################################
+
+- alias: Start heating in bedroom when switching on switch
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_bedroom
+      to: "on"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.living_room"
+        temperature: 26
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.bedroom_master"
+        temperature: 23
+    - service: notify.slack
+      data:
+        message: |
+              Started heating bedroom
+
+- alias: Stop heating in bedroom when switching off switch
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_bedroom
+      to: "off"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.living_room"
+        temperature: 21
+    - service: climate.set_temperature
+      data:
+        entity_id: "climate.bedroom_master"
+        temperature: 6
+    - service: notify.slack
+      data:
+        message: |
+              Stopped heating bedroom
+
+# - alias: Switch off heater when heat reaches 19 degrees
+#   initial_state: True
+#   trigger:
+#     - platform: numeric_state
+#       entity_id: climate.bedroom_master
+#       value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
+#       above: 19
+#   condition:
+#     - condition: state
+#       entity_id: "input_boolean.heat_bedroom"
+#       state: "on"
+#   action:
+#     - service: notify.slack
+#       data:
+#         message: |
+#               Bedroom temp heated above 19 degrees - turning off the heat
+#     - service: input_boolean.turn_off
+#       data:
+#         entity_id: input_boolean.heat_bedroom
+
+
+- alias: Switch off heater when heat reaches 19 degrees
+  initial_state: True
+  trigger:
+    - platform: numeric_state
+      entity_id: climate.bedroom_master
+      value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
+      above: 19
+  condition:
+    - condition: state
+      entity_id: "input_boolean.heat_bedroom"
+      state: "on"
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Bedroom temp heated above 19 degrees - turning off the heat
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.heat_bedroom
+
+
+
+
+########################################################################################################################
+# Window Opener                                                                                                        #
+########################################################################################################################
+
+- alias: Automatically close bedroom window 30 min before sunrise
+  initial_state: True
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "-00:45:00"
+  action:
+    - service: script.close_bedroom_window
+
+- alias: Automatically close bedroom window when it gets too windy
+  initial_state: True
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.br_wind_speed
+    above: 25
+    for:
+      minutes: 20
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              {% raw %}[Bedroom] Pretty windy right now ({{ states('sensor.br_wind_speed') }} kph){% endraw %}
+
+# - wait_template: "{% raw %}{{ is_state('binary_sensor.entrance', 'on') }}{% endraw %}"
+#   timeout: '00:01:00'

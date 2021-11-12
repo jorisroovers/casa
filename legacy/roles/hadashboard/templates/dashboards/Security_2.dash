@@ -1,0 +1,32 @@
+title: Security
+widget_dimensions: [120, 120]
+widget_margins: [5, 5]
+columns: 8
+
+{% include "./templates/dashboards/components.yaml" %}
+
+security_up_nav:
+    widget_type: navigate
+    icon_inactive: mdi-arrow-up-bold-circle-outline
+    dashboard: Security_1
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
+
+security_down_nav:
+    widget_type: navigate
+    icon_inactive: mdi-arrow-down-bold-circle-outline
+    icon_inactive_style: "color: #777"
+    icon_active_style: "color: #777"
+    dashboard: Security_2
+    args:
+      timeout: {{navigation_timeout}}
+      return: Home
+
+layout:
+    - roofcam_camera(3x2), spacer(4x1), security_up_nav(1x1)
+    - spacer(8x1)
+    - spacer(8x1)
+    - spacer(8x1)
+    - spacer(7x1), security_down_nav(1x1)
+    - include: navigation_panel

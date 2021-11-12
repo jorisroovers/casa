@@ -1,0 +1,12 @@
+{
+  "players": [{
+    "roomName": "Bathroom",
+    "volume": 10
+  }],
+  "playMode": {
+    "shuffle": true,
+    "repeat": "all"
+  },
+  "pauseOthers": false,
+  "favorite": "{{item.favorite}}"
+}

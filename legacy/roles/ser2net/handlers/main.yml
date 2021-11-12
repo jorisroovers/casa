@@ -1,0 +1,3 @@
+- name: restart_ser2net
+  service: name=ser2net state=restarted enabled=yes
+  become: yes

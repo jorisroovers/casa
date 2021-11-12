@@ -1,0 +1,59 @@
+
+################################################################################
+# Mornings                                                                     #
+################################################################################
+- name: StartWeekDay
+  entities:
+    group.lights_outside:
+        state: off
+    light.office:
+        state: on
+        kelvin: 3500
+    light.nachttafel_joris:
+        state: off
+    light.kitchen:
+        state: on
+    input_select.bathroom_music: "Bathroom NoMusic"
+    input_select.downstairs_music: "Today's Top Hits"
+    switch.desk_lamp:
+        state: on
+    input_select.camera_preset: Home
+    light.bathroom_group:
+        state: off
+    switch.front_door_curtain_relay2:
+        state: on
+
+
+################################################################################
+# Evenings                                                                     #
+################################################################################
+
+- name: Midnight
+  entities:
+    group.lights_outside:
+        state: off
+
+- name: ComeHomeEvening
+  entities:
+    group.lights_outside:
+        state: on
+    light.living_ambience_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+        # Apparently brightness_pct doesn't work on a light group, hence why this is living_ambience_lamp_1
+        # and not kantoor_sfeer_verlichting
+    light.office_ambience_lamp_1:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+    light.woonkamer_tv:
+        state: on
+        kelvin: 2200
+        brightness_pct: 40
+    light.tv_staanlamp:
+        state: on
+        kelvin: 2200
+        brightness_pct: 20
+
+

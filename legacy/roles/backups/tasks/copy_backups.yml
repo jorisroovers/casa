@@ -1,0 +1,25 @@
+
+- name: Creating copy-backups directory
+  file: dest={{backups_dir}}/copy-backups state=directory owner={{backups_user}} group={{backups_group}}
+  become: yes
+
+- name: Copying copy-backups.sh
+  template: src="copy-backups.sh" dest="{{backups_dir}}/copy-backups/copy-backups.sh"
+            owner={{backups_user}} group={{backups_group}} mode=u+x
+
+- name: Install copy-backups check
+  include_role:
+    name: backup_check
+  vars:
+    backup_type: "copy-backups"
+    backup_file_filter: "-d {{backups_external_copy_path}}/*/"
+    backup_min_size: 0
+    # TODO: on Samba, directory sizes return as 0, should make sure there's actually files in there
+
+# Run backups at the 35 min mark every 6 hrs - this should ensure that other backups have finished
+# We have had some issues with this before, doing this at the 15 min mark, which wasn't enough for e.g. influxdb backups to finish
+- name: "Adding cronjob for copy-backups script"
+  cron: name="Periodic copy-backups.sh run" hour="*/6" minute="35" job="{{backups_dir}}/copy-backups/copy-backups.sh >> {{backups_dir}}/copy-backups/copy-backups.log 2>&1"
+        user={{backups_user}}
+
+

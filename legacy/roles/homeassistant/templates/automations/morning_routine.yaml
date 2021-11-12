@@ -1,0 +1,77 @@
+
+########################################################################################################################
+# Morning Routine                                                                                                      #
+########################################################################################################################
+
+- alias: Trigger BathroomMorning scene on light turn on during week days
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: light.nachttafel_joris
+    to: "on"
+  condition:
+   - condition: and
+     conditions:
+      - condition: time
+        after: '07:00:00'
+        before: '10:00:00'
+      - condition: state
+        entity_id: "binary_sensor.workday_sensor"
+        state: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.BathroomMorningWeekDay"
+
+- alias: Start week day when exiting bathroom and house still sleeping
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: media_player.bathroom
+      from: "playing"
+      to: "paused"
+    - platform: state
+      entity_id: light.bathroom_group
+      to: "off"
+  condition:
+   - condition: and
+     conditions:
+      - condition: time
+        after: '07:00:00'
+        before: '10:00:00'
+      - condition: state
+        entity_id: "binary_sensor.workday_sensor"
+        state: "on"
+      - condition: state # Only do this automation when the house is still sleeping. This prevents this automation from messing up someone else presets who's already downstairs
+        entity_id: input_select.house_mode
+        state: "Sleeping"
+  action:
+    - service: rest_command.start_morning_tv
+    - delay: 00:00:05    # Wait a bit, so TV can turn on fully before we attempt to play music
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.StartWeekDay"
+
+- alias: Start work day turning on computer in the morning
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.joris_working
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          after: '07:00:00'
+          before: '10:30:00'
+        - condition: state
+          entity_id: "binary_sensor.workday_sensor"
+          state: "on"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.StartWorkingMorning"
+    - service: media_player.turn_off
+      data:
+        entity_id: media_player.samsungtv_livingroom

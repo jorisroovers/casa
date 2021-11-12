@@ -1,0 +1,8 @@
+- name: Installing ser2net
+  apt: name=ser2net
+  become: yes
+
+- name: Configuring ser2net
+  template: src="ser2net.conf" dest="/etc/ser2net.conf"
+  become: yes
+  notify: restart_ser2net

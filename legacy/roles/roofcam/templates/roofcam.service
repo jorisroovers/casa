@@ -1,0 +1,12 @@
+[Unit]
+Description=Roofcam
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory={{roofcam_dir}}
+ExecStart={{roofcam_venv}}/bin/roofcam-web --dir {{snapshot_dir}} --port {{roofcam_port}} --host {{roofcam_host}}
+
+[Install]
+WantedBy=multi-user.target

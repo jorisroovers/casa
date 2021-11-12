@@ -1,0 +1,20 @@
+home_nav:
+    widget_type: navigate
+    title: Home
+    icon_inactive: fa-home
+    url: /Phone_Home
+
+controls_nav:
+    widget_type: navigate
+    title: Controls
+    icon_inactive: fa-tachometer-alt
+    url: /Phone_Controls
+
+more_nav:
+    widget_type: navigate
+    title: More
+    icon_inactive: mdi-dots-horizontal
+    url: /Phone_More
+
+layout:
+  - home_nav(1x1), controls_nav(1x1), more_nav(1x1)

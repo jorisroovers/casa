@@ -1,0 +1,32 @@
+title: Security
+widget_dimensions: [117, 117]
+widget_margins: [5, 5]
+columns: 3
+
+{% include "./templates/dashboards/components.yaml" %}
+
+security_up_nav:
+    widget_type: navigate
+    icon_inactive: mdi-arrow-up-bold-circle-outline
+    icon_inactive_style: "color: #777"
+    icon_active_style: "color: #777"
+    dashboard: Phone_Security_1
+    args:
+      timeout: {{navigation_timeout}}
+      return: Phone_Home
+
+security_down_nav:
+    widget_type: navigate
+    icon_inactive: mdi-arrow-down-bold-circle-outline
+    dashboard: Phone_Security_2
+    args:
+      timeout: {{navigation_timeout}}
+      return: Phone_Home
+
+
+layout:
+    - front_garden_camera(2x1), security_up_nav(1x1)
+    - back_garden_camera(2x1)
+    - hallway_camera(2x1)
+    - diepvries_camera(2x1), security_down_nav(1x1)
+    - include: Phone_navigation_panel

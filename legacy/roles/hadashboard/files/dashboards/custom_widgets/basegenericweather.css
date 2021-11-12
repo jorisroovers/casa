@@ -1,0 +1,73 @@
+.widget-basegenericweather-{{id}} {
+	color: white;
+}
+
+.widget-basegenericweather-{{id}} h1 {
+	margin-bottom: 0px;
+}
+
+.widget-basegenericweather-{{id}} [class^="primary"] {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.widget-basegenericweather-{{id}} [class^="secondary"] {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.widget-basegenericweather-{{id}} .primary-climacon {
+	font-family: "Climacons-Font";
+	font-size: 70px;
+}
+
+.widget-basegenericweather-{{id}} .primary-info {
+	font-size: 300%;
+	font-weight: 400;
+}
+
+.widget-basegenericweather-{{id}} .primary-unit {
+	font-size: 100%;
+	font-weight: 400;
+	margin-left: 0;
+	margin-top: 20px;
+	vertical-align: top;
+}
+
+.widget-basegenericweather-{{id}} .secondary-icon {
+	font-family: "Climacons-Font";
+	font-size: 40px;
+	margin-left: 10px;
+	margin-right: 0px;
+}
+
+.widget-basegenericweather-{{id}} .secondary-climacon {
+	font-family: "Climacons-Font";
+	font-size: 55px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.widget-basegenericweather-{{id}} .secondary-info {
+	font-size: 125%;
+	font-weight: 200;
+}
+
+.widget-basegenericweather-{{id}} hr {
+	width: 90%;
+	border: 0;
+	height: 1px;
+	background: rgba(255, 255, 255, 0.25);
+	margin-top: 15px;
+	margin-bottom: 15px;
+}

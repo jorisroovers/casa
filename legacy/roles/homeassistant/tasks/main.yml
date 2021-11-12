@@ -1,0 +1,181 @@
+---
+- name: Creating homeassistant group
+  group: name="{{homeassistant_group}}" state=present system=yes
+  become: yes
+
+- name: Creating homeassistant user
+  user: name="{{homeassistant_user}}" comment="Homeassistant User" group="{{homeassistant_group}}"
+        home={{homeassistant_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating homeassistant directories
+  file: path="{{item}}" state=directory owner={{homeassistant_user}} group={{homeassistant_group}}
+  become: yes
+  with_items:
+    - "{{homeassistant_dir}}"
+    - "{{homeassistant_dir}}/automations"
+    - "{{homeassistant_dir}}/scenes"
+    - "{{homeassistant_dir}}/inputs"
+    - "{{homeassistant_dir}}/sensors"
+    - "{{homeassistant_dir}}/lovelace"
+
+- name: "Lovelace Customizations"
+  import_tasks: lovelace_mods.yml
+  tags:
+    - lovelace
+
+- name: "Configuring lovelace"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+  with_items:
+   - ui-lovelace.yaml
+   - lovelace/morning-tv.yaml
+   - lovelace/demo.yaml
+   - lovelace/playground.yaml
+   - lovelace/office.yaml
+   - lovelace/security.yaml
+   - lovelace/bathroom.yaml
+   - lovelace/livingroom.yaml
+   - lovelace/bedroom.yaml
+   - lovelace/bedroom-hannah.yaml
+   - lovelace/bedroom-kid2.yaml
+   - lovelace/kitchen.yaml
+   - lovelace/hallway.yaml
+   - lovelace/sauna.yaml
+  notify:
+    - reload_homeassistant_config
+  tags:
+    - hass-config
+    - lovelace
+  become: yes
+
+- name: "Configuring homeassistant automations"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+  with_items:
+    - automations/automations.yaml
+    - automations/morning_routine.yaml
+    - automations/house_mode.yaml
+    - automations/livingroom.yaml
+    - automations/hallway.yaml
+    - automations/bathroom.yaml
+    - automations/bedroom.yaml
+    - automations/bedroom_hannah.yaml
+    - automations/bedroom_kid2.yaml
+    - automations/laundryroom.yaml
+    - automations/office.yaml
+    - automations/kitchen.yaml
+    - automations/pantry.yaml
+  notify:
+    - reload_homeassistant_automations
+    # - restart_homeassistant
+  tags:
+    - hass-config
+    - hass-automations
+  become: yes
+
+- name: "Configuring homeassistant known_devices (no restart needed)"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+  with_items:
+    - known_devices.yaml
+  tags:
+    - hass-config
+  become: yes
+
+- name: "Configuring homeassistant"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}}
+  with_items:
+   - configuration.yaml
+   - emulated_hue.yaml
+   - device_trackers.yaml
+   - groups.yaml
+   - lights.yaml
+   - scenes/scenes.yaml
+   - scenes/office.yaml
+   - scenes/hallway.yaml
+   - scenes/bathroom.yaml
+   - scenes/livingroom.yaml
+   - scenes/laundryroom.yaml
+   - scenes/pantry.yaml
+   - scenes/house_mode.yaml
+   - scenes/demo.yaml
+   - inputs/boolean.yaml
+   - inputs/select.yaml
+   - sensors/binary.yaml
+   - sensors/sensor.yaml
+   - scripts.yaml
+   - rest_commands.yaml
+   - phue.conf # No longer neccessary?
+  notify:
+    - reload_homeassistant_config
+  tags:
+    - hass-config
+  become: yes
+
+- name: "Adding prom2hass.py script"
+  template: src={{item}} dest={{homeassistant_dir}}/{{item}} mode=u+x
+  with_items:
+   - prom2hass.py
+  become: yes
+  tags:
+    - prom2hass
+
+- name: "Ensure all files are owned by the homeassistant user"
+  file: path={{homeassistant_dir}} state=directory owner={{homeassistant_user}} group={{homeassistant_group}} recurse=yes
+  become: yes
+
+- name: Starting homeassistant docker container
+  docker_container:
+    name: "{{homeassistant_container_name}}"
+    image: "{{homeassistant_container_image}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{homeassistant_dir}}/:/config"
+      - /etc/localtime:/etc/localtime:ro
+      - "{{node_exporter_textfile_exports}}/:{{node_exporter_textfile_exports}}"
+    labels:
+      group: homeassistant
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    env: # https://community.home-assistant.io/t/endless-insecurerequestwarning-errors-with-unifi
+        PYTHONWARNINGS: "ignore:Unverified HTTPS request"
+    restart_policy: unless-stopped
+    devices:
+      - "{{zwave_gateway_device_host}}:{{zwave_gateway_device_container}}"
+  become: yes
+  tags:
+    - homeassistant-container
+
+- name: "Docker post-startup changes"
+  shell: "docker exec homeassistant {{item}}"
+  with_items:
+    - apk add jq
+  become: yes
+
+- name: Install casa-container for homeassistant (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "ha"
+    container_name: "{{homeassistant_container_name}}"
+
+- name: Modifying sudoers file so homeassistant user can run restart homeassistant container
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{homeassistant_user}} ALL=({{item.user}}) NOPASSWD: {{item.command}}'
+    validate: visudo -cf %s
+  become: yes
+  with_items:
+    - {"user": "root", "command": "/usr/bin/timeout * docker restart homeassistant"}
+
+# Restart to deal with Tradfri issues: https://github.com/home-assistant/home-assistant/issues/14386
+- name: "Cronjob: restart homeassistant at 4.20AM every night"
+  cron: name="Nightly home-assistant restart" minute="20" hour="4" job="/usr/bin/sudo /usr/bin/timeout 180 docker restart homeassistant"
+        user={{homeassistant_user}}
+  become: yes
+
+- name: "Add iptable rule for Homeassistant"
+  iptables: chain=INPUT protocol=tcp destination_port={{homeassistant_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment=Homeassistant
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]

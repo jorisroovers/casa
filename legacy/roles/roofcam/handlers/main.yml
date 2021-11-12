@@ -1,0 +1,7 @@
+- name: daemon_reload
+  command: systemctl daemon-reload
+  become: yes
+
+- name: restart_roofcam
+  service: name={{roofcam_service}} state=restarted
+  become: yes

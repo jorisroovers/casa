@@ -1,0 +1,21 @@
+---
+- name: Creating the basegenericweather widget directory
+  file: path={{appdaemon_custom_widgets_dir}}/basegenericweather state=directory
+        owner={{appdaemon_user}} group={{appdaemon_group}}
+  notify:
+    - daemon_reload
+    - restart_appdaemon
+
+- name: Adding myweather.yaml custom widget
+  template: src=custom_widgets/myweather.yaml dest={{appdaemon_custom_widgets_dir}}/myweather.yaml
+  notify:
+    - daemon_reload
+    - restart_appdaemon
+
+- name: "Copying basegenericweather widget files"
+  copy: src=dashboards/custom_widgets/{{item}} dest={{appdaemon_custom_widgets_dir}}/{{item}}
+  with_items:
+    - basegenericweather.css
+    - basegenericweather.html
+    - basegenericweather.js
+

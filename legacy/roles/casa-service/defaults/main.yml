@@ -1,0 +1,5 @@
+service_varname: "{{service_name | regex_replace('-', '_')}}"
+directory: "/opt/{{service_name}}"
+user: "{{service_name}}"
+group: "{{service_name}}"
+service: "{{user}}@{{service_name}}"

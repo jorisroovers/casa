@@ -1,0 +1,7 @@
+- name: daemon_reload
+  command: systemctl daemon-reload
+  become: yes
+
+- name: restart_node_exporter
+  service: name={{node_exporter_service}} state=restarted enabled=yes
+  become: yes

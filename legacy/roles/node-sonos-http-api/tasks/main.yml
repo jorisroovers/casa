@@ -1,0 +1,79 @@
+---
+- name: Creating node-sonos-http-api directory
+  file: path="{{sonos_http_api_dir}}" state=directory owner="{{sonos_http_api_user}}" group="{{sonos_http_api_group}}"
+  become: yes
+
+- name: Creating presets directory
+  file: path="{{sonos_http_api_dir}}/presets" state=directory owner="{{sonos_http_api_user}}" group="{{sonos_http_api_group}}"
+  become: yes
+
+- name: Adding Dockerfile
+  template: src=Dockerfile dest="{{sonos_http_api_dir}}/Dockerfile"
+
+- name: Build node-sonos-http-api container
+  docker_image:
+    path: "{{sonos_http_api_dir}}"
+    name: "{{sonos_http_api_image_name}}"
+    force: yes
+  become: yes
+
+- name: Adding presets
+  template: src=presets/{{item.src}} dest="{{sonos_http_api_dir}}/presets/{{item.dest}}"
+  with_items:
+    - { src: "downstairs.json", dest: "breakfast.json", favorite: "'t Koffiehuis" }
+    - { src: "downstairs.json", dest: "party.json", favorite: "Throwback Party" }
+    - { src: "downstairs.json", dest: "pop.json", favorite: "Today's Top Hits" }
+    - { src: "downstairs.json", dest: "lounge.json", favorite: "Lounge - Soft House" }
+    - { src: "downstairs.json", dest: "romance.json", favorite: "Jazzy Romance" }
+    - { src: "downstairs.json", dest: "christmas.json", favorite: "Christmas Is Coming" }
+    - { src: "downstairs.json", dest: "coffee_bar.json", favorite: "Your Favorite Coffeehouse" }
+    - { src: "downstairs.json", dest: "relaxing.json", favorite: "Relax & Unwind" }
+    - { src: "downstairs.json", dest: "disney.json", favorite: "Disney Greatest Hits" }
+    - { src: "downstairs.json", dest: "dinner_with_friends.json", favorite: "Dinner with Friends" }
+    - { src: "nomusic.json", dest: "nomusic.json", players: ["TV Room", "Living Room"] }
+    # Artists
+    - { src: "downstairs.json", dest: "alabama_shakes.json", favorite: "This Is Alabama Shakes" }
+    - { src: "downstairs.json", dest: "bruce_springsteen.json", favorite: "This Is Bruce Springsteen" }
+    - { src: "downstairs.json", dest: "bruno_mars.json", favorite: "This Is Bruno Mars" }
+    - { src: "downstairs.json", dest: "celine_dion.json", favorite: "This Is Celine Dion" }
+    - { src: "downstairs.json", dest: "coldplay.json", favorite: "This Is Coldplay" }
+    - { src: "downstairs.json", dest: "kensington.json", favorite: "This Is Kensington" }
+    - { src: "downstairs.json", dest: "marco_borsato.json", favorite: "This Is Marco Borsato" }
+    - { src: "downstairs.json", dest: "james_morrison.json", favorite: "This Is James Morrison" }
+    - { src: "downstairs.json", dest: "kinky_boots.json", favorite: "Kinky Boots (Original Broadway Cast Recording)" }
+
+    # Bathroom
+    - { src: "upstairs.json", dest: "bathroom_morning.json", favorite: "Morning Motivation" }
+    - { src: "upstairs.json", dest: "bathroom_happy.json", favorite: "Happy Hits!" }
+    - { src: "upstairs.json", dest: "bathroom_relaxing.json", favorite: "Relax & Unwind" }
+    - { src: "nomusic.json", dest: "bathroom_nomusic.json", players: ["Bathroom"] }
+  # notify:
+  #   - restart_sonos_http_api
+
+- name: Starting {{sonos_http_api_container_name}} docker container
+  docker_container:
+    name: "{{sonos_http_api_container_name}}"
+    image: "{{sonos_http_api_image_name}}"
+    state: started # Modify and restart iff config has changed
+    volumes:
+      - "{{sonos_http_api_dir}}/presets:/opt/app/presets"
+    network_mode: host
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - sonos-container
+
+- name: "Add iptable rule for node-sonos-http-api"
+  iptables: chain=INPUT protocol=tcp destination_port={{sonos_http_api_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="node-sonos-http-api"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+- name: Install casa-container for node-sonos-http-api (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "sonos"
+    container_name: "{{sonos_http_api_container_name}}"

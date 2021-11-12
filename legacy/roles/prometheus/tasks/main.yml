@@ -1,0 +1,136 @@
+# Note: We use docker 'host' networking for prometheus because prometheus needs to be able to access the
+# node_exporter running on the host machine itself.
+# - We can't run node_exporter in a container, because then you can't get access to systemd services
+#   (although it seems to work for most other node_exporter collectors)
+# - Docker doesn't allow you to mix host networking with container networking, so we can't for example still
+#   use docker networking to talk to a different exporter running in a container (e.g. blackbox_exporter).
+# - Hence, all prometheus exporters that run in containers will need to use host networking and talk to eachother
+#   using ports exposed at the host level.
+
+- name: Creating prometheus group
+  group: name="{{prometheus_group}}" state=present system=yes
+  become: yes
+
+- name: Creating prometheus user
+  user: name="{{prometheus_user}}" comment="Prometheus User" group="{{prometheus_group}}"
+        home={{prometheus_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating prometheus directory
+  file: path={{prometheus_dir}} state=directory owner={{prometheus_user}} group={{prometheus_group}}
+  become: yes
+
+- name: "Configuring prometheus"
+  template: src={{item}} dest={{prometheus_dir}}/{{item}}
+  with_items:
+   - prometheus.yml
+   - prometheus-alerts.yml
+   - alertmanager.yml
+   - blackbox.yml
+  tags:
+    - prometheus-config
+  become: yes
+
+- name: Copying over InfluxDB SSL cert and key
+  copy:
+    content: "{{item.content}}"
+    dest: "{{item.dest}}"
+  become: yes
+  no_log: True # Don't log the private keys to the console
+  with_items:
+    - { "dest": "{{prometheus_dir}}/influx.cert", "content": "{{influxdb_ssl_cert}}" }
+    - { "dest": "{{prometheus_dir}}/influx.pem", "content": "{{influxdb_ssl_key}}" }
+
+- name: Starting prometheus docker container
+  docker_container:
+    name: prometheus
+    image: "{{prometheus_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{prometheus_port}}:{{prometheus_port}}"
+    volumes:
+       - "{{prometheus_dir}}/:/config"
+    network_mode: host
+    command:
+      - "--config.file=/config/prometheus.yml"
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - prometheus-container
+
+- name: Install casa-container for prometheus (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "prom"
+    container_name: "prometheus"
+
+- name: Starting alertmanager docker container
+  docker_container:
+    name: prometheus-alertmanager
+    image: "{{alertmanager_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{alertmanager_port}}:{{alertmanager_port}}"
+    volumes:
+      - "{{prometheus_dir}}/:/config"
+    network_mode: host
+    command:
+      - "--config.file=/config/alertmanager.yml"
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - alertmanager-container
+
+- name: Install casa-container for prometheus (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "alertmanager"
+    container_name: "prometheus-alertmanager"
+
+- name: Starting blackbox-exporter docker container
+  docker_container:
+    name: prometheus-blackbox-exporter
+    image: "{{blackbox_exporter_docker_image}}"
+    state: started # Modify and restart iff config has changed
+    ports:
+      - "{{blackbox_exporter_port}}:{{blackbox_exporter_port}}"
+    volumes:
+      - "{{prometheus_dir}}/:/config"
+    network_mode: host
+    command:
+      - "--config.file=/config/blackbox.yml"
+    recreate: "{{recreate_containers}}"
+    restart_policy: unless-stopped
+  become: yes
+  tags:
+    - blackbox-exporter-container
+
+- name: Install casa-container for prometheus (aliases only for now)
+  include_role:
+    name: casa-container
+  vars:
+    alias_shorthand: "be"
+    container_name: "prometheus-blackbox-exporter"
+
+# NOTE: Don't expose blackbox-exporter or node-exporter IPs, that data can be accessed through prometheus
+- name: "Add iptable rule for prometheus"
+  iptables: chain=INPUT protocol=tcp destination_port={{prometheus_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="Prometheus HTTP"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+# TODO:
+#  - Run arbitrary shell script for monitoring.
+#   -> Use textcollectors in node_exporters in combination with cronjobs
+#  - Run handlers: restart, send-to-hass
+#  - https://github.com/adhocteam/script_exporter
+# Docker run commands:
+# prometheus:        docker run -v -d -p 9090:9090 --name prometheus -v /opt/prometheus:/config prom/prometheus:v2.4.3 --config.file=/config/prometheus.yml
+# node-exporter:     docker run -p 9100:9100 -v "/proc:/host/proc" -v "/sys:/host/sys" -v "/:/rootfs" --net="host" prom/node-exporter --path.procfs /host/proc --path.sysfs /host/proc --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+# blackbox-exporter: docker run -d -p 9115:9115 --name blackbox-exporter -v /opt/prometheus:/config prom/blackbox-exporter:v0.12.0 --config.file=/config/blackbox.yml
+# process-exporter:  docker run -d --rm -p 9256:9256 --privileged -v /proc:/host/proc -v `pwd`:/config ncabatoff/process-exporter --procfs /host/proc -config.path /config/filename.yml

@@ -1,0 +1,15 @@
+{
+    "checks": {
+        "backup-{{backup_type}}": {
+            "type": "metric",
+            "command": "{{backup_monitoring_script}}",
+            "subscribers": ["casa"],
+            "handlers": ["homeassistant-sensor"],
+            "interval": {{sensu_default_check_interval}},
+            "aggregates": ["homeassistant", "backups"],
+            "homeassistant": {
+                "sensor_type": "binary_sensor"
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+elk_docker_network_name: "elk-network"
+elk_docker_network_subnet: "10.0.0.0/24"
+
+elasticsearch_docker_image: "docker.elastic.co/elasticsearch/elasticsearch:6.3.1"
+elasticsearch_data_dir: "/usr/share/elasticsearch/data" # this is inside the container
+
+elasticsearch_host: 0.0.0.0
+elasticsearch_api_port: 9200
+elasticsearch_api_tcp_port: 9300
+
+elasticsearch_docker_elk_network_ip_address: "10.0.0.2"
+elasticsearch_docker_http_port_internal: "{{elasticsearch_api_port}}"
+elasticsearch_docker_http_port_external: "{{elasticsearch_api_port}}"
+elasticsearch_docker_tcp_port_internal: "{{elasticsearch_api_tcp_port}}"
+elasticsearch_docker_tcp_port_external: "{{elasticsearch_api_tcp_port}}"

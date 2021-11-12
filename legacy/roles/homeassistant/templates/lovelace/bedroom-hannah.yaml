@@ -1,0 +1,9 @@
+title: Bedroom Hannah
+path: bedroom-hannah
+cards:
+  - type: thermostat
+    title: Thermostat
+    entity:  climate.bedroom_hannah
+  - type: button
+    name: Heating Bedroom Hannah
+    entity: input_boolean.heat_bedroom_hannah

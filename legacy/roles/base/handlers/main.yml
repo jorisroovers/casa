@@ -1,0 +1,13 @@
+- name: restart_logind
+  service: name=systemd-logind state=restarted
+  become: yes
+
+- name: save_iptables
+  shell: "netfilter-persistent save"
+  become: yes
+
+# Ansible handler are executed in the order they are defined in this file (not in the order they're called which
+# is a bit counterintuitive). We put SSH last so that it gets executed first.
+- name: restart_ssh
+  service: name=ssh state=restarted
+  become: yes

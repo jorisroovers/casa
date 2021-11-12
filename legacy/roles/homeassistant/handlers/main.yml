@@ -1,0 +1,38 @@
+- name: daemon_reload
+  command: systemctl daemon-reload
+  become: yes
+
+- name: reload_homeassistant_config
+  shell: "curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer {{homeassistant_api_access_tokens.local_integrations}}' 
+          http://0.0.0.0:{{homeassistant_port}}/api/services/{{item}}"
+  with_items:
+    - homeassistant/reload_core_config
+    - automation/reload
+    - group/reload
+    - input_boolean/reload
+    - input_select/reload
+    - script/reload
+    - scene/reload
+    - command_line.reload
+    - person/reload
+    - lovelace/reload_resources
+    - frontend/reload_themes
+    - template/reload
+  ignore_errors: yes
+
+- name: reload_homeassistant_automations
+  shell: "curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer {{homeassistant_api_access_tokens.local_integrations}}' 
+          http://0.0.0.0:{{homeassistant_port}}/api/services/automation/reload"
+  ignore_errors: yes
+
+- name: restart_homeassistant
+  docker_container:
+    name: "{{homeassistant_container_name}}"
+    restart: yes
+  become: yes
+  # notify: wait_for_homeassistant_port
+
+- name: wait_for_homeassistant_port
+  wait_for:
+    host: 0.0.0.0
+    port: "{{homeassistant_port}}"

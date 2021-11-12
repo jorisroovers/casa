@@ -1,0 +1,11 @@
+title: Hallway
+path: hallway
+cards:
+  - type: picture-entity
+    entity: camera.backyard
+    title: Backyard Camera
+    camera_image: camera.backyard
+  - type: picture-entity
+    title: Front Garden Camera
+    entity: camera.front_garden
+    camera_image: camera.front_garden

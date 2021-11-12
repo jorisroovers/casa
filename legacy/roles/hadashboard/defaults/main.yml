@@ -1,0 +1,26 @@
+appdaemon_version: 4.0.5
+appdaemon_dir: "/opt/appdaemon"
+appdaemon_venv: "{{appdaemon_dir}}/.venv"
+appdaemon_user: "appdaemon"
+appdaemon_group: "appdaemon"
+appdaemon_bind_ip: 0.0.0.0
+appdaemon_port: 5050
+appdaemon_docker_image: "acockburn/appdaemon:{{appdaemon_version}}"
+
+appdaemon_dashboards_dir: "{{appdaemon_dir}}/dashboards"
+appdaemon_custom_widgets_dir: "{{appdaemon_dashboards_dir}}/custom_widgets"
+
+appdaemon_ha_url: "http://0.0.0.0:{{homeassistant_port}}"
+appdaemon_dash_url: "http://0.0.0.0:{{appdaemon_port}}"
+
+appdaemon_service: "appdaemon@{{appdaemon_user}}"
+
+appdaemon_service_after: "homeassistant@{{homeassistant_user}}.service"
+
+camera_widget_refresh_rate: 3
+navigation_timeout: 120
+
+nest_cam_entity_pictures: {}
+roofcam_entity_picture: ""
+
+hadash_pincode: "1234"

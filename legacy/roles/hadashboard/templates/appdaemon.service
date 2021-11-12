@@ -1,0 +1,9 @@
+[Unit]
+Description=AppDaemon
+After={{appdaemon_service_after}}
+[Service]
+Type=simple
+User={{appdaemon_user}}
+ExecStart={{appdaemon_venv}}/bin/appdaemon -c {{appdaemon_dir}}
+[Install]
+WantedBy=multi-user.target

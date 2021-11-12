@@ -1,0 +1,11 @@
+title: DEMO
+path: demo
+panel: false
+badges: []
+cards:
+  - type: button
+    name: Show Morning TV
+    show_state: false
+    tap_action:
+      action: call-service
+      service: rest_command.start_morning_tv

@@ -1,0 +1,46 @@
+---
+- name: Creating seshat group
+  group: name="{{seshat_group}}" state=present system=yes
+  become: yes
+
+- name: Creating seshat user
+  user: name="{{seshat_user}}" comment="Seshat User" group="{{seshat_group}}"
+        home={{seshat_dir}} createhome=no system=yes # Not a login user
+  become: yes
+
+- name: Creating seshat directory
+  file: path={{seshat_dir}} state=directory owner={{seshat_user}} group={{seshat_group}}
+  become: yes
+
+- name: Cloning seshat from github
+  git: repo=https://github.com/jorisroovers/seshat dest="{{seshat_dir}}" version=413bf0e6973fc9557acccc4bd16c5242afc0c114 force=yes
+  become: yes
+  become_user: "{{seshat_user}}"
+
+- name: Installing seshat
+  shell: "npm install"
+  args:
+    chdir: "{{seshat_dir}}"
+  become: yes
+
+- name: "Installing influx env variable script"
+  template: src="seshat_env.sh" dest="{{seshat_dir}}/seshat_env.sh" owner={{seshat_user}} group={{seshat_group}}
+  become: yes
+  become_user: "{{seshat_user}}"
+
+
+# Replaced "source" with "." (=dot) for sourcing env vars as 'source' wasn't working
+# Probably because cron was using /bin/sh and not /bin/bash
+# https://unix.stackexchange.com/questions/27289/how-can-i-run-a-cron-command-with-existing-environmental-variables
+- name: "Adding cronjobs for seshat"
+  cron: name="Seshat {{item.name}}" minute="*/1" job=". {{seshat_dir}}/seshat_env.sh; {{item.job}} >> {{seshat_dir}}/seshat.log 2>&1" user={{seshat_user}}
+  become: yes
+  with_items:
+      - { "name": "device_tracker.samsungtv",
+          "job": "/usr/bin/node {{seshat_dir}}/dist/duration.js -k --measurement device_tracker.samsungtv --state home --write-duration --host $INFLUX_HOST --database $INFLUX_DB --username $INFLUX_USER --password $INFLUX_PASSWORD"}
+      - { "name": "binary_sensor.joris_working",
+          "job": "/usr/bin/node {{seshat_dir}}/dist/duration.js -k --measurement binary_sensor.joris_working --state on --write-duration --host $INFLUX_HOST --database $INFLUX_DB --username $INFLUX_USER --password $INFLUX_PASSWORD"}
+      - { "name": "sensor.desk_state",
+          "job": "/usr/bin/node {{seshat_dir}}/dist/duration.js -k --measurement sensor.desk_state --state up --write-duration --host $INFLUX_HOST --database $INFLUX_DB --username $INFLUX_USER --password $INFLUX_PASSWORD"}
+      - { "name": "binary_sensor.ps4_presence",
+          "job": "/usr/bin/node {{seshat_dir}}/dist/duration.js -k --measurement binary_sensor.ps4_presence --state on --write-duration --host $INFLUX_HOST --database $INFLUX_DB --username $INFLUX_USER --password $INFLUX_PASSWORD"}

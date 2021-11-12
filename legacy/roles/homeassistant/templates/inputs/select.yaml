@@ -1,0 +1,75 @@
+house_mode:
+  name: House mode
+  options:
+    - Day
+    - Evening
+    - Sleeping
+    - Away
+    - Auto
+  # initial: Day # no 'initial' value -> restore state
+  icon: mdi:home
+music_artist_select:
+  name: Artist
+  options:
+    - This Is Alabama Shakes
+    - This Is Bruce Springsteen
+    - This Is Bruno Mars
+    - This Is Celine Dion
+    - This Is Coldplay
+    - This Is James Morrison
+    - This Is Kensington
+    - "Kinky Boots (Original Broadway Cast Recording)"
+    - This Is Marco Borsato
+  icon: mdi:music
+living_preset:
+  name: Living Scene
+  options:
+    - NoPreset
+    - Romance
+    - Christmas
+    - Relaxing
+    - Watching TV
+    - Breakfast
+    - Reading
+downstairs_music:
+  name: Downstairs Music
+  # initial: NoMusic
+  icon: mdi:music
+  options:
+    - "'t Koffiehuis"
+    - Throwback Party
+    - Today's Top Hits
+    - Lounge - Soft House
+    - Jazzy Romance
+    - Christmas Is Coming
+    - Your Favorite Coffeehouse
+    - "Relax & Unwind"
+    - Disney Greatest Hits
+    - Dinner with Friends
+    - Bumba En Zijn Vrienden
+    - Juf Roos - Kinderliedjes deel 1
+    - NoMusic
+bathroom_music:
+  name: Bathroom Music
+  icon: mdi:music
+  # initial: Bathroom NoMusic
+  options:
+    - Morning Motivation
+    - "Happy Hits!"
+    - Relax & Unwind
+    - Bathroom NoMusic
+camera_preset:
+  name: Camera Preset
+  # initial: Home
+  icon: mdi:camcorder
+  options:
+    - All On
+    - Home
+holiday_season:
+  name: Holiday Season
+  # initial: Home
+  options:
+    - None
+    - Christmas
+    - Halloween
+    - Easter

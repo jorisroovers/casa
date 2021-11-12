@@ -1,0 +1,14 @@
+title: Bathroom
+path: bathroom
+cards:
+  - type: light
+    name: Bathroom Lights
+    entity: light.bathroom_group
+  - type: button
+    name: Bathroom Mirror
+    entity: switch.bathroom_mirror_light
+  - type: media-control
+    entity: media_player.bathroom
+  - type: entity
+    title: Bathroom Temperature
+    entity: sensor.aeotec_zw100_multisensor_6_temperature

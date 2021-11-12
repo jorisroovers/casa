@@ -1,0 +1,71 @@
+---
+- name: "Installing Java 8"
+  apt: name={{item}} state=latest
+  become: yes
+  with_items:
+    - openjdk-8-jre-headless
+
+- name: Installing ELK apt source public key
+  become: yes
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+# Using ELK 5.x because of this: https://github.com/logstash-plugins/logstash-output-http/issues/77
+- name: Adding ELK package source
+  lineinfile:
+    state: present
+    create: yes
+    path: /etc/apt/sources.list.d/elastic-5.x.list
+    line: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  become: yes
+  register: elk_package_source
+
+- name: "Updating apt-get cache"
+  apt: update_cache=yes
+  become: yes
+  when: elk_package_source.changed
+
+- name: "Installing logstash"
+  apt: name={{item}} state=present
+  become: yes
+  notify: restart_logstash
+  with_items:
+    - logstash
+
+- name: Configuring logstash handlers
+  template: src="{{item}}" dest="{{logstash_conf_dir}}/{{item}}" owner={{logstash_user}} group={{logstash_group}}
+  become: yes
+  notify: restart_logstash
+  with_items:
+    - logstash.yml
+
+- name: Creating datastore repository
+  become: yes
+  file: path="{{logstash_http_datastore}}" state=directory owner={{logstash_user}} group={{logstash_group}}
+
+- name: Configuring logstash handlers
+  template: src="{{item}}" dest="{{logstash_pipeline_conf_dir}}/{{item}}" owner={{logstash_user}} group={{logstash_group}}
+  become: yes
+  notify: restart_logstash
+  with_items:
+    - http-to-file.conf
+    # - homeassistant-to-es.conf
+  tags: ['logstash-conf']
+
+- name: Make sure logstash services are started and enabled
+  service: name={{item}} state=started enabled=yes
+  become: yes
+  with_items:
+    - "{{logstash_service}}"
+
+- name: "Add iptable rule for logstash-http-handler"
+  iptables: chain=INPUT protocol=tcp destination_port={{logstash_http_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+            comment="Logstash HTTP Handler"
+  become: yes
+  notify: save_iptables
+  tags: [iptables, iptable]
+
+- name: Installing some convenience aliases
+  template: src=logstash-aliases.sh dest=/etc/profile.d/logstash-aliases.sh
+  become: yes

@@ -1,0 +1,56 @@
+########################################################################################################################
+# Bedroom Hannah                                                                                                      #
+########################################################################################################################
+
+- alias: Hannah bedroom heating input boolean automation
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heat_bedroom_hannah
+  action:
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{% raw %}{{ trigger.to_state.state == 'on' }}{% endraw %}"
+          sequence:
+            - service: climate.set_temperature
+              data:
+                entity_id: "climate.living_room"
+                temperature: 26
+            - service: climate.set_temperature
+              data:
+                entity_id: "climate.bedroom_hannah"
+                temperature: 23
+            - service: notify.slack
+              data:
+                message: |
+                      Started heating bedroom Hannah
+      default:
+        - service: climate.set_temperature
+          data:
+            entity_id: "climate.living_room"
+            temperature: 17
+        - service: climate.set_temperature
+          data:
+            entity_id: "climate.bedroom_hannah"
+            temperature: 20
+        - service: notify.slack
+          data:
+            message: |
+                  Stopped heating bedroom Hannah
+
+- alias: Notify when too cold in Hannah's room
+  initial_state: True
+  trigger:
+    - platform: numeric_state
+      entity_id: climate.bedroom_hannah
+      value_template: "{% raw %}{{ states.attributes.current_temperature }}{% endraw %}"
+      below: 18
+  action:
+    - service: notify.slack
+      data:
+        message: |
+              Bedroom Hannah below 18 degrees
+    # - service: input_boolean.turn_off
+    #   data:
+    #     entity_id: input_boolean.heat_bedroom

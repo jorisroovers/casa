@@ -1,0 +1,71 @@
+- platform: systemmonitor
+  resources:
+      - type: memory_free
+      - type: disk_use_percent
+        arg: /
+      - type: memory_use_percent
+      - type: load_1m
+      - type: load_5m
+      - type: load_15m
+      - type: processor_use
+- platform: buienradar
+  monitored_conditions:
+    - symbol
+    - conditiondetailed
+    - humidity
+    - temperature
+    - windspeed
+    - pressure
+- platform: dsmr
+  host: "{{groups["energy_tracker"][0]}}"
+  port: "{{ser2net_public_port}}"
+  dsmr_version: 4
+- platform: google_travel_time
+  api_key: {{google_travel_time_api_key}}
+  origin: {{google_travel_time_origin}}
+  destination: {{google_travel_time_destination}}
+  name: {{google_travel_time_name}}
+- platform: time_date
+  display_options:
+    - "time"
+    - "date"
+    - "date_time"
+- platform: command_line
+  name: "prom2hass"
+  command: python /config/prom2hass.py
+  scan_interval: 20
+  # Let's set the sensor to always be 1, otherwise hass will try to capture the much more verbose output
+  # of prom2hass which it doesn't allow since sensor states can only be 255 characters.
+  value_template: "1"
+- platform: template
+  sensors:
+    desk_state:
+      friendly_name: "Desk"
+      {% raw %}
+      value_template: >-
+        {% if states('sensor.deskheight')|float  < 75 %}
+          down
+        {% else %}
+          up
+        {% endif %}
+      {% endraw %}
+
+    # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+    br_symbol_highres:
+      friendly_name: "br Symbol highres"
+      {% raw %}
+      value_template: "{{ states('sensor.br_symbol') }}"
+      entity_picture_template: "{{ states.sensor.br_symbol.attributes.entity_picture | replace('30x30', '300x300') }}"
+      {% endraw %}
+
+    # Newline required here so ansible doesn't mess up the indentation after 'endraw'
+    afvalwijzer_details:
+      friendly_name: "afvalwijzer details"
+      {% raw %}
+      value_template: >-
+        <div><span class="gft">GFT</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_gft", "pickup_date") }}</span></div>
+        <div><span class="plastic">PLASTIC</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_plastic", "pickup_date") }}</span></div>
+        <div><span class="paper">PAPER</span><span>{{ state_attr("sensor.afvalwijzer_next_pickup_papier", "pickup_date") }}</span></div>
+      {% endraw %}
+
+    # Newline required here so ansible doesn't mess up the indentation after 'endraw'

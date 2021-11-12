@@ -1,0 +1,4 @@
+deconz_container_image: "marthoc/deconz:amd64-2.05.65"
+deconz_container_name: "deconz"
+deconz_web_port: 6080
+deconz_ws_port: 6443

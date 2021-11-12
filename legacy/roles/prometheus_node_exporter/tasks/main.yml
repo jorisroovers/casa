@@ -1,0 +1,58 @@
+---
+- name: Creating node_exporter casa-service
+  import_role:
+    name: casa-service
+  vars:
+    service_name: "node_exporter"
+  become: yes
+
+- name: "Installing prometheus-node-exporter"
+  shell: >
+    curl -L  {{node_exporter_download_url}} -o node_exporter.tar.gz;
+    tar xvf node_exporter.tar.gz;
+    cp node_exporter*/node_exporter {{node_exporter_dir}}/node_exporter
+  args:
+    chdir: "/tmp"
+    creates: "{{node_exporter_dir}}/node_exporter"
+  become: yes
+
+- name: Installing prometheus-node-exporter systemd service
+  template: src=prometheus-node-exporter.service dest=/etc/systemd/system/{{node_exporter_service}}.service
+  notify:
+    - daemon_reload
+    - restart_node_exporter
+  become: yes
+
+- name: Start prometheus-node-exporter service
+  service: name={{node_exporter_service}}.service state=started enabled=yes
+  become: yes
+
+- name: Creating textfile_exports and custom_collector directories
+  file: dest="{{item.dest}}" state=directory owner={{node_exporter_user}} group={{node_exporter_group}} mode={{item.mode}}
+  become: yes
+  with_items:
+    - { dest: "{{node_exporter_textfile_exports}}", mode: "o+w" }
+    - { dest: "{{node_exporter_custom_collectors}}", mode: "u+w" }
+
+- name: Adding custom exporter scripts
+  template: src="{{item}}" dest="{{node_exporter_custom_collectors}}/{{item}}" owner={{node_exporter_user}} group={{node_exporter_group}} mode=u+x
+  become: yes
+  with_items:
+    - "process-cpu-usage.py"
+
+- name: "Adding cronjob for custom exporters"
+  cron: name="Periodic {{item}}.py run" minute="*/1" job="{{node_exporter_custom_collectors}}/{{item}}.py >> {{node_exporter_custom_collectors}}/{{item}}.log 2>&1"
+        user={{node_exporter_user}}
+  become: yes
+  with_items:
+   - "process-cpu-usage"
+
+
+
+# NOTE: Don't expose node-exporter IPs, that data can be accessed through prometheus
+# - name: "Add iptable rule for node-exporter"
+#   iptables: chain=INPUT protocol=tcp destination_port={{node_exporter_port}} source={{casa_subnet}} ctstate=NEW,ESTABLISHED jump=ACCEPT
+#             comment="Prometheus Node Exporter"
+#   become: yes
+#   notify: save_iptables
+#   tags: [iptables, iptable]

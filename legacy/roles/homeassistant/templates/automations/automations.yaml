@@ -1,0 +1,159 @@
+########################################################################################################################
+# From https://www.home-assistant.io/docs/automation/
+# You need to set ' initial_state: True'
+# If you don’t set this the previous state is restored.
+# If you shut Home Assistant down before it finishes starting, the automation will be stored as being off,
+# and your automations will be disabled at the next startup.
+#
+
+########################################################################################################################
+# Music input to sonos preset                                                                                          #
+########################################################################################################################
+
+- alias: Play downstairs sonos preset for music input select
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.downstairs_music
+  action:
+   - choose:
+      - conditions:
+          - condition: state
+            entity_id: "input_select.downstairs_music"
+            state: "NoMusic"
+        sequence:
+          - service: media_player.media_stop
+            data:  
+              entity_id: "media_player.living_room"
+     default:
+      - service: sonos.join
+        data:
+          entity_id: "media_player.tv_room, media_player.move"
+          master: media_player.living_room
+      - service: media_player.select_source
+        data:  
+          entity_id: "media_player.living_room"
+          source: "{% raw %}{{ states('input_select.downstairs_music') }}{% endraw %}"
+      - service: media_player.volume_set
+        data:  
+          volume_level: 0.07
+          entity_id:
+            - media_player.living_room
+            - media_player.tv_room
+            - media_player.move
+
+########################################################################################################################
+# Send message on nest-presence set to home or away                                                                    #
+########################################################################################################################
+
+# - id: auto_away_nest_presence
+#   alias: 'Send message when away from home'
+#   initial_state: True
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.home_away
+#       from: 'off'
+#       to: 'on'
+#   action:
+#     - service: input_select.select_option
+#       data:
+#         entity_id: input_select.house_mode
+#         option: Away
+#     - service: notify.slack
+#       data:
+#         message: |
+#               [Nest] You're gone from home! Set home automatically to away.
+
+- id: auto_home_nest_presence
+  alias: 'Send message when coming home'
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.home_away
+      from: 'on'
+      to: 'off'
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: Auto
+    - service: notify.slack
+      data:
+        message: |
+              [Nest] Welcome home! Set home automatically to home.
+
+
+########################################################################################################################
+# Sunrise/sunset                                                                                                       #
+########################################################################################################################
+
+- id: sunset_outdoor_lighting
+  alias: 'Turning off outdoor lighting at midnight'
+  initial_state: True
+  trigger:
+    - platform: time
+      at: '00:00:00'
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: scene.Midnight
+    # Send slack notification when day, evening or away (not when sleeping).
+    # Note that hass doesn't support 'not' conditions
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: "input_select.house_mode"
+          state: "Day"
+        - condition: state
+          entity_id: "input_select.house_mode"
+          state: "Evening"
+        - condition: state
+          entity_id: "input_select.house_mode"
+          state: "Away"
+    - service: notify.slack
+      data:
+        message: |
+              Midnight. Turning off outdoor lights.
+
+########################################################################################################################
+# Camera                                                                                                               #
+########################################################################################################################
+
+- alias: Camera Preset Home Automation
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.camera_preset
+    to: "Home"
+  action:
+    - service: camera.turn_off
+      data:
+        entity_id: 
+          - camera.diepvries
+          - camera.office
+    - service: camera.turn_on
+      data:
+        entity_id: 
+          - camera.hallway
+          - camera.front_garden
+          - camera.backyard
+   
+- alias: Camera Preset All On Automation
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: input_select.camera_preset
+    to: "All On"
+  action:
+    - service: camera.turn_on
+      data:
+        entity_id: 
+          - camera.diepvries
+          - camera.office
+          - camera.hallway
+          - camera.front_garden
+          - camera.backyard
+    - service: notify.slack
+      data:
+        message: |
+            The place is locked down.

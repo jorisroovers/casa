@@ -11,3 +11,24 @@
       at: "04:45:00"
   action:
     - service: homeassistant.restart
+
+- alias: Reporting light in dressing not turning off
+  id: light_dressing_reporting
+  trigger:
+    - platform: state
+      entity_id:
+        - light.dressing
+        - light.landing
+        - light.kitchen
+        - light.office
+        - light.dining_table
+      to: "off"
+  variables:
+    zombies: "{{ expand(trigger.from_state.attributes.entity_id) | selectattr('state', 'eq', 'on') | list  }}"
+    zombies_entity_list: "{{ zombies | map(attribute='entity_id') | join(', ') }}"
+  action:
+    - condition: template
+      value_template: "{{ zombies != [] }}"
+    - service: script.notify_joris
+      data:
+        message: "One or more lamps did not turn off while turning off {{trigger.from_state.attributes.friendly_name}} ({{ zombies_entity_list }})"

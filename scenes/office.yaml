@@ -46,7 +46,7 @@
       state: "on"
     switch.desk_lamp:
       state: "on"
-    input_select.camera_preset: Home
+    # input_select.camera_preset: Home
     # Close left curtain, leave right curtain as-is
     switch.office_curtain_left_relay1:
       state: "on"

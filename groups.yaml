@@ -35,11 +35,11 @@ lights_outside:
     - light.front_door_lamp_1
     - light.garden
 
-lights_christmas:
-  name: "Christmas lights"
-  entities:
-    - switch.christmas_tree
-    - switch.christmas_ambience_office
+# lights_christmas:
+#   name: "Christmas lights"
+#   entities:
+#     - switch.christmas_tree
+#     - switch.christmas_ambience_office
 
 # Note: automation entity names are based on their 'alias', not on their 'id', this is confusing and can easily lead to
 # automation errors. Always good to check the entity names in Developer Tools

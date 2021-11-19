@@ -57,7 +57,7 @@
       data:
         entity_id: climate.master_bedroom
         temperature: "{{target_master_bedroom}}"
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Master Bedroom
         message: |
@@ -80,18 +80,11 @@
         entity_id: climate.master_bedroom
         # hvac_mode:heat ==> manual on HomeMatic
         hvac_mode: heat
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Master Bedroom
         message: Radiator valve was changed to 'auto' mode, set back to 'manual' mode.
-        data:
-          tag: master-bedroom-radiator-valve-mode
-    - delay: "00:15:00"
-    - service: notify.mobile_app_iphone
-      data:
-        message: clear_notification
-        data:
-          tag: master-bedroom-radiator-valve-mode
+        expire: "00:15:00"
 
 - alias: Auto-reset master bedroom target temperature
   id: master_bedroom_target_temp
@@ -106,12 +99,11 @@
       data:
         entity_id: climate.master_bedroom
         temperature: 5
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Master Bedroom
         message: Temperature was set to above 15C for 3 hours, reset to 5C
-        data:
-          tag: master-bedroom-target-temperature
+        expire: "00:15:00"
 
 ################################################################################
 # Window Opener                                                                #
@@ -149,11 +141,12 @@
       entity_id: binary_sensor.bedroom_window
       state: "on"
   action:
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Master Bedroom
         message: |
           {{ trigger.id  }} Bad weather right now, closing bedroom window. ({{ state_attr('weather.buienradar', 'wind_speed') }} kph, outside_precipitation: {{ states('binary_sensor.outside_precipitation') }})
+        expire: "00:15:00"
     - service: cover.close_cover
       data:
         entity_id: cover.master_bedroom_window
@@ -168,18 +161,11 @@
       to: "on"
   condition: []
   action:
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Master Bedroom
         message: Window Opened!
-        data:
-          tag: master-bedroom-window-opened
-    - delay: "01:00:00"
-    - service: notify.mobile_app_iphone
-      data:
-        message: clear_notification
-        data:
-          tag: master-bedroom-window-opened
+        expire: "00:15:00"
 
 # Close bedroom window when it's open and it gets too cold during daytime or evening.
 # wait for 30 min to ensure entire bedroom gets enough time to ventilate
@@ -201,10 +187,11 @@
           entity_id: binary_sensor.bedroom_window
           state: "on"
   action:
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Master Bedroom
         message: Temperature below 16C for 30 min, closing window
+        expire: "00:15:00"
     - service: cover.close_cover
       data:
         entity_id: cover.master_bedroom_window
@@ -236,18 +223,11 @@
     - condition: state
       entity_id: binary_sensor.bedroom_window
       state: "on"
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Master Bedroom
         message: Closing window after 1 hour
-        data:
-          tag: master-bedroom-open-window
+        expire: "00:10:00"
     - service: cover.close_cover
       data:
         entity_id: cover.master_bedroom_window
-    - delay: "00:10:00"
-    - service: notify.mobile_app_iphone
-      data:
-        message: clear_notification
-        data:
-          tag: master-bedroom-open-window

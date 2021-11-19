@@ -17,8 +17,12 @@
 
     - name: "Housekeeping"
       state: >-
-        {{ ((now().isoweekday() == 1) and (now().hour >= 12 and now().hour < 16))
-        or ((now().isoweekday() == 5) and (now().hour >= 12 and now().hour < 14)) }}
+        {% set time = states('sensor.time') %}
+        {{ ((now().isoweekday() == 1) and ('11:40' < time < '15:30')) 
+        or ((now().isoweekday() == 5) and ('12:00' < time < '14:10')) }}
+
+    # {{ ((now().isoweekday() == 1) and (now().hour >= 12 and now().hour < 16))
+    # or ((now().isoweekday() == 5) and (now().hour >= 12 and now().hour < 14)) }}
 
     - name: "Washer Running"
       state: "{{ states('sensor.washing_machine_electric_consumed_w')| int > 0 }}"

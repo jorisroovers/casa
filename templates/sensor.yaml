@@ -2,3 +2,19 @@
     - name: "Living Room Temperature Rounded"
       unit_of_measurement: "°C"
       state: "{{ states('sensor.living_room_temperature')|round(1) }}"
+
+    - name: "Target House Mode"
+      state: |
+        {% if is_state('binary_sensor.is_early_morning', 'on') %}
+        Early Morning
+        {% elif is_state('binary_sensor.is_night', 'on') %}
+        Night
+        {% elif is_state('binary_sensor.is_evening_2', 'on') %}
+        Evening
+        {% elif is_state('binary_sensor.is_afternoon', 'on') %}
+        Afternoon
+        {% elif is_state('binary_sensor.is_morning', 'on') %}
+        Morning
+        {% else %}
+        Unknown
+        {% endif %}

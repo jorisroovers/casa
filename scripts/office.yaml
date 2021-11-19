@@ -30,6 +30,20 @@ office_open_blinds:
       data:
         entity_id: cover.office_blinds
 
+# office_close_blinds_auto:
+#   alias: Office Close Blinds Auto
+#   sequence:
+#     - service: cover.close_cover
+#       data:
+#         entity_id: cover.office_blinds
+#     - delay: "00:00:05"
+#     - service: cover.stop_cover
+#       data:
+#         entity_id: cover.office_blinds
+#     - service: cover.stop_cover # Stop again for good measure
+#       data:
+#         entity_id: cover.office_blinds
+
 office_open_blinds_step:
   alias: Office Open Blinds Step
   sequence:

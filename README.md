@@ -282,3 +282,13 @@ There's always more to automate!
 - Upgrade network gear
 - ~~Replace macbook server with something more suited (although it works well...)~~ (✅[done](https://twitter.com/jorisroovers/status/1423577362961256448))
 - Only use zwave/zigbee (no WiFi) to interact with sensors (In Progress)
+
+# Uploading new version
+Instructions (for myself) when uploading latest config
+
+```sh
+# Dry Run (= -n)
+git clean -fxdn
+# Actual deleting ignored (and non-staged) files/dirs
+git clean -fxd
+```

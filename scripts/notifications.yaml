@@ -1,0 +1,28 @@
+########################################################################################################################
+# Notifications                                                                                                        #
+########################################################################################################################
+
+# Notification script, provides syntactic sugar for expiring messages
+notify_joris:
+  fields:
+    title:
+      description: "The title of the notification"
+    message:
+      description: "The message content"
+    expire:
+      description: "Delay after which the notification should disappear"
+  sequence:
+    - service: notify.mobile_app_iphone
+      data:
+        title: "{{ title }}"
+        message: "{{ message }}"
+        data:
+          tag: "notify-{{this.context.id}}"
+    - condition: template
+      value_template: "{{ expire is defined }}"
+    - delay: "{{ expire }}"
+    - service: notify.mobile_app_iphone
+      data:
+        message: clear_notification
+        data:
+          tag: "notify-{{this.context.id}}"

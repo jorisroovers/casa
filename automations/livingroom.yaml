@@ -12,17 +12,17 @@
       data:
         entity_id: "scene.{{ states('input_select.living_preset') | lower | replace(' ', '_')}}"
 
-    # When disabling music, keep the current house mode (as this automation might be triggered by a change in
-    # house mode). When enabling music, set house mode to Auto.
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.house_mode
-        option: |
-          {% if is_state('input_select.living_preset', 'NoPreset') %}
-            {{ states('input_select.house_mode') }}
-          {% else %}
-            Auto
-          {% endif %}
+    # # When disabling music, keep the current house mode (as this automation might be triggered by a change in
+    # # house mode). When enabling music, set house mode to Auto.
+    # - service: input_select.select_option
+    #   data:
+    #     entity_id: input_select.house_mode
+    #     option: |
+    #       {% if is_state('input_select.living_preset', 'NoPreset') %}
+    #         {{ states('input_select.house_mode') }}
+    #       {% else %}
+    #         Auto
+    #       {% endif %}
 
 ################################################################################
 # Motion                                                                       #
@@ -111,52 +111,49 @@
       to: "off"
       for: "01:00:00"
   action:
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Living Room
         message: Dyson has been on manual mode for an hour. Setting it back to auto mode
-        data:
-          tag: dyson-manual
-    - service: switch.turn_on
+        expire: "00:01:00"
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.pure_humidify_cool
       data:
-        entity_id: switch.pure_humidify_cool_auto_mode
-    - delay: "00:01:00"
-    - service: notify.mobile_app_iphone
-      data:
-        message: clear_notification
-        data:
-          tag: dyson-manual
+        preset_mode: Auto
 
 - alias: Dyson Manual Mode
   id: livingroom_dyson_manual_mode
   trigger:
     - platform: numeric_state
-      entity_id: air_quality.pure_humidify_cool_air_quality
-      attribute: volatile_organic_compounds
+      entity_id: sensor.pure_humidify_cool_volatile_organic_compounds
       above: 50
     - platform: numeric_state
-      entity_id: air_quality.pure_humidify_cool_air_quality
-      attribute: particulate_matter_2_5
-      above: 20
+      entity_id: sensor.pure_humidify_cool_pm_2_5
+      above: 50
     - platform: numeric_state
-      entity_id: air_quality.pure_humidify_cool_air_quality
-      attribute: particulate_matter_10
-      above: 20
+      entity_id: sensor.pure_humidify_cool_pm_10
+      above: 50
   condition:
     - condition: state
-      entity_id: switch.pure_humidify_cool_auto_mode
-      state: "on"
+      entity_id: fan.pure_humidify_cool
+      attribute: preset_mode
+      state: "Auto"
   action:
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Dyson
         message: >
-          Low Air Quality, normally would switch to manual mode here
-          VOC: {{ state_attr("air_quality.pure_humidify_cool_air_quality","volatile_organic_compounds") }}
-          PPM2.5: {{ state_attr("air_quality.pure_humidify_cool_air_quality","particulate_matter_2_5") }}
-          PPM10: {{ state_attr("air_quality.pure_humidify_cool_air_quality","particulate_matter_10") }}
-        data:
-          tag: dyson-low-aqi
+          Low Air Quality, switching to manual mode here
+          VOC: {{ states("sensor.pure_humidify_cool_volatile_organic_compounds") }}
+          PPM2.5: {{ states("sensor.pure_humidify_cool_pm_2_5") }}
+          PPM10: {{ states("sensor.pure_humidify_cool_pm_10") }}
+        expire: "00:01:00"
+    - service: fan.set_percentage
+      target:
+        entity_id: fan.pure_humidify_cool
+      data:
+        percentage: 40
 
 ################################################################################
 # Music                                                                        #
@@ -239,7 +236,11 @@
               entity_id: input_select.house_mode
               state: "Sleeping"
   action:
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Dining Table
-        message: Normally would play some music now :)
+        message: Eating - playing music!
+        expire: "00:01:00"
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.Eat{{ states('input_select.house_mode')}}"

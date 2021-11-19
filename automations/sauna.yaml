@@ -27,16 +27,8 @@
                 state: "None"
         sequence:
           - service: "script.sauna_program_{{ states('input_select.sauna_program') | lower | replace(' ', '_')}}"
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Sauna
         message: "Stopped Sauna Program"
-        data:
-          tag: sauna-program-message
-    - delay: "00:01:00"
-    - service: notify.mobile_app_iphone
-      data:
-        title: Sauna
-        message: clear_notification
-        data:
-          tag: sauna-program-message
+        expire: "00:01:00"

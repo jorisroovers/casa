@@ -12,10 +12,14 @@
       state: "off"
     media_player.tv_livingroom:
       state: "off"
-    remote.living_room:
-      state: "on"
+    media_player.living_room:
+      state: "paused"
+    media_player.tv_room:
+      state: "paused"
+    media_player.move:
+      state: "paused"
     media_player.apple_tv_living_room:
-      state: idle
+      state: "off"
     cover.office_curtains:
       state: "closed"
     switch.ambience_lights_buffet:
@@ -36,10 +40,16 @@
       state: "off"
     media_player.tv_livingroom:
       state: "off"
-    remote.living_room:
-      state: "on"
+    media_player.living_room:
+      state: "paused"
+    media_player.bathroom:
+      state: "paused"
+    media_player.tv_room:
+      state: "paused"
+    media_player.move:
+      state: "paused"
     media_player.apple_tv_living_room:
-      state: idle
+      state: "off"
     switch.ambience_lights_buffet:
       state: "off"
     switch.living_room_camera_switch:

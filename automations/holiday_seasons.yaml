@@ -20,7 +20,7 @@
           {% elif today == "12-25" %}
             Christmas
           {% else %}
-            "None"
+            NoHoliday
           {% endif %}
 
 - alias: Set front-end and scenes when holiday seasons change
@@ -31,6 +31,12 @@
   trigger:
     - platform: time_pattern
       hours: "/1"
+  condition:
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.holiday_season
+          state: "NoHoliday"
   action:
     - service: frontend.set_theme
       data:

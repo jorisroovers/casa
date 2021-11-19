@@ -84,10 +84,11 @@
       variables:
         action_open: "{{ 'OPEN_' ~ context.id }}"
         action_close: "{{ 'CLOSE_' ~ context.id }}"
-    - service: notify.mobile_app_iphone
+    - service: notify.notify
       data:
         message: Home set to Away. Close Curtains?
         data:
+          tag: house-mode-leave-ask
           actions:
             - action: "{{ action_open }}"
               title: Open
@@ -103,6 +104,7 @@
           event_type: mobile_app_notification_action
           event_data:
             action: "{{ action_close }}"
+      timeout: "00:02:00"
     - alias: "Perform the action"
       choose:
         - conditions: "{{ wait.trigger.event.data.action == action_open }}"
@@ -115,6 +117,12 @@
             - service: cover.close_cover
               target:
                 entity_id: cover.office_curtains
+      default:
+        - service: notify.notify
+          data:
+            message: clear_notification
+            data:
+              tag: house-mode-leave-ask
 
 - alias: Trigger Midnight Scene
   id: house_mode_midnight
@@ -130,9 +138,10 @@
         - condition: state
           entity_id: input_select.house_mode
           state: "Sleeping"
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         message: Midnight. Turning off outdoor lights.
+        expire: "00:15:00"
 
 - alias: Set house_mode to Auto when joris coming home
   id: house_mode_auto_coming_home
@@ -151,10 +160,11 @@
           entity_id: person.joris
           state: "home"
   action:
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Welcome Home
         message: Joris coming home detected! Setting House Mode to Home
+        expire: "00:15:00"
     - service: input_select.select_option
       data:
         entity_id: input_select.house_mode

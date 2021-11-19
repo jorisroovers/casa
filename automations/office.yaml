@@ -167,6 +167,19 @@
       data:
         entity_id: "{{ 'scene.OfficeComputerOn' if is_state('binary_sensor.joris_at_computer', 'on') else 'scene.OfficeComputerOff'}}"
 
+    # When leaving computer and other curtain is open, open the one behind the computer as well
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.joris_at_computer
+          state: "off"
+        - condition: state
+          entity_id: cover.office_curtain_right
+          state: "open"
+    - service: cover.open_cover
+      data:
+        entity_id: cover.office_curtain_left
+
 ################################################################################
 # Office Light Switch                                                          #
 ################################################################################

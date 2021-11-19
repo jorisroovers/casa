@@ -8,19 +8,29 @@
   scan_interval: 5
 
 - platform: tod
-  name: Early Morning
+  name: Is Evening 2
+  before: sunrise
+  after: sunset
+  after_offset: "-00:45"
+
+- platform: tod
+  name: Is Night
+  after: "00:00"
+  before: "sunrise"
+  before_offset: "-00:30"
+
+- platform: tod
+  name: Is Early Morning
   after: sunrise
   after_offset: "-02:00"
   before: "07:00"
 
 - platform: tod
-  name: Is Evening 2
-  before: sunrise
-  after: sunset
-  after_offset: "-01:00"
+  name: Is Morning
+  after: "07:00"
+  before: "12:00"
 
 - platform: tod
-  name: Night
-  after: "00:00"
-  before: "sunrise"
-  before_offset: "-00:30"
+  name: Is Afternoon
+  after: "12:00"
+  before: "18:00"

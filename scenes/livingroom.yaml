@@ -50,6 +50,34 @@
       state: "off"
 
 ################################################################################
+# Eating                                                                       #
+################################################################################
+
+- name: EatMorning
+  entities:
+    light.dining_table:
+      state: "on"
+    light.office:
+      state: "off"
+    input_select.downstairs_music: "'t Koffiehuis"
+
+- name: EatDay
+  entities:
+    light.dining_table:
+      state: "on"
+    light.office:
+      state: "off"
+    input_select.downstairs_music: "'t Koffiehuis"
+
+- name: EatEvening
+  entities:
+    light.dining_table:
+      state: "on"
+    light.office:
+      state: "off"
+    input_select.downstairs_music: "Dinner With Friends"
+
+################################################################################
 # Scenes                                                                       #
 ################################################################################
 - name: Watching TV
@@ -78,41 +106,6 @@
   entities:
     input_select.living_preset: NoPreset
 
-- name: Breakfast
-  entities:
-    light.tv:
-      state: "off"
-    light.tv_ambience:
-      state: "off"
-    light.garden:
-      state: "off"
-    light.living_room:
-      state: "off"
-    light.dining_table:
-      state: "on"
-    light.kitchen:
-      state: "off"
-    light.office:
-      state: "off"
-    input_select.downstairs_music: Breakfast
-
-- name: Dinner
-  entities:
-    light.tv:
-      state: "off"
-    light.tv_ambience:
-      state: "off"
-    light.living_room:
-      state: "off"
-    light.dining_table:
-      state: "on"
-    light.office:
-      state: "off"
-    input_select.downstairs_music: "Dinner With Friends"
-    media_player.living_room:
-      state: playing
-      volume_level: 0.05
-
 - name: Romance
   entities:
     light.tv:
@@ -137,11 +130,11 @@
     light.living_room:
       state: "off"
     input_select.downstairs_music: Christmas Is Coming
-    input_select.camera_preset: Home
-    switch.christmas_tree:
-      state: "on"
-    switch.christmas_ambience_office:
-      state: "on"
+    # input_select.camera_preset: Home
+    # switch.christmas_tree:
+    #   state: "on"
+    # switch.christmas_ambience_office:
+    #   state: "on"
 
 - name: Relaxing
   entities:

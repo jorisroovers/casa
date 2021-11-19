@@ -2,24 +2,38 @@
 # Bedroom Hannah                                                                                                       #
 ########################################################################################################################
 
-- alias: Notify when too cold in Hannah's room
-  id: bedroom_hannah_temperature_notify
+# - alias: Notify when too cold in Hannah's room
+#   id: bedroom_hannah_temperature_notify
+#   trigger:
+#     - platform: numeric_state
+#       entity_id: climate.bedroom_hannah
+#       attribute: current_temperature
+#       below: 18
+#       for: "00:01:00"
+#   action:
+#     - service: notify.notify
+#       data:
+#         message: >
+#           It's cold!
+#           Bedroom Hannah: {{state_attr("climate.bedroom_hannah", "current_temperature") }}C
+#           Bedroom Mats: {{state_attr("climate.bedroom_mats", "current_temperature") }}C
+#           Master Bedroom:  {{state_attr("climate.master_bedroom", "current_temperature") }}C
+#         data:
+#           tag: bedroom-kids-cold
+
+- alias: Notify when kids room have been closed for 48hrs
+  id: bedrooms_kids_window_notify
   trigger:
-    - platform: numeric_state
-      entity_id: climate.bedroom_hannah
-      attribute: current_temperature
-      below: 18
-      for: "00:01:00"
+    - platform: state
+      entity_id:
+        - binary_sensor.bedroom_hannah_window_contact
+        - binary_sensor.bedroom_mats_window_contact
+      to: "off"
+      for: "48:00:00"
   action:
     - service: notify.notify
       data:
-        message: >
-          It's cold! 
-          Bedroom Hannah: {{state_attr("climate.bedroom_hannah", "current_temperature") }}C
-          Bedroom Mats: {{state_attr("climate.bedroom_mats", "current_temperature") }}C
-          Master Bedroom:  {{state_attr("climate.master_bedroom", "current_temperature") }}C
-        data:
-          tag: bedroom-kids-cold
+        message: It's been more than 48hrs since the kids window were last opened. Suggestion to open them :-)
 
 ################################################################################
 # Climate control                                                              #

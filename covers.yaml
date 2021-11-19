@@ -52,6 +52,37 @@
     - cover.office_curtain_right
 
 ########################################################################################################################
+# Office Blinds                                                                                                        #
+########################################################################################################################
+- platform: template
+  covers:
+    office_blinds:
+      device_class: blind
+      friendly_name: Office Blinds
+      value_template: "{{ is_state('binary_sensor.office_blinds_contact', 'on') }}"
+      open_cover:
+        - service: cover.open_cover
+          target:
+            entity_id: cover.office_blinds_raw
+        - delay: "00:00:05"
+        - service: cover.stop_cover
+          data:
+            entity_id: cover.office_blinds_raw
+      close_cover:
+        - service: cover.close_cover
+          target:
+            entity_id: cover.office_blinds_raw
+        - wait_template: "{{ is_state('binary_sensor.office_blinds_contact', 'off') }}"
+          timeout: "00:00:06"
+        - service: cover.stop_cover
+          data:
+            entity_id: cover.office_blinds_raw
+      stop_cover:
+        - service: cover.stop_cover
+          target:
+            entity_id: cover.office_blinds_raw
+
+########################################################################################################################
 # Hallway Curtains                                                                                                     #
 ########################################################################################################################
 - platform: template

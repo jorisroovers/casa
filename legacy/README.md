@@ -1,5 +1,5 @@
 # casa
-**This is the old README of this repository, kept here for reference.**
+**This is the old README of this repository, kept here for reference. I'm no longer using Ansible to orchestrate my setup, nor do I have a lot of these auxillary systems installed. Instead, I use Home Assistant Operating System which makes it trivially easy to upgrade and manage Home Assistant and add-ons (such as Grafana).**
 
 Home-automation stack based on [homeassistant](home-assistant.io), orchestrated through [Ansible](https://www.ansible.com/).
 This repository also contains ansible playbooks for auxillary systems such as [Prometheus](https://prometheus.io/), [Grafana](https://grafana.com/), [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) and more.

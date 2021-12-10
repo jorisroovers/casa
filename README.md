@@ -23,7 +23,8 @@ Blogposts and write-ups:
 [Hubs](#hubs) |
 [Climate](#climate) |
 [Windows/Curtains](#windowscurtains) |
-[Lights](#lights) |[Wall Switches](#wall-switches) |
+[Lights](#lights) |
+[Wall Switches](#wall-switches) |
 [Power Plugs](#power-plugs) |
 [Voice Control](#voice-control) |
 [Security](#security) |
@@ -31,9 +32,9 @@ Blogposts and write-ups:
 [Media](#media) |
 [Other Hardware](#other-hardware) |
 [Software Integrations](#software-integrations) |
-[Supporting Software](#supporting-software) |
+[Home Assistant Add-Ons](#home-assistant-add-ons) |
 [Retired](#retired) |
-[General Notes](#general-notes) |
+[Additional Notes](#additional-notes) |
 [Future Work](#future-work)
 
 # Screenshots
@@ -91,6 +92,7 @@ For 4 years, I used a wallmount focussed dashboard build in [appdaemon](https://
 
 
 
+
 # Hubs
 
 
@@ -105,7 +107,7 @@ For 4 years, I used a wallmount focussed dashboard build in [appdaemon](https://
 # Climate
 
 
-| Device                                                       |                        Home Assistant                        | Notes                                                        |
+| Device                                                       |                        HomeAssistant                         | Notes                                                        |
 | ------------------------------------------------------------ | :----------------------------------------------------------: | :----------------------------------------------------------- |
 | [Nest Thermostat](https://nest.com/thermostats/)             |    [Nest](https://www.home-assistant.io/components/nest/)    | Smart climate control.                                       |
 | [HomeMatic HM-CC-RT-DN](https://www.eq-3.com/products/homematic/heating-and-climate-control/homematic-wireless-radiator-thermostat.html#bestell_info) | [HomeMatic](https://www.home-assistant.io/integrations/homematic) | Smart Radiator valves. Used to control temperature for radiators upstairs where we have no separate thermostat and heating circuit. |
@@ -243,13 +245,16 @@ Additional software integrations I use with Home Assistant.
 # Home Assistant Add-Ons
 
 
-| Software                                                     | HomeAssistant | Description                                                  |
-| :----------------------------------------------------------- | :-----------: | :----------------------------------------------------------- |
-| [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) |               | Automatically backup your Home Assistant config to Google Drive. Super reliable and highly configurable - recommended |
-| [InfluxDB](https://docs.influxdata.com/influxdb)             |               | Time series database used to persistently store sensor and monitoring data. |
-| [Grafana](https://grafana.com/)                              |               | Visualization dashboard to display metrics stored in homeassistant and prometheus. |
-| [AdGuard Home](https://adguard.com/en/adguard-home/overview.html) |               | Network-wide ads & trackers blocking DNS server.             |
-| [OpenWRT](https://openwrt.org/)                              |               | Main AP/Router software. Not immediately related to home-automation but important supporting system. |
+| Software                                                     |                        HomeAssistant                         | Description                                                  |
+| :----------------------------------------------------------- | :----------------------------------------------------------: | :----------------------------------------------------------- |
+| [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) | [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) | Automatically backup your Home Assistant config to Google Drive. Super reliable and highly configurable - recommended |
+| [InfluxDB](https://docs.influxdata.com/influxdb)             | [InfluxDB Addon](https://github.com/hassio-addons/addon-influxdb) | Time series database used to persistently store sensor and monitoring data. |
+| [Grafana](https://grafana.com/)                              | [Grafana Addon](https://github.com/hassio-addons/addon-grafana) | Visualization dashboard to display metrics stored in homeassistant and prometheus. |
+| [AdGuard Home](https://adguard.com/en/adguard-home/overview.html) | [AdGuard Home Addon](https://github.com/hassio-addons/addon-adguard-home) | Network-wide ads & trackers blocking DNS server.             |
+| [VSCode](https://code.visualstudio.com/)                     | [Studio Code Server Addon](https://github.com/hassio-addons/addon-vscode) | Advanved code editor to easily edit Home Assistant configuration from the browser. |
+| [ZwaveJS](https://github.com/zwave-js)                       | [ZwaveJS Addon](https://github.com/home-assistant/addons/tree/master/zwave_js) | Very reliable Zwave driver. Recommended approach for managing your zwave devices with Home Assistant. |
+| SSH & Web Terminal                                           | [SSH Add-On](https://github.com/home-assistant/addons/blob/master/ssh/README.md) | SSH access to Home Assistant Blue device.                    |
+| [OpenWRT](https://openwrt.org/)                              |                              NA                              | Main AP/Router software. Not immediately related to home-automation but important supporting system. |
 
 # Retired
 

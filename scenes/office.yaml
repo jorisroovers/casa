@@ -22,13 +22,16 @@
 
 - name: OfficeSleeping
   entities:
-    light.office_lamp_1:
+    light.office_ambience_lamp_1:
       state: "on"
-      kelvin: 1500
       brightness_pct: 1
-    light.office_lamp_2:
+      kelvin: 1500
+
+- name: OfficeSleepingExit
+  entities:
+    light.office:
       state: "off"
-    light.office_lamp_3:
+    light.office_ambience_lamp_1:
       state: "off"
 
 - name: OfficeExit

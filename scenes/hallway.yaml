@@ -9,6 +9,13 @@
       kelvin: 2500
       brightness_pct: 100
 
+- name: HallwayEnterAway
+  entities:
+    light.hallway:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 100
+
 - name: HallwayEnterEvening
   entities:
     light.hallway:

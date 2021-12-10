@@ -21,3 +21,33 @@ sauna_program_all_heater_interval:
         - switch.sauna_leg_heater
     - delay:
         minutes: "{{ states('input_number.sauna_interval_length') | int }}"
+
+sauna_program_maintain_target_temperature:
+  sequence:
+    - service: switch.turn_on
+      entity_id:
+        - switch.sauna_back_heater
+        - switch.sauna_front_heater
+        - switch.sauna_leg_heater
+    - alias: "Wait until target temperature is almost reached" # stop 1C before target is reached, as temp will continue to rise
+      wait_template: "{{ (states('sensor.sauna_temperature') | float ) >= (states('input_number.sauna_target_temperature') | float - 0.5) }}"
+    - service: switch.turn_off
+      entity_id:
+        - switch.sauna_back_heater
+    - service: script.notify_joris
+      data:
+        title: Sauna
+        message: Almost at target temp, turning off back heater
+        expire: "00:02:00"
+    - alias: "Wait until target temperature is reached" # stop 1C before target is reached, as temp will continue to rise
+      wait_template: "{{ (states('sensor.sauna_temperature') | float ) >= (states('input_number.sauna_target_temperature')) }}"
+    - service: script.notify_joris
+      data:
+        message: Sauna target temp reached
+        expire: "00:02:00"
+    - alias: "Wait until temperature drops below target temp with more than 0.2C"
+      wait_template: "{{ (states('sensor.sauna_temperature') | float) < (states('input_number.sauna_target_temperature') | float - 0.2) }}"
+    - service: script.notify_joris
+      data:
+        message: Sauna temp dropped below target
+        expire: "00:02:00"

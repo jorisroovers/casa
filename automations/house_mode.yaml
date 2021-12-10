@@ -34,6 +34,17 @@
             Day
           {% endif %}
 
+# Ensure house is always in the correct state
+- alias: Rerun house mode scene every 15 min
+  id: rerun_house_mode
+  trigger:
+    - platform: time_pattern
+      minutes: "/15"
+  action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}"
+
 - alias: Set HouseMode to Evening in the evening
   id: house_mode_evening
   trigger:
@@ -207,6 +218,11 @@
               entity_id: calendar.family
               state: Joris PTO
               attribute: message
+            # ensure the PTO is today and not in the future before setting the input_boolean
+            - condition: template
+              value_template: "{{ state_attr('calendar.family', 'start_time') | as_datetime | as_local < now() }}"
+            - condition: template
+              value_template: "{{ state_attr('calendar.family', 'end_time') | as_datetime | as_local > now() }}"
           sequence:
             - service: input_boolean.turn_on
               data:

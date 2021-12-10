@@ -41,3 +41,12 @@
 - name: RelaxingShower
   entities:
     input_select.bathroom_music: "Relax & Unwind"
+
+# When showering, always turn on the bathroom mirror light, even when house is set to e.g. Sleeping
+# when we typically wouldn't turn on the bathroom mirror light
+- name: BathroomShowering
+  entities:
+    light.bathroom:
+      state: "on"
+    switch.bathroom_mirror_light:
+      state: "on"

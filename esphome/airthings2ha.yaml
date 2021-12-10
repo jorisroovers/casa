@@ -1,0 +1,56 @@
+substitutions:
+  dnsname: airthings2ha
+  deviceid: airthings2ha
+  devicename: Airthings 2 HA
+
+esphome:
+  name: ${dnsname}
+  platform: ESP32
+  board: wemos_d1_mini32
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${dnsname}_fallback-AP
+    password: !secret wifi_fallback_ap_password
+
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+  encryption: 
+    key: !secret api_encryption_key
+
+# Enable Over-The-Air updates
+ota:
+  password: !secret ota_password
+
+logger:
+
+# Enable Bluetooth Low Energy
+esp32_ble_tracker:
+
+ble_client:
+  - mac_address: !secret airthings_wave_plus_ble_mac
+    id: airthings01
+  
+sensor:
+  - platform: airthings_wave_plus
+    ble_client_id: airthings01
+    update_interval: 5min
+    temperature:
+      name: "Office WavePlus Temperature"
+    radon:
+      name: "Office WavePlus Radon"
+    radon_long_term:
+      name: "Office WavePlus Radon Long Term"
+    pressure:
+      name: "Office WavePlus Pressure"
+    humidity:
+      name: "Office WavePlus Humidity"
+    co2:
+      name: "Office WavePlus CO2"
+    tvoc:
+      name: "Office WavePlus VOC"

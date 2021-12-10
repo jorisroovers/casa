@@ -17,7 +17,7 @@
   name: Is Night
   after: "00:00"
   before: "sunrise"
-  before_offset: "-00:30"
+  before_offset: "-02:01"
 
 - platform: tod
   name: Is Early Morning

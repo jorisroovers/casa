@@ -3,7 +3,8 @@
 ########################################################################################################################
 
 # Notification script, provides syntactic sugar for expiring messages
-notify_joris:
+notify_joris_sync:
+  mode: parallel
   fields:
     title:
       description: "The title of the notification"
@@ -11,18 +12,39 @@ notify_joris:
       description: "The message content"
     expire:
       description: "Delay after which the notification should disappear"
+  variables:
+    default_tag: "notify-{{ now() }}"
+    message_tag: "{{ tag if (tag is defined and tag != '') else default_tag }}"
   sequence:
-    - service: notify.mobile_app_iphone
+    - service: notify.mobile_app_iphone_13_pro_max
       data:
         title: "{{ title }}"
-        message: "{{ message }}"
+        message: "{{message}}"
         data:
-          tag: "notify-{{this.context.id}}"
+          tag: "{{message_tag}}"
     - condition: template
       value_template: "{{ expire is defined }}"
     - delay: "{{ expire }}"
-    - service: notify.mobile_app_iphone
+    - service: notify.mobile_app_iphone_13_pro_max
       data:
         message: clear_notification
         data:
-          tag: "notify-{{this.context.id}}"
+          tag: "{{message_tag}}"
+
+# This is an asynchronous wrapper around the 'notify_joris_sync' script.
+# It allows for clean syntactic sugar, i.e. being able to use script.notify_joris
+# instead of script.turn_on and setting an additional entity_id, while still asynchronously
+# deliverying messages. This is especially useful when there's an 'expire' set for
+# a notification as the 'notify_joris_sync' script will be blocking until the message
+# has expired.
+notify_joris:
+  mode: parallel
+  sequence:
+    - service: script.turn_on
+      entity_id: script.notify_joris_sync
+      data:
+        variables:
+          title: "{{title}}"
+          message: "{{message}}"
+          expire: "{{expire}}"
+          tag: "{{tag}}"

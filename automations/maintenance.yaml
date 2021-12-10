@@ -12,9 +12,11 @@
   action:
     - service: homeassistant.restart
 
-- alias: Reporting light in dressing not turning off
-  id: light_dressing_reporting
+- alias: Reporting group light not turning off
+  id: light_group_issue_reporting
   trigger:
+    - platform: time_pattern
+      minutes: "/15"
     - platform: state
       entity_id:
         - light.dressing
@@ -32,3 +34,16 @@
     - service: script.notify_joris
       data:
         message: "One or more lamps did not turn off while turning off {{trigger.from_state.attributes.friendly_name}} ({{ zombies_entity_list }})"
+
+- alias: Report ESPHome device becoming unavailable
+  id: esphome_device_unavailble
+  trigger:
+    - platform: state
+      entity_id:
+        - switch.office_curtain_right_relay1
+      to: "unavailable"
+      for: "00:30:00"
+  action:
+    - service: script.notify_joris
+      data:
+        message: "Office curtain unavailable {{trigger.from_state.attributes.friendly_name}}"

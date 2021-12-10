@@ -48,3 +48,9 @@
       state: "on"
       kelvin: 2200
       brightness_pct: 20
+
+- name: TestBlinds
+  entities:
+    cover.office_blinds:
+      state: "open"
+      current_tilt_position: 40

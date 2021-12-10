@@ -107,15 +107,16 @@
   mode: single
   trigger:
     - platform: state
-      entity_id: switch.pure_humidify_cool_auto_mode
-      to: "off"
+      entity_id: fan.pure_humidify_cool
+      attribute: "preset_mode"
+      from: "Auto"
       for: "01:00:00"
   action:
     - service: script.notify_joris
       data:
         title: Living Room
         message: Dyson has been on manual mode for an hour. Setting it back to auto mode
-        expire: "00:01:00"
+        # expire: "00:01:00"
     - service: fan.set_preset_mode
       target:
         entity_id: fan.pure_humidify_cool
@@ -148,7 +149,7 @@
           VOC: {{ states("sensor.pure_humidify_cool_volatile_organic_compounds") }}
           PPM2.5: {{ states("sensor.pure_humidify_cool_pm_2_5") }}
           PPM10: {{ states("sensor.pure_humidify_cool_pm_10") }}
-        expire: "00:01:00"
+        # expire: "00:01:00"
     - service: fan.set_percentage
       target:
         entity_id: fan.pure_humidify_cool
@@ -195,6 +196,20 @@
 # Dining Table                                                                 #
 ################################################################################
 
+- alias: Dining Table Chair Move
+  id: livingroom_diningtable_chair_move
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.chair1_vibration_sensor_in_use
+        - binary_sensor.chair2_vibration_sensor_in_use
+        - binary_sensor.chair3_vibration_sensor_in_use
+      to: "on"
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.dining_table
+
 - alias: Dining Table Switch
   id: livingroom_diningtable_switch
   trigger:
@@ -226,7 +241,9 @@
           entity_id:
             - media_player.living_room
             - media_player.bathroom
-          state: "paused"
+          state:
+            - paused
+            - idle
         - condition: state
           entity_id: binary_sensor.joris_working
           state: "off"
@@ -236,11 +253,11 @@
               entity_id: input_select.house_mode
               state: "Sleeping"
   action:
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.Eat{{ states('input_select.house_mode')}}"
     - service: script.notify_joris
       data:
         title: Dining Table
         message: Eating - playing music!
         expire: "00:01:00"
-    - service: scene.turn_on
-      data:
-        entity_id: "scene.Eat{{ states('input_select.house_mode')}}"

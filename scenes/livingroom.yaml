@@ -57,24 +57,18 @@
   entities:
     light.dining_table:
       state: "on"
-    light.office:
-      state: "off"
     input_select.downstairs_music: "'t Koffiehuis"
 
 - name: EatDay
   entities:
     light.dining_table:
       state: "on"
-    light.office:
-      state: "off"
     input_select.downstairs_music: "'t Koffiehuis"
 
 - name: EatEvening
   entities:
     light.dining_table:
       state: "on"
-    light.office:
-      state: "off"
     input_select.downstairs_music: "Dinner With Friends"
 
 ################################################################################

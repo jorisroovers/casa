@@ -21,5 +21,5 @@
     - service: script.notify_joris
       data:
         title: Home Presence
-        message: "{{ trigger.to_state.attributes.friendly_name }} is now {{trigger.to_state.state}}"
+        message: "{{ trigger.to_state.attributes.friendly_name }} is now {{ trigger.to_state.state | replace('not_home', 'away')}}"
         expire: "00:05:00"

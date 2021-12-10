@@ -3,6 +3,9 @@ default_config:
 
 frontend:
   themes: !include_dir_merge_named themes
+  # Card Mod Perf improvements, see here: https://github.com/thomasloven/lovelace-card-mod#performance-improvements
+  extra_module_url:
+    - /hacsfiles/lovelace-card-mod/card-mod.js
 
 # Text to speech
 tts:
@@ -16,7 +19,7 @@ zone:
     icon: mdi:home
 
 group: !include groups.yaml
-# By "labelling" the 'automation' key, we can use it multiple times and import from different locations
+# By "labeling" the 'automation' key, we can use it multiple times and import from different locations
 # This allows us to enable both handwritten and UI-generated automations
 automation manual: !include_dir_merge_list automations/
 automation ui: !include automations.yaml
@@ -27,12 +30,6 @@ cover: !include covers.yaml
 sensor: !include sensors/sensor.yaml
 binary_sensor: !include sensors/binary.yaml
 template: !include_dir_merge_list templates/
-
-# Non UI Integrations (need to be manually configured in here and required HA restart)
-
-# https://github.com/thomasloven/hass-browser_mod
-# Used for auto navigating wall-mounted ipads using HA automations
-# browser_mod:
 
 google:
   client_id: !secret google_client_id
@@ -49,6 +46,26 @@ nest:
   client_secret: !secret nest_client_secret
   project_id: !secret nest_project_id
   subscriber_id: !secret nest_subscription_id
+
+homekit:
+  - filter:
+      include_entities:
+        - light.nightstand_joris
+
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: !secret influxdb_database
+  username: !secret influxdb_username
+  password: !secret influxdb_password
+  max_retries: 3
+  default_measurement: state
+# Non UI Integrations (need to be manually configured in here and required HA restart)
+
+# https://github.com/thomasloven/hass-browser_mod
+# Used for auto navigating wall-mounted ipads using HA automations
+# browser_mod:
+
 # NOT WORKING
 # dyson
 # Seems to have been broken for a while: https://github.com/home-assistant/core/issues/46400
@@ -61,8 +78,3 @@ nest:
 # spotcast:
 #   sp_key: !secret spotcast_sp_key
 #   sp_dc: !secret spotcast_sp_dc
-
-homekit:
-  - filter:
-      include_entities:
-        - light.nightstand_joris

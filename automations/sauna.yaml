@@ -8,16 +8,20 @@
   trigger:
     platform: state
     entity_id: input_select.sauna_program
+  variables:
+    target_script: "script.sauna_program_{{ states('input_select.sauna_program') | lower | replace(' ', '_')}}"
   action:
     # When switching to 'None', the repeat below will just not run and immediately move on to the Stopped Sauna notification
     # We could put in an extra check here to avoid the "Started Sauna Program - None" to show up for a few secs,
     # but not really required as that message will pretty much immediately change to "Stopped Sauna"
-    - service: notify.mobile_app_iphone
+    - service: script.notify_joris
       data:
         title: Sauna
         message: "Started Sauna Program - {{ states('input_select.sauna_program') }}"
-        data:
-          tag: sauna-program-message
+        tag: sauna-program-message
+    # # Kill off any previously running sauna program
+    # - service: script.turn_off
+    #   entity_id: "{{target_script}}"
     - repeat:
         while:
           - condition: not
@@ -26,9 +30,54 @@
                 entity_id: input_select.sauna_program
                 state: "None"
         sequence:
-          - service: "script.sauna_program_{{ states('input_select.sauna_program') | lower | replace(' ', '_')}}"
+          - service: "{{target_script}}"
     - service: script.notify_joris
       data:
         title: Sauna
         message: "Stopped Sauna Program"
         expire: "00:01:00"
+        tag: sauna-program-message
+
+- alias: Sauna restart program on parameter change
+  id: sauna_restart_program_on_parameter_change
+  mode: restart # Kill last program when selecting a new one
+  trigger:
+    platform: state
+    entity_id:
+      - input_number.sauna_target_temperature
+      - input_number.sauna_interval_length
+  action:
+    - service: automation.trigger
+      target:
+        entity_id: automation.sauna_program
+
+- alias: Reset Sauna Program when turning on/off the sauna
+  id: sauna_reset_program_on_power
+  trigger:
+    platform: state
+    entity_id: switch.sauna_power
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.sauna_program
+        option: None
+
+# Alert when Sauna is on for longer than 3hrs, this probably by mistake
+- alias: Alert when sauna is on for longer than 3 hrs
+  id: sauna_alert_active_too_long
+  trigger:
+    - platform: state
+      entity_id: switch.sauna_power
+      to: "on"
+      for: "03:00:00"
+  action:
+    - service: notify.notify
+      data:
+        title: Sauna
+        message: Sauna's been on for 3 hours!
+        data:
+          push:
+            sound:
+              name: "default"
+              critical: 1
+              volume: 1.0

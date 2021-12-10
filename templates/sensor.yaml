@@ -18,3 +18,7 @@
         {% else %}
         Unknown
         {% endif %}
+
+    - name: "Sauna Session Duration Minutes"
+      unit_of_measurement: "min"
+      state: "{{ states('sensor.sauna_session_duration') | float * 60 | int }}"

@@ -36,3 +36,13 @@
   end: "{{ now() }}"
   duration:
     hours: 2
+
+- platform: history_stats
+  name: Sauna Session Counter
+  entity_id: switch.sauna_leg_heater
+  state: "on"
+  type: count
+  # start: "{{ 0 }}"
+  end: "{{ now() }}"
+  duration:
+    days: 30

@@ -1,3 +1,7 @@
+########################################################################################################################
+# House Mode                                                                                                           #
+########################################################################################################################
+
 - name: Sleeping
   entities:
     group.lights_outside:
@@ -38,6 +42,8 @@
       state: "off"
     group.lights_downstairs_automatic:
       state: "off"
+    group.lights_upstairs:
+      state: "off"
     media_player.tv_livingroom:
       state: "off"
     media_player.living_room:
@@ -77,6 +83,9 @@
       state: "off"
     switch.office_camera_switch:
       state: "off"
+    cover.office_blinds:
+      state: "open"
+      current_tilt_position: 40
     # switch.christmas_tree:
     #   state: on
     # switch.christmas_ambience_office:

@@ -196,7 +196,7 @@
       data:
         entity_id: cover.master_bedroom_window
 
-- alias: Open master bedroom at noon (when home)
+- alias: Open master bedroom window at noon (when home)
   id: master_bedroom_open_window
   trigger:
     - platform: time

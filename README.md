@@ -54,7 +54,7 @@ For 4 years, I used a wallmount focussed dashboard build in [appdaemon](https://
       Office Controls
     </td>
     <td>
-      <img alt="Home Assistant Blue" src="docs/images/ha-blue.png"><br>
+      <img alt="Home Assistant Blue" src="docs/images/ha-blue.jpg"><br>
       My Home Assistant Blue
     </td>
   </tr>

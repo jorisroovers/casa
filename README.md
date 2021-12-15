@@ -15,7 +15,7 @@ Blogposts and write-ups:
 - Details: [Curtain Opener project](projects/curtain-opener/README.md)
 
 *Main dashboard running on wall-mounted iPad*
-![HADashboard Home](docs/images/wallmount-lovelace.jpg)
+![HADashboard Home](docs/images/wallmount-lovelace-new.jpg)
 
 # Menu
 

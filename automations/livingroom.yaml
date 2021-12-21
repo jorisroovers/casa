@@ -116,7 +116,7 @@
       data:
         title: Living Room
         message: Dyson has been on manual mode for an hour. Setting it back to auto mode
-        # expire: "00:01:00"
+        expire: "00:01:00"
     - service: fan.set_preset_mode
       target:
         entity_id: fan.pure_humidify_cool
@@ -149,7 +149,7 @@
           VOC: {{ states("sensor.pure_humidify_cool_volatile_organic_compounds") }}
           PPM2.5: {{ states("sensor.pure_humidify_cool_pm_2_5") }}
           PPM10: {{ states("sensor.pure_humidify_cool_pm_10") }}
-        # expire: "00:01:00"
+        expire: "00:01:00"
     - service: fan.set_percentage
       target:
         entity_id: fan.pure_humidify_cool

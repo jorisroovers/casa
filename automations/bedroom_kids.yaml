@@ -6,8 +6,8 @@
 # Climate control                                                              #
 ################################################################################
 
-- alias: Start heating in Mats' bedroom when switching on switch
-  id: bedroom_mats_start_heating
+- alias: Start heating in Kids bedroom when switching on switch
+  id: bedroom_kids_start_heating
   trigger:
     - platform: state
       entity_id:
@@ -37,6 +37,8 @@
         temperature: "{{kid_room_temp}}"
     - service: script.notify_joris
       data:
+        tag: "heating-kids-bedroom-{{kid}}"
+        expire: "02:00:00"
         message: >
           {% if (trigger.to_state.state == 'on') %}
             Started heating bedroom {{kid | capitalize}}

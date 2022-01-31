@@ -46,6 +46,38 @@
             Stopped heating bedroom {{kid | capitalize}}
           {% endif %}
 
+- alias: Notify when temperature reached when heating kids room
+  id: bedroom_kids_temperature_notify
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - climate.bedroom_hannah
+        - climate.bedroom_mats
+      attribute: current_temperature
+      above: 20
+      for: "00:01:00"
+  variables:
+    kid: "{{ 'mats' if (trigger.to_state.entity_id == 'climate.bedroom_mats') else 'hannah' }}"
+  action:
+    - service: notify.notify
+      data:
+        message: >
+          It's getting warm in {{kid}}'s room.
+          Bedroom Hannah: {{ state_attr("climate.bedroom_hannah", "current_temperature") }}C
+          Bedroom Mats: {{ state_attr("climate.bedroom_mats", "current_temperature") }}C
+          Master Bedroom:  {{ state_attr("climate.master_bedroom", "current_temperature") }}C
+        data:
+          tag: bedroom-kids-warm
+    - condition: template
+      value_template: "{{ is_state('input_boolean.heat_bedroom_' + kid, 'on') }}"
+    - service: script.notify_joris
+      data:
+        message: Seems like it's {{kid}} room which has the input boolean on.
+        expire: "00:05:00"
+    - service: input_boolean.turn_off
+      data:
+        entity_id: "{{ 'input_boolean.heat_bedroom_' + kid }}"
+
 # - alias: Notify when too cold in Hannah's room
 #   id: bedroom_hannah_temperature_notify
 #   trigger:
@@ -78,3 +110,35 @@
     - service: notify.notify
       data:
         message: It's been more than 48hrs since the kids window were last opened. Suggestion to open them :-)
+
+- alias: Ask for bedroom kids heating when closing security gate
+  id: bedrooms_kids_ask_heating_close_gate
+  trigger:
+    platform: state
+    entity_id: binary_sensor.child_safety_gate_landing_contact
+    to: "off"
+    for: "00:00:10"
+  condition:
+    # - condition: state
+    #   entity_id: climate.bedroom_mats
+    #   state: "NoHoliday"
+    - condition: numeric_state
+      entity_id:
+        - climate.bedroom_mats
+      attribute: current_temperature
+      below: 17
+    - condition: time
+      after: "18:00:00"
+  action:
+    - alias: "Set up variables for the actions"
+      variables:
+        action_open: "{{ 'OPEN_' ~ context.id }}"
+        action_close: "{{ 'CLOSE_' ~ context.id }}"
+    - service: notify.notify
+      data:
+        message: >
+          Hannah went to bed, pre-heat bedroom Mats?
+          Bedroom Hannah: {{ state_attr("climate.bedroom_hannah", "current_temperature") }}C
+          Bedroom Mats: {{ state_attr("climate.bedroom_mats", "current_temperature") }}C
+        data:
+          uri: "/lovelace-phone/upstairs"

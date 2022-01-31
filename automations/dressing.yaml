@@ -32,7 +32,16 @@
     - platform: state
       entity_id: binary_sensor.dressing_motion
       to: "off"
-      for: "00:01:00"
+      for: "00:00:30"
+      # Turn off the light a few times, this is to avoid keeping a single lamp on in the light group
+    - platform: state
+      entity_id: binary_sensor.dressing_motion
+      to: "off"
+      for: "00:02:00"
+    - platform: state
+      entity_id: binary_sensor.dressing_motion
+      to: "off"
+      for: "00:05:00"
   variables:
     scene_entity_id: "{{ 'scene.DressingEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.DressingExit' }}"
   action:

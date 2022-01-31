@@ -6,6 +6,9 @@
   id: kitchen_motion
   trigger:
     - platform: state
+      entity_id: input_boolean.cooking
+      to: "on"
+    - platform: state
       entity_id: binary_sensor.kitchen_motion
       to: "on"
     - platform: state
@@ -13,8 +16,29 @@
       to: "off"
       for: "00:03:00"
   variables:
-    scene_entity_id: "{{ 'scene.KitchenEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.KitchenExit' }}"
+    scene_entity_id: >
+      {% if trigger.to_state.state == 'on' %}
+        {% if is_state('input_boolean.cooking', 'on') %}
+          scene.KitchenEnterCooking
+        {% else %}
+          {{ 'scene.KitchenEnter' + states('input_select.house_mode') }}
+        {% endif %}
+      {% else %}
+        scene.KitchenExit
+      {% endif %}
   action:
     - service: scene.turn_on
       data:
         entity_id: "{{ scene_entity_id }}"
+
+- alias: Turn off cooking boolean after an hour
+  id: cooking_input_boolean
+  trigger:
+    - platform: state
+      entity_id: input_boolean.cooking
+      to: "on"
+      for: "01:00:00"
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.cooking

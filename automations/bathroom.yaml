@@ -43,6 +43,9 @@
     - platform: state
       entity_id: binary_sensor.shower_water_present
       to: "on"
+    - platform: numeric_state
+      entity_id: sensor.bathroom_multisensor_humidity
+      above: 65
   condition:
     # Let's check whether bathroom light is on, so we don't get cases where we the leak sensor is
     # flapping while nobody's in the bathroom
@@ -99,6 +102,11 @@
               data:
                 entity_id: media_player.bathroom
       default:
+        - service: media_player.volume_set
+          data:
+            volume_level: 0.05
+            entity_id:
+              - media_player.bathroom
         - service: media_player.select_source
           data:
             entity_id: media_player.bathroom

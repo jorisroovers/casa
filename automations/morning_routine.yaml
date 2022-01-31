@@ -72,6 +72,9 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.StartWorkingMorning"
+    - condition: state
+      entity_id: person.ilse
+      state: "not_home"
     - service: media_player.turn_off
       data:
         entity_id: media_player.tv_livingroom

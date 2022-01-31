@@ -207,14 +207,14 @@
         - condition: state
           entity_id: binary_sensor.bedroom_window
           state: "off"
-        - condition: state
-          entity_id: input_select.house_mode
-          state: "Day"
         - condition: not
           conditions:
             - condition: state
               entity_id: binary_sensor.outside_precipitation
               state: "on"
+            - condition: state
+              entity_id: input_select.house_mode
+              state: "Away"
   action:
     - service: cover.open_cover
       data:

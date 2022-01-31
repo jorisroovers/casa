@@ -29,7 +29,39 @@ ota:
 
 logger:
 
+################################################################################
+# Airthings Wave Plus BLE sensor                                               #
+################################################################################    
+# Enable Bluetooth Low Energy
+esp32_ble_tracker:
+
+ble_client:
+  - mac_address: !secret airthings_wave_plus_ble_mac
+    id: airthings01
+
 sensor:
+  - platform: airthings_wave_plus
+    ble_client_id: airthings01
+    update_interval: 5min
+    temperature:
+      name: "Office WavePlus Temperature"
+    radon:
+      name: "Office WavePlus Radon"
+    radon_long_term:
+      name: "Office WavePlus Radon Long Term"
+    pressure:
+      name: "Office WavePlus Pressure"
+    humidity:
+      name: "Office WavePlus Humidity"
+    co2:
+      name: "Office WavePlus CO2"
+    tvoc:
+      name: "Office WavePlus VOC"
+    
+################################################################################
+# Diaper Weight sensor                                                         #
+################################################################################
+
   - platform: hx711
     id: ${deviceid}_weight
     name: ${devicename} Weight

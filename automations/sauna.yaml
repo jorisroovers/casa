@@ -62,6 +62,18 @@
         entity_id: input_select.sauna_program
         option: None
 
+- alias: Alert when sauna reaches 35C
+  id: sauna_alert_on_35C
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.sauna_temperature
+    above: 35
+  action:
+    - service: script.notify_joris
+      data:
+        message: Sauna above 35C!
+        expire: "00:30:00"
+
 # Alert when Sauna is on for longer than 3hrs, this probably by mistake
 - alias: Alert when sauna is on for longer than 3 hrs
   id: sauna_alert_active_too_long

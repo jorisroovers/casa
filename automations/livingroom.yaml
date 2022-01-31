@@ -261,3 +261,34 @@
         title: Dining Table
         message: Eating - playing music!
         expire: "00:01:00"
+
+# When Joris is working, Ilse is not at home and there's no chair movement for 15 min, turn off lights
+- alias: Dining Table Auto Off
+  id: livingroom_diningtable_auto_off
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.chair1_vibration_sensor_in_use
+      to: "off"
+      for: "00:15:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.dining_table
+          state: "on"
+        - condition: state
+          entity_id: binary_sensor.joris_working
+          state: "on"
+        - condition: state
+          entity_id: person.ilse
+          state: "not_home"
+  action:
+    - service: script.notify_joris
+      data:
+        title: Dining Table
+        message: Nobody at the dinner table, turning off the light
+        expire: "00:01:00"
+    - service: light.turn_off
+      data:
+        entity_id: light.dining_table

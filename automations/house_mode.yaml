@@ -20,19 +20,24 @@
 - alias: Auto-determine house mode when set to 'Auto'
   id: house_mode_autodetermine_from_auto
   trigger:
-    platform: state
-    entity_id: input_select.house_mode
-    to: "Auto"
+    - platform: state
+      entity_id: input_select.house_mode
+      to: "Auto"
+    - platform: state
+      entity_id: sensor.target_house_mode
+  condition:
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.house_mode
+          state:
+            - Sleeping
+            - Away
   action:
     - service: input_select.select_option
       data:
         entity_id: input_select.house_mode
-        option: |
-          {% if is_state('binary_sensor.is_evening', 'on') %}
-            Evening
-          {% else %}
-            Day
-          {% endif %}
+        option: "{{ states('sensor.target_house_mode') }}"
 
 # Ensure house is always in the correct state
 - alias: Rerun house mode scene every 15 min
@@ -44,21 +49,6 @@
     - service: scene.turn_on
       data:
         entity_id: "scene.{{ states('input_select.house_mode') | lower | replace(' ', '_')}}"
-
-- alias: Set HouseMode to Evening in the evening
-  id: house_mode_evening
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.is_evening
-      to: "on"
-  condition:
-    - condition: template
-      value_template: "{{ not (is_state('input_select.house_mode', 'Sleeping') or is_state('input_select.house_mode', 'Away')) }}" # Don't put house in Evening mode when we're already Sleeping (useful in the summer when then sun goes down late)
-  action:
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.house_mode
-        option: "Evening"
 
 - alias: Set house_mode to home when turning on the office light in the morning
   id: house_mode_auto_home_on_start_work
@@ -82,7 +72,7 @@
     - service: input_select.select_option
       data:
         entity_id: input_select.house_mode
-        option: "Day"
+        option: "Auto"
 
 - alias: Ask for action on leaving home
   id: house_mode_ask_leaving_home
@@ -214,10 +204,8 @@
   action:
     - choose:
         - conditions:
-            - condition: state
-              entity_id: calendar.family
-              state: Joris PTO
-              attribute: message
+            - condition: template
+              value_template: "{{ 'Joris PTO' in state_attr('calendar.family', 'message') }}"
             # ensure the PTO is today and not in the future before setting the input_boolean
             - condition: template
               value_template: "{{ state_attr('calendar.family', 'start_time') | as_datetime | as_local < now() }}"

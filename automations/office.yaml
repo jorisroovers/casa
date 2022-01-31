@@ -100,7 +100,7 @@
   trigger:
     - platform: state
       entity_id: input_select.house_mode
-      to: "Day"
+      to: "Morning"
     - platform: time
       at: "09:00:00"
   condition:
@@ -110,7 +110,7 @@
           after: "08:59:00"
         - condition: state
           entity_id: input_select.house_mode
-          state: "Day"
+          state: "Morning"
   action:
     - service: cover.open_cover
       data:
@@ -219,3 +219,25 @@
     - service: light.toggle
       data:
         entity_id: light.office
+
+################################################################################
+# Office CO2                                                                   #
+################################################################################
+
+- alias: Notify Joris when CO2 too high
+  id: office_co2_high
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.office_waveplus_co2
+      above: 800
+    - platform: numeric_state
+      entity_id: sensor.office_waveplus_co2
+      above: 1000
+    - platform: numeric_state
+      entity_id: sensor.office_waveplus_co2
+      above: 1200
+  action:
+    - service: script.notify_joris
+      data:
+        message: Office CO2 concentration ({{sensor.office_waveplus_co2}}) getting high!
+        expire: "00:15:00"

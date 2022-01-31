@@ -6,7 +6,21 @@
 # Office Time of Day                                                           #
 ################################################################################
 
-- name: OfficeDay
+- name: OfficeEarlyMorning
+  entities:
+    light.office:
+      state: "on"
+      kelvin: 3500
+      brightness_pct: 100
+
+- name: OfficeMorning
+  entities:
+    light.office:
+      state: "on"
+      kelvin: 3500
+      brightness_pct: 100
+
+- name: OfficeAfternoon
   entities:
     light.office:
       state: "on"
@@ -14,6 +28,13 @@
       brightness_pct: 100
 
 - name: OfficeEvening
+  entities:
+    light.office:
+      state: "on"
+      kelvin: 2000
+      brightness_pct: 75
+
+- name: OfficeNight
   entities:
     light.office:
       state: "on"

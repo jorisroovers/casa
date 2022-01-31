@@ -32,9 +32,14 @@
       state: "on"
     switch.office_camera_switch:
       state: "on"
+    light.dressing:
+      state: "off"
+    light.landing:
+      state: "off"
   icon: mdi:bed
 
 - name: Away
+  icon: mdi:exit-run
   entities:
     group.lights_outside:
       state: "off"
@@ -62,7 +67,43 @@
       state: "on"
     switch.office_camera_switch:
       state: "off"
-  icon: mdi:exit-run
+    cover.office_curtains:
+      state: "closed"
+
+- name: EarlyMorning
+  entities:
+    group.lights_outside:
+      state: "on"
+    switch.living_room_camera_switch:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"
+
+- name: Morning
+  entities:
+    group.lights_outside:
+      state: "off"
+    light.office_ambience_lamp_1:
+      state: "off"
+    switch.front_door_curtain_relay2:
+      state: "on"
+    switch.living_room_camera_switch:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"
+
+- name: Afternoon
+  entities:
+    group.lights_outside:
+      state: "off"
+    light.office_ambience_lamp_1:
+      state: "off"
+    switch.front_door_curtain_relay2:
+      state: "on"
+    switch.living_room_camera_switch:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"
 
 - name: Evening
   entities:
@@ -91,14 +132,8 @@
     # switch.christmas_ambience_office:
     #   state: on
 
-- name: Day
+- name: Night
   entities:
-    group.lights_outside:
-      state: "off"
-    light.office_ambience_lamp_1:
-      state: "off"
-    switch.front_door_curtain_relay2:
-      state: "on"
     switch.living_room_camera_switch:
       state: "off"
     switch.office_camera_switch:

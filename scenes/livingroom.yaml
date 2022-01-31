@@ -18,8 +18,21 @@
 ################################################################################
 # Motion                                                                       #
 ################################################################################
+- name: LivingRoomEnterEarlyMorning
+  entities:
+    light.living_room:
+      state: "on"
+      kelvin: 3500
+      brightness_pct: 100
 
-- name: LivingRoomEnterDay
+- name: LivingRoomEnterMorning
+  entities:
+    light.living_room:
+      state: "on"
+      kelvin: 3500
+      brightness_pct: 100
+
+- name: LivingRoomEnterAfternoon
   entities:
     light.living_room:
       state: "on"
@@ -32,6 +45,13 @@
       state: "on"
       kelvin: 1500
       brightness_pct: 20
+
+- name: LivingRoomEnterNight
+  entities:
+    light.living_room:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 10
 
 - name: LivingRoomEnterSleeping
   entities:
@@ -53,17 +73,23 @@
 # Eating                                                                       #
 ################################################################################
 
+- name: EatEarlyMorning
+  entities:
+    light.dining_table:
+      state: "on"
+    input_select.downstairs_music: "'t Koffiehuis"
+
 - name: EatMorning
   entities:
     light.dining_table:
       state: "on"
     input_select.downstairs_music: "'t Koffiehuis"
 
-- name: EatDay
+- name: EatAfternoon
   entities:
     light.dining_table:
       state: "on"
-    input_select.downstairs_music: "'t Koffiehuis"
+    input_select.downstairs_music: "Dinner With Friends"
 
 - name: EatEvening
   entities:
@@ -97,6 +123,10 @@
     input_select.living_preset: NoPreset
 
 - name: StopWatchingTVEvening
+  entities:
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVSleeping
   entities:
     input_select.living_preset: NoPreset
 

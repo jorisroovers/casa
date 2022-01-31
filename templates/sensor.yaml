@@ -6,7 +6,7 @@
     - name: "Target House Mode"
       state: |
         {% if is_state('binary_sensor.is_early_morning', 'on') %}
-        Early Morning
+        EarlyMorning
         {% elif is_state('binary_sensor.is_night', 'on') %}
         Night
         {% elif is_state('binary_sensor.is_evening_2', 'on') %}

@@ -2,6 +2,27 @@
 # Pantry                                                                                                               #
 ########################################################################################################################
 
+- name: PantryEnterEarlyMorning
+  entities:
+    light.pantry:
+      color_mode: color_temp
+      color_temp: 250
+      state: "on"
+
+- name: PantryEnterMorning
+  entities:
+    light.pantry:
+      color_mode: color_temp
+      color_temp: 250
+      state: "on"
+
+- name: PantryEnterAfternoon
+  entities:
+    light.pantry:
+      color_mode: color_temp
+      color_temp: 250
+      state: "on"
+
 - name: PantryEnterEvening
   entities:
     light.pantry:
@@ -9,11 +30,18 @@
       color_temp: 454
       state: "on"
 
-- name: PantryEnterDay
+- name: PantryEnterNight
   entities:
     light.pantry:
       color_mode: color_temp
-      color_temp: 250
+      color_temp: 454
+      state: "on"
+
+- name: PantryEnterSleeping
+  entities:
+    light.pantry:
+      color_mode: color_temp
+      color_temp: 454
       state: "on"
 
 - name: PantryExit

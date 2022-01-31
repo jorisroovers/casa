@@ -1,6 +1,32 @@
 ########################################################################################################################
 # Bathroom                                                                                                             #
 ########################################################################################################################
+- name: BathroomEnterEarlyMorning
+  entities:
+    light.bathroom:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 75
+    switch.bathroom_mirror_light:
+      state: "on"
+
+- name: BathroomEnterMorning
+  entities:
+    light.bathroom:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 75
+    switch.bathroom_mirror_light:
+      state: "on"
+
+- name: BathroomEnterAfternoon
+  entities:
+    light.bathroom:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 75
+    switch.bathroom_mirror_light:
+      state: "on"
 
 - name: BathroomEnterEvening
   entities:
@@ -11,11 +37,11 @@
     switch.bathroom_mirror_light:
       state: "on"
 
-- name: BathroomEnterDay
+- name: BathroomEnterNight
   entities:
     light.bathroom:
       state: "on"
-      kelvin: 2500
+      kelvin: 2200
       brightness_pct: 75
     switch.bathroom_mirror_light:
       state: "on"

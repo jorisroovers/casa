@@ -2,7 +2,21 @@
 # Toilet                                                                                                               #
 ########################################################################################################################
 
-- name: ToiletEnterDay
+- name: ToiletEnterEarlyMorning
+  entities:
+    light.toilet:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 100
+
+- name: ToiletEnterMorning
+  entities:
+    light.toilet:
+      state: "on"
+      kelvin: 2500
+      brightness_pct: 100
+
+- name: ToiletEnterAfternoon
   entities:
     light.toilet:
       state: "on"
@@ -17,6 +31,13 @@
       brightness_pct: 10
 
 - name: ToiletEnterSleeping
+  entities:
+    light.toilet:
+      state: "on"
+      kelvin: 1500
+      brightness_pct: 1
+
+- name: ToiletEnterNight
   entities:
     light.toilet:
       state: "on"

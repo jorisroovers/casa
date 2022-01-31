@@ -48,3 +48,4 @@ automation_disable_housekeeping:
   entities:
     - automation.music_on_afternoon_shower_during_weekday
     - automation.bathroom_exit
+    - automation.rerun_house_mode_scene_every_15_min

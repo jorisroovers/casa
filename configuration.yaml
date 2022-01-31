@@ -1,6 +1,12 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+# Allow access through reverse proxy
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - !secret local_reverse_proxy
+
 frontend:
   themes: !include_dir_merge_named themes
   # Card Mod Perf improvements, see here: https://github.com/thomasloven/lovelace-card-mod#performance-improvements

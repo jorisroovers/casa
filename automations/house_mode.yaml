@@ -60,14 +60,12 @@
       entity_id: light.office
       to: "on"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_select.house_mode
-          state: "Sleeping"
-        - condition: time
-          after: "05:00:00"
-          before: "18:00:00"
+    - condition: state
+      entity_id: input_select.house_mode
+      state: "Sleeping"
+    - condition: time
+      after: "05:00:00"
+      before: "18:00:00"
   action:
     - service: input_select.select_option
       data:
@@ -151,15 +149,13 @@
       entity_id: binary_sensor.front_door_contact
       to: "on"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_select.house_mode
-          state: "Away"
-          for: "00:05:00"
-        - condition: state
-          entity_id: person.joris
-          state: "home"
+    - condition: state
+      entity_id: input_select.house_mode
+      state: "Away"
+      for: "00:05:00"
+    - condition: state
+      entity_id: person.joris
+      state: "home"
   action:
     - service: script.notify_joris
       data:

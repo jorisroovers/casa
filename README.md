@@ -8,7 +8,7 @@ In 2021 I've switched over to using the [Home Assistant Operating System](https:
 
 Blogposts and write-ups:
 
-- Blogpost: [My Smart Home 2021](https://jorisroovers.com/posts/my-smart-home-2021)
+- Blogpost: [My Smart Home 2021](https://jorisroovers.com/posts/my-smart-home-2021) ([featured on Hackernews](https://news.ycombinator.com/item?id=30349767))
 - [Details of my conference talk *Creating the Ultimate Morning Routine* at the 2020 Home Assistant Conference](docs/Ultimate-Morning-Routine.md)
 - Blogpost: [My Favorite Home Automations](https://jorisroovers.com/posts/my-favorite-home-automations)
 - Blogpost: [Window Opener project](https://jorisroovers.com/posts/window-opener)

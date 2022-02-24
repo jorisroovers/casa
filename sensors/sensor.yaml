@@ -48,6 +48,5 @@
     days: 30
 
 - platform: command_line
-  name: UDMPRO CPU Temperature
-  command: "commandline/udmpro-temp.sh"
-  unit_of_measurement: "°C"
+  name: Unifi Stats
+  command: "commandline/unifi-stats.sh"

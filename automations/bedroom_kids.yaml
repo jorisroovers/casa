@@ -59,21 +59,20 @@
   variables:
     kid: "{{ 'mats' if (trigger.to_state.entity_id == 'climate.bedroom_mats') else 'hannah' }}"
   action:
-    - service: notify.notify
+    - service: script.notify_family
       data:
         message: >
           It's getting warm in {{kid}}'s room.
           Bedroom Hannah: {{ state_attr("climate.bedroom_hannah", "current_temperature") }}C
           Bedroom Mats: {{ state_attr("climate.bedroom_mats", "current_temperature") }}C
           Master Bedroom:  {{ state_attr("climate.master_bedroom", "current_temperature") }}C
-        data:
-          tag: bedroom-kids-warm
+        expire: "00:30:00"
     - condition: template
       value_template: "{{ is_state('input_boolean.heat_bedroom_' + kid, 'on') }}"
     - service: script.notify_joris
       data:
         message: Seems like it's {{kid}} room which has the input boolean on.
-        expire: "00:05:00"
+        expire: "00:01:00"
     - service: input_boolean.turn_off
       data:
         entity_id: "{{ 'input_boolean.heat_bedroom_' + kid }}"
@@ -107,7 +106,7 @@
       to: "off"
       for: "48:00:00"
   action:
-    - service: notify.notify
+    - service: script.notify_family
       data:
         message: It's been more than 48hrs since the kids window were last opened. Suggestion to open them :-)
 
@@ -134,11 +133,12 @@
       variables:
         action_open: "{{ 'OPEN_' ~ context.id }}"
         action_close: "{{ 'CLOSE_' ~ context.id }}"
-    - service: notify.notify
+    - service: script.notify_family
       data:
         message: >
           Hannah went to bed, pre-heat bedroom Mats?
           Bedroom Hannah: {{ state_attr("climate.bedroom_hannah", "current_temperature") }}C
           Bedroom Mats: {{ state_attr("climate.bedroom_mats", "current_temperature") }}C
+        expire: "00:05:00"
         data:
           uri: "/lovelace-phone/upstairs"

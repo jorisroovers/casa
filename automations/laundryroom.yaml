@@ -18,11 +18,17 @@
       to: "off"
       for: "00:01:00"
   variables:
+    # This is what I use today, the benefit is that this is pythonic (i.e. "easy" to read if you're used to python)
     scene_entity_id: "{{ 'scene.LaundryRoomEnter' + states('input_select.house_mode') if (trigger.to_state.state == 'on') else 'scene.LaundryRoomExit' }}"
+    # # Same, using new iif jinja filter
+    # scene_entity_id: "{{  (trigger.to_state.state == 'on') || iif('scene.LaundryRoomEnter' + states('input_select.house_mode'), 'scene.LaundryRoomExit') }}"
+    # # Same, using new iif homeassistant template function (I like this one the least)
+    # scene_entity_id: "{{  iif(trigger.to_state.state == 'on', scene.LaundryRoomEnter' + states('input_select.house_mode'), 'scene.LaundryRoomExit') }}"
   action:
     - service: scene.turn_on
       data:
         entity_id: "{{ scene_entity_id }}"
+
 
 ################################################################################
 # Laundry Status Notifications                                                 #

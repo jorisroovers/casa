@@ -51,6 +51,9 @@
 
 - name: TestBlinds
   entities:
-    cover.office_blinds:
-      state: "open"
-      current_tilt_position: 40
+    humidifier.pure_humidify_cool:
+      state: "on"
+      mode: auto
+    fan.pure_humidify_cool:
+      state: "on"
+      preset_mode: Auto

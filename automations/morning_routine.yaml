@@ -9,14 +9,12 @@
     entity_id: light.nightstand_joris
     to: "on"
   condition:
-    - condition: and
-      conditions:
-        - condition: time
-          after: "07:00:00"
-          before: "10:00:00"
-        - condition: state
-          entity_id: binary_sensor.workday_sensor
-          state: "on"
+    - condition: time
+      after: "07:00:00"
+      before: "10:00:00"
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: "on"
   action:
     - service: scene.turn_on
       data:
@@ -34,17 +32,15 @@
       entity_id: light.bathroom
       to: "off"
   condition:
-    - condition: and
-      conditions:
-        - condition: time
-          after: "07:00:00"
-          before: "10:00:00"
-        - condition: state
-          entity_id: binary_sensor.workday_sensor
-          state: "on"
-        - condition: state # Only do this automation when the house is still sleeping. This prevents this automation from messing up someone else presets who's already downstairs
-          entity_id: input_select.house_mode
-          state: "Sleeping"
+    - condition: time
+      after: "07:00:00"
+      before: "10:00:00"
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: "on"
+    - condition: state # Only do this automation when the house is still sleeping. This prevents this automation from messing up someone else presets who's already downstairs
+      entity_id: input_select.house_mode
+      state: "Sleeping"
   action:
     # - service: rest_command.start_morning_tv
     # - delay: 00:00:05 # Wait a bit, so TV can turn on fully before we attempt to play music
@@ -60,14 +56,12 @@
       from: "off"
       to: "on"
   condition:
-    - condition: and
-      conditions:
-        - condition: time
-          after: "07:00:00"
-          before: "10:30:00"
-        - condition: state
-          entity_id: binary_sensor.workday_sensor
-          state: "on"
+    - condition: time
+      after: "07:00:00"
+      before: "10:30:00"
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: "on"
   action:
     - service: scene.turn_on
       data:

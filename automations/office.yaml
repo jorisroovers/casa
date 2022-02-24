@@ -13,11 +13,9 @@
       to: "off"
       for: "00:03:00"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: binary_sensor.joris_at_computer
-          state: "off"
+    - condition: state
+      entity_id: binary_sensor.joris_at_computer
+      state: "off"
   action:
     - service: scene.turn_on
       data:
@@ -34,11 +32,9 @@
       to: "off"
       for: "00:03:00"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_select.house_mode
-          state: "Sleeping"
+    - condition: state
+      entity_id: input_select.house_mode
+      state: "Sleeping"
   variables:
     scene_entity_id: "{{ 'scene.OfficeSleeping' if (trigger.to_state.state == 'on') else 'scene.OfficeSleepingExit' }}"
   action:
@@ -104,13 +100,11 @@
     - platform: time
       at: "09:00:00"
   condition:
-    - condition: and
-      conditions:
-        - condition: time
-          after: "08:59:00"
-        - condition: state
-          entity_id: input_select.house_mode
-          state: "Morning"
+    - condition: time
+      after: "08:59:00"
+    - condition: state
+      entity_id: input_select.house_mode
+      state: "Morning"
   action:
     - service: cover.open_cover
       data:
@@ -239,5 +233,5 @@
   action:
     - service: script.notify_joris
       data:
-        message: Office CO2 concentration ({{sensor.office_waveplus_co2}}) getting high!
+        message: Office CO2 concentration ({{ states('sensor.office_waveplus_co2') }}) getting high!
         expire: "00:15:00"

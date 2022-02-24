@@ -42,3 +42,14 @@
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.cooking
+
+- alias: Enable cooking boolean when starting cooking
+  id: cooking_alert_on_start
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.cooking_started
+      to: "on"
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.cooking

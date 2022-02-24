@@ -26,11 +26,9 @@
       to: "off"
       for: "00:03:00"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: binary_sensor.shower_water_present
-          state: "off"
+    - condition: state
+      entity_id: binary_sensor.shower_water_present
+      state: "off"
   action:
     - service: scene.turn_on
       data:
@@ -49,11 +47,9 @@
   condition:
     # Let's check whether bathroom light is on, so we don't get cases where we the leak sensor is
     # flapping while nobody's in the bathroom
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: light.bathroom
-          state: "on"
+    - condition: state
+      entity_id: light.bathroom
+      state: "on"
   action:
     - service: script.notify_joris
       data:
@@ -119,20 +115,18 @@
       entity_id: light.bathroom_group
       to: "on"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: binary_sensor.joris_working
-          state: "off"
-        - condition: time
-          after: "12:00:00"
-          before: "17:00:00"
-          weekday:
-            - mon
-            - tue
-            - wed
-            - thu
-            - fri
+    - condition: state
+      entity_id: binary_sensor.joris_working
+      state: "off"
+    - condition: time
+      after: "12:00:00"
+      before: "17:00:00"
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
   action:
     - service: scene.turn_on
       data:

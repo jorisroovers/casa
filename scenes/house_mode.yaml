@@ -36,6 +36,12 @@
       state: "off"
     light.landing:
       state: "off"
+    humidifier.pure_humidify_cool:
+      state: "on"
+      mode: auto
+    fan.pure_humidify_cool:
+      state: "on"
+      preset_mode: Auto
   icon: mdi:bed
 
 - name: Away

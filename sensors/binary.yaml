@@ -34,10 +34,13 @@
   name: Is Afternoon
   after: "12:00"
   before: "18:00"
-# - platform: trend
-#   sensors:
-#     cooking_trend:
-#       entity_id: sensor.kitchen_hood_temperature
-#       sample_duration: 30
-#       max_samples: 10
-#        min_gradient: 0.05
+
+- platform: trend
+  sensors:
+    cooking_started:
+      entity_id: sensor.kitchen_hood_temperature
+      sample_duration: 60
+      max_samples: 10
+      # The gradient is measured in sensor units per second
+      # We want to trigger if there's a 1.5C change in 60s, so gradient should be: 1.5/60 = 0.025
+      min_gradient: 0.025

@@ -179,13 +179,11 @@
       below: 16
       for: "00:30:00"
   condition:
-    - condition: and
-      conditions:
-        - condition: template
-          value_template: "{{ states('input_select.house_mode') in ['Morning', 'Day', 'Evening'] }}"
-        - condition: state
-          entity_id: binary_sensor.bedroom_window
-          state: "on"
+    - condition: template
+      value_template: "{{ states('input_select.house_mode') in ['Morning', 'Day', 'Evening'] }}"
+    - condition: state
+      entity_id: binary_sensor.bedroom_window
+      state: "on"
   action:
     - service: script.notify_joris
       data:
@@ -202,19 +200,17 @@
     - platform: time
       at: "12:00:00"
   condition:
-    - condition: and
+    - condition: state
+      entity_id: binary_sensor.bedroom_window
+      state: "off"
+    - condition: not
       conditions:
         - condition: state
-          entity_id: binary_sensor.bedroom_window
-          state: "off"
-        - condition: not
-          conditions:
-            - condition: state
-              entity_id: binary_sensor.outside_precipitation
-              state: "on"
-            - condition: state
-              entity_id: input_select.house_mode
-              state: "Away"
+          entity_id: binary_sensor.outside_precipitation
+          state: "on"
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Away"
   action:
     - service: cover.open_cover
       data:

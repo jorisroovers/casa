@@ -24,6 +24,13 @@ zone:
     radius: 75
     icon: mdi:home
 
+notify:
+  - name: family
+    platform: group
+    services:
+      - service: mobile_app_iphone_13_pro_max
+      - service: mobile_app_iphone_van_ilse
+
 group: !include groups.yaml
 # By "labeling" the 'automation' key, we can use it multiple times and import from different locations
 # This allows us to enable both handwritten and UI-generated automations

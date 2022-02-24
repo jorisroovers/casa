@@ -114,7 +114,19 @@
       state: "off"
     input_select.downstairs_music: NoMusic
 
-- name: StopWatchingTVDay
+- name: StopWatchingTVEarlyMorning
+  entities:
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVMorning
+  entities:
+    light.tv:
+      state: "off"
+    light.tv_ambience:
+      state: "off"
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVAfternoon
   entities:
     light.tv:
       state: "off"
@@ -129,6 +141,11 @@
 - name: StopWatchingTVSleeping
   entities:
     input_select.living_preset: NoPreset
+
+- name: StopWatchingTVAway
+  entities:
+    input_select.living_preset: NoPreset
+
 
 - name: Romance
   entities:

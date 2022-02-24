@@ -27,3 +27,12 @@
     - service: scene.turn_on
       data:
         entity_id: "{{ scene_entity_id }}"
+    # When Joris is still in bed, but Ilse is awake (determined when phone is charging)
+    - condition: "{{ not is_state('input_select.house_mode', 'Sleeping') }}"
+    - condition: "{{ is_state('sensor.iphone_13_pro_max_battery_state', 'Not Charging')  }}"
+    - condition: "{{ is_state('person.joris', 'Home')  }}"
+    - service: script.notify_joris
+      data:
+        message: Joris still sleeping, landing light should be kept off!
+
+

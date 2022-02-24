@@ -22,3 +22,37 @@
     - name: "Sauna Session Duration Minutes"
       unit_of_measurement: "min"
       state: "{{ states('sensor.sauna_session_duration') | float * 60 | int }}"
+
+    - name: "UDMPRO CPU Temperature"
+      unit_of_measurement: "°C"
+      state: "{{ states('sensor.unifi_stats').split('|')[0] }}"
+
+    - name: "UDMPRO CPU Usage"
+      unit_of_measurement: "%"
+      state: "{{ states('sensor.unifi_stats').split('|')[1] }}"
+
+    - name: "UDMPRO Memory Usage"
+      unit_of_measurement: "%"
+      state: "{{ states('sensor.unifi_stats').split('|')[2] }}"
+
+    - name: "UDMPRO Uptime Secs"
+      unit_of_measurement: "sec"
+      state: "{{ states('sensor.unifi_stats').split('|')[3] }}"
+
+    - name: "UDMPRO Uptime"
+      state: "{{ (now() - timedelta(seconds=states('sensor.unifi_stats').split('|')[3] | int))  | relative_time }}"
+
+    - name: "USW24POE CPU Usage"
+      unit_of_measurement: "%"
+      state: "{{ states('sensor.unifi_stats').split('|')[4] }}"
+
+    - name: "USW24POE Memory Usage"
+      unit_of_measurement: "%"
+      state: "{{ states('sensor.unifi_stats').split('|')[5] }}"
+
+    - name: "USW24POE Uptime Secs"
+      unit_of_measurement: "sec"
+      state: "{{ states('sensor.unifi_stats').split('|')[6] }}"
+
+    - name: "USW24POE Uptime"
+      state: "{{ (now() - timedelta(seconds=states('sensor.unifi_stats').split('|')[6] | int))  | relative_time }}"

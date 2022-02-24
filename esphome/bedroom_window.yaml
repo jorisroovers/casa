@@ -16,28 +16,7 @@ esphome:
       - switch.turn_off: ${deviceid}_open_relay
       - switch.turn_off: ${deviceid}_close_relay
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: ${dnsname}_fallback-AP
-    password: !secret wifi_fallback_ap_password
-
-captive_portal:
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  password: !secret api_password
-  encryption: 
-    key: !secret api_encryption_key
-
-ota:
-  password: !secret ota_password
+<<: !include .base.yaml
 
 ########################################################################################################################
 # I/O                                                                                                                  #

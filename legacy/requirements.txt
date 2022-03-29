@@ -1,2 +1,2 @@
 invoke==1.2.0
-paramiko==2.4.2
+paramiko==2.10.1

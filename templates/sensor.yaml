@@ -3,6 +3,18 @@
       unit_of_measurement: "°C"
       state: "{{ states('sensor.living_room_temperature')|round(1) }}"
 
+    - name: "Daily Gas Cost"
+      unit_of_measurement: "EUR"
+      state: "{{ (float(states('sensor.daily_gas_consumption')) * float(states('input_number.gas_tariff_unit_price'))) | round(2) }}"
+
+    - name: "Weekly Gas Cost"
+      unit_of_measurement: "EUR"
+      state: "{{ (float(states('sensor.weekly_gas_consumption')) * float(states('input_number.gas_tariff_unit_price'))) | round(2) }}"
+
+    - name: "Monthly Gas Cost"
+      unit_of_measurement: "EUR"
+      state: "{{ (float(states('sensor.monthly_gas_consumption')) * float(states('input_number.gas_tariff_unit_price'))) | round(2) }}"
+
     - name: "Target House Mode"
       state: |
         {% if is_state('binary_sensor.is_early_morning', 'on') %}
@@ -56,3 +68,8 @@
 
     - name: "USW24POE Uptime"
       state: "{{ (now() - timedelta(seconds=states('sensor.unifi_stats').split('|')[6] | int))  | relative_time }}"
+
+    - name: "Notion Dinner Today"
+      state: |
+        {% set meals = states("sensor.notion_meals") | from_json %}
+        {{ meals.get(now().strftime('%Y-%m-%d'), "No meal found for today") }}

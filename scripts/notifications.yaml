@@ -65,3 +65,28 @@ notify_family:
           message: "{{message}}"
           expire: "{{expire}}"
           tag: "{{tag}}"
+
+notify_family_home:
+  mode: parallel
+  sequence:
+    - service: script.turn_on
+      entity_id: script.notify_sync
+      data:
+        variables:
+          notification_service: "notify.mobile_app_iphone_13_pro_max"
+          title: "{{title}}"
+          message: "{{message}}"
+          expire: "{{expire}}"
+          tag: "{{tag}}"
+    - condition: state
+      entity_id: person.ilse
+      state: "home"
+    - service: script.turn_on
+      entity_id: script.notify_sync
+      data:
+        variables:
+          notification_service: "notify.mobile_app_iphone_13_pro_max"
+          title: "{{title}}"
+          message: "[Ilse home] {{message}}"
+          expire: "{{expire}}"
+          tag: "{{tag}}"

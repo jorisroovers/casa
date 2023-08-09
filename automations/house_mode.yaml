@@ -177,13 +177,12 @@
     - platform: state
       entity_id: binary_sensor.housekeeping
   action:
-    - choose:
-        - conditions: "{{ trigger.to_state.state == 'on' }}"
-          sequence:
-            - service: automation.turn_off
-              data:
-                entity_id: group.automation_disable_housekeeping
-      default:
+    - if: "{{ trigger.to_state.state == 'on' }}"
+      then:
+        - service: automation.turn_off
+          data:
+            entity_id: group.automation_disable_housekeeping
+      else:
         - service: automation.turn_on
           data:
             entity_id: group.automation_disable_housekeeping
@@ -198,20 +197,19 @@
       entity_id: calendar.family
       to: "on"
   action:
-    - choose:
-        - conditions:
-            - condition: template
-              value_template: "{{ 'Joris PTO' in state_attr('calendar.family', 'message') }}"
-            # ensure the PTO is today and not in the future before setting the input_boolean
-            - condition: template
-              value_template: "{{ state_attr('calendar.family', 'start_time') | as_datetime | as_local < now() }}"
-            - condition: template
-              value_template: "{{ state_attr('calendar.family', 'end_time') | as_datetime | as_local > now() }}"
-          sequence:
-            - service: input_boolean.turn_on
-              data:
-                entity_id: input_boolean.joris_pto
-      default:
+    - if:
+        - condition: template
+          value_template: "{{ 'Joris PTO' in state_attr('calendar.family', 'message') }}"
+        # ensure the PTO is today and not in the future before setting the input_boolean
+        - condition: template
+          value_template: "{{ state_attr('calendar.family', 'start_time') | as_datetime | as_local < now() }}"
+        - condition: template
+          value_template: "{{ state_attr('calendar.family', 'end_time') | as_datetime | as_local > now() }}"
+      then:
+        - service: input_boolean.turn_on
+          data:
+            entity_id: input_boolean.joris_pto
+      else:
         - service: input_boolean.turn_off
           data:
             entity_id: input_boolean.joris_pto

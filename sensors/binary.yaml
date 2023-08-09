@@ -1,7 +1,3 @@
-- platform: workday
-  country: NL
-  workdays: [mon, tue, wed, thu, fri]
-
 - platform: ping
   host: !secret mbp_joris_host
   name: mbp_joris_active

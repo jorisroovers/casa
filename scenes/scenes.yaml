@@ -49,11 +49,12 @@
       kelvin: 2200
       brightness_pct: 20
 
-- name: TestBlinds
+- name: TestAutomationTurnOff
   entities:
-    humidifier.pure_humidify_cool:
+    automation.set_scene_for_house_mode:
+      state: "off"
+
+- name: TestAutomationTurnOn
+  entities:
+    automation.set_scene_for_house_mode:
       state: "on"
-      mode: auto
-    fan.pure_humidify_cool:
-      state: "on"
-      preset_mode: Auto

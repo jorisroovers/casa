@@ -52,6 +52,8 @@
       state: "on"
       kelvin: 1500
       brightness_pct: 10
+    automation.rerun_house_mode_scene_every_15_min:
+      state: "off"
 
 - name: LivingRoomEnterSleeping
   entities:
@@ -145,7 +147,6 @@
 - name: StopWatchingTVAway
   entities:
     input_select.living_preset: NoPreset
-
 
 - name: Romance
   entities:

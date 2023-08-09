@@ -1,0 +1,16 @@
+- platform: wake_on_lan
+  name: Synology DS920 Wake On LAN
+  mac: 90:09:D0:03:6B:47
+
+- platform: template
+  switches:
+    starshine_nas:
+      value_template: "{{ not is_state('binary_sensor.starshine_nas_security_status', 'unavailable') }}"
+      turn_on:
+        service: switch.turn_on
+        target:
+          entity_id: switch.synology_ds920_wake_on_lan
+      turn_off:
+        service: button.press
+        target:
+          entity_id: button.starshine_nas_shutdown

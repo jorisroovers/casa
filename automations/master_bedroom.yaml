@@ -109,6 +109,38 @@
 # Window Opener                                                                #
 ################################################################################
 
+- alias: Open master bedroom window in the evening (weather permitting)
+  id: master_bedroom_open_window_evening
+  trigger:
+    - platform: time
+      at: "21:30:00"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.bedroom_window
+      state: "off"
+    - condition: numeric_state
+      entity_id: weather.buienradar
+      attribute: temperature
+      above: 15
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.outside_precipitation
+          state: "on"
+        - condition: state
+          entity_id: input_select.house_mode
+          state: "Away"
+
+  action:
+    - service: script.notify_joris
+      data:
+        title: Master Bedroom
+        message: Opening window (evening)
+        expire: "00:10:00"
+    - service: cover.open_cover
+      data:
+        entity_id: cover.master_bedroom_window
+
 - alias: Close bedroom window 30 min before sunrise (or at 5.30AM the latest)
   id: master_bedroom_close_window_sunrise
   trigger:

@@ -24,24 +24,26 @@
       state: "paused"
     media_player.apple_tv_living_room:
       state: "off"
-    cover.office_curtains:
-      state: "closed"
     switch.ambience_lights_buffet:
       state: "off"
     switch.living_room_camera_switch:
-      state: "on"
-    switch.office_camera_switch:
       state: "on"
     light.dressing:
       state: "off"
     light.landing:
       state: "off"
-    humidifier.pure_humidify_cool:
-      state: "on"
-      mode: auto
+    # humidifier.pure_humidify_cool:
+    #   state: "on"
+    #   mode: auto
     fan.pure_humidify_cool:
       state: "on"
       preset_mode: Auto
+    switch.pure_humidify_cool_night_mode:
+      state: "on"
+    switch.christmas_tree_ambience:
+      state: "off"
+    switch.office_christmas_ambience:
+      state: "off"
   icon: mdi:bed
 
 - name: Away
@@ -71,10 +73,10 @@
       state: "off"
     switch.living_room_camera_switch:
       state: "on"
-    switch.office_camera_switch:
+    switch.pure_humidify_cool_night_mode:
+      state: "on"
+    switch.christmas_tree_ambience:
       state: "off"
-    cover.office_curtains:
-      state: "closed"
 
 - name: EarlyMorning
   entities:
@@ -82,33 +84,39 @@
       state: "on"
     switch.living_room_camera_switch:
       state: "off"
-    switch.office_camera_switch:
-      state: "off"
+    switch.pure_humidify_cool_night_mode:
+      state: "on"
+    switch.christmas_tree_ambience:
+      state: "on"
 
 - name: Morning
   entities:
     group.lights_outside:
       state: "off"
-    light.office_ambience_lamp_1:
-      state: "off"
     switch.front_door_curtain_relay2:
       state: "on"
     switch.living_room_camera_switch:
       state: "off"
-    switch.office_camera_switch:
+    switch.pure_humidify_cool_night_mode:
+      state: "off"
+    switch.christmas_tree_ambience:
+      state: "off"
+    switch.office_christmas_ambience:
       state: "off"
 
 - name: Afternoon
   entities:
     group.lights_outside:
       state: "off"
-    light.office_ambience_lamp_1:
-      state: "off"
     switch.front_door_curtain_relay2:
       state: "on"
     switch.living_room_camera_switch:
       state: "off"
-    switch.office_camera_switch:
+    switch.pure_humidify_cool_night_mode:
+      state: "off"
+    switch.christmas_tree_ambience:
+      state: "off"
+    switch.office_christmas_ambience:
       state: "off"
 
 - name: Evening
@@ -120,19 +128,16 @@
       state: "on"
       kelvin: 1500
       brightness_pct: 10
-    light.office_ambience_lamp_1:
-      state: "on"
-      brightness_pct: 20
-      kelvin: 1500
     switch.ambience_lights_buffet:
       state: "on"
     switch.living_room_camera_switch:
       state: "off"
-    switch.office_camera_switch:
+    switch.pure_humidify_cool_night_mode:
       state: "off"
-    cover.office_blinds:
-      state: "open"
-      current_tilt_position: 40
+    switch.christmas_tree_ambience:
+      state: "on"
+    switch.office_christmas_ambience:
+      state: "on"
     # switch.christmas_tree:
     #   state: on
     # switch.christmas_ambience_office:
@@ -142,5 +147,9 @@
   entities:
     switch.living_room_camera_switch:
       state: "off"
-    switch.office_camera_switch:
+    switch.pure_humidify_cool_night_mode:
+      state: "on"
+    switch.christmas_tree_ambience:
+      state: "off"
+    switch.office_christmas_ambience:
       state: "off"

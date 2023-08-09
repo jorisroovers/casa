@@ -15,8 +15,6 @@
     - type: load_15m
     - type: processor_use
 
-- platform: uptime
-
 - platform: afvalinfo
   resources:
     - pbd
@@ -47,6 +45,20 @@
   duration:
     days: 30
 
-- platform: command_line
-  name: Unifi Stats
-  command: "commandline/unifi-stats.sh"
+# Power Plug filtering #################################################################################################
+
+- platform: filter
+  name: "Quooker Dishwasher Energy Filtered"
+  entity_id: sensor.quooker_dishwasher_power_electric_consumption_kwh
+  filters:
+    - filter: outlier
+      window_size: 10
+      radius: 5.0
+
+- platform: filter
+  name: "Dryer Energy Filtered"
+  entity_id: sensor.dryer_electric_consumption_kwh
+  filters:
+    - filter: outlier
+      window_size: 10
+      radius: 5.0

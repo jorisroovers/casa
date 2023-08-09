@@ -75,86 +75,104 @@
 # Diaper Station                                                               #
 ################################################################################
 
-- alias: Diaper Station Lights
-  id: diaper_station_lights
-  # mode: restart # As long as there is movement on the diaper station, keep restarting this automation
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.diaper_station_in_use
-      to: "on"
-    - platform: state
-      entity_id: binary_sensor.diaper_station_in_use
-      to: "off"
-      for: "00:00:10"
-  action:
-    - choose:
-        - conditions: "{{ trigger.to_state.state == 'on' }}"
-          sequence:
-            - service: scene.turn_on
-              data:
-                entity_id: scene.DiaperStationStart
-      default:
-        - service: scene.turn_on
-          data:
-            entity_id: scene.DiaperStationStop
+# - alias: Diaper Station Lights
+#   id: diaper_station_lights
+#   # mode: restart # As long as there is movement on the diaper station, keep restarting this automation
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.diaper_station_in_use
+#       to: "on"
+#     - platform: state
+#       entity_id: binary_sensor.diaper_station_in_use
+#       to: "off"
+#       for: "00:00:10"
+#   action:
+#     - if: "{{ trigger.to_state.state == 'on' }}"
+#       then:
+#         - service: scene.turn_on
+#           data:
+#             entity_id: scene.DiaperStationStart
+#       else:
+#         - service: scene.turn_on
+#           data:
+#             entity_id: scene.DiaperStationStop
 
 ################################################################################
 # Dyson Air Purifier                                                           #
 ################################################################################
 
-- alias: Notify when Dyson on manual mode after hour
-  id: dyson_switch_auto_mode
-  mode: single
-  trigger:
-    - platform: state
-      entity_id: fan.pure_humidify_cool
-      attribute: "preset_mode"
-      from: "Auto"
-      for: "01:00:00"
-  action:
-    - service: script.notify_joris
-      data:
-        title: Living Room
-        message: Dyson has been on manual mode for an hour. Setting it back to auto mode
-        expire: "00:01:00"
-    - service: fan.set_preset_mode
-      target:
-        entity_id: fan.pure_humidify_cool
-      data:
-        preset_mode: Auto
-
+# Dyson is very noisy at high speeds, automatically switch it to low fan speed when air quality gets bad
+# This will just make it take a bit longer for air the be cleaned, but the noise-level will be much better.
 - alias: Dyson Manual Mode
   id: livingroom_dyson_manual_mode
   trigger:
     - platform: numeric_state
-      entity_id: sensor.pure_humidify_cool_volatile_organic_compounds
+      entity_id:
+        - sensor.pure_humidify_cool_volatile_organic_compounds
+        - sensor.pure_humidify_cool_pm_2_5
+        - sensor.pure_humidify_cool_pm_10
       above: 50
     - platform: numeric_state
-      entity_id: sensor.pure_humidify_cool_pm_2_5
-      above: 50
-    - platform: numeric_state
-      entity_id: sensor.pure_humidify_cool_pm_10
-      above: 50
+      entity_id:
+        - sensor.pure_humidify_cool_nitrogen_dioxide
+      above: 20
   condition:
     - condition: state
       entity_id: fan.pure_humidify_cool
       attribute: preset_mode
       state: "Auto"
   action:
-    - service: script.notify_joris
-      data:
-        title: Dyson
-        message: >
-          Low Air Quality, switching to manual mode here
-          VOC: {{ states("sensor.pure_humidify_cool_volatile_organic_compounds") }}
-          PPM2.5: {{ states("sensor.pure_humidify_cool_pm_2_5") }}
-          PPM10: {{ states("sensor.pure_humidify_cool_pm_10") }}
-        expire: "00:01:00"
+    # - service: script.notify_joris
+    #   data:
+    #     title: Dyson
+    #     message: >
+    #       Low Air Quality, switching to manual mode here
+    #       VOC: {{ states("sensor.pure_humidify_cool_volatile_organic_compounds") }}
+    #       PPM2.5: {{ states("sensor.pure_humidify_cool_pm_2_5") }}
+    #       PPM10: {{ states("sensor.pure_humidify_cool_pm_10") }}
+    #       NO2: {{ states("sensor.pure_humidify_cool_nitrogen_dioxide") }}
+    #     expire: "00:01:00"
     - service: fan.set_percentage
       target:
         entity_id: fan.pure_humidify_cool
       data:
         percentage: 40
+
+- alias: Check every 15 min whether Dyson should be set back to auto mode
+  id: dyson_switch_auto_mode
+  mode: single
+  trigger:
+    - platform: time_pattern
+      minutes: "/15"
+  condition:
+    # Switch to auto mode when air quality isn't too bad
+    - condition: numeric_state
+      entity_id:
+        - sensor.pure_humidify_cool_volatile_organic_compounds
+        - sensor.pure_humidify_cool_pm_2_5
+        - sensor.pure_humidify_cool_pm_10
+      below: 50
+    - condition: numeric_state
+      entity_id:
+        - sensor.pure_humidify_cool_nitrogen_dioxide
+      below: 20
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: fan.pure_humidify_cool
+          attribute: preset_mode
+          state: "Auto"
+  action:
+    # - service: script.notify_joris
+    #   data:
+    #     title: Living Room
+    #     message: Switching dyson back to auto mode
+    #     expire: "00:01:00"
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.pure_humidify_cool
+      data:
+        preset_mode: Auto
 
 ################################################################################
 # Music                                                                        #
@@ -166,20 +184,22 @@
     platform: state
     entity_id: input_select.downstairs_music
   action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: input_select.downstairs_music
-              state: "NoMusic"
-          sequence:
-            - service: media_player.media_stop
-              data:
-                entity_id: media_player.living_room
-      default:
-        - service: sonos.join
+    - if:
+        - condition: state
+          entity_id: input_select.downstairs_music
+          state: "NoMusic"
+      then:
+        - service: media_player.media_stop
           data:
-            entity_id: "media_player.tv_room, media_player.move"
-            master: media_player.living_room
+            entity_id: media_player.living_room
+      else:
+        - service: media_player.join
+          target:
+            entity_id: media_player.living_room
+          data:
+            group_members:
+              - media_player.tv_room
+              - media_player.move
         - service: media_player.select_source
           data:
             entity_id: "media_player.living_room"

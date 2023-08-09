@@ -43,6 +43,8 @@
       state: "on"
       kelvin: 2200
       brightness_pct: 15
+    automation.rerun_house_mode_scene_every_15_min:
+      state: "off"
 
 - name: KitchenEnterCooking
   entities:
@@ -55,3 +57,5 @@
   entities:
     light.kitchen:
       state: "off"
+    automation.rerun_house_mode_scene_every_15_min:
+      state: "on"

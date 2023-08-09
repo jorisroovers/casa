@@ -48,6 +48,7 @@
 
 - alias: Office House Mode
   id: office_house_mode
+  mode: restart # https://www.home-assistant.io/docs/automation/modes/
   description: "Set Office scene based on House Mode"
   trigger:
     - platform: state
@@ -55,14 +56,16 @@
     - platform: state
       entity_id: light.office
       to: "on"
-  condition:
-    - condition: state
-      entity_id: light.office
-      state: "on"
   action:
     - service: scene.turn_on
       data:
         entity_id: "scene.Office{{ states('input_select.house_mode')}}"
+    - condition: state
+      entity_id: light.office
+      state: "on"
+    - service: scene.turn_on
+      data:
+        entity_id: "scene.OfficeEnter{{ states('input_select.house_mode')}}"
 
 - alias: Turn off Office Desk light when turning off office light
   id: office_desk_lamp
@@ -124,7 +127,7 @@
   trigger:
     - platform: sun
       event: sunset
-      offset: "01:00:00"
+      # offset: "01:00:00" # TODO: in summer 1hr after, in other seasons earlier
   action:
     - service: cover.close_cover
       data:
@@ -132,23 +135,20 @@
 
 # Office Curtain - Quick buttons
 - alias: Office Curtain Quick button
-  id: office_curtain_left_quick_button
+  id: office_curtain_quick_buttons
   trigger:
     - platform: event
       event_type: zha_event
       event_data:
         device_ieee: "00:0d:6f:00:0f:d6:e2:b4"
+      variables:
+        curtain_entity_id: cover.office_curtain_left
     - platform: event
       event_type: zha_event
       event_data:
         device_ieee: "00:0d:6f:00:10:9c:73:89"
-  variables:
-    curtain_entity_id: |
-      {% if trigger.event.data.device_ieee == "00:0d:6f:00:0f:d6:e2:b4" %}
-        cover.office_curtain_left
-      {% elif trigger.event.data.device_ieee == "00:0d:6f:00:10:9c:73:89" %}
-        cover.office_curtain_right
-      {% endif %}
+      variables:
+        curtain_entity_id: cover.office_curtain_right
   action:
     - choose:
         - alias: "Close Curtain"
@@ -231,7 +231,7 @@
       entity_id: sensor.office_waveplus_co2
       above: 1200
   action:
-    - service: script.notify_joris
+    - service: script.notify_family_home
       data:
         message: Office CO2 concentration ({{ states('sensor.office_waveplus_co2') }}) getting high!
         expire: "00:15:00"

@@ -31,6 +31,57 @@ notify:
       - service: mobile_app_iphone_13_pro_max
       - service: mobile_app_iphone_van_ilse
 
+utility_meter:
+  daily_gas_consumption:
+    source: sensor.gas_consumed
+    name: Daily Gas Consumption
+    cycle: daily
+  weekly_gas_consumption:
+    source: sensor.gas_consumed
+    name: Weekly Gas Consumption
+    cycle: weekly
+  monthly_gas_consumption:
+    source: sensor.gas_consumed
+    name: Monthly Gas Consumption
+    cycle: monthly
+
+# Power Plug Consumption Kwh ##########################################################################################
+# https://github.com/bramstroker/homeassistant-powercalc/
+powercalc:
+  sensors:
+    - name: Sauna
+      entity_id: switch.sauna_power
+      fixed:
+        power: "{{states('sensor.sauna_power_current_consumption')}}"
+
+    - name: Mini Fridge
+      entity_id: switch.mini_fridge
+      fixed:
+        power: "{{states('sensor.mini_fridge_electric_consumption_w')}}"
+
+    - name: CVO
+      entity_id: switch.cvo_power
+      fixed:
+        power: "{{states('sensor.cvo_power_electric_consumption_w')}}"
+
+    - name: Bathroom Mirror
+      entity_id: switch.bathroom_mirror_light
+      fixed:
+        power: "{{states('sensor.bathroom_mirror_power')}}"
+
+########################################################################################################################
+
+command_line:
+  - sensor:
+      name: Unifi Stats
+      command: "commandline/unifi-stats.sh"
+  - sensor:
+      name: Notion Meals
+      command: "python commandline/notion-meals.py"
+      scan_interval: 60
+
+########################################################################################################################
+
 group: !include groups.yaml
 # By "labeling" the 'automation' key, we can use it multiple times and import from different locations
 # This allows us to enable both handwritten and UI-generated automations
@@ -40,25 +91,16 @@ script: !include_dir_merge_named scripts/
 scene: !include_dir_merge_list scenes/
 light: !include lights.yaml
 cover: !include covers.yaml
+switch: !include switches.yaml
 sensor: !include sensors/sensor.yaml
 binary_sensor: !include sensors/binary.yaml
 template: !include_dir_merge_list templates/
-
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret
 
 homematic:
   interfaces:
     rf:
       host: !secret homematic_host
       resolvenames: json
-
-nest:
-  client_id: !secret nest_client_id
-  client_secret: !secret nest_client_secret
-  project_id: !secret nest_project_id
-  subscriber_id: !secret nest_subscription_id
 
 homekit:
   - filter:

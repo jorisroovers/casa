@@ -6,42 +6,46 @@
 # Office Time of Day                                                           #
 ################################################################################
 
-- name: OfficeEarlyMorning
+- name: OfficeEnterEarlyMorning
   entities:
     light.office:
       state: "on"
       kelvin: 3500
       brightness_pct: 100
 
-- name: OfficeMorning
+- name: OfficeEnterMorning
   entities:
     light.office:
       state: "on"
       kelvin: 3500
       brightness_pct: 100
 
-- name: OfficeAfternoon
+- name: OfficeEnterAfternoon
   entities:
     light.office:
       state: "on"
       kelvin: 3500
       brightness_pct: 100
 
-- name: OfficeEvening
+- name: OfficeEnterEvening
+  entities:
+    light.office:
+      state: "on"
+      kelvin: 2000
+      brightness_pct: 75
+    light.office_ambience_lamp_1:
+      state: "on"
+      brightness_pct: 20
+      kelvin: 1500
+
+- name: OfficeEnterNight
   entities:
     light.office:
       state: "on"
       kelvin: 2000
       brightness_pct: 75
 
-- name: OfficeNight
-  entities:
-    light.office:
-      state: "on"
-      kelvin: 2000
-      brightness_pct: 75
-
-- name: OfficeSleeping
+- name: OfficeEnterSleeping
   entities:
     light.office_ambience_lamp_1:
       state: "on"
@@ -59,6 +63,141 @@
   entities:
     light.office:
       state: "off"
+
+################################################################################
+# Motion                                                                       #
+################################################################################
+
+- name: OfficeEarlyMorning
+  entities:
+    switch.synology_ds920_wake_on_lan:
+      state: "on"
+    switch.office_camera_switch:
+      state: "off"
+    switch.camera_office_unifi_privacy_mode:
+      state: "on"
+    switch.office_power_1:
+      state: "on"
+    switch.cvo_power:
+      state: "on"
+    switch.starshine_nas:
+      state: "on"
+
+- name: OfficeMorning
+  entities:
+    switch.synology_ds920_wake_on_lan:
+      state: "on"
+    light.office_ambience_lamp_1:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"
+    switch.camera_office_unifi_privacy_mode:
+      state: "on"
+    switch.office_power_1:
+      state: "on"
+    switch.cvo_power:
+      state: "on"
+    switch.starshine_nas:
+      state: "on"
+
+- name: OfficeAfternoon
+  entities:
+    switch.synology_ds920_wake_on_lan:
+      state: "on"
+    light.office_ambience_lamp_1:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"
+    switch.camera_office_unifi_privacy_mode:
+      state: "on"
+    switch.office_power_1:
+      state: "on"
+    switch.cvo_power:
+      state: "on"
+    switch.starshine_nas:
+      state: "on"
+
+- name: OfficeEvening
+  entities:
+    light.office_ambience_lamp_1:
+      state: "on"
+      brightness_pct: 20
+      kelvin: 1500
+    switch.synology_ds920_wake_on_lan:
+      state: "on"
+    switch.office_camera_switch:
+      state: "off"
+    cover.office_blinds:
+      state: "open"
+      current_tilt_position: 40
+    switch.camera_office_unifi_privacy_mode:
+      state: "on"
+    switch.office_power_1:
+      state: "on"
+    switch.cvo_power:
+      state: "on"
+    switch.starshine_nas:
+      state: "on"
+
+- name: OfficeNight
+  entities:
+    switch.synology_ds920_wake_on_lan:
+      state: "on"
+    switch.office_camera_switch:
+      state: "off"
+    switch.camera_office_unifi_privacy_mode:
+      state: "on"
+    switch.office_power_1:
+      state: "on"
+    switch.cvo_power:
+      state: "on"
+    switch.starshine_nas:
+      state: "on"
+
+- name: OfficeSleeping
+  entities:
+    # Not sure anymore why I do this? Should this not be kept on?
+    automation.rerun_house_mode_scene_every_15_min:
+      state: "off"
+    light.office:
+      state: "off"
+    light.office_ambience_lamp_1:
+      state: "off"
+    switch.synology_ds920_wake_on_lan:
+      state: "off"
+    cover.office_curtains:
+      state: "closed"
+    switch.office_camera_switch:
+      state: "on"
+    switch.camera_office_unifi_privacy_mode:
+      state: "off"
+    switch.office_power_1:
+      state: "on"
+    # switch.cvo_power:
+    #   state: "off"
+    switch.starshine_nas:
+      state: "on"
+
+- name: OfficeAway
+  entities:
+    light.office:
+      state: "off"
+    light.office_ambience_lamp_1:
+      state: "off"
+    switch.synology_ds920_wake_on_lan:
+      state: "off"
+    switch.office_camera_switch:
+      state: "off"
+    cover.office_curtains:
+      state: "closed"
+    switch.camera_office_unifi_privacy_mode:
+      state: "off"
+    switch.office_power_1:
+      state: "on"
+    # switch.cvo_power:
+    #   state: "off"
+    switch.starshine_nas:
+      state: "on"
 
 ################################################################################
 # Office Computer                                                              #

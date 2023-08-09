@@ -39,3 +39,5 @@
 
     - name: "Diaper Station In Use"
       state: "{{ states('sensor.diaper_station_weight') | int  > 2 }}"
+
+    

@@ -22,14 +22,14 @@
     - platform: state
       entity_id:
         - binary_sensor.pantry_motion_1
-        - binary_sensor.pantry_motion_2
+        # - binary_sensor.pantry_motion_2
       to: "off"
       for: "00:01:00"
   condition: # Don't turn lights off unless there's no motion on either sensor
     - condition: state
       entity_id:
         - binary_sensor.pantry_motion_1
-        - binary_sensor.pantry_motion_2
+        # - binary_sensor.pantry_motion_2
       state: "off"
   action:
     - service: scene.turn_on

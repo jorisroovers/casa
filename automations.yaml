@@ -1,0 +1,24 @@
+- id: '1672951034106'
+  alias: Turn off paper shredder after 10min
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: e6d7bf1bbd2e3a497293743075eda631
+    entity_id: switch.paper_shredder
+    domain: switch
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  condition: []
+  action:
+  - type: turn_off
+    device_id: e6d7bf1bbd2e3a497293743075eda631
+    entity_id: switch.paper_shredder
+    domain: switch
+  - service: script.notify_joris
+    data:
+      message: Paper shredder turned off
+      expire: 00:01:00
+  mode: single

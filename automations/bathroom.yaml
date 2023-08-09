@@ -65,15 +65,12 @@
     - platform: state
       entity_id: light.bathroom
   action:
-    - alias: "Set correct scene"
-      choose:
-        - alias: "Lights turned on"
-          conditions: "{{ trigger.to_state.state == 'on' }}"
-          sequence:
-            - service: scene.turn_on
-              data:
-                entity_id: "scene.BathroomEnter{{ states('input_select.house_mode')}}"
-      default:
+    - if: "{{ trigger.to_state.state == 'on' }}"
+      then:
+        - service: scene.turn_on
+          data:
+            entity_id: "scene.BathroomEnter{{ states('input_select.house_mode')}}"
+      else:
         - service: scene.turn_on
           data:
             entity_id: scene.BathroomExit
@@ -88,16 +85,15 @@
     platform: state
     entity_id: input_select.bathroom_music
   action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: input_select.bathroom_music
-              state: "Bathroom NoMusic"
-          sequence:
-            - service: media_player.media_stop
-              data:
-                entity_id: media_player.bathroom
-      default:
+    - if:
+        - condition: state
+          entity_id: input_select.bathroom_music
+          state: "Bathroom NoMusic"
+      then:
+        - service: media_player.media_stop
+          data:
+            entity_id: media_player.bathroom
+      else:
         - service: media_player.volume_set
           data:
             volume_level: 0.05

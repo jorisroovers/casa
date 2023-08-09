@@ -13,20 +13,20 @@
       entity_id:
         - input_boolean.heat_bedroom_mats
         - input_boolean.heat_bedroom_hannah
+  # TODO: consider replacing these variables with the new "trigger variables":
+  # https://www.home-assistant.io/blog/2022/04/06/release-20224/#variables-on-trigger
   variables:
     kid: "{{ 'mats' if (trigger.to_state.entity_id == 'input_boolean.heat_bedroom_mats') else 'hannah' }}"
     living_room_temp: "{{ 26 if (trigger.to_state.state == 'on') else states('input_number.living_room_fallback_temperature')}}"
     kid_room_temp: "{{ 23 if (trigger.to_state.state == 'on') else 19 }}"
   action:
-    - choose:
-        - alias: Store fallback living room temperature before turning up the heat
-          conditions: "{{ trigger.to_state.state == 'on' }}"
-          sequence:
-            - service: input_number.set_value
-              target:
-                entity_id: input_number.living_room_fallback_temperature
-              data:
-                value: "{{ state_attr('climate.living_room', 'temperature') }}"
+    - if: "{{ trigger.to_state.state == 'on' }}"
+      then:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.living_room_fallback_temperature
+          data:
+            value: "{{ state_attr('climate.living_room', 'temperature') }}"
     - service: climate.set_temperature
       data:
         entity_id: climate.living_room
@@ -59,6 +59,8 @@
   variables:
     kid: "{{ 'mats' if (trigger.to_state.entity_id == 'climate.bedroom_mats') else 'hannah' }}"
   action:
+    - condition: template
+      value_template: "{{ is_state('input_boolean.heat_bedroom_' + kid, 'on') }}"
     - service: script.notify_family
       data:
         message: >
@@ -67,8 +69,6 @@
           Bedroom Mats: {{ state_attr("climate.bedroom_mats", "current_temperature") }}C
           Master Bedroom:  {{ state_attr("climate.master_bedroom", "current_temperature") }}C
         expire: "00:30:00"
-    - condition: template
-      value_template: "{{ is_state('input_boolean.heat_bedroom_' + kid, 'on') }}"
     - service: script.notify_joris
       data:
         message: Seems like it's {{kid}} room which has the input boolean on.

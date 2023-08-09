@@ -331,8 +331,14 @@ There's always more to automate!
 Instructions (for myself) when uploading latest homeassistant config.
 
 ```sh
+# Copy all files from homeassistant shared dir to this repo dir
+cp -R /opt/shared/homeassistant/* /opt/shared/repos/casa
+
+# Cleanup files we don't want in here (make sure to add new files using `git add` first)
+
 # Dry Run (= -n)
 git clean -fxdn
+
 # Actual deleting ignored (and non-staged) files/dirs
 git clean -fxd
 ```

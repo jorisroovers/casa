@@ -22,3 +22,32 @@
       message: Paper shredder turned off
       expire: 00:01:00
   mode: single
+- id: '1691673603701'
+  alias: Turn off Dyson when backdoor is open
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.back_door_contact
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: binary_sensor.back_door_contact
+      state: 'on'
+    then:
+    - service: fan.turn_off
+      data: {}
+      target:
+        device_id: 09fe090cedf12eb82a8046fcbc6d24cc
+    else:
+    - service: fan.turn_on
+      data: {}
+      target:
+        device_id: 09fe090cedf12eb82a8046fcbc6d24cc
+    alias: Turn On/Off Dyson
+  mode: single

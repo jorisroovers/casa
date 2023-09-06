@@ -6,35 +6,35 @@
   entities:
     light.hallway:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: HallwayEnterMorning
   entities:
     light.hallway:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: HallwayEnterAfternoon
   entities:
     light.hallway:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: HallwayEnterEvening
   entities:
     light.hallway:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 10
 
 - name: HallwayEnterNight
   entities:
     light.hallway_lamp_1:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 1
     light.hallway_lamp_2:
       state: "off"
@@ -45,7 +45,7 @@
   entities:
     light.hallway_lamp_1:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 1
     light.hallway_lamp_2:
       state: "off"
@@ -56,7 +56,7 @@
   entities:
     light.hallway:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: HallwayExit

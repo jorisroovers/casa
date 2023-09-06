@@ -1,0 +1,48 @@
+################################################################################
+# TV                                                                           #
+################################################################################
+- name: Watching TV
+  entities:
+    light.tv:
+      state: "on"
+      color_temp_kelvin: 1500
+      brightness_pct: 5
+    light.tv_ambience:
+      state: "on"
+      color_temp_kelvin: 1500
+      brightness_pct: 20
+    light.living_room:
+      state: "off"
+    input_select.downstairs_music: NoMusic
+
+- name: StopWatchingTVEarlyMorning
+  entities:
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVMorning
+  entities:
+    light.tv:
+      state: "off"
+    light.tv_ambience:
+      state: "off"
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVAfternoon
+  entities:
+    light.tv:
+      state: "off"
+    light.tv_ambience:
+      state: "off"
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVEvening
+  entities:
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVSleeping
+  entities:
+    input_select.living_preset: NoPreset
+
+- name: StopWatchingTVAway
+  entities:
+    input_select.living_preset: NoPreset

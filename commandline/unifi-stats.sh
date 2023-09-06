@@ -10,6 +10,8 @@ UDM_PASSWORD=$(cat secrets.yaml | awk '/udm_pro_password/{print $2}')
 curl -s -k -X POST --data '{"username":"'$UDM_USERNAME'", "password": "'$UDM_PASSWORD'"}' -H "Content-Type: application/json" -c /tmp/cookie.txt $UDM_BASE_URL/api/auth/login > /dev/null
 DATA=$(curl -s -k -X GET -b /tmp/cookie.txt $UDM_BASE_URL/proxy/network/api/s/default/stat/device)
 
+# echo "$DATA" | jq . >> foo.txt
+
 # Extract data for UDM Pro
 UDM_PRO_DATA=$(echo "$DATA" | jq '.data[] | select(.model == "UDMPRO")')
 UDM_PRO_TEMP=$(echo "$UDM_PRO_DATA" | jq -j '.temperatures[] | select(.name == "CPU").value')

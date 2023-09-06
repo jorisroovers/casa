@@ -45,6 +45,31 @@
   duration:
     days: 30
 
+
+# Below is the equivalent of the following influxDB query:
+# SELECT last("value"), time FROM "homeassistant"."autogen"."mm" WHERE "value" > 0.5 AND "entity_id"='gw2000a_event_rain_rate_piezo'
+
+# Unfortunately, the influxdb sensor doesn't allow for the time to be returned instead of the value
+# Someone else asking, no answer: https://community.home-assistant.io/t/influxdb-sensor-get-value-and-time/168152
+# So we'll be using a command_line sensor to work around this
+
+# - platform: influxdb
+#   api_version: 1
+#   host: !secret influxdb_host
+#   port: !secret influxdb_port
+#   database: !secret influxdb_database
+#   username: !secret influxdb_username
+#   password: !secret influxdb_password
+#   queries:
+#     - name: Influx rain mm
+#       unit_of_measurement: mm
+#       value_template: "{{ value_json }}"
+#       group_function: last
+#       where: '"entity_id" = ''gw2000a_event_rain_rate_piezo'' AND "value" > 0.5 AND time > now() - 90d'
+#       measurement: '"mm"'
+#       field: value
+#       database: homeassistant
+
 # Power Plug filtering #################################################################################################
 
 - platform: filter

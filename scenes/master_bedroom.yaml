@@ -5,7 +5,7 @@
   entities:
     light.nightstand_ilse:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 20
 
 - name: MasterBedroomNightstandIlseOff
@@ -17,7 +17,7 @@
   entities:
     light.nightstand_joris:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 20
 
 - name: MasterBedroomNightstandJorisOff

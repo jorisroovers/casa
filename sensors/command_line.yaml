@@ -1,0 +1,27 @@
+- sensor:
+    name: Notion Meals
+    command: "python commandline/notion-meals.py"
+    scan_interval: 3600 # sec
+    # We need to set 'meals' as a sensor attribute because the state value is max 255 chars.
+    # We just set the state to 'on' here but that's just a dummy value
+    json_attributes: "meals"
+    value_template: "on"
+- sensor:
+    name: F1 Next Race
+    command: "python commandline/f1-dates.py"
+    scan_interval: 86400 # 1 day
+    # We need to set 'dates' as a sensor attribute because the state value is max 255 chars.
+    # We just set the state to 'on' here but that's just a dummy value
+    json_attributes: "dates"
+    value_template: "on"
+- sensor:
+    name: Unifi Stats
+    command: "commandline/unifi-stats.sh"
+- sensor:
+    name: Unifi Last Backup
+    command: "commandline/unifi-last-backup.sh"
+- sensor:
+    name: InfluxDB Last Rained TS
+    scan_interval: 30 # 10 min
+    command: |
+        commandline/influxdb-get-time.sh "SELECT last(\"value\") FROM \"homeassistant\".\"autogen\".\"mm\" WHERE \"value\" > 0.5 AND \"entity_id\"='gw2000a_event_rain_rate_piezo'"

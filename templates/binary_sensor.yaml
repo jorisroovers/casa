@@ -1,13 +1,19 @@
 # Note: use is_state(...) instead of == to avoid sensors being 'unknown' during startup
 - binary_sensor:
     - name: "Joris is workday"
-      state: "{{ is_state('binary_sensor.workday_sensor', 'on') and is_state('input_boolean.joris_pto', 'off') }}"
+      state: "{{ is_state('binary_sensor.workday_joris_sensor', 'on') and is_state('input_boolean.joris_pto', 'off') }}"
+
+    - name: "Ilse is workday"
+      state: "{{ is_state('binary_sensor.workday_ilse_sensor', 'on') and is_state('input_boolean.ilse_pto', 'off') }}"
 
     - name: "Joris At Computer"
       state: "{{ is_state('binary_sensor.mbp_joris_active', 'on') }}"
 
     - name: "Joris working"
       state: "{{ is_state('binary_sensor.mbp_joris_active', 'on') and is_state('binary_sensor.joris_is_workday', 'on') }}"
+
+    - name: "Ilse working"
+      state: "{{ is_state('binary_sensor.ilse_wfh', 'on') or is_state('binary_sensor.ilse_is_workday', 'on') }}"
 
     # - name: "Is Evening"
     #   # Evening: hour before next sunset OR if  next sunset > midnight (i.e. next sunset is taking place next day)
@@ -30,7 +36,7 @@
         device: "Washer"
 
     - name: "Dryer Running"
-      state: "{{ states('sensor.dryer_electric_consumption_w')| int > 0 }}"
+      state: "{{ is_state('sensor.dryer_machine_state', 'run' )}}"
       attributes:
         device: "Dryer"
 
@@ -40,4 +46,12 @@
     - name: "Diaper Station In Use"
       state: "{{ states('sensor.diaper_station_weight') | int  > 2 }}"
 
-    
+    - name: "Is F1 weekend"
+      state: >-
+        {% set cal_sensor = "calendar.webcal_files_f1_motorsportcalendars_com_f1_calendar_p1_p2_p3_qualifying_sprint_gp_ics" %}
+        {% set start_date = state_attr(cal_sensor, "start_time") %}
+        {% set start_date_midnight = start_date.split(' ')[0] + ' 00:00:00' %}
+        {% set start_timestamp = as_timestamp(start_date_midnight) %}
+        {% set end_date = as_timestamp(state_attr(cal_sensor, "end_time")) %}
+        {% set now_ts = as_timestamp(now()) %}
+        {{ start_timestamp <= now_ts <= end_date }}

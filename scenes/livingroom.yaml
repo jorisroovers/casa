@@ -22,35 +22,35 @@
   entities:
     light.living_room:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: LivingRoomEnterMorning
   entities:
     light.living_room:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: LivingRoomEnterAfternoon
   entities:
     light.living_room:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: LivingRoomEnterEvening
   entities:
     light.living_room:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 20
 
 - name: LivingRoomEnterNight
   entities:
     light.living_room:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 10
     automation.rerun_house_mode_scene_every_15_min:
       state: "off"
@@ -59,7 +59,7 @@
   entities:
     light.living_room_lamp_1:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 1
     light.living_room_lamp_2:
       state: "off"
@@ -100,53 +100,8 @@
     input_select.downstairs_music: "Dinner With Friends"
 
 ################################################################################
-# Scenes                                                                       #
+# Activities                                                                   #
 ################################################################################
-- name: Watching TV
-  entities:
-    light.tv:
-      state: "on"
-      kelvin: 1500
-      brightness_pct: 5
-    light.tv_ambience:
-      state: "on"
-      kelvin: 1500
-      brightness_pct: 20
-    light.living_room:
-      state: "off"
-    input_select.downstairs_music: NoMusic
-
-- name: StopWatchingTVEarlyMorning
-  entities:
-    input_select.living_preset: NoPreset
-
-- name: StopWatchingTVMorning
-  entities:
-    light.tv:
-      state: "off"
-    light.tv_ambience:
-      state: "off"
-    input_select.living_preset: NoPreset
-
-- name: StopWatchingTVAfternoon
-  entities:
-    light.tv:
-      state: "off"
-    light.tv_ambience:
-      state: "off"
-    input_select.living_preset: NoPreset
-
-- name: StopWatchingTVEvening
-  entities:
-    input_select.living_preset: NoPreset
-
-- name: StopWatchingTVSleeping
-  entities:
-    input_select.living_preset: NoPreset
-
-- name: StopWatchingTVAway
-  entities:
-    input_select.living_preset: NoPreset
 
 - name: Romance
   entities:
@@ -155,7 +110,7 @@
       brightness: 143
     light.tv_ambience:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 20
     light.office:
       state: "off"
@@ -167,7 +122,7 @@
   entities:
     light.tv_ambience:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 20
     light.living_room:
       state: "off"
@@ -185,7 +140,7 @@
       brightness: 143
     light.tv_ambience:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 20
     light.office:
       state: "off"

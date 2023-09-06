@@ -12,7 +12,8 @@ frontend:
   # Card Mod Perf improvements, see here: https://github.com/thomasloven/lovelace-card-mod#performance-improvements
   extra_module_url:
     - /hacsfiles/lovelace-card-mod/card-mod.js
-
+    # Required to add has-hue-icons here for them to show up in the sidebar
+    - /hacsfiles/hass-hue-icons/hass-hue-icons.js
 # Text to speech
 tts:
   - platform: google_translate
@@ -71,22 +72,12 @@ powercalc:
 
 ########################################################################################################################
 
-command_line:
-  - sensor:
-      name: Unifi Stats
-      command: "commandline/unifi-stats.sh"
-  - sensor:
-      name: Notion Meals
-      command: "python commandline/notion-meals.py"
-      scan_interval: 60
-
-########################################################################################################################
-
 group: !include groups.yaml
 # By "labeling" the 'automation' key, we can use it multiple times and import from different locations
 # This allows us to enable both handwritten and UI-generated automations
 automation manual: !include_dir_merge_list automations/
 automation ui: !include automations.yaml
+command_line: !include sensors/command_line.yaml
 script: !include_dir_merge_named scripts/
 scene: !include_dir_merge_list scenes/
 light: !include lights.yaml
@@ -95,6 +86,8 @@ switch: !include switches.yaml
 sensor: !include sensors/sensor.yaml
 binary_sensor: !include sensors/binary.yaml
 template: !include_dir_merge_list templates/
+sql: !include sensors/sql.yaml
+scrape: !include scrape.yaml
 
 homematic:
   interfaces:
@@ -108,8 +101,8 @@ homekit:
         - light.nightstand_joris
 
 influxdb:
-  host: a0d7b954-influxdb
-  port: 8086
+  host: !secret influxdb_host
+  port: !secret influxdb_port
   database: !secret influxdb_database
   username: !secret influxdb_username
   password: !secret influxdb_password
@@ -120,15 +113,6 @@ influxdb:
 # https://github.com/thomasloven/hass-browser_mod
 # Used for auto navigating wall-mounted ipads using HA automations
 # browser_mod:
-
-# NOT WORKING
-# dyson
-# Seems to have been broken for a while: https://github.com/home-assistant/core/issues/46400
-# Using https://github.com/shenxn/ha-dyson via HACS instead
-# dyson:
-#   username: !secret dyson_username
-#   password: !secret dyson_password
-#   language: !secret dyson_language
 
 # spotcast:
 #   sp_key: !secret spotcast_sp_key

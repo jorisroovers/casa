@@ -10,39 +10,39 @@
   entities:
     light.office:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: OfficeEnterMorning
   entities:
     light.office:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: OfficeEnterAfternoon
   entities:
     light.office:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: OfficeEnterEvening
   entities:
     light.office:
       state: "on"
-      kelvin: 2000
+      color_temp_kelvin: 2000
       brightness_pct: 75
     light.office_ambience_lamp_1:
       state: "on"
       brightness_pct: 20
-      kelvin: 1500
+      color_temp_kelvin: 1500
 
 - name: OfficeEnterNight
   entities:
     light.office:
       state: "on"
-      kelvin: 2000
+      color_temp_kelvin: 2000
       brightness_pct: 75
 
 - name: OfficeEnterSleeping
@@ -50,7 +50,7 @@
     light.office_ambience_lamp_1:
       state: "on"
       brightness_pct: 1
-      kelvin: 1500
+      color_temp_kelvin: 1500
 
 - name: OfficeSleepingExit
   entities:
@@ -122,7 +122,7 @@
     light.office_ambience_lamp_1:
       state: "on"
       brightness_pct: 20
-      kelvin: 1500
+      color_temp_kelvin: 1500
     switch.synology_ds920_wake_on_lan:
       state: "on"
     switch.office_camera_switch:
@@ -230,7 +230,7 @@
       state: "off"
     light.office:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
     light.tv:
       state: "off"
     light.tv_ambience:

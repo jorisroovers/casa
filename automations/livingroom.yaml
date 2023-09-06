@@ -145,7 +145,11 @@
     - platform: time_pattern
       minutes: "/15"
   condition:
-    # Switch to auto mode when air quality isn't too bad
+    # Switch to auto mode when air quality isn't too bad and back door is closed
+    - condition: state
+      entity_id:
+        - binary_sensor.back_door_contact
+      state: "off"
     - condition: numeric_state
       entity_id:
         - sensor.pure_humidify_cool_volatile_organic_compounds

@@ -6,28 +6,28 @@
   entities:
     light.landing:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: LandingEnterMorning
   entities:
     light.landing:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: LandingEnterAfternoon
   entities:
     light.landing:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: LandingEnterEvening
   entities:
     light.landing_bedroom:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 5
 
 - name: LandingEnterNight

@@ -1,0 +1,129 @@
+# Thanks NetWitch!
+# https://community.home-assistant.io/t/help-request-pollen-sensor-dutch-hooikoortsradar-nl/524633/20
+- resource: https://www.kleenex.nl/api/sitecore/Pollen/GetPollenContentCity
+  method: POST
+  payload: !secret pollen_city
+  headers:
+    User-Agent: Home Assistant
+    Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+  scan_interval: 3600
+  sensor:
+    - name: Pollen (gras)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-grass-count"
+      unique_id: pollen_gras
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(" ")[0] }}
+    - name: Pollen (Poaceae)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-grass-detail"
+      unique_id: pollen_poaceae
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[1] }}
+    - name: Pollen (kruiden)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-weeds-count"
+      unique_id: pollen_kruiden
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(" ")[0] }}
+    - name: Pollen (Bijvoet)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-weed-detail"
+      unique_id: pollen_bijvoet
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[1] }}
+    - name: Pollen (Ganzevoet)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-weed-detail"
+      unique_id: pollen_ganzevoet
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[3] }}
+    - name: Pollen (Ambrosia)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-weed-detail"
+      unique_id: pollen_ambrosia
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[5] }}
+    - name: Pollen (Brandnetel)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-weed-detail"
+      unique_id: pollen_brandnetel
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[7] }}
+    - name: Pollen (bomen)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-trees-count"
+      unique_id: pollen_bomen
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(" ")[0] }}
+    - name: Pollen (Hazelaar)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_hazelaar
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[1] }}
+    - name: Pollen (Iep)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_iep
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[3] }}
+    - name: Pollen (Pijnboom)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_pijnboom
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[5] }}
+    - name: Pollen (Els)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_els
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[7] }}
+    - name: Pollen (Populier)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_populier
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[9] }}
+    - name: Pollen (Eik)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_eik
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[11] }}
+    - name: Pollen (Plataan)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_plataan
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[13] }}
+    - name: Pollen (Berk)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_berk
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[15] }}
+    - name: Pollen (Cipres)
+      select: "li.day-container:nth-child(1) > button"
+      attribute: "data-tree-detail"
+      unique_id: pollen_cipres
+      unit_of_measurement: ppm
+      value_template: >-
+        {{ value.split(",")[17] }}

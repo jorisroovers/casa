@@ -7,7 +7,7 @@
   trigger:
     - platform: zone
       entity_id:
-        - person.joris
+        - message
         - person.ilse
       event: enter
       zone: zone.home
@@ -23,3 +23,30 @@
         title: Home Presence
         message: "{{ trigger.to_state.attributes.friendly_name }} is now {{ trigger.to_state.state | replace('not_home', 'away')}}"
         expire: "00:05:00"
+
+- alias: Presence Change Notifications
+  id: presence_change
+  trigger:
+    - platform: zone
+      entity_id:
+        - person.joris
+      event: leave
+      zone: zone.home
+  condition:
+    - condition: state
+      entity_id: person.ilse
+      state: "away"
+    - condition: state
+      entity_id: binary_sensor.housekeeping
+      state: "off"
+  action:
+    - service: script.notify_joris
+      data:
+        title: Home Presence
+        message: "Joris leaving house, locking down"
+        expire: "00:05:00"
+
+    - service: select.select_option
+      data:
+        entity_id: input_select.house_mode
+        option: Away

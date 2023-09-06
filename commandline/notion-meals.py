@@ -14,25 +14,34 @@ with open("secrets.yaml", "r") as file:
 conn = http.client.HTTPSConnection("api.notion.com")
 headers = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
-    "Notion-Version": "2022-02-22",
+    "Notion-Version": "2022-06-28",
     "Content-Type": "application/json",
 }
 
 # Construct the filter for the date range
 start_date = (datetime.today() - timedelta(days=3)).date().isoformat()
 end_date = (datetime.today() + timedelta(days=7)).date().isoformat()
-filter_body = json.dumps({
-    "filter": {
-        "property": "Date",
-        "date": {
-            "after": start_date,
-            "before": end_date
+filter_body = json.dumps(
+    {
+        "filter": {
+            "and": [
+                {
+                    "property": "Date",
+                    "date": {"after": start_date},
+                },
+                {
+                    "property": "Date",
+                    "date": {"before": end_date},
+                },
+            ]
         }
     }
-})
+)
 
 # Make a POST request to fetch the database
-conn.request("POST", f"/v1/databases/{DATABASE_ID}/query", body=filter_body, headers=headers)
+conn.request(
+    "POST", f"/v1/databases/{DATABASE_ID}/query", body=filter_body, headers=headers
+)
 response = conn.getresponse()
 
 try:
@@ -40,16 +49,18 @@ try:
     if response.status == 200:
         data = json.loads(response.read())
         meals = {}
-        for item in data['results']:
-            # print(json.dumps(item, indent=2)) # Printing all output
-            name_value = item['properties']['Name']['title'][0]['plain_text']
-            date_value = item['properties']['Date']['date']['start']
+        for item in data["results"]:
+            name_item = item["properties"]["Name"]["title"]
+            if len(name_item) > 0:
+                name_value = name_item[0]["plain_text"]
+            else:
+                name_value = ""
+            date_value = item["properties"]["Date"]["date"]["start"]
             meals[date_value] = name_value
         # Sort by date
-        sorted_meals = json.dumps(dict(sorted(meals.items())))
-        print(sorted_meals)
+        sorted_meals = {"meals": dict(sorted(meals.items()))}
+        print(json.dumps(sorted_meals))
     else:
         print(f"Failed to fetch database: {response.read().decode()}")
 finally:
     conn.close()
-

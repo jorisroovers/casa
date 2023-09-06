@@ -6,42 +6,42 @@
   entities:
     light.kitchen:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: KitchenEnterMorning
   entities:
     light.kitchen:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: KitchenEnterAfternoon
   entities:
     light.kitchen:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: KitchenEnterEvening
   entities:
     light.kitchen:
       state: "on"
-      kelvin: 2000
+      color_temp_kelvin: 2000
       brightness_pct: 75
 
 - name: KitchenEnterNight
   entities:
     light.kitchen:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 15
 
 - name: KitchenEnterSleeping
   entities:
     light.kitchen:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 15
     automation.rerun_house_mode_scene_every_15_min:
       state: "off"
@@ -50,7 +50,7 @@
   entities:
     light.kitchen:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
       brightness_pct: 100
 
 - name: KitchenExit

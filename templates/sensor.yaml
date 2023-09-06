@@ -71,5 +71,5 @@
 
     - name: "Notion Dinner Today"
       state: |
-        {% set meals = states("sensor.notion_meals") | from_json %}
+        {% set meals = state_attr("sensor.notion_meals", "meals") %}
         {{ meals.get(now().strftime('%Y-%m-%d'), "No meal found for today") }}

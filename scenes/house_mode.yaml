@@ -126,7 +126,7 @@
       state: "on"
     light.tv_ambience:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 10
     switch.ambience_lights_buffet:
       state: "on"

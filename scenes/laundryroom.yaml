@@ -6,35 +6,35 @@
   entities:
     light.laundry_room:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: LaundryRoomEnterMorning
   entities:
     light.laundry_room:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: LaundryRoomEnterAfternoon
   entities:
     light.laundry_room:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: LaundryRoomEnterEvening
   entities:
     light.laundry_room:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 10
 
 - name: LaundryRoomEnterNight
   entities:
     light.laundry_room:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 10
 
 - name: LaundryRoomExit

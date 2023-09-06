@@ -6,35 +6,35 @@
   entities:
     light.dressing:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: DressingEnterMorning
   entities:
     light.dressing:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: DressingEnterAfternoon
   entities:
     light.dressing:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 100
 
 - name: DressingEnterEvening
   entities:
     light.dressing:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 1
 
 - name: DressingEnterNight
   entities:
     light.dressing:
       state: "on"
-      kelvin: 1500
+      color_temp_kelvin: 1500
       brightness_pct: 1
 
 - name: DressingExit

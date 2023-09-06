@@ -5,7 +5,7 @@
   entities:
     light.bathroom:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 75
     switch.bathroom_mirror_light:
       state: "on"
@@ -14,7 +14,7 @@
   entities:
     light.bathroom:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 75
     switch.bathroom_mirror_light:
       state: "on"
@@ -23,7 +23,7 @@
   entities:
     light.bathroom:
       state: "on"
-      kelvin: 2500
+      color_temp_kelvin: 2500
       brightness_pct: 75
     switch.bathroom_mirror_light:
       state: "on"
@@ -32,7 +32,7 @@
   entities:
     light.bathroom:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 75
     switch.bathroom_mirror_light:
       state: "on"
@@ -41,7 +41,7 @@
   entities:
     light.bathroom:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 75
     switch.bathroom_mirror_light:
       state: "on"
@@ -59,7 +59,7 @@
     input_select.bathroom_music: "Morning Motivation"
     light.bathroom:
       state: "on"
-      kelvin: 3000
+      color_temp_kelvin: 3000
       brightness_pct: 100
     switch.bathroom_mirror_light:
       state: "on"

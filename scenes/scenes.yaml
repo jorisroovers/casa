@@ -9,7 +9,7 @@
       state: "on"
     light.office:
       state: "on"
-      kelvin: 3500
+      color_temp_kelvin: 3500
     light.nightstand_joris:
       state: "off"
     light.kitchen:
@@ -38,15 +38,15 @@
       state: "on"
     light.living_ambience_lamp_1:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 20
     light.tv:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 40
     light.tv_ambience:
       state: "on"
-      kelvin: 2200
+      color_temp_kelvin: 2200
       brightness_pct: 20
 
 - name: TestAutomationTurnOff

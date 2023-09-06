@@ -1,0 +1,24 @@
+- name: Last Rained TS
+  column: last_updated_ts
+  query: >
+    SELECT last_updated_ts
+    FROM states 
+    WHERE 
+      state > 0.5
+      AND state != "unavailable" 
+      AND metadata_id IN 
+        (SELECT metadata_id FROM states_meta WHERE entity_id = "sensor.gw2000a_event_rain_rate_piezo")
+    ORDER BY last_updated_ts DESC 
+    LIMIT 1;
+
+- name: Last Rained TS Statistic
+  column: created_ts
+  query: >
+    SELECT created_ts
+    FROM statistics 
+    WHERE 
+      state > 0.5 
+      AND metadata_id IN 
+        (SELECT id from statistics_meta WHERE statistic_id = "sensor.gw2000a_event_rain_rate_piezo")
+    ORDER BY created_ts DESC
+    LIMIT 1;

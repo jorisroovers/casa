@@ -1,0 +1,781 @@
+title: Monitoring
+views:
+  - title: Weather
+    path: weather
+    type: custom:vertical-layout
+    layout:
+      max_cols: 10
+    badges: []
+    cards:
+      - type: custom:mushroom-title-card
+        title: Temperature
+      - type: custom:tabbed-card
+        options: {}
+        tabs:
+          - attributes:
+              label: hourly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 6h
+              stacked: false
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: HH
+                  tickPlacement: 'on'
+              yaxis:
+                - id: temperature
+                  min: 0
+                  align_to: 5
+              header:
+                show: true
+                show_states: true
+              series:
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Current
+                  show:
+                    in_chart: false
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Min today
+                  type: column
+                  color: darkblue
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: min
+                    duration: 1h
+                - entity: sensor.gw2000a_outdoor_temperature
+                  type: column
+                  color: orange
+                  show:
+                    in_chart: false
+                    datalabels: true
+                    in_header: false
+                  group_by:
+                    func: delta
+                    duration: 1h
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Max today
+                  type: column
+                  color: orange
+                  show:
+                    datalabels: true
+                    in_chart: true
+                  group_by:
+                    func: max
+                    duration: 1h
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Avg today
+                  color: darkred
+                  group_by:
+                    func: avg
+                    duration: 1h
+                  show:
+                    datalabels: false
+          - attributes:
+              label: daily
+            card:
+              type: custom:apexcharts-card
+              graph_span: 1w
+              span:
+                end: day
+              stacked: false
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              yaxis:
+                - id: temperature
+                  min: 0
+                  align_to: 5
+              header:
+                show: true
+                show_states: true
+              series:
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Current
+                  show:
+                    in_chart: false
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Min today
+                  type: column
+                  color: darkblue
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: min
+                    duration: 1d
+                - entity: sensor.gw2000a_outdoor_temperature
+                  type: column
+                  color: orange
+                  show:
+                    in_chart: false
+                    datalabels: true
+                    in_header: false
+                  group_by:
+                    func: delta
+                    duration: 1d
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Max today
+                  type: column
+                  color: orange
+                  show:
+                    datalabels: true
+                    in_chart: true
+                  group_by:
+                    func: max
+                    duration: 1d
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Avg today
+                  color: darkred
+                  group_by:
+                    func: avg
+                    duration: 1d
+                  show:
+                    datalabels: false
+          - attributes:
+              label: weekly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 12w
+              span:
+                end: day
+              stacked: false
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              yaxis:
+                - id: temperature
+                  min: 0
+                  align_to: 5
+              header:
+                show: true
+                show_states: true
+              series:
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Current
+                  show:
+                    in_chart: false
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Min today
+                  type: column
+                  color: darkblue
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: min
+                    duration: 1w
+                - entity: sensor.gw2000a_outdoor_temperature
+                  type: column
+                  color: orange
+                  show:
+                    in_chart: false
+                    datalabels: true
+                    in_header: false
+                  group_by:
+                    func: delta
+                    duration: 1w
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Max today
+                  type: column
+                  color: orange
+                  show:
+                    datalabels: true
+                    in_chart: true
+                  group_by:
+                    func: max
+                    duration: 1w
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Avg today
+                  color: darkred
+                  group_by:
+                    func: avg
+                    duration: 1w
+                  show:
+                    datalabels: false
+      - type: custom:layout-break
+      - type: custom:mushroom-title-card
+        title: Precipitation
+      - type: custom:tabbed-card
+        options: {}
+        tabs:
+          - attributes:
+              label: hourly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 12h
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: HH
+                  tickPlacement: 'on'
+              header:
+                show: true
+                show_states: true
+              yaxis:
+                - id: rainfall
+                  decimals: 0
+                  apex_config:
+                    tickAmount: 6
+                  align_to: 5
+                - id: humidity
+                  opposite: true
+                  decimals: 0
+                  max: 100
+                  min: 0
+                  apex_config:
+                    tickAmount: 4
+              series:
+                - entity: sensor.gw2000a_hourly_rain_rate_piezo
+                  name: Last hour
+                  type: column
+                  color: deepskyblue
+                  yaxis_id: rainfall
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1h
+                - entity: sensor.gw2000a_humidity
+                  name: Humidity last hour
+                  yaxis_id: humidity
+                  color: darkblue
+                  group_by:
+                    func: avg
+                    duration: 1h
+          - attributes:
+              label: Daily
+            card:
+              type: custom:apexcharts-card
+              graph_span: 1w
+              span:
+                end: day
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              header:
+                show: true
+                show_states: true
+              yaxis:
+                - id: rainfall
+                  decimals: 0
+                  apex_config:
+                    tickAmount: 6
+                  align_to: 5
+                - id: humidity
+                  opposite: true
+                  decimals: 0
+                  max: 100
+                  min: 0
+                  apex_config:
+                    tickAmount: 4
+              series:
+                - entity: sensor.gw2000a_daily_rain_rate_piezo
+                  name: Rain today
+                  type: column
+                  color: deepskyblue
+                  yaxis_id: rainfall
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1d
+                - entity: sensor.gw2000a_humidity
+                  name: Avg humidity today
+                  yaxis_id: humidity
+                  color: darkblue
+                  group_by:
+                    func: avg
+                    duration: 1d
+          - attributes:
+              label: Weekly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 12w
+              span:
+                end: day
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              header:
+                show: true
+                show_states: true
+              yaxis:
+                - id: rainfall
+                  decimals: 0
+                  apex_config:
+                    tickAmount: 6
+                  align_to: 5
+                - id: humidity
+                  opposite: true
+                  decimals: 0
+                  max: 100
+                  min: 0
+                  apex_config:
+                    tickAmount: 4
+              series:
+                - entity: sensor.gw2000a_weekly_rain_rate_piezo
+                  name: This week
+                  type: column
+                  color: deepskyblue
+                  yaxis_id: rainfall
+                  statistics:
+                    type: state
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1w
+                - entity: sensor.gw2000a_humidity
+                  name: Avg humidity
+                  yaxis_id: humidity
+                  color: darkblue
+                  group_by:
+                    func: avg
+                    duration: 1w
+      - type: markdown
+        style: |
+          :host {
+            text-align: center;
+          }
+        content: >
+          # {{ states("sensor.influxdb_last_rained_ts")  | as_datetime |
+          relative_time }}
+
+          ### ({{ (states("sensor.influxdb_last_rained_ts")  | as_datetime |
+          as_local).strftime("%Y-%m-%d %H:%M") }})
+        title: Time since last rain
+      - type: custom:layout-break
+      - type: custom:mushroom-title-card
+        title: Sun
+      - type: custom:tabbed-card
+        options: {}
+        tabs:
+          - attributes:
+              label: hourly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 8h
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: HH
+                  tickPlacement: 'on'
+              header:
+                show: true
+                show_states: true
+              yaxis:
+                - align_to: 5
+              series:
+                - entity: sensor.gw2000a_uv_index
+                  name: Current
+                  type: column
+                  color: gold
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1h
+                - entity: sensor.gw2000a_uv_index
+                  name: Average
+                  color: goldenrod
+                  group_by:
+                    func: avg
+                    duration: 1h
+          - attributes:
+              label: daily
+            card:
+              type: custom:apexcharts-card
+              graph_span: 1w
+              span:
+                end: day
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              header:
+                show: true
+                show_states: true
+              yaxis:
+                - align_to: 5
+              series:
+                - entity: sensor.gw2000a_uv_index
+                  name: Today
+                  type: column
+                  color: gold
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1d
+                - entity: sensor.gw2000a_uv_index
+                  name: Avg UV today
+                  color: goldenrod
+                  group_by:
+                    func: avg
+                    duration: 1d
+          - attributes:
+              label: weekly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 12w
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              header:
+                show: true
+                show_states: true
+              yaxis:
+                - align_to: 5
+              series:
+                - entity: sensor.gw2000a_uv_index
+                  name: This week
+                  type: column
+                  color: gold
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1w
+                - entity: sensor.gw2000a_uv_index
+                  name: Avg UV
+                  color: goldenrod
+                  group_by:
+                    func: avg
+                    duration: 1w
+      - type: custom:compass-card
+        header:
+          title:
+            value: Sun
+          icon:
+            value: mdi:sun-compass
+            color: green
+            dynamic_style:
+              sensor: sensor.gw2000a_uv_index
+              bands:
+                - from_value: 3
+                  color: yellow
+                - from_value: 6
+                  color: orange
+                - from_value: 8
+                  color: red
+                - from_value: 11
+                  color: purple
+        indicator_sensors:
+          - sensor: sun.sun
+            attribute: azimuth
+            indicator:
+              type: circle
+              color: orange
+              show: false
+              dynamic_style:
+                sensor: sun.sun
+                attribute: elevation
+                bands:
+                  - from_value: 0
+                    show: true
+        value_sensors:
+          - sensor: sun.sun
+            attribute: elevation
+        compass:
+          north:
+            show: true
+            offset: -62
+          south:
+            show: true
+          west:
+            show: true
+          east:
+            show: true
+          circle:
+            color: green
+            dynamic_style:
+              sensor: sensor.gw2000a_uv_index
+              bands:
+                - from_value: 3
+                  color: yellow
+                - from_value: 6
+                  color: orange
+                - from_value: 8
+                  color: red
+                - from_value: 11
+                  color: purple
+      - type: custom:horizon-card
+      - type: custom:layout-break
+      - type: custom:mushroom-title-card
+        title: Wind
+      - type: custom:windrose-card
+        title: Wind direction
+        data_period:
+          hours_to_show: 4
+        max_width: 400
+        refresh_interval: 300
+        windspeed_bar_location: bottom
+        windspeed_bar_full: true
+        wind_direction_entity:
+          entity: sensor.gw2000a_wind_direction
+          direction_unit: degrees
+          use_statistics: false
+          direction_compensation: 0
+        windspeed_entities:
+          - entity: sensor.gw2000a_wind_speed
+            name: ''
+            speed_unit: auto
+            use_statistics: false
+        output_speed_unit: mps
+        speed_range_beaufort: true
+        windrose_draw_north_offset: 0
+        cardinal_direction_letters: NESW
+        matching_strategy: direction-first
+        center_calm_percentage: true
+      - type: custom:compass-card
+        header:
+          title:
+            value: Wind
+          icon:
+            value: none
+        indicator_sensors:
+          - sensor: sensor.gw2000a_wind_direction
+            indicator:
+              type: arrow_inward
+        value_sensors:
+          - sensor: sensor.gw2000a_wind_speed
+        compass:
+          north:
+            show: true
+            offset: -62
+          south:
+            show: true
+          west:
+            show: true
+          east:
+            show: true'
+      - type: custom:layout-break
+      - type: custom:mushroom-title-card
+        title: Forecast
+      - type: custom:weather-card
+        entity: weather.buienradar
+        details: true
+        hourly_forecast: false
+        number_of_forecasts: '5'
+      - type: custom:mushroom-title-card
+        title: Pollen
+      - type: custom:tabbed-card
+        options: {}
+        tabs:
+          - attributes:
+              label: hourly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 6h
+              stacked: false
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: HH
+                  tickPlacement: 'on'
+              yaxis:
+                - id: temperature
+                  min: 0
+                  align_to: 5
+              header:
+                show: true
+                show_states: true
+              series:
+                - entity: sensor.pollen_gras
+                  name: Current (grass)
+                  type: column
+                  color: '#ebca70'
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1h
+                - entity: sensor.pollen_bomen
+                  name: Current (trees)
+                  type: column
+                  color: '#ebca70'
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1h
+                - entity: sensor.pollen_kruiden
+                  name: Current (weeds)
+                  type: column
+                  color: '#ebca70'
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: max
+                    duration: 1h
+          - attributes:
+              label: daily
+            card:
+              type: custom:apexcharts-card
+              graph_span: 1w
+              span:
+                end: day
+              stacked: false
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              yaxis:
+                - id: temperature
+                  min: 0
+                  align_to: 5
+              header:
+                show: true
+                show_states: true
+              series:
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Current
+                  show:
+                    in_chart: false
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Min today
+                  type: column
+                  color: darkblue
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: min
+                    duration: 1d
+                - entity: sensor.gw2000a_outdoor_temperature
+                  type: column
+                  color: orange
+                  show:
+                    in_chart: false
+                    datalabels: true
+                    in_header: false
+                  group_by:
+                    func: delta
+                    duration: 1d
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Max today
+                  type: column
+                  color: orange
+                  show:
+                    datalabels: true
+                    in_chart: true
+                  group_by:
+                    func: max
+                    duration: 1d
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Avg today
+                  color: darkred
+                  group_by:
+                    func: avg
+                    duration: 1d
+                  show:
+                    datalabels: false
+          - attributes:
+              label: weekly
+            card:
+              type: custom:apexcharts-card
+              graph_span: 12w
+              span:
+                end: day
+              stacked: false
+              apex_config:
+                legend:
+                  show: false
+                xaxis:
+                  type: datetime
+                  labels:
+                    format: dd/MM
+                  tickPlacement: 'on'
+              yaxis:
+                - id: temperature
+                  min: 0
+                  align_to: 5
+              header:
+                show: true
+                show_states: true
+              series:
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Current
+                  show:
+                    in_chart: false
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Min today
+                  type: column
+                  color: darkblue
+                  show:
+                    datalabels: true
+                  group_by:
+                    func: min
+                    duration: 1w
+                - entity: sensor.gw2000a_outdoor_temperature
+                  type: column
+                  color: orange
+                  show:
+                    in_chart: false
+                    datalabels: true
+                    in_header: false
+                  group_by:
+                    func: delta
+                    duration: 1w
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Max today
+                  type: column
+                  color: orange
+                  show:
+                    datalabels: true
+                    in_chart: true
+                  group_by:
+                    func: max
+                    duration: 1w
+                - entity: sensor.gw2000a_outdoor_temperature
+                  name: Avg today
+                  color: darkred
+                  group_by:
+                    func: avg
+                    duration: 1w
+                  show:
+                    datalabels: false

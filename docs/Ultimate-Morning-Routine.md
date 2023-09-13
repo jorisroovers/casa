@@ -5,7 +5,7 @@ Below you can find pointers to all integrations, software and hardware mentioned
 - [Youtube recording: Creating the Ultimate Morning Routine](https://www.youtube.com/watch?v=6NifGWGOfSk)
 - [Slide Deck: Creating the Ultimate Morning Routine](/docs/Creating%20the%20Ultimate%20Morning%20Routine%20-%20Joris%20Roovers.pdf)
 - General
-  - [`morning_routine.yaml`](roles/homeassistant/templates/automations/morning_routine.yaml) contains a good chunk of the relevant automations, others are spread around in other files in the [`automations`](roles/homeassistant/templates/automations/) directory.
+  - [`morning_routine.yaml`](/roles/homeassistant/templates/automations/morning_routine.yaml) contains a good chunk of the relevant automations, others are spread around in other files in the [`automations`](/roles/homeassistant/templates/automations/) directory.
 - Bedroom
     - [SleepCycle intelligent alarm app](https://www.sleepcycle.com/)
     - [Philips Hue lightbulbs](https://www.philips-hue.com/)

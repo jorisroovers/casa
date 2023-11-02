@@ -1,6 +1,6 @@
 # casa
 
-Home Automation stack based on [homeassistant](home-assistant.io).
+Home Automation stack based on [homeassistant](https://home-assistant.io).
 
 In 2021 I've switched over to using the [Home Assistant Operating System](https://github.com/home-assistant/operating-system) running on [Home Assistant Blue](https://www.home-assistant.io/blue). Before, I orchestrated everything through [Ansible](https://www.ansible.com/) including auxillary systems such as [Prometheus](https://prometheus.io/), [Grafana](https://grafana.com/), [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) and more. If this is something you're interested in, have a look at the [legacy](legacy/) directory.
 
